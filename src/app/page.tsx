@@ -1,15 +1,21 @@
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
+import {cn} from "@/lib/utils";
 
 export default function Home() {
-  return (
-    <>
-        <Link href={"/authentication"} className={buttonVariants({ variant: "ghost" })}>
-            Authentication
-        </Link>
-        <Link href={"/tasks"} className={buttonVariants({ variant: "ghost" })}>
-            Tasks
-        </Link>
-    </>
-  )
+
+    let className = cn(buttonVariants({variant: "default"}), "m-2");
+    return (
+        <>
+            <Link href={"/dashboard"} className={className}>
+                Dashboard
+            </Link>
+            <Link href={"/authentication"} className={className}>
+                Authentication
+            </Link>
+            <Link href={"/tasks"} className={className}>
+                Tasks
+            </Link>
+        </>
+    )
 }
