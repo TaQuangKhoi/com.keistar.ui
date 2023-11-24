@@ -22,6 +22,9 @@ export default function Home() {
             <Link href={"/cards"} className={className}>
                 Cards
             </Link>
+            <Link href={"/forms"} className={className}>
+                Forms
+            </Link>
         </>
     )
 }
