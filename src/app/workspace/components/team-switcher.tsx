@@ -47,7 +47,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {useAtom} from "jotai";
-import {teamAtom} from "@/app/workspace/layout";
+import {atom} from "jotai/index";
 
 const groups = [
     {
@@ -97,6 +97,8 @@ const groups = [
         ],
     },
 ]
+
+export const teamAtom = atom("personal")
 
 type Team = (typeof groups)[number]["teams"][number]
 

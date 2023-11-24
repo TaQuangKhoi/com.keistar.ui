@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 import {MainNav} from "./components/main-nav"
 import {Search} from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
@@ -10,7 +8,28 @@ interface WorkspaceLayoutProps {
     children: React.ReactNode
 }
 
-export const teamAtom = atom("personal")
+const items = atom([
+    {
+        label: "Dashboard",
+        value: "dashboard",
+        href: "/workspace/dashboard",
+    },
+    {
+        label: "Tasks",
+        value: "tasks",
+        href: "/workspace/tasks",
+    },
+    {
+        label: "Onboarding",
+        value: "onboarding",
+        href: "/workspace/onboarding",
+    },
+    {
+        label: "Settings",
+        value: "settings",
+        href: "/workspace/settings",
+    },
+])
 
 export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
     return (
