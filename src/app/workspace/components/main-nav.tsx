@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import {useAtomValue} from "jotai";
 import {teamAtom} from "@/app/workspace/components/team-switcher";
 import {hr_department_items, personal_items} from "@/app/workspace/data/data";
-
+import {Provider} from "jotai";
 
 export function MainNav({
                             className,
@@ -16,25 +16,27 @@ export function MainNav({
     const team = useAtomValue(teamAtom)
     const items = team === 'personal' ? personal_items : hr_department_items
     return (
-        <nav
-            className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-            {...props}
-        >
-            {
-                items.map((item) => (
-                    <Link key={item.value}
-                          href={item.href}
-                          className={clsx(
-                              "text-sm font-medium transition-colors",
-                              pathname === item.href
-                                  ? "text-primary"
-                                  : "text-muted-foreground hover:text-primary"
-                          )}
-                    >
-                        {item.label}
-                    </Link>
-                ))
-            }
-        </nav>
+        <Provider>
+            <nav
+                className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+                {...props}
+            >
+                {
+                    items.map((item) => (
+                        <Link key={item.value}
+                              href={item.href}
+                              className={clsx(
+                                  "text-sm font-medium transition-colors",
+                                  pathname === item.href
+                                      ? "text-primary"
+                                      : "text-muted-foreground hover:text-primary"
+                              )}
+                        >
+                            {item.label}
+                        </Link>
+                    ))
+                }
+            </nav>
+        </Provider>
     )
 }
