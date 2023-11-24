@@ -52,7 +52,7 @@ const groups = [
     label: "Personal Account",
     teams: [
       {
-        label: "Alicia Koch",
+        label: "Hảo Văn",
         value: "personal",
       },
     ],
@@ -61,12 +61,36 @@ const groups = [
     label: "Teams",
     teams: [
       {
-        label: "Acme Inc.",
-        value: "acme-inc",
+        label: "R&D Department",
+        value: "r&d-department",
       },
       {
-        label: "Monsters Inc.",
-        value: "monsters",
+        label: "HR Department",
+        value: "hr-department",
+      },
+      {
+        label: "Business Department",
+        value: "business-department",
+      },
+      {
+        label: "Finance Department",
+        value: "finance-department",
+      },
+      {
+        label: "GBS",
+        value: "gbs",
+      },
+      {
+        label: "IT Department",
+        value: "it-department",
+      },
+      {
+        label: "Marketing Department",
+        value: "marketing-department",
+      },
+      {
+        label: "Sales  Department",
+        value: "sales-department",
       },
     ],
   },
