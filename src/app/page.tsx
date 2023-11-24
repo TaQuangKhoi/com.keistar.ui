@@ -1,8 +1,15 @@
-import Image from 'next/image'
-import TestButton from "@/app/test-button";
+import Link from "next/link";
+import {buttonVariants} from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <TestButton />
+    <>
+        <Link href={"/authentication"} className={buttonVariants({ variant: "ghost" })}>
+            Authentication
+        </Link>
+        <Link href={"/tasks"} className={buttonVariants({ variant: "ghost" })}>
+            Tasks
+        </Link>
+    </>
   )
 }
