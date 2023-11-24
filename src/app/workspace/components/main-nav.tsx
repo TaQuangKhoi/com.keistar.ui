@@ -4,31 +4,9 @@ import Link from "next/link"
 import {cn} from "@/lib/utils"
 import clsx from 'clsx';
 import {useAtomValue} from "jotai";
-import {teamAtom} from "@/app/workspace/layout";
+import {teamAtom} from "@/app/workspace/components/team-switcher";
+import {hr_department_items, personal_items} from "@/app/workspace/data/data";
 
-
-const items = [
-    {
-        label: "Dashboard",
-        value: "dashboard",
-        href: "/workspace/dashboard",
-    },
-    {
-        label: "Tasks",
-        value: "tasks",
-        href: "/workspace/tasks",
-    },
-    {
-        label: "Onboarding",
-        value: "onboarding",
-        href: "/workspace/onboarding",
-    },
-    {
-        label: "Settings",
-        value: "settings",
-        href: "/workspace/settings",
-    },
-]
 
 export function MainNav({
                             className,
@@ -36,6 +14,7 @@ export function MainNav({
                         }: React.HTMLAttributes<HTMLElement>) {
     const pathname = usePathname()
     const team = useAtomValue(teamAtom)
+    const items = team === 'personal' ? personal_items : hr_department_items
     return (
         <nav
             className={cn("flex items-center space-x-4 lg:space-x-6", className)}

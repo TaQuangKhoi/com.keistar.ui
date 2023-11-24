@@ -47,7 +47,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {useAtom} from "jotai";
-import {teamAtom} from "@/app/workspace/layout";
+import {atom} from "jotai/index";
 
 const groups = [
     {
@@ -97,6 +97,8 @@ const groups = [
         ],
     },
 ]
+
+export const teamAtom = atom("personal")
 
 type Team = (typeof groups)[number]["teams"][number]
 
@@ -160,7 +162,12 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                                 />
                                                 <AvatarFallback>SC</AvatarFallback>
                                             </Avatar>
-                                            {team.label}
+                                            {
+                                                // if label too long, show first 10 characters
+                                                team.label.length > 10
+                                                    ? team.label.substring(0, 12) + "..."
+                                                    : team.label
+                                            }
                                             <CheckIcon
                                                 className={cn(
                                                     "ml-auto h-4 w-4",
