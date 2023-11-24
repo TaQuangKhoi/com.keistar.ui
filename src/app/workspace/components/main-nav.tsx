@@ -35,7 +35,7 @@ export function MainNav({
                         : "text-muted-foreground hover:text-primary"
                 )}
             >
-                Customers
+                Tasks
             </Link>
             <Link
                 href="/workspace/onboarding"
