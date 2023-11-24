@@ -25,6 +25,9 @@ export default function Home() {
             <Link href={"/forms"} className={className}>
                 Forms
             </Link>
+            <Link href={"/music"} className={className}>
+                Music
+            </Link>
         </>
     )
 }
