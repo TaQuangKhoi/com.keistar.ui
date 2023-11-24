@@ -2,34 +2,10 @@ import {MainNav} from "./components/main-nav"
 import {Search} from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 import {UserNav} from "./components/user-nav"
-import {atom} from 'jotai'
 
 interface WorkspaceLayoutProps {
     children: React.ReactNode
 }
-
-const items = atom([
-    {
-        label: "Dashboard",
-        value: "dashboard",
-        href: "/workspace/dashboard",
-    },
-    {
-        label: "Tasks",
-        value: "tasks",
-        href: "/workspace/tasks",
-    },
-    {
-        label: "Onboarding",
-        value: "onboarding",
-        href: "/workspace/onboarding",
-    },
-    {
-        label: "Settings",
-        value: "settings",
-        href: "/workspace/settings",
-    },
-])
 
 export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
     return (
