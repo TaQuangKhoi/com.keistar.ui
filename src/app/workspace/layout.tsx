@@ -13,7 +13,7 @@ export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
     return (
         <>
             <div className="hidden flex-col md:flex">
-                <div className="border-b">
+                <div className="border-b sticky top-0 bg-white">
                     <div className="flex h-16 items-center px-4">
                         <TeamSwitcher/>
                         <MainNav className="mx-6"/>
