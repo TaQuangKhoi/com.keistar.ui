@@ -7,8 +7,8 @@ export default function Home() {
     let className = cn(buttonVariants({variant: "default"}), "m-2");
     return (
         <>
-            <Link href={"/dashboard"} className={className}>
-                Dashboard
+            <Link href={"/workspace/dashboard"} className={className}>
+                Workspace
             </Link>
             <Link href={"/authentication"} className={className}>
                 Authentication
