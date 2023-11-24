@@ -1,37 +1,16 @@
-'use client'
 import {Metadata} from "next"
+import AuthBox from "@/app/authentication/components/auth-box";
 
-import {cn} from "@/lib/utils"
-import {Button, buttonVariants} from "@/components/ui/button"
-import {CreateAccount} from "@/app/authentication/components/create-account";
-import {useState} from "react";
-import {SignIn} from "@/app/authentication/components/sign-in";
-
-// export const metadata: Metadata = {
-//     title: "Authentication",
-//     description: "Authentication forms built using the components.",
-// }
+export const metadata: Metadata = {
+    title: "Authentication",
+    description: "Authentication forms built using the components.",
+}
 
 export default function AuthenticationPage() {
-    const [isLoginMode, setIsLoginMode] = useState(true)
-
-    console.log("AuthenticationPage Render")
-
-    function handleLogin() {
-        setIsLoginMode(!isLoginMode)
-    }
-
     return (
         <>
             <div
                 className="min-h-screen flex-col items-center justify-center md:grid lg:grid-cols-2 lg:p-0">
-                <Button variant={"ghost"}
-                        onClick={handleLogin}
-                        className={cn("absolute right-4 top-4 md:right-8 md:top-8")}>
-                    {
-                        isLoginMode ? "Create an account" : "Sign in"
-                    }
-                </Button>
                 <div className="relative hidden lg:h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
                     <div className="absolute inset-0 bg-zinc-900"/>
                     <div className="relative z-20 flex items-center text-lg font-medium">
@@ -59,9 +38,7 @@ export default function AuthenticationPage() {
                         </blockquote>
                     </div>
                 </div>
-                {
-                    isLoginMode ? <SignIn/> : <CreateAccount/>
-                }
+                <AuthBox/>
             </div>
         </>
     )
