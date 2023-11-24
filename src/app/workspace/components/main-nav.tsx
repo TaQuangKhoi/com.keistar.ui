@@ -30,7 +30,7 @@ export function MainNav({
         Products
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/workspace/settings"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Settings

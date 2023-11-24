@@ -12,23 +12,23 @@ export const metadata: Metadata = {
 const sidebarNavItems = [
   {
     title: "Profile",
-    href: "/forms",
+    href: "/workspace/settings",
   },
   {
     title: "Account",
-    href: "/forms/account",
+    href: "/workspace/settings/account",
   },
   {
     title: "Appearance",
-    href: "/forms/appearance",
+    href: "/workspace/settings/appearance",
   },
   {
     title: "Notifications",
-    href: "/forms/notifications",
+    href: "/workspace/settings/notifications",
   },
   {
     title: "Display",
-    href: "/forms/display",
+    href: "/workspace/settings/display",
   },
 ]
 
