@@ -16,6 +16,9 @@ export default function Home() {
             <Link href={"/tasks"} className={className}>
                 Tasks
             </Link>
+            <Link href={"/playground"} className={className}>
+                Playground
+            </Link>
         </>
     )
 }
