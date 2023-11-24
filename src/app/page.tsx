@@ -19,6 +19,9 @@ export default function Home() {
             <Link href={"/playground"} className={className}>
                 Playground
             </Link>
+            <Link href={"/cards"} className={className}>
+                Cards
+            </Link>
         </>
     )
 }
