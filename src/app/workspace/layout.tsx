@@ -4,10 +4,13 @@ import {MainNav} from "./components/main-nav"
 import {Search} from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 import {UserNav} from "./components/user-nav"
+import {atom} from 'jotai'
 
 interface WorkspaceLayoutProps {
     children: React.ReactNode
 }
+
+export const teamAtom = atom("personal")
 
 export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
     return (

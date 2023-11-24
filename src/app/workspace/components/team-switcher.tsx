@@ -46,6 +46,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {useAtom} from "jotai";
+import {teamAtom} from "@/app/workspace/layout";
 
 const groups = [
     {
@@ -104,6 +106,7 @@ interface TeamSwitcherProps extends PopoverTriggerProps {
 }
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
+    const [team2, setTeam2] = useAtom(teamAtom)
     const [open, setOpen] = React.useState(false)
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -144,6 +147,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                             key={team.value}
                                             onSelect={() => {
                                                 setSelectedTeam(team)
+                                                setTeam2(team.value)
                                                 setOpen(false)
                                             }}
                                             className="text-sm"
