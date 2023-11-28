@@ -15,6 +15,7 @@ export function MainNav({
     const pathname = usePathname()
     const team = useAtomValue(teamAtom)
     const items = team === 'personal' ? personal_items : hr_department_items
+
     return (
         <Provider>
             <nav
