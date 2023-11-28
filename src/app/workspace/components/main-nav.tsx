@@ -28,7 +28,7 @@ export function MainNav({
                               href={item.href}
                               className={clsx(
                                   "text-sm font-medium transition-colors",
-                                  pathname === item.href
+                                  pathname.includes(item.href)
                                       ? "text-primary"
                                       : "text-muted-foreground hover:text-primary"
                               )}
