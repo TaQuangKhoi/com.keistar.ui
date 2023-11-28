@@ -35,18 +35,18 @@ export const personal_items = [
     },
     {
         label: "Travel Request",
-        value: "settings",
-        href: "/workspace/settings",
+        value: "travel-request",
+        href: "/workspace/travel-request",
     },
     {
         label: "Car Booking",
-        value: "settings",
-        href: "/workspace/settings",
+        value: "car-booking",
+        href: "/workspace/car-booking",
     },
     {
         label: "Weekly Reports",
-        value: "settings",
-        href: "/workspace/settings",
+        value: "weekly-reports",
+        href: "/workspace/weekly-reports",
     },
     ...default_items.slice(2),
 ]
