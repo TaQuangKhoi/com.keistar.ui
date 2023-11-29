@@ -1,7 +1,7 @@
 "use client"
 
 import {zodResolver} from "@hookform/resolvers/zod"
-import {useFieldArray, useForm} from "react-hook-form"
+import {useForm} from "react-hook-form"
 import * as z from "zod"
 
 import {
@@ -16,12 +16,15 @@ import {
 import {toast} from "@/components/ui/use-toast";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import Link from "next/link";
+import {Checkbox} from "@/components/ui/checkbox";
+import {Button} from "@/components/ui/button";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
         .string({
             required_error: "Please select a leave type.",
         }),
+    rememberMe: z.boolean().optional(),
 })
 
 type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
@@ -42,6 +45,7 @@ const leaveTypes = [
 
 const defaultValues: Partial<NewE_leaveFormValues> = {
     leaveType: leaveTypes[0].value,
+    rememberMe: false,
 }
 
 export function NewE_leaveForm() {
@@ -64,36 +68,62 @@ export function NewE_leaveForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                    control={form.control}
-                    name="leaveType"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Leave Type</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <div className="flex-row space-y-1">
+                    <FormField
+                        control={form.control}
+                        name="leaveType"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Leave Type</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a leave type"/>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {
+                                            leaveTypes.map((leaveType, index) => (
+                                                <SelectItem key={index} value={leaveType.value}>
+                                                    {leaveType.value}
+                                                </SelectItem>
+                                            ))
+                                        }
+                                    </SelectContent>
+                                </Select>
+                                {/*<FormDescription>*/}
+                                {/*    You can manage verified email addresses in your{" "}*/}
+                                {/*    <Link href="/examples/forms">email settings</Link>.*/}
+                                {/*</FormDescription>*/}
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="rememberMe"
+                        render={({field}) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                                 <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a leave type"/>
-                                    </SelectTrigger>
+                                    <Checkbox
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                    />
                                 </FormControl>
-                                <SelectContent>
-                                    {
-                                        leaveTypes.map((leaveType, index) => (
-                                            <SelectItem key={index} value={leaveType.value}>
-                                                {leaveType.value}
-                                            </SelectItem>
-                                        ))
-                                    }
-                                </SelectContent>
-                            </Select>
-                            {/*<FormDescription>*/}
-                            {/*    You can manage verified email addresses in your{" "}*/}
-                            {/*    <Link href="/examples/forms">email settings</Link>.*/}
-                            {/*</FormDescription>*/}
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
+                                <div className="space-y-1 leading-none">
+                                    <FormLabel>
+                                        Remember me
+                                    </FormLabel>
+                                    {/*<FormDescription>*/}
+                                    {/*    You can manage your mobile notifications in the{" "}*/}
+                                    {/*    <Link href="/examples/forms">mobile settings</Link> page.*/}
+                                    {/*</FormDescription>*/}
+                                </div>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <Button type="submit">Create</Button>
             </form>
         </Form>
     )
