@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/form"
 import {toast} from "@/components/ui/use-toast";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import Link from "next/link";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -122,6 +123,12 @@ export function NewE_leaveForm() {
                             </FormItem>
                         )}
                     />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="date" className="shrink-0">
+                        Pick a date
+                    </Label>
+                    <DatePickerWithRange className="[&>button]:w-[260px]"/>
                 </div>
                 <Button type="submit">Create</Button>
             </form>

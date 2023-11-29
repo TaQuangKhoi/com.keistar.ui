@@ -2,7 +2,7 @@ import {NewE_leaveForm} from "@/app/workspace/office/e-leave/new-e-leave/new-e-l
 
 export default function New_E_leavePage() {
     return (
-        <div>
+        <div className="container">
             <h1>New E-Leave</h1>
             <NewE_leaveForm/>
         </div>
