@@ -19,6 +19,7 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
+import {Textarea} from "@/components/ui/textarea";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -26,6 +27,7 @@ const newE_leaveFormSchema = z.object({
             required_error: "Please select a leave type.",
         }),
     rememberMe: z.boolean().optional(),
+    about: z.string().max(160).min(4),
 })
 
 type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
@@ -69,7 +71,7 @@ export function NewE_leaveForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="flex-row space-y-1">
+                <div className="flex-row space-y-2">
                     <FormField
                         control={form.control}
                         name="leaveType"
@@ -130,7 +132,28 @@ export function NewE_leaveForm() {
                     </Label>
                     <DatePickerWithRange className="[&>button]:w-[260px]"/>
                 </div>
-                <Button type="submit">Create</Button>
+                <FormField
+                    control={form.control}
+                    name="about"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>About</FormLabel>
+                            <FormControl>
+                                <Textarea
+                                    placeholder="Include comments for your approver"
+                                    className="resize-none"
+                                    {...field}
+                                />
+                            </FormControl>
+                            {/*<FormDescription>*/}
+                            {/*    You can <span>@mention</span> other users and organizations to*/}
+                            {/*    link to them.*/}
+                            {/*</FormDescription>*/}
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit">Request Now</Button>
             </form>
         </Form>
     )
