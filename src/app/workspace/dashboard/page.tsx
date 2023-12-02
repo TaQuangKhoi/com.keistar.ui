@@ -24,7 +24,7 @@ export default function DashboardPage() {
             <Tabs defaultValue="overview" className="space-y-4">
                 <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="analytics" disabled>
+                    <TabsTrigger value="analytics">
                         Analytics
                     </TabsTrigger>
                     <TabsTrigger value="reports" disabled>
@@ -159,6 +159,9 @@ export default function DashboardPage() {
                             </CardContent>
                         </Card>
                     </div>
+                </TabsContent>
+                <TabsContent value="analytics" className="space-y-4">
+                    Khôi vẫn yêu Hảo
                 </TabsContent>
             </Tabs>
         </>
