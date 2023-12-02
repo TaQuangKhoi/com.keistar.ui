@@ -1,6 +1,12 @@
 import {NewE_leaveForm} from "@/app/workspace/office/e-leave/new-e-leave/new-e-leave-form";
+import {Metadata} from "next";
 
-export default function New_E_leavePage() {
+export const metadata: Metadata = {
+    title: 'Create New E-Leave',
+    description: 'Khôi nhớ Hảo',
+}
+
+export default function NewE_leavePage() {
     return (
         <div className="container">
             <h1>New E-Leave</h1>
