@@ -16,12 +16,14 @@ import {
 import {toast} from "@/components/ui/use-toast";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Checkbox} from "@/components/ui/checkbox";
-import {Button} from "@/components/ui/button";
+import {Button, buttonVariants} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
 import {Textarea} from "@/components/ui/textarea";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {RecentSales} from "@/app/workspace/components/recent-sales";
+import Link from "next/link";
+import {cn} from "@/lib/utils";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -157,6 +159,9 @@ export function NewE_leaveForm() {
                         )}
                     />
                     <Button type="submit">Request Now</Button>
+                    <Link href={'./'} className={cn(buttonVariants({variant: "secondary"}), "ml-2")}>
+                        Close
+                    </Link>
                 </form>
                 <Card className="col-span-2">
                     <CardHeader>
@@ -166,7 +171,7 @@ export function NewE_leaveForm() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <RecentSales/>
+                        {/*<RecentSales/>*/}
                     </CardContent>
                 </Card>
             </div>
