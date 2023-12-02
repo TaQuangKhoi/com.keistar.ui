@@ -24,6 +24,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {RecentSales} from "@/app/workspace/components/recent-sales";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
+import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -149,6 +150,23 @@ export function NewE_leaveForm() {
                                         className="resize-none"
                                         {...field}
                                     />
+                                </FormControl>
+                                {/*<FormDescription>*/}
+                                {/*    You can <span>@mention</span> other users and organizations to*/}
+                                {/*    link to them.*/}
+                                {/*</FormDescription>*/}
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="about"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Attachments</FormLabel>
+                                <FormControl>
+                                    <UpdateFiles/>
                                 </FormControl>
                                 {/*<FormDescription>*/}
                                 {/*    You can <span>@mention</span> other users and organizations to*/}
