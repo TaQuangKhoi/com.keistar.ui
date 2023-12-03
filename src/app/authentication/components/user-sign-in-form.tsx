@@ -8,6 +8,7 @@ import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
+import {toast} from "@/components/ui/use-toast"
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
@@ -19,21 +20,28 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         setIsLoading(true)
+        const username = (event.target as any).username.value
+        const password = (event.target as any).password.value
 
         const res = await fetch("/api/auth/", {
             method: "POST",
             body: JSON.stringify({
-                email: "khoi0941@gmail.com",
-                password: "123456",
+                username: username,
+                password: password,
             }),
         })
 
         setIsLoading(false)
         // redirect to dashboard
         if (res.ok) {
-            const data = await res.json()
-            console.log(data.cookie)
-            // router.push("/")
+            router.push("/")
+        } else {
+            toast({
+                title: "Error",
+                description: (
+                    "Hảo, có lỗi xảy ra, vui lòng thử lại sau."
+                ),
+            })
         }
     }
 
@@ -42,15 +50,14 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             <form onSubmit={onSubmit}>
                 <div className="grid gap-2">
                     <div className="grid gap-1">
-                        <Label className="sr-only" htmlFor="email">
-                            Email
+                        <Label className="sr-only" htmlFor="username">
+                            Username
                         </Label>
                         <Input
-                            id="email"
-                            placeholder="Enter your email"
-                            type="email"
+                            id="username"
+                            placeholder="Enter your username"
+                            type="text"
                             autoCapitalize="none"
-                            autoComplete="email"
                             autoCorrect="off"
                             disabled={isLoading}
                         />
