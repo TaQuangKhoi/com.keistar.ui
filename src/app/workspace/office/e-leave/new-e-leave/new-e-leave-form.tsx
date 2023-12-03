@@ -12,7 +12,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {toast} from "@/components/ui/use-toast";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Checkbox} from "@/components/ui/checkbox";
@@ -21,7 +21,6 @@ import {Label} from "@/components/ui/label";
 import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
 import {Textarea} from "@/components/ui/textarea";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {RecentSales} from "@/app/workspace/components/recent-sales";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
 import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
@@ -76,7 +75,9 @@ export function NewE_leaveForm() {
     return (
         <Form {...form}>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <form onSubmit={form.handleSubmit(onSubmit)} className="col-span-2 space-y-8">
+                <form
+                    // action={initE_leaveProcessAction()}
+                    className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
                         <FormField
                             control={form.control}
@@ -183,14 +184,16 @@ export function NewE_leaveForm() {
                 </form>
                 <Card className="col-span-2">
                     <CardHeader>
-                        <CardTitle>Your Request Includes</CardTitle>
+                        <CardTitle>
+                            Your Request Includes
+                        </CardTitle>
                         <CardDescription>
                             You made 265 sales this month.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        {/*<RecentSales/>*/}
-                    </CardContent>
+                    {/*<CardContent>*/}
+                    {/*    <RecentSales/>*/}
+                    {/*</CardContent>*/}
                 </Card>
             </div>
         </Form>

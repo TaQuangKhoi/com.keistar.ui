@@ -73,4 +73,9 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '3mb',
+    },
+  },
 }
