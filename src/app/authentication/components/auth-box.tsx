@@ -9,8 +9,6 @@ import {CreateAccount} from "@/app/authentication/components/create-account";
 export default function AuthBox() {
     const [isLoginMode, setIsLoginMode] = useState(true)
 
-    console.log("AuthBox Render")
-
     function handleLogin() {
         setIsLoginMode(!isLoginMode)
     }
