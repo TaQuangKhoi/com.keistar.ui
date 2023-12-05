@@ -50,6 +50,7 @@ import {useAtom} from "jotai";
 import {atom} from "jotai";
 import { useRouter } from 'next/navigation'
 import {Provider} from "jotai";
+import {useEffect, useState} from "react";
 
 const groups = [
     {
@@ -109,6 +110,15 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 interface TeamSwitcherProps extends PopoverTriggerProps {
 }
 
+const fetchUserName = async () => {
+    const response = await fetch('/api/system/session')
+    // const data = await response.json()
+    const status = response.status
+    if (status === 401) {
+        console.log('Unauthorized')
+    }
+}
+
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [team2, setTeam2] = useAtom(teamAtom)
     const [open, setOpen] = React.useState(false)
@@ -117,7 +127,13 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
         groups[0].teams[0]
     )
 
+    const [userName, setUserName] = useState()
+
     const router = useRouter()
+
+    useEffect(() => {
+        fetchUserName();
+    }, []);
 
     return (
         <Provider>
