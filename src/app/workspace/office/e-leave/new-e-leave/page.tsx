@@ -1,4 +1,4 @@
-import {NewE_leaveForm} from "@/app/workspace/office/e-leave/new-e-leave/new-e-leave-form";
+import {NewE_leaveForm} from "@/app/workspace/office/e-leave/new-e-leave/new-e-leave-form-2";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {

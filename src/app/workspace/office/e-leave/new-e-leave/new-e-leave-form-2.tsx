@@ -7,7 +7,6 @@ import * as z from "zod"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -20,7 +19,7 @@ import {Button, buttonVariants} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
 import {Textarea} from "@/components/ui/textarea";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
 import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
@@ -32,6 +31,7 @@ const newE_leaveFormSchema = z.object({
         }),
     rememberMe: z.boolean().optional(),
     about: z.string().max(160).min(4),
+    attachments: z.array(z.string()),
 })
 
 type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
@@ -162,7 +162,7 @@ export function NewE_leaveForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="about"
+                        name="attachments"
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel>Attachments</FormLabel>
