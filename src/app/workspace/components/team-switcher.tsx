@@ -48,9 +48,10 @@ import {
 } from "@/components/ui/select"
 import {useAtom} from "jotai";
 import {atom} from "jotai";
-import { useRouter } from 'next/navigation'
+import {useRouter} from 'next/navigation'
 import {Provider} from "jotai";
 import {useEffect, useState} from "react";
+import {useSession} from "@/lib/swr";
 
 const groups = [
     {
@@ -131,9 +132,8 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
 
     const router = useRouter()
 
-    useEffect(() => {
-        fetchUserName();
-    }, []);
+    const {session, isLoading, isError} = useSession()
+    console.log('session', session)
 
     return (
         <Provider>
@@ -270,5 +270,5 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                 </DialogContent>
             </Dialog>
         </Provider>
-        )
+    )
 }
