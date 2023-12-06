@@ -3,7 +3,7 @@
 import {atom} from "jotai";
 
 
-const userFullNameAtom = atom("Hảo Văn");
+const userFullNameAtom = atom("Hảo Văn 2");
 
 const groupAtom = atom((get) => {
     let userFullName = get(userFullNameAtom);

@@ -48,7 +48,7 @@ import {
 } from "@/components/ui/select"
 import {useRouter} from 'next/navigation'
 import {Provider, useAtom} from "jotai";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {teamAtom} from "@/atoms";
 import {useBonitaSession} from "@/lib/bonita_api_utils";
 import {groupAtom, userFullNameAtom} from "@/app/workspace/atoms";
@@ -63,65 +63,66 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 interface TeamSwitcherProps extends PopoverTriggerProps {
 }
 
-const fullName = 'Nguyễn Văn A'
-
-let gp = [
-    {
-        label: "Personal Account",
-        teams: [
-            {
-                label: fullName,
-                value: "personal",
-            },
-        ],
-    },
-    {
-        label: "Teams",
-        teams: [
-            {
-                label: "R&D Department",
-                value: "r&d-department",
-            },
-            {
-                label: "HR Department",
-                value: "hr-department",
-            },
-            {
-                label: "Business Department",
-                value: "business-department",
-            },
-            {
-                label: "Finance Department",
-                value: "finance-department",
-            },
-            {
-                label: "GBS",
-                value: "gbs",
-            },
-            {
-                label: "IT Department",
-                value: "it-department",
-            },
-            {
-                label: "Marketing Department",
-                value: "marketing-department",
-            },
-            {
-                label: "Sales  Department",
-                value: "sales-department",
-            },
-        ],
-    },
-]
+function getGroup(userFullName: string) {
+    return [
+        {
+            label: "Personal Account",
+            teams: [
+                {
+                    label: userFullName,
+                    value: "personal",
+                },
+            ],
+        },
+        {
+            label: "Teams",
+            teams: [
+                {
+                    label: "R&D Department",
+                    value: "r&d-department",
+                },
+                {
+                    label: "HR Department",
+                    value: "hr-department",
+                },
+                {
+                    label: "Business Department",
+                    value: "business-department",
+                },
+                {
+                    label: "Finance Department",
+                    value: "finance-department",
+                },
+                {
+                    label: "GBS",
+                    value: "gbs",
+                },
+                {
+                    label: "IT Department",
+                    value: "it-department",
+                },
+                {
+                    label: "Marketing Department",
+                    value: "marketing-department",
+                },
+                {
+                    label: "Sales  Department",
+                    value: "sales-department",
+                },
+            ],
+        },
+    ]
+}
 
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
-    const {session, isSessionLoading, isError} = useBonitaSession()
-
     const [userFullName, setUserFullName] = useAtom(userFullNameAtom)
-    // setUserFullName(session?.userName)
+    const [groups, setGroups] = useState(getGroup("No Name"));
 
-    const [groups, setGroups] = useAtom(groupAtom)
+    const {session, isSessionLoading, isError} = useBonitaSession()
+    const router = useRouter()
+
+    // setUserFullName(session?.userName)
 
     const [team, setTeam] = useAtom(teamAtom)
 
@@ -131,9 +132,12 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
         groups[0].teams[0]
     )
 
-    const [userName, setUserName] = useState('')
+    console.log("Render TeamSwitcher")
 
-    const router = useRouter()
+
+    if (isSessionLoading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <>

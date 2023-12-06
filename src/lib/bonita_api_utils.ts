@@ -1,14 +1,24 @@
 import useSWR from 'swr'
 
-const fetcher = (url: string) => fetch(url, {
-        credentials: "include",
-        mode: 'cors',
-    }
+interface Init {
+    credentials: string,
+    mode: string,
+}
+
+const init: Init = {
+    credentials: "include",
+    mode: 'cors',
+}
+
+const fetcher = (url: string) => fetch(url, init
 ).then(res => res.json())
 
-export function useBonitaSession() {
-    let url = 'http://localhost:28071/bonita/API/system/session/unusedId'
-    const {data, error, isLoading} = useSWR(url, (url) => fetcher(url))
+
+const sessionApiUrl = 'http://localhost:28071/bonita/API/system/session/unusedId'
+
+
+function useBonitaSession() {
+    const {data, error, isLoading} = useSWR(sessionApiUrl, (url) => fetcher(url))
 
     return {
         session: data,
@@ -17,7 +27,7 @@ export function useBonitaSession() {
     }
 }
 
-export async function findUserById(id: string) {
+async function findUserById(id: string) {
     let url = 'http://localhost:28071/bonita/API/identity/user/' + id
     let result = null
     let status = null
@@ -40,4 +50,21 @@ export async function findUserById(id: string) {
         }
     )
     return [result, status];
+}
+
+async function isLogin() {
+    return await fetch(
+        sessionApiUrl, init
+    ).then(response => response.json()
+    ).then((data) => {
+        return !!data.id;
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+export {
+    useBonitaSession,
+    findUserById,
+    isLogin,
 }

@@ -9,15 +9,20 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import {useBonitaSession} from "@/lib/bonita_api_utils";
+import {isLogin, useBonitaSession} from "@/lib/bonita_api_utils";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
+
 export function UserSignInForm({className, ...props}: UserSignInFormProps) {
+    const { session, isSessionLoading, isError } = useBonitaSession()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
-    const { session, isSessionLoading, isError } = useBonitaSession()
+
+    if (isSessionLoading) {
+        return <div>Loading...</div>
+    }
 
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
@@ -50,10 +55,6 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             })
             setIsLoading(false)
         }
-    }
-
-    if (session) {
-        router.push("/workspace/dashboard")
     }
 
     return (
