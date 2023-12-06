@@ -51,7 +51,7 @@ import {Provider, useAtom} from "jotai";
 import {useState} from "react";
 import {teamAtom} from "@/atoms";
 import {useBonitaSession} from "@/lib/bonita_api_utils";
-import {groupAtom} from "@/app/workspace/atoms";
+import {groupAtom, userFullNameAtom} from "@/app/workspace/atoms";
 
 interface Team {
     label: string
@@ -118,6 +118,8 @@ let gp = [
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const {session, isSessionLoading, isError} = useBonitaSession()
 
+    const [userFullName, setUserFullName] = useAtom(userFullNameAtom)
+    // setUserFullName(session?.userName)
 
     const [groups, setGroups] = useAtom(groupAtom)
 
@@ -126,7 +128,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [open, setOpen] = React.useState(false)
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-        gp[0].teams[0]
+        groups[0].teams[0]
     )
 
     const [userName, setUserName] = useState('')
