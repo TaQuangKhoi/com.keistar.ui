@@ -120,8 +120,6 @@ let gp = [
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [groups, setGroups] = useState(gp)
 
-
-    const [team2, setTeam2] = useAtom(teamAtom)
     const [open, setOpen] = React.useState(false)
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -168,7 +166,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                                 key={team.value}
                                                 onSelect={() => {
                                                     setSelectedTeam(team)
-                                                    setTeam2(team.value)
                                                     setOpen(false)
                                                     // go to dashboard
                                                     router.push('/workspace/dashboard')
