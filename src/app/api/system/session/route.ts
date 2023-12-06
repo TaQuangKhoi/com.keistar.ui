@@ -30,7 +30,6 @@ export async function GET(request: Request) {
 
     if (res.status === 200) {
         const data = await res.json()
-        console.log(data)
         return Response.json({data})
     } else {
         console.log("res", res)

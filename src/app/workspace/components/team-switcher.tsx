@@ -46,13 +46,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {useAtom} from "jotai";
 import {atom} from "jotai";
 import {useRouter} from 'next/navigation'
 import {Provider} from "jotai";
-import {useEffect, useState} from "react";
-import {useSession} from "@/lib/swr";
-import {findUserById} from "@/lib/bonita_api_utils";
+import {useState} from "react";
 
 export const teamAtom = atom("personal")
 

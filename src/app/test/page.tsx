@@ -1,26 +1,6 @@
 'use client'
 import {Button} from "@/components/ui/button";
-
-async function getSession() {
-    let url = 'http://localhost:28071/bonita/API/system/session/unusedId'
-
-    await fetch(url,
-        {
-            credentials: "include",
-            mode: 'cors',
-        }
-    ).then(response => {
-        return response.json();
-    }).then(
-        data => {
-            console.log(data)
-        }
-    ).catch(
-        error => {
-            console.log(error)
-        }
-    )
-}
+import {getSession} from "@/lib/bonita_api_utils";
 
 async function signIn() {
     let url = 'http://localhost:28071/bonita/loginservice'
