@@ -46,12 +46,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {atom} from "jotai";
 import {useRouter} from 'next/navigation'
-import {Provider} from "jotai";
+import {Provider, useAtom} from "jotai";
 import {useState} from "react";
-
-export const teamAtom = atom("personal")
+import {teamAtom} from "@/atoms";
 
 interface Team {
     label: string
@@ -117,6 +115,8 @@ let gp = [
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [groups, setGroups] = useState(gp)
 
+    const [team, setTeam] = useAtom(teamAtom)
+
     const [open, setOpen] = React.useState(false)
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -129,7 +129,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const router = useRouter()
 
     return (
-        <Provider>
+        <>
             <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -163,6 +163,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                                 key={team.value}
                                                 onSelect={() => {
                                                     setSelectedTeam(team)
+                                                    setTeam(team.value)
                                                     setOpen(false)
                                                     // go to dashboard
                                                     router.push('/workspace/dashboard')
@@ -261,6 +262,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </Provider>
+        </>
     )
 }

@@ -2,7 +2,6 @@ import {MainNav} from "./components/main-nav"
 import {Search} from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 import {UserNav} from "./components/user-nav"
-import {Provider} from 'jotai'
 
 interface WorkspaceLayoutProps {
     children: React.ReactNode
