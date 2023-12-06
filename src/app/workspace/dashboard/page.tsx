@@ -7,7 +7,7 @@ import {RecentSales} from "@/app/workspace/components/recent-sales";
 import {Metadata} from "next";
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
-import {getSession} from "@/lib/bonita_api_utils";
+import {useBonitaSession} from "@/lib/bonita_api_utils";
 
 export const metadata: Metadata = {
     title: "Dashboard",

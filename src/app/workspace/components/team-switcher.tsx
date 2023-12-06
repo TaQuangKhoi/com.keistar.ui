@@ -50,6 +50,8 @@ import {useRouter} from 'next/navigation'
 import {Provider, useAtom} from "jotai";
 import {useState} from "react";
 import {teamAtom} from "@/atoms";
+import {useBonitaSession} from "@/lib/bonita_api_utils";
+import {groupAtom} from "@/app/workspace/atoms";
 
 interface Team {
     label: string
@@ -61,7 +63,7 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 interface TeamSwitcherProps extends PopoverTriggerProps {
 }
 
-const fullName = 'Hảo Văn'
+const fullName = 'Nguyễn Văn A'
 
 let gp = [
     {
@@ -112,8 +114,12 @@ let gp = [
     },
 ]
 
+
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
-    const [groups, setGroups] = useState(gp)
+    const {session, isSessionLoading, isError} = useBonitaSession()
+
+
+    const [groups, setGroups] = useAtom(groupAtom)
 
     const [team, setTeam] = useAtom(teamAtom)
 
@@ -122,7 +128,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
         gp[0].teams[0]
     )
-
 
     const [userName, setUserName] = useState('')
 
