@@ -52,13 +52,28 @@ import {useRouter} from 'next/navigation'
 import {Provider} from "jotai";
 import {useEffect, useState} from "react";
 import {useSession} from "@/lib/swr";
+import {findUserById} from "@/lib/bonita_api_utils";
 
-const groups = [
+export const teamAtom = atom("personal")
+
+interface Team {
+    label: string
+    value: string
+}
+
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
+
+interface TeamSwitcherProps extends PopoverTriggerProps {
+}
+
+const fullName = 'Hảo Văn'
+
+let gp = [
     {
         label: "Personal Account",
         teams: [
             {
-                label: "Hảo Văn",
+                label: fullName,
                 value: "personal",
             },
         ],
@@ -102,38 +117,21 @@ const groups = [
     },
 ]
 
-export const teamAtom = atom("personal")
-
-type Team = (typeof groups)[number]["teams"][number]
-
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
-
-interface TeamSwitcherProps extends PopoverTriggerProps {
-}
-
-const fetchUserName = async () => {
-    const response = await fetch('/api/system/session')
-    // const data = await response.json()
-    const status = response.status
-    if (status === 401) {
-        console.log('Unauthorized')
-    }
-}
-
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
+    const [groups, setGroups] = useState(gp)
+
+
     const [team2, setTeam2] = useAtom(teamAtom)
     const [open, setOpen] = React.useState(false)
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-        groups[0].teams[0]
+        gp[0].teams[0]
     )
 
-    const [userName, setUserName] = useState()
+
+    const [userName, setUserName] = useState('')
 
     const router = useRouter()
-
-    const {session, isLoading, isError} = useSession()
-    console.log('session', session)
 
     return (
         <Provider>
