@@ -9,6 +9,7 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
+import {getSession} from "@/lib/bonita_api_utils";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
@@ -23,18 +24,21 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         const username = (event.target as any).username.value
         const password = (event.target as any).password.value
 
-        const res = await fetch("/api/auth/", {
-            method: "POST",
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
+        const res = await fetch('http://localhost:28071/bonita/loginservice', {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            method: 'POST',
+            body: `username=${username}&password=${password}&redirect=false&redirectURL=`,
+            mode: 'cors',
+            credentials: "include",
         })
 
-        setIsLoading(false)
+        const [session, status] = await getSession()
+
         // redirect to dashboard
-        if (res.ok) {
-            router.push("/")
+        if (res.ok && status === 200) {
+            router.push("/workspace/dashboard")
         } else {
             toast({
                 title: "Error",
@@ -42,6 +46,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
                     "Hảo, có lỗi xảy ra, vui lòng thử lại sau."
                 ),
             })
+            setIsLoading(false)
         }
     }
 

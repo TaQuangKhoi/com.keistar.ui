@@ -24,14 +24,7 @@ export async function GET(request: Request) {
         return error401Response
     }
 
-    const headers: HeadersInit = {
-        'X-Bonita-Api-Token': bonitaApiKey.value,
-        "JSESSIONID": jSessionId.value,
-    }
-    console.log("headers", headers)
-
     const res = await fetch("http://localhost:28071/bonita/API/system/session/unusedId", {
-        headers: headers,
         method: 'GET',
     })
 

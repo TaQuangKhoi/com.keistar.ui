@@ -7,6 +7,7 @@ import {RecentSales} from "@/app/workspace/components/recent-sales";
 import {Metadata} from "next";
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
+import {getSession} from "@/lib/bonita_api_utils";
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -21,11 +22,6 @@ export function isSignIn() {
 }
 
 export default async function DashboardPage() {
-    if (!isSignIn()) {
-        redirect('/authentication')
-    }
-
-
     return (
         <>
             <div className="flex items-center justify-between space-y-2">
