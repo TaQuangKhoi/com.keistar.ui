@@ -59,13 +59,8 @@ const groupAtom = atom((get) => {
     ]
 });
 const selectedTeamAtom = atom({
-    label: "Personal Account",
-    teams: [
-        {
-            label: "Hảo Văn 2",
-            value: "personal",
-        },
-    ],
+    label: "Hảo Văn 2",
+    value: "personal",
 })
 
 export {

@@ -136,10 +136,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [showNewTeamDialog, setShowNewTeamDialog] = useAtom(isShowNewTeamDialogAtom)
     const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
 
-    if (isSessionLoading) {
-        return <div>Loading...</div>
-    }
-
     return (
         <>
             <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
