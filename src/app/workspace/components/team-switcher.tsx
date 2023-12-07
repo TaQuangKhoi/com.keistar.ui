@@ -46,81 +46,90 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {useAtom} from "jotai";
-import {atom} from "jotai";
-import { useRouter } from 'next/navigation'
-import {Provider} from "jotai";
+import {useRouter} from 'next/navigation'
+import {Provider, useAtom} from "jotai";
+import {useEffect, useState} from "react";
+import {teamAtom} from "@/atoms";
+import {useBonitaSession} from "@/lib/bonita_api_utils";
+import {
+    groupAtom,
+    isOpenTeamSwitcherAtom,
+    isShowNewTeamDialogAtom,
+    selectedTeamAtom,
+    userFullNameAtom
+} from "@/app/workspace/atoms";
+import PersonalTeam from "@/app/workspace/components/personal-team";
 
-const groups = [
-    {
-        label: "Personal Account",
-        teams: [
-            {
-                label: "Hảo Văn",
-                value: "personal",
-            },
-        ],
-    },
-    {
-        label: "Teams",
-        teams: [
-            {
-                label: "R&D Department",
-                value: "r&d-department",
-            },
-            {
-                label: "HR Department",
-                value: "hr-department",
-            },
-            {
-                label: "Business Department",
-                value: "business-department",
-            },
-            {
-                label: "Finance Department",
-                value: "finance-department",
-            },
-            {
-                label: "GBS",
-                value: "gbs",
-            },
-            {
-                label: "IT Department",
-                value: "it-department",
-            },
-            {
-                label: "Marketing Department",
-                value: "marketing-department",
-            },
-            {
-                label: "Sales  Department",
-                value: "sales-department",
-            },
-        ],
-    },
-]
-
-export const teamAtom = atom("personal")
-
-type Team = (typeof groups)[number]["teams"][number]
+interface Team {
+    label: string
+    value: string
+}
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 interface TeamSwitcherProps extends PopoverTriggerProps {
 }
 
-export default function TeamSwitcher({className}: TeamSwitcherProps) {
-    const [team2, setTeam2] = useAtom(teamAtom)
-    const [open, setOpen] = React.useState(false)
-    const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
-    const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-        groups[0].teams[0]
-    )
+function getGroup(userFullName: string) {
+    return [
+        {
+            label: "Teams",
+            teams: [
+                {
+                    label: "R&D Department",
+                    value: "r&d-department",
+                },
+                {
+                    label: "HR Department",
+                    value: "hr-department",
+                },
+                {
+                    label: "Business Department",
+                    value: "business-department",
+                },
+                {
+                    label: "Finance Department",
+                    value: "finance-department",
+                },
+                {
+                    label: "GBS",
+                    value: "gbs",
+                },
+                {
+                    label: "IT Department",
+                    value: "it-department",
+                },
+                {
+                    label: "Marketing Department",
+                    value: "marketing-department",
+                },
+                {
+                    label: "Sales  Department",
+                    value: "sales-department",
+                },
+            ],
+        },
+    ]
+}
 
+
+export default function TeamSwitcher({className}: TeamSwitcherProps) {
+    const [userFullName, setUserFullName] = useAtom(userFullNameAtom)
+    const [groups, setGroups] = useState(getGroup("No Name"));
+
+    const {session, isSessionLoading, isError} = useBonitaSession()
     const router = useRouter()
 
+    // setUserFullName(session?.userName)
+
+    const [team, setTeam] = useAtom(teamAtom)
+
+    const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
+    const [showNewTeamDialog, setShowNewTeamDialog] = useAtom(isShowNewTeamDialogAtom)
+    const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
+
     return (
-        <Provider>
+        <>
             <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -147,6 +156,9 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                             <CommandList>
                                 <CommandInput placeholder="Search team..."/>
                                 <CommandEmpty>No team found.</CommandEmpty>
+
+                                <PersonalTeam/>
+
                                 {groups.map((group) => (
                                     <CommandGroup key={group.label} heading={group.label}>
                                         {group.teams.map((team) => (
@@ -154,9 +166,8 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                                 key={team.value}
                                                 onSelect={() => {
                                                     setSelectedTeam(team)
-                                                    setTeam2(team.value)
+                                                    setTeam(team.value)
                                                     setOpen(false)
-                                                    // go to dashboard
                                                     router.push('/workspace/dashboard')
                                                 }}
                                                 className="text-sm"
@@ -253,6 +264,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </Provider>
-        )
+        </>
+    )
 }

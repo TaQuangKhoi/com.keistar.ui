@@ -4,9 +4,8 @@ import Link from "next/link"
 import {cn} from "@/lib/utils"
 import clsx from 'clsx';
 import {useAtomValue} from "jotai";
-import {teamAtom} from "@/app/workspace/components/team-switcher";
 import {hr_department_items, personal_items} from "@/app/workspace/data/data";
-import {Provider} from "jotai";
+import {teamAtom} from "@/atoms";
 
 export function MainNav({
                             className,
@@ -17,7 +16,7 @@ export function MainNav({
     const items = team === 'personal' ? personal_items : hr_department_items
 
     return (
-        <Provider>
+        <>
             <nav
                 className={cn("flex items-center space-x-4 lg:space-x-6", className)}
                 {...props}
@@ -38,6 +37,6 @@ export function MainNav({
                     ))
                 }
             </nav>
-        </Provider>
+        </>
     )
 }

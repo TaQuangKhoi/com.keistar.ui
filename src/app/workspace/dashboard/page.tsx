@@ -5,19 +5,22 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Overview} from "@/app/workspace/components/overview";
 import {RecentSales} from "@/app/workspace/components/recent-sales";
 import {Metadata} from "next";
+import {redirect} from "next/navigation";
+import {cookies} from "next/headers";
+import {useBonitaSession} from "@/lib/bonita_api_utils";
 
 export const metadata: Metadata = {
     title: "Dashboard",
     description: "Example dashboard app built using the components.",
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
     return (
         <>
             <div className="flex items-center justify-between space-y-2">
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
                 <div className="flex items-center space-x-2">
-                    <CalendarDateRangePicker />
+                    <CalendarDateRangePicker/>
                     <Button>Download</Button>
                 </div>
             </div>
@@ -51,7 +54,7 @@ export default function DashboardPage() {
                                     strokeWidth="2"
                                     className="h-4 w-4 text-muted-foreground"
                                 >
-                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                                 </svg>
                             </CardHeader>
                             <CardContent>
@@ -76,9 +79,9 @@ export default function DashboardPage() {
                                     strokeWidth="2"
                                     className="h-4 w-4 text-muted-foreground"
                                 >
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                                    <circle cx="9" cy="7" r="4" />
-                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
                                 </svg>
                             </CardHeader>
                             <CardContent>
@@ -101,8 +104,8 @@ export default function DashboardPage() {
                                     strokeWidth="2"
                                     className="h-4 w-4 text-muted-foreground"
                                 >
-                                    <rect width="20" height="14" x="2" y="5" rx="2" />
-                                    <path d="M2 10h20" />
+                                    <rect width="20" height="14" x="2" y="5" rx="2"/>
+                                    <path d="M2 10h20"/>
                                 </svg>
                             </CardHeader>
                             <CardContent>
@@ -127,7 +130,7 @@ export default function DashboardPage() {
                                     strokeWidth="2"
                                     className="h-4 w-4 text-muted-foreground"
                                 >
-                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                                 </svg>
                             </CardHeader>
                             <CardContent>
@@ -144,7 +147,7 @@ export default function DashboardPage() {
                                 <CardTitle>Overview</CardTitle>
                             </CardHeader>
                             <CardContent className="pl-2">
-                                <Overview />
+                                <Overview/>
                             </CardContent>
                         </Card>
                         <Card className="col-span-3">
@@ -155,7 +158,7 @@ export default function DashboardPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <RecentSales />
+                                <RecentSales/>
                             </CardContent>
                         </Card>
                     </div>
