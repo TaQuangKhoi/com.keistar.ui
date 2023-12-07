@@ -1,11 +1,6 @@
 import useSWR from 'swr'
 
-interface Init {
-    credentials: string,
-    mode: string,
-}
-
-const init: Init = {
+const init: RequestInit = {
     credentials: "include",
     mode: 'cors',
 }
