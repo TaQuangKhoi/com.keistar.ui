@@ -14,13 +14,6 @@ export const metadata: Metadata = {
     description: "Example dashboard app built using the components.",
 }
 
-export function isSignIn() {
-    const cookieStore = cookies()
-    const bonitaApiKey = cookieStore.get('X-Bonita-API-Token')
-    const jSessionId = cookieStore.get('JSESSIONID')
-    return !(!bonitaApiKey || !jSessionId);
-}
-
 export default async function DashboardPage() {
     return (
         <>
