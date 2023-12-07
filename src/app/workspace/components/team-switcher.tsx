@@ -49,21 +49,13 @@ import {
 import {useRouter} from 'next/navigation'
 import {Provider, useAtom} from "jotai";
 import {useEffect, useState} from "react";
-import {teamAtom} from "@/atoms";
 import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {
-    groupAtom,
     isOpenTeamSwitcherAtom,
-    isShowNewTeamDialogAtom,
+    isShowNewTeamDialogAtom, personalGroupAtom,
     selectedTeamAtom,
-    userFullNameAtom
 } from "@/app/workspace/atoms";
 import PersonalTeam from "@/app/workspace/components/personal-team";
-
-interface Team {
-    label: string
-    value: string
-}
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -116,18 +108,29 @@ function getGroup(userFullName: string) {
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const {session, isSessionLoading, isError} = useBonitaSession()
 
-    const [userFullName, setUserFullName] = useAtom(userFullNameAtom)
     const [groups, setGroups] = useState(getGroup("No Name"));
 
     const router = useRouter()
 
     // setUserFullName(session?.userName)
 
-    const [team, setTeam] = useAtom(teamAtom)
-
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
     const [showNewTeamDialog, setShowNewTeamDialog] = useAtom(isShowNewTeamDialogAtom)
+    const [defaultTeam] = useAtom(personalGroupAtom)
+
     const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
+    // run only once
+    useEffect(() => {
+        if (isSessionLoading) {
+            return
+        }
+        if (isError) {
+            return
+        }
+        if (session) {
+            setSelectedTeam(defaultTeam.teams[0])
+        }
+    }, [isSessionLoading, isError, session, defaultTeam])
 
     return (
         <>
@@ -167,7 +170,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                                 key={team.value}
                                                 onSelect={() => {
                                                     setSelectedTeam(team)
-                                                    setTeam(team.value)
                                                     setOpen(false)
                                                     router.push('/workspace/dashboard')
                                                 }}

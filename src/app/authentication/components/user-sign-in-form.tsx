@@ -9,7 +9,7 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import {isLogin, useBonitaSession} from "@/lib/bonita_api_utils";
+import {isLogin, useBonitaSession} from "@/lib/bonita_api_swr_utils";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
@@ -40,10 +40,8 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             credentials: "include",
         })
 
-        console.log(res.ok)
-
         // redirect to dashboard
-        if (res.ok && session != null) {
+        if (res.ok) {
             setIsLoading(false)
             router.push("/workspace/dashboard")
         } else {
