@@ -58,6 +58,7 @@ import {
     selectedTeamAtom,
     userFullNameAtom
 } from "@/app/workspace/atoms";
+import PersonalTeam from "@/app/workspace/components/personal-team";
 
 interface Team {
     label: string
@@ -71,15 +72,6 @@ interface TeamSwitcherProps extends PopoverTriggerProps {
 
 function getGroup(userFullName: string) {
     return [
-        {
-            label: "Personal Account",
-            teams: [
-                {
-                    label: userFullName,
-                    value: "personal",
-                },
-            ],
-        },
         {
             label: "Teams",
             teams: [
@@ -164,6 +156,9 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                             <CommandList>
                                 <CommandInput placeholder="Search team..."/>
                                 <CommandEmpty>No team found.</CommandEmpty>
+
+                                <PersonalTeam/>
+
                                 {groups.map((group) => (
                                     <CommandGroup key={group.label} heading={group.label}>
                                         {group.teams.map((team) => (
@@ -173,7 +168,6 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
                                                     setSelectedTeam(team)
                                                     setTeam(team.value)
                                                     setOpen(false)
-                                                    // go to dashboard
                                                     router.push('/workspace/dashboard')
                                                 }}
                                                 className="text-sm"
