@@ -50,7 +50,7 @@ import {useRouter} from 'next/navigation'
 import {Provider, useAtom} from "jotai";
 import {useEffect, useState} from "react";
 import {teamAtom} from "@/atoms";
-import {useBonitaSession} from "@/lib/bonita_api_utils";
+import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {
     groupAtom,
     isOpenTeamSwitcherAtom,
@@ -114,10 +114,11 @@ function getGroup(userFullName: string) {
 
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
+    const {session, isSessionLoading, isError} = useBonitaSession()
+
     const [userFullName, setUserFullName] = useAtom(userFullNameAtom)
     const [groups, setGroups] = useState(getGroup("No Name"));
 
-    const {session, isSessionLoading, isError} = useBonitaSession()
     const router = useRouter()
 
     // setUserFullName(session?.userName)

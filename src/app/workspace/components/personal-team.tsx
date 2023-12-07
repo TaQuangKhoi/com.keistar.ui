@@ -6,6 +6,7 @@ import * as React from "react";
 import {useAtom} from "jotai/index";
 import {isOpenTeamSwitcherAtom, selectedTeamAtom} from "@/app/workspace/atoms";
 import {useRouter} from "next/navigation";
+import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 
 const personalGroup = {
     label: "Personal",
@@ -18,6 +19,7 @@ export default function PersonalTeam() {
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
     const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
     const router = useRouter()
+    const {session, isSessionLoading, isError} = useBonitaSession()
 
     return (<>
         <CommandGroup key={personalGroup.label} heading={personalGroup.label}>
@@ -43,8 +45,8 @@ export default function PersonalTeam() {
                     {
                         // if label too long, show first 10 characters
                         team.label.length > 10
-                            ? team.label.substring(0, 12) + "..."
-                            : team.label
+                            ? isSessionLoading ? 'Loading...' : session?.user_name?.substring(0, 10)
+                            : isSessionLoading ? 'Loading...' : session?.user_name
                     }
                     <CheckIcon
                         className={cn(

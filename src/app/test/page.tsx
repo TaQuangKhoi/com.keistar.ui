@@ -1,6 +1,6 @@
 'use client'
 import {Button} from "@/components/ui/button";
-import {useBonitaSession} from "@/lib/bonita_api_utils";
+import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 
 async function signIn() {
     let url = 'http://localhost:28071/bonita/loginservice'
