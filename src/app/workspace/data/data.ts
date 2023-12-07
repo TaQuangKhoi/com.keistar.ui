@@ -19,9 +19,9 @@ const default_items = [
 export const hr_department_items = [
     ...default_items.slice(0, 2),
     {
-        label: "Employees",
-        value: "onboarding",
-        href: "/workspace/onboarding",
+        label: "Employee",
+        value: "employee",
+        href: "/workspace/office/employee",
     },
     ...default_items.slice(2),
 ]
@@ -30,23 +30,23 @@ export const personal_items = [
     ...default_items.slice(0, 2),
     {
         label: "E-leave",
-        value: "onboarding",
+        value: "e-leave",
         href: "/workspace/office/e-leave",
     },
     {
-        label: "Travel Request",
-        value: "travel-request",
-        href: "/workspace/travel-request",
+        label: "Travel",
+        value: "travel",
+        href: "/workspace/office/travel",
     },
     {
         label: "Car Booking",
         value: "car-booking",
-        href: "/workspace/car-booking",
+        href: "/workspace/office/car-booking",
     },
     {
-        label: "Weekly Reports",
-        value: "weekly-reports",
-        href: "/workspace/weekly-reports",
+        label: "Weekly Report",
+        value: "weekly-report",
+        href: "/workspace/office/weekly-report",
     },
     ...default_items.slice(2),
 ]
