@@ -74,6 +74,9 @@ dependencies:
   '@radix-ui/react-toast':
     specifier: ^1.1.5
     version: 1.1.5(@types/react-dom@18.2.17)(@types/react@18.2.38)(react-dom@18.2.0)(react@18.2.0)
+  '@tanstack/query-core':
+    specifier: ^5.12.1
+    version: 5.12.1
   '@tanstack/react-query':
     specifier: ^5.8.4
     version: 5.8.4(react-dom@18.2.0)(react@18.2.0)
@@ -98,6 +101,9 @@ dependencies:
   jotai:
     specifier: ^2.5.1
     version: 2.5.1(@types/react@18.2.38)(react@18.2.0)
+  jotai-tanstack-query:
+    specifier: ^0.7.2
+    version: 0.7.2(@tanstack/query-core@5.12.1)(jotai@2.5.1)
   lodash.template:
     specifier: ^4.5.0
     version: 4.5.0
@@ -1652,6 +1658,10 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /@tanstack/query-core@5.12.1:
+    resolution: {integrity: sha512-WbZztNmKq0t6QjdNmHzezbi/uifYo9j6e2GLJkodsYaYUlzMbAp91RDyeHkIZrm7EfO4wa6Sm5sxJZm5SPlh6w==}
+    dev: false
 
   /@tanstack/query-core@5.8.3:
     resolution: {integrity: sha512-SWFMFtcHfttLYif6pevnnMYnBvxKf3C+MHMH7bevyYfpXpTMsLB9O6nNGBdWSoPwnZRXFNyNeVZOw25Wmdasow==}
@@ -3304,6 +3314,16 @@ packages:
   /jiti@1.21.0:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
+
+  /jotai-tanstack-query@0.7.2(@tanstack/query-core@5.12.1)(jotai@2.5.1):
+    resolution: {integrity: sha512-acwJJf4HKgs4c0mtgRJEvdL7jqQnKcT0ARvs33weGysLpQ8L1S3SqPPoMeHuLDz6vREcocsVFRZ5RsB7rJJHZQ==}
+    peerDependencies:
+      '@tanstack/query-core': '*'
+      jotai: '>=1.11.0'
+    dependencies:
+      '@tanstack/query-core': 5.12.1
+      jotai: 2.5.1(@types/react@18.2.38)(react@18.2.0)
+    dev: false
 
   /jotai@2.5.1(@types/react@18.2.38)(react@18.2.0):
     resolution: {integrity: sha512-vanPCCSuHczUXNbVh/iUunuMfrWRL4FdBtAbTRmrfqezJcKb8ybBTg8iivyYuUHapjcDETyJe1E4inlo26bVHA==}
