@@ -36,12 +36,16 @@ export default function TestPage() {
         console.log(session)
     }
 
+
     return (
         <div>
             <h1>Test Page</h1>
             <Button onClick={test}>
                 Test Button
             </Button>
+            {
+                isSessionLoading ? <p>Loading...</p> : <p>Session: {session.user_name}</p>
+            }
         </div>
     )
 }

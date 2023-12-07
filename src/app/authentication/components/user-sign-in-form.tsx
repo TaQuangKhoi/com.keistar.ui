@@ -20,9 +20,9 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
 
-    if (isSessionLoading) {
-        return <div>Loading...</div>
-    }
+    // if (isSessionLoading) {
+    //     return <div>Loading...</div>
+    // }
 
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
@@ -43,7 +43,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         console.log(res.ok)
 
         // redirect to dashboard
-        if (res.ok && session) {
+        if (res.ok && session != null) {
             setIsLoading(false)
             router.push("/workspace/dashboard")
         } else {
