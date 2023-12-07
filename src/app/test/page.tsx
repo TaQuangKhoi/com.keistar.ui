@@ -28,11 +28,12 @@ async function signIn() {
 }
 
 export default function TestPage() {
+    const {session, isSessionLoading, isError} = useBonitaSession()
 
     async function test() {
         console.log('test')
         // await signIn();
-        await useBonitaSession();
+        console.log(session)
     }
 
     return (
