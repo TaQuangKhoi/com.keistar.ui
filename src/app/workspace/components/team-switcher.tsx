@@ -51,7 +51,7 @@ import {Provider, useAtom} from "jotai";
 import {useEffect, useState} from "react";
 import {teamAtom} from "@/atoms";
 import {useBonitaSession} from "@/lib/bonita_api_utils";
-import {groupAtom, userFullNameAtom} from "@/app/workspace/atoms";
+import {groupAtom, isOpenTeamSwitcherAtom, isShowNewTeamDialogAtom, userFullNameAtom} from "@/app/workspace/atoms";
 
 interface Team {
     label: string
@@ -126,14 +126,11 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
 
     const [team, setTeam] = useAtom(teamAtom)
 
-    const [open, setOpen] = React.useState(false)
-    const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
+    const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
+    const [showNewTeamDialog, setShowNewTeamDialog] = useAtom(isShowNewTeamDialogAtom)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
         groups[0].teams[0]
     )
-
-    console.log("Render TeamSwitcher")
-
 
     if (isSessionLoading) {
         return <div>Loading...</div>

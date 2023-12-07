@@ -2,6 +2,8 @@
 
 import {atom} from "jotai";
 
+const isOpenTeamSwitcherAtom = atom(false);
+const isShowNewTeamDialogAtom = atom(false);
 
 const userFullNameAtom = atom("Hảo Văn 2");
 
@@ -56,8 +58,22 @@ const groupAtom = atom((get) => {
         },
     ]
 });
+const selectedTeamAtom = atom((get) => {
+    let group = get(groupAtom);
+    return group[0].teams[0];
+})
 
 export {
+    // Array
     groupAtom,
+
+    // String
     userFullNameAtom,
+
+    // Boolean
+    isOpenTeamSwitcherAtom,
+    isShowNewTeamDialogAtom,
+
+    // Object
+    selectedTeamAtom,
 };
