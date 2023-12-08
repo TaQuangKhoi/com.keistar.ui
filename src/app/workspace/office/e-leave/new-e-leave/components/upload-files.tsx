@@ -2,7 +2,7 @@
 
 export default function UpdateFiles() {
     return (
-        <label className="h-[200px] w-auto flex flex-col gap-5 cursor-pointer items-center justify-center bg-white shadow-[0px_48px_35px_-48px_rgba(0,0,0,0.1)] p-6 rounded-[10px] border-2 border-dashed border-[#cacaca]" htmlFor="file">
+        <label className="dark:bg-[--background] h-[200px] w-auto flex flex-col gap-5 cursor-pointer items-center justify-center bg-white shadow-[0px_48px_35px_-48px_rgba(0,0,0,0.1)] p-6 rounded-[10px] border-2 border-dashed border-[#cacaca]" htmlFor="file">
             <div className="flex items-center justify-center">
                 <svg className="h-20 fill-gray-600"
                     xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
