@@ -9,14 +9,16 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import {isLogin, useBonitaSession} from "@/lib/bonita_api_swr_utils";
+import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
+import axios from "axios";
+import {saveBonitaAuthToken} from "@/bonita/lib/utils";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 
 export function UserSignInForm({className, ...props}: UserSignInFormProps) {
-    const { session, isSessionLoading, isError } = useBonitaSession()
+    const {session, isSessionLoading, isError} = useBonitaSession()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
 
@@ -30,18 +32,19 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         const username = (event.target as any).username.value
         const password = (event.target as any).password.value
 
-        const res = await fetch('http://localhost:28071/bonita/loginservice', {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            method: 'POST',
-            body: `username=${username}&password=${password}&redirect=false&redirectURL=`,
-            mode: 'cors',
-            credentials: "include",
-        })
+        const res = await axios.post('http://localhost:28071/bonita/loginservice',
+            `username=${username}&password=${password}&redirect=false&redirectURL=`,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        )
 
         // redirect to dashboard
-        if (res.ok) {
+        if (res.status === 204) {
+            await saveBonitaAuthToken();
             setIsLoading(false)
             router.push("/workspace/dashboard")
         } else {
