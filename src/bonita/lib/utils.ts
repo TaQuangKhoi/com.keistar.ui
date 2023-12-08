@@ -1,6 +1,5 @@
-declare const localStorage: any;
-
 import {getCurrentUserSession} from "@/bonita/api/system/session";
+let localStorage = window.localStorage;
 
 function getBonitaAuthToken() {
     return localStorage.getItem('x-bonita-api-token');
