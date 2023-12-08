@@ -1,3 +1,5 @@
+'use client'
+
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 
 function getBonitaAuthToken() {
