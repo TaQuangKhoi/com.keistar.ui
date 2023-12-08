@@ -1,4 +1,4 @@
-'use client'
+declare const localStorage: any;
 
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 
