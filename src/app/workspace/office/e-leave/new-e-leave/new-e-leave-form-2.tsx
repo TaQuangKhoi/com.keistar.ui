@@ -24,8 +24,9 @@ import Link from "next/link";
 import {cn} from "@/lib/utils";
 import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
-import axios from "axios";
-import {headers} from "next/headers";
+import {default as axios} from "@/lib/axios-instance";
+import {instantiateProcess} from "@/bonita/api/bpm/process";
+import Cookies from "universal-cookie";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -59,6 +60,41 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
     rememberMe: false,
 }
 
+const body = {
+    eleaveInput: {
+        status: "Waiting for approve",
+        employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+        employeeFullName: "Hanh Nguyen Hong",
+        directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
+        managerFullName: "Nguyet Pham Minh",
+        leaveTypeId: "",
+        leaveTypeName: "",
+        leaveTime: "Full day",
+        startDate: "2023-12-08T00:00:00.000Z",
+        endDate: "2023-12-08T00:00:00.000Z",
+        totalDays: 1,
+        leaveReason: "Test",
+        createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+        createdDate: null,
+        updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+        updatedDate: null,
+        isApprove: false,
+        isCancel: false,
+        isReject: false,
+        extendLeaveType: {
+            ID: "FFFFD914-6057-4286-A321-773680D400A9",
+            Name: "Annual",
+            Description: ""
+        },
+        totalAnnualLeave: 129.25199999999944,
+        totalLeaveApplied: 103.5,
+        totalRemainLeave: 25.75200000000011,
+        sqlId: "F9E4E64A-CED9-4EB4-9C1F-6360083158FD",
+        createdDateString: "2023-12-08 13:49:26.542",
+        updatedDateString: "2023-12-08 13:49:26.542"
+    }
+}
+
 export function NewE_leaveForm() {
     const form = useForm<NewE_leaveFormValues>({
         resolver: zodResolver(newE_leaveFormSchema), defaultValues,
@@ -66,50 +102,7 @@ export function NewE_leaveForm() {
     })
 
     async function initE_leaveProcess(processId: string) {
-        let url = "http://localhost:28071/bonita/API/bpm/process/" + processId;
-        let urlInit = url + "/instantiation";
-        let urlContract = url + "/contract";
-        let contract = await axios.get(urlContract, {withCredentials: true,}).then((r) => r.data);
-        console.log(contract);
-        await axios.post(urlInit, {
-                eleaveInput: {
-                    status: "Waiting for approve",
-                    employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-                    employeeFullName: "Hanh Nguyen Hong",
-                    directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
-                    managerFullName: "Nguyet Pham Minh",
-                    leaveTypeId: "",
-                    leaveTypeName: "",
-                    leaveTime: "Full day",
-                    startDate: "2023-12-08T00:00:00.000Z",
-                    endDate: "2023-12-08T00:00:00.000Z",
-                    totalDays: 1,
-                    leaveReason: "Test",
-                    createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-                    createdDate: null,
-                    updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-                    updatedDate: null,
-                    isApprove: false,
-                    isCancel: false,
-                    isReject: false,
-                    extendLeaveType: {
-                        ID: "FFFFD914-6057-4286-A321-773680D400A9",
-                        Name: "Annual",
-                        Description: ""
-                    },
-                    totalAnnualLeave: 129.25199999999944,
-                    totalLeaveApplied: 103.5,
-                    totalRemainLeave: 25.75200000000011,
-                    sqlId: "F9E4E64A-CED9-4EB4-9C1F-6360083158FD",
-                    createdDateString: "2023-12-08 13:49:26.542",
-                    updatedDateString: "2023-12-08 13:49:26.542"
-                }
-            }, {
-                withCredentials: true,
-            }
-        ).then((response) => {
-            console.log(response);
-        })
+        let res = await instantiateProcess(processId, body);
     }
 
     async function onSubmit(data: NewE_leaveFormValues) {

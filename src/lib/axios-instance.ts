@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getBonitaAuthToken} from "@/bonita/lib/utils";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:28071/bonita/API/",
@@ -6,7 +7,7 @@ const axiosInstance = axios.create({
 
     // 3rd way to set the AUTH token for any request
     headers: {
-        "X-Bonita-API-Token": "2c2afffc-2cca-46e4-88f4-de841063745e",
+        "X-Bonita-API-Token": getBonitaAuthToken(),
     },
 });
 
