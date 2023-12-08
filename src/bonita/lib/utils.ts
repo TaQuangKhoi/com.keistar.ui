@@ -1,3 +1,5 @@
+'use client';
+
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 let localStorage = window.localStorage;
 
