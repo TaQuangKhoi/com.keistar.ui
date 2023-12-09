@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import {useCallback, useEffect} from "react"
 
 import {cn} from "@/lib/utils"
 import {Icons} from "@/components/icons"
@@ -9,9 +10,11 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import axios from "axios";
-import {saveBonitaAuthToken} from "@/bonita/lib/utils";
+import {getCurrentUserSession} from "@/bonita/api/system/session";
+import {store} from "@/app/valtio-proxy";
+import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
+import {useSnapshot} from "valtio";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
@@ -22,11 +25,12 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
 
-    // if (isSessionLoading) {
-    //     return <div>Loading...</div>
-    // }
+    const snap = useSnapshot(store)
 
-    async function onSubmit(event: React.SyntheticEvent) {
+    /**
+     * Handle submit form
+     */
+    const onSubmit = useCallback(async (event: React.SyntheticEvent) => {
         event.preventDefault()
         setIsLoading(true)
         const username = (event.target as any).username.value
@@ -44,8 +48,10 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
 
         // redirect to dashboard
         if (res.status === 204) {
-            await saveBonitaAuthToken();
-            setIsLoading(false)
+
+            // save bonita token
+            const res = await getCurrentUserSession();
+            store.token = res.headers['x-bonita-api-token'];
             router.push("/workspace/dashboard")
         } else {
             toast({
@@ -56,7 +62,23 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             })
             setIsLoading(false)
         }
-    }
+    }, [])
+
+    /**
+     * Check if user is logged in
+     */
+    useEffect(() => {
+        if (isSessionLoading) {
+            return
+        }
+        if (sessionError) {
+            return
+        }
+        if (session) {
+            router.push("/workspace/dashboard");
+        }
+    }, [isSessionLoading, sessionError, session])
+
 
     return (
         <div className={cn("grid gap-6", className)} {...props}>
