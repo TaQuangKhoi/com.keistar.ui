@@ -17,7 +17,6 @@ export async function GET(request: Request) {
         return error401Response
     }
     if (!bonitaApiKey) {
-        console.log("jSessionId", jSessionId)
         return error401Response
     }
     if (!jSessionId) {

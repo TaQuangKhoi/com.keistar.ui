@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import {useCallback, useEffect} from "react"
 
 import {cn} from "@/lib/utils"
 import {Icons} from "@/components/icons"
@@ -9,40 +10,48 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import {isLogin, useBonitaSession} from "@/lib/bonita_api_swr_utils";
+import axios from "axios";
+import {getCurrentUserSession} from "@/bonita/api/system/session";
+import {store} from "@/app/valtio-proxy";
+import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
+import {useSnapshot} from "valtio";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 
 export function UserSignInForm({className, ...props}: UserSignInFormProps) {
-    const { session, isSessionLoading, isError } = useBonitaSession()
+    const {session, sessionError, isSessionLoading} = useBonitaSession()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
 
-    // if (isSessionLoading) {
-    //     return <div>Loading...</div>
-    // }
+    const snap = useSnapshot(store)
 
-    async function onSubmit(event: React.SyntheticEvent) {
+    /**
+     * Handle submit form
+     */
+    const onSubmit = useCallback(async (event: React.SyntheticEvent) => {
         event.preventDefault()
         setIsLoading(true)
         const username = (event.target as any).username.value
         const password = (event.target as any).password.value
 
-        const res = await fetch('http://localhost:28071/bonita/loginservice', {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            method: 'POST',
-            body: `username=${username}&password=${password}&redirect=false&redirectURL=`,
-            mode: 'cors',
-            credentials: "include",
-        })
+        const res = await axios.post('http://localhost:28071/bonita/loginservice',
+            `username=${username}&password=${password}&redirect=false&redirectURL=`,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        )
 
         // redirect to dashboard
-        if (res.ok) {
-            setIsLoading(false)
+        if (res.status === 204) {
+
+            // save bonita token
+            const res = await getCurrentUserSession();
+            store.token = res.headers['x-bonita-api-token'];
             router.push("/workspace/dashboard")
         } else {
             toast({
@@ -53,7 +62,23 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             })
             setIsLoading(false)
         }
-    }
+    }, [])
+
+    /**
+     * Check if user is logged in
+     */
+    useEffect(() => {
+        if (isSessionLoading) {
+            return
+        }
+        if (sessionError) {
+            return
+        }
+        if (session) {
+            router.push("/workspace/dashboard");
+        }
+    }, [isSessionLoading, sessionError, session])
+
 
     return (
         <div className={cn("grid gap-6", className)} {...props}>

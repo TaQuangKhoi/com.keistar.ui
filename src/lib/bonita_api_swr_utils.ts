@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import {sessionApiUrl} from "@/lib/api-enpoints";
 
 const init: RequestInit = {
     credentials: "include",
@@ -9,16 +10,13 @@ const fetcher = (url: string) => fetch(url, init
 ).then(res => res.json())
 
 
-const sessionApiUrl = 'http://localhost:28071/bonita/API/system/session/unusedId'
-
-
 function useBonitaSession() {
     const {data, error, isLoading} = useSWR(sessionApiUrl, (url) => fetcher(url))
 
     return {
         session: data,
+        sessionError: error,
         isSessionLoading: isLoading,
-        isError: error
     }
 }
 

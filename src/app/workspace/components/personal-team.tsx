@@ -19,7 +19,7 @@ export default function PersonalTeam() {
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
     const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
     const router = useRouter()
-    const {session, isSessionLoading, isError} = useBonitaSession();
+    const {session, isSessionLoading, sessionError} = useBonitaSession();
     const [personalGroup, setPersonalGroup] = useAtom(personalGroupAtom)
 
     return (<>

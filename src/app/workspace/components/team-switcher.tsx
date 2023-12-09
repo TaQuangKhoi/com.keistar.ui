@@ -106,31 +106,33 @@ function getGroup(userFullName: string) {
 
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
-    const {session, isSessionLoading, isError} = useBonitaSession()
+    const router = useRouter()
+
+    const {session, isSessionLoading, sessionError} = useBonitaSession()
 
     const [groups, setGroups] = useState(getGroup("No Name"));
 
-    const router = useRouter()
-
-    // setUserFullName(session?.userName)
 
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
     const [showNewTeamDialog, setShowNewTeamDialog] = useAtom(isShowNewTeamDialogAtom)
     const [defaultTeam] = useAtom(personalGroupAtom)
-
     const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
-    // run only once
+
+    /**
+     * Run if any deps change
+     */
     useEffect(() => {
         if (isSessionLoading) {
             return
         }
-        if (isError) {
+        if (sessionError) {
+            router.push("/authentication")
             return
         }
         if (session) {
             setSelectedTeam(defaultTeam.teams[0])
         }
-    }, [isSessionLoading, isError, session, defaultTeam])
+    }, [isSessionLoading, sessionError, session, defaultTeam])
 
     return (
         <>

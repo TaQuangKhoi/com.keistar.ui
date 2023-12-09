@@ -24,6 +24,9 @@ import Link from "next/link";
 import {cn} from "@/lib/utils";
 import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
+import {default as axios} from "@/lib/axios-instance";
+import {instantiateProcess} from "@/bonita/api/bpm/process";
+
 const newE_leaveFormSchema = z.object({
     leaveType: z
         .string({
@@ -31,7 +34,8 @@ const newE_leaveFormSchema = z.object({
         }),
     rememberMe: z.boolean().optional(),
     about: z.string().max(160).min(4),
-    attachments: z.array(z.string()),
+
+    attachments: z.array(z.string()).optional(),
 })
 
 type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
@@ -55,28 +59,86 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
     rememberMe: false,
 }
 
+const body = {
+    eleaveInput: {
+        status: "Waiting for approve",
+        employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+        employeeFullName: "Hanh Nguyen Hong",
+        directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
+        managerFullName: "Nguyet Pham Minh",
+        leaveTypeId: "",
+        leaveTypeName: "",
+        leaveTime: "Full day",
+        startDate: "2023-12-08T00:00:00.000Z",
+        endDate: "2023-12-08T00:00:00.000Z",
+        totalDays: 1,
+        leaveReason: "Test",
+        createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+        createdDate: null,
+        updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+        updatedDate: null,
+        isApprove: false,
+        isCancel: false,
+        isReject: false,
+        extendLeaveType: {
+            ID: "FFFFD914-6057-4286-A321-773680D400A9",
+            Name: "Annual",
+            Description: ""
+        },
+        totalAnnualLeave: 129.25199999999944,
+        totalLeaveApplied: 103.5,
+        totalRemainLeave: 25.75200000000011,
+        sqlId: "F9E4E64A-CED9-4EB4-9C1F-6360083158FD",
+        createdDateString: "2023-12-08 13:49:26.542",
+        updatedDateString: "2023-12-08 13:49:26.542"
+    }
+}
+
 export function NewE_leaveForm() {
+
     const form = useForm<NewE_leaveFormValues>({
         resolver: zodResolver(newE_leaveFormSchema), defaultValues,
         mode: "onChange",
     })
 
-    function onSubmit(data: NewE_leaveFormValues) {
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-        })
+    async function initE_leaveProcess(processId: string) {
+        let res = await instantiateProcess(processId, body);
+    }
+
+    async function onSubmit(data: NewE_leaveFormValues) {
+        let processId = await axios.get(
+            'http://localhost:28071/bonita/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
+            {
+                withCredentials: true,
+            }
+        )
+            .then(function (response) {
+                // handle success
+                return response.data[0].id;
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .finally(function () {
+                // always executed
+            });
+        await initE_leaveProcess(processId)
+        // toast({
+        //     title: "You submitted the following values:",
+        //     description: (
+        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //             <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        //         </pre>
+        //     ),
+        //     })
     }
 
     return (
         <Form {...form}>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <form
-                    // action={initE_leaveProcessAction()}
+                    onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
                         <FormField
