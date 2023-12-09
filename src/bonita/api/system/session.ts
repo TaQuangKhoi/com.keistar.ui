@@ -1,8 +1,8 @@
 import {default as axios} from "@/lib/axios-instance";
 import {sessionApiUrl} from "@/lib/api-enpoints";
 
-function getCurrentUserSession() {
-  return axios.get(sessionApiUrl, {})
+async function getCurrentUserSession() {
+  return await axios.get(sessionApiUrl, {})
 }
 
 export {getCurrentUserSession}
