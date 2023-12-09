@@ -15,8 +15,8 @@ function useBonitaSession() {
 
     return {
         session: data,
+        sessionError: error,
         isSessionLoading: isLoading,
-        isError: error
     }
 }
 

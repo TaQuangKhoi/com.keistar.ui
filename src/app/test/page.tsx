@@ -28,7 +28,7 @@ async function signIn() {
 }
 
 export default function TestPage() {
-    const {session, isSessionLoading, isError} = useBonitaSession()
+    const {session, isSessionLoading, sessionError} = useBonitaSession()
 
     async function test() {
         console.log('test')

@@ -108,7 +108,7 @@ function getGroup(userFullName: string) {
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const router = useRouter()
 
-    const {session, isSessionLoading, isError} = useBonitaSession()
+    const {session, isSessionLoading, sessionError} = useBonitaSession()
 
     const [groups, setGroups] = useState(getGroup("No Name"));
 
@@ -125,14 +125,14 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
         if (isSessionLoading) {
             return
         }
-        if (isError) {
+        if (sessionError) {
             router.push("/authentication")
             return
         }
         if (session) {
             setSelectedTeam(defaultTeam.teams[0])
         }
-    }, [isSessionLoading, isError, session, defaultTeam])
+    }, [isSessionLoading, sessionError, session, defaultTeam])
 
     return (
         <>

@@ -18,7 +18,7 @@ interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 
 
 export function UserSignInForm({className, ...props}: UserSignInFormProps) {
-    const {session, isSessionLoading, isError} = useBonitaSession()
+    const {session, sessionError, isSessionLoading} = useBonitaSession()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
 
