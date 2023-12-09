@@ -4,7 +4,7 @@ import {store} from "@/app/valtio-proxy";
 
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:28071/bonita/API/",
+    baseURL: "http://localhost:28071/bonita/",
     withCredentials: true,
 
     // 4th way to set the AUTH token for any request
