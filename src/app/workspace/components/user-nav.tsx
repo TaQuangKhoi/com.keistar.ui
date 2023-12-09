@@ -14,6 +14,7 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import LogoutDropdownMenuItem from "@/app/workspace/components/logout-dropdown-menu-item";
 
 export function UserNav() {
     return (
@@ -52,10 +53,7 @@ export function UserNav() {
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem>
-                    Log out
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                </DropdownMenuItem>
+                <LogoutDropdownMenuItem/>
             </DropdownMenuContent>
         </DropdownMenu>
     )
