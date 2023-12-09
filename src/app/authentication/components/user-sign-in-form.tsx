@@ -10,10 +10,9 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import axios from "axios";
+import {default as axios} from "@/lib/axios-instance";
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 import {store} from "@/app/valtio-proxy";
-import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {useSnapshot} from "valtio";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,7 +34,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         const username = (event.target as any).username.value
         const password = (event.target as any).password.value
 
-        const res = await axios.post('http://localhost:28071/bonita/loginservice',
+        const res = await axios.post('/loginservice',
             `username=${username}&password=${password}&redirect=false&redirectURL=`,
             {
                 withCredentials: true,
