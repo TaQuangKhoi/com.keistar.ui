@@ -57,6 +57,7 @@
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "universal-cookie": "^6.1.1",
+    "valtio": "^1.12.1",
     "vaul": "^0.7.9",
     "zod": "^3.22.4"
   },
