@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const username = body.username
     const password = body.password
 
-    const res = await fetch('http://localhost:28071/bonita/loginservice', {
+    const res = await fetch(process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice', {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },

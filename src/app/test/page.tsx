@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button";
 import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 
 async function signIn() {
-    let url = 'http://localhost:28071/bonita/loginservice'
+    let url = process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice'
     let username = 'haovan'
     let password = 'toikhoi'
 

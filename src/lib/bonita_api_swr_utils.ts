@@ -21,7 +21,7 @@ function useBonitaSession() {
 }
 
 async function findUserById(id: string) {
-    let url = 'http://localhost:28071/bonita/API/identity/user/' + id
+    let url = process.env.NEXT_PUBLIC_BONITA_URL + '/API/identity/user/' + id
     let result = null
     let status = null
 

@@ -23,7 +23,7 @@ export async function GET(request: Request) {
         return error401Response
     }
 
-    const res = await fetch("http://localhost:28071/bonita/API/system/session/unusedId", {
+    const res = await fetch(process.env.NEXT_PUBLIC_BONITA_URL + "/API/system/session/unusedId", {
         method: 'GET',
     })
 
