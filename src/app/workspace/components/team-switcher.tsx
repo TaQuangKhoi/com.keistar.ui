@@ -47,7 +47,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {useRouter} from 'next/navigation'
-import {Provider, useAtom} from "jotai";
+import {useAtom} from "jotai";
 import {useEffect, useState} from "react";
 import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {

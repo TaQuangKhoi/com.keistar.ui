@@ -52,7 +52,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             // save bonita token
             const res = await getCurrentUserSession();
             store.token = res.headers['x-bonita-api-token'];
-            router.push("/workspace/dashboard")
+            window.location.replace('../workspace/dashboard');
         } else {
             toast({
                 title: "Error",
