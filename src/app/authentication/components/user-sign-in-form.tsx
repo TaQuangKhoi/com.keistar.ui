@@ -21,7 +21,6 @@ interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 
 
 export function UserSignInForm({className, ...props}: UserSignInFormProps) {
-    const {session, sessionError, isSessionLoading} = useBonitaSession()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const router = useRouter()
 
@@ -52,7 +51,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             // save bonita token
             const res = await getCurrentUserSession();
             store.token = res.headers['x-bonita-api-token'];
-            window.location.replace('../workspace/dashboard');
+            router.push('/workspace/dashboard');
         } else {
             toast({
                 title: "Error",
@@ -64,20 +63,21 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         }
     }, [])
 
+    async function isLogin() {
+        const currentUser = await getCurrentUserSession();
+        if (currentUser.status === 200) {
+            // redirect to dashboard
+            router.push('/workspace/dashboard');
+        }
+    }
+
+
     /**
      * Check if user is logged in
      */
     useEffect(() => {
-        if (isSessionLoading) {
-            return
-        }
-        if (sessionError) {
-            return
-        }
-        if (session) {
-            router.push("/workspace/dashboard");
-        }
-    }, [isSessionLoading, sessionError, session])
+        isLogin();
+    }, [])
 
 
     return (
