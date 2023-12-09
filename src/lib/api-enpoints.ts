@@ -1,4 +1,4 @@
-const sessionApiUrl = 'http://localhost:28071/bonita/API/system/session/unusedId';
+const sessionApiUrl = process.env.NEXT_PUBLIC_BONITA_URL + '/API/system/session/unusedId';
 
 export {
     sessionApiUrl

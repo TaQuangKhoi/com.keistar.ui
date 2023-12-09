@@ -1,7 +1,7 @@
 import {default as axios} from "@/lib/axios-instance";
 
 function getProcess(processId: string) {
-    return "http://localhost:28071/bonita/API/bpm/process/" + processId;
+    return process.env.NEXT_PUBLIC_BONITA_URL + "/API/bpm/process/" + processId;
 }
 
 interface ProcessInstantiationResponse {

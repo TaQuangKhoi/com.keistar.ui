@@ -107,7 +107,7 @@ export function NewE_leaveForm() {
 
     async function onSubmit(data: NewE_leaveFormValues) {
         let processId = await axios.get(
-            'http://localhost:28071/bonita/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
+            process.env.NEXT_PUBLIC_BONITA_URL + '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
             {
                 withCredentials: true,
             }
