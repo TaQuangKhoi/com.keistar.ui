@@ -106,8 +106,11 @@ export function NewE_leaveForm() {
     }
 
     async function onSubmit(data: NewE_leaveFormValues) {
+
+        console.debug("data", data)
+
         let processId = await axios.get(
-            process.env.NEXT_PUBLIC_BONITA_URL + '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
+            '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
             {
                 withCredentials: true,
             }
@@ -123,7 +126,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        await initE_leaveProcess(processId)
+        // await initE_leaveProcess(processId)
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
