@@ -22,7 +22,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
+import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
 import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
@@ -236,7 +236,7 @@ export function NewE_leaveForm() {
                             <FormItem>
                                 <FormLabel>Attachments</FormLabel>
                                 <FormControl>
-                                    <UpdateFiles/>
+                                    <UploadFiles/>
                                 </FormControl>
                                 {/*<FormDescription>*/}
                                 {/*    You can <span>@mention</span> other users and organizations to*/}
