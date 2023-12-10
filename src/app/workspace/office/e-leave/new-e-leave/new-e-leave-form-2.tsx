@@ -162,7 +162,10 @@ export function NewE_leaveForm() {
     async function onSubmit(data: NewE_leaveFormValues) {
 
         console.debug("New data", data)
+
         body.eleaveInput.reason = data.reason;
+        body.eleaveInput.startDate = data.dateRange.from;
+        body.eleaveInput.endDate = data.dateRange.to;
 
 
         let processId = await axios.get(
