@@ -33,7 +33,7 @@ const newE_leaveFormSchema = z.object({
             required_error: "Please select a leave type.",
         }),
     rememberMe: z.boolean().optional(),
-    about: z.string().max(160).min(4),
+    reason: z.string().max(160).min(4),
 
     attachments: z.array(z.string()).optional(),
 })
@@ -72,7 +72,9 @@ const body = {
         startDate: "2023-12-08T00:00:00.000Z",
         endDate: "2023-12-08T00:00:00.000Z",
         totalDays: 1,
-        leaveReason: "Test",
+
+        reason: "",
+
         createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
         createdDate: null,
         updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
@@ -108,6 +110,8 @@ export function NewE_leaveForm() {
     async function onSubmit(data: NewE_leaveFormValues) {
 
         console.debug("data", data)
+        body.eleaveInput.reason = data.reason;
+
 
         let processId = await axios.get(
             '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
@@ -126,7 +130,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        // await initE_leaveProcess(processId)
+        await initE_leaveProcess(processId)
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
@@ -206,10 +210,10 @@ export function NewE_leaveForm() {
                     </div>
                     <FormField
                         control={form.control}
-                        name="about"
+                        name="reason"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>About</FormLabel>
+                                <FormLabel>Reason</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Include comments for your approver"
