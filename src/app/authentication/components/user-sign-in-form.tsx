@@ -34,7 +34,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         const username = (event.target as any).username.value
         const password = (event.target as any).password.value
 
-        const res = await axios.post(process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice',
+        await axios.post(process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice',
             `username=${username}&password=${password}&redirect=false&redirectURL=`,
             {
                 withCredentials: true,
@@ -42,16 +42,12 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
             }
-        )
-
-        // redirect to dashboard
-        if (res.status === 204) {
-
-            // save bonita token
-            const res = await getCurrentUserSession();
-            store.token = res.headers['x-bonita-api-token'];
-            router.push('/workspace/dashboard');
-        } else {
+        ).then(async (res) => {
+            // redirect to dashboard
+            if (res.status === 204) {
+                router.push('/workspace/dashboard');
+            }
+        }).catch((err) => {
             toast({
                 title: "Error",
                 description: (
@@ -59,7 +55,8 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
                 ),
             })
             setIsLoading(false)
-        }
+        })
+
     }, [])
 
     async function isLogin() {
