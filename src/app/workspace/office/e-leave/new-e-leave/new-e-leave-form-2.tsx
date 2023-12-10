@@ -80,41 +80,72 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
     },
 }
 
+interface EleaveInput {
+    status: string;
+    employeeId: string;
+    employeeFullName: string;
+    directManagerId: string;
+    managerFullName: string;
+    leaveTypeId: string;
+    leaveTypeName: string;
+    leaveTime: string;
+    startDate: Date;
+    endDate: Date;
+    totalDays: number;
+    reason: string;
+    createdBy: string;
+    createdDate: Date;
+    updatedBy: string;
+    updatedDate: Date;
+    isApprove: boolean;
+    isCancel: boolean;
+    isReject: boolean;
+    extendLeaveType: Object;
+    totalAnnualLeave: number;
+    totalLeaveApplied: number;
+    totalRemainLeave: number;
+    sqlId: string;
+    createdDateString: string;
+    updatedDateString: string;
+}
+
+let eleaveInput: EleaveInput = {
+    status: "Waiting for approve",
+    employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+    employeeFullName: "Hanh Nguyen Hong",
+    directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
+    managerFullName: "Nguyet Pham Minh",
+    leaveTypeId: "",
+    leaveTypeName: "",
+    leaveTime: "Full day",
+    startDate: new Date(),
+    endDate: new Date(),
+    totalDays: 1,
+
+    reason: "",
+
+    createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+    createdDate: new Date(),
+    updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
+    updatedDate: new Date(),
+    isApprove: false,
+    isCancel: false,
+    isReject: false,
+    extendLeaveType: {
+        ID: "FFFFD914-6057-4286-A321-773680D400A9",
+        Name: "Annual",
+        Description: ""
+    },
+    totalAnnualLeave: 129.25199999999944,
+    totalLeaveApplied: 103.5,
+    totalRemainLeave: 25.75200000000011,
+    sqlId: "F9E4E64A-CED9-4EB4-9C1F-6360083158FD",
+    createdDateString: "2023-12-08 13:49:26.542",
+    updatedDateString: "2023-12-08 13:49:26.542"
+}
+
 const body = {
-    eleaveInput: {
-        status: "Waiting for approve",
-        employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-        employeeFullName: "Hanh Nguyen Hong",
-        directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
-        managerFullName: "Nguyet Pham Minh",
-        leaveTypeId: "",
-        leaveTypeName: "",
-        leaveTime: "Full day",
-        startDate: "2023-12-08T00:00:00.000Z",
-        endDate: "2023-12-08T00:00:00.000Z",
-        totalDays: 1,
-
-        reason: "",
-
-        createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-        createdDate: null,
-        updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-        updatedDate: null,
-        isApprove: false,
-        isCancel: false,
-        isReject: false,
-        extendLeaveType: {
-            ID: "FFFFD914-6057-4286-A321-773680D400A9",
-            Name: "Annual",
-            Description: ""
-        },
-        totalAnnualLeave: 129.25199999999944,
-        totalLeaveApplied: 103.5,
-        totalRemainLeave: 25.75200000000011,
-        sqlId: "F9E4E64A-CED9-4EB4-9C1F-6360083158FD",
-        createdDateString: "2023-12-08 13:49:26.542",
-        updatedDateString: "2023-12-08 13:49:26.542"
-    }
+    eleaveInput: eleaveInput,
 }
 
 export function NewE_leaveForm() {
@@ -131,7 +162,10 @@ export function NewE_leaveForm() {
     async function onSubmit(data: NewE_leaveFormValues) {
 
         console.debug("New data", data)
+
         body.eleaveInput.reason = data.reason;
+        body.eleaveInput.startDate = data.dateRange.from;
+        body.eleaveInput.endDate = data.dateRange.to;
 
 
         let processId = await axios.get(
@@ -151,7 +185,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        // await initE_leaveProcess(processId)
+        await initE_leaveProcess(processId)
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
