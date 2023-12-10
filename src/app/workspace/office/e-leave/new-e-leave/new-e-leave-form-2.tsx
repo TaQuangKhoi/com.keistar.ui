@@ -30,6 +30,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {format} from "date-fns";
 import {CalendarIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
+import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -160,36 +161,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <FormField
-                            control={form.control}
-                            name="leaveType"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Leave Type</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a leave type"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {
-                                                leaveTypes.map((leaveType, index) => (
-                                                    <SelectItem key={index} value={leaveType.value}>
-                                                        {leaveType.value}
-                                                    </SelectItem>
-                                                ))
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                    {/*<FormDescription>*/}
-                                    {/*    You can manage verified email addresses in your{" "}*/}
-                                    {/*    <Link href="/examples/forms">email settings</Link>.*/}
-                                    {/*</FormDescription>*/}
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
+                        <LeaveTypeFormField form={form}/>
                         <FormField
                             control={form.control}
                             name="rememberMe"
