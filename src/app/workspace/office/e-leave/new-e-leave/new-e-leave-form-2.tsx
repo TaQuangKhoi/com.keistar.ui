@@ -6,18 +6,14 @@ import * as z from "zod"
 
 import {
     Form,
-    FormControl, FormDescription,
+    FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {toast} from "@/components/ui/use-toast";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button, buttonVariants} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
-import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
 import {Textarea} from "@/components/ui/textarea";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
@@ -26,10 +22,7 @@ import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/u
 
 import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {addDays, format} from "date-fns";
-import {CalendarIcon} from "lucide-react";
-import {Calendar} from "@/components/ui/calendar";
+import {addDays} from "date-fns";
 import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
@@ -57,22 +50,7 @@ const newE_leaveFormSchema = z.object({
 
 type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
 
-const leaveTypes = [
-    {value: "Sick Leave"},
-    {value: "Maternity Leave"},
-    {value: "Paternity Leave"},
-    {value: "Marriage Leave"},
-    {value: "Compassionate Leave"},
-    {value: "Unpaid Leave"},
-    {value: "Hospitalization Leave"},
-    {value: "Child Care Leave"},
-    {value: "Shared Parental Leave"},
-    {value: "National Service Leave"},
-    {value: "Others"},
-]
-
 const defaultValues: Partial<NewE_leaveFormValues> = {
-    leaveType: leaveTypes[0].value,
     rememberMe: false,
     dateRange: {
         from: new Date(),
@@ -150,6 +128,7 @@ const body = {
 
 export function NewE_leaveForm() {
 
+
     const form = useForm<NewE_leaveFormValues>({
         resolver: zodResolver(newE_leaveFormSchema), defaultValues,
         mode: "onChange",
@@ -195,6 +174,7 @@ export function NewE_leaveForm() {
         //     ),
         //     })
     }
+
 
     return (
         <Form {...form}>
