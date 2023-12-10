@@ -27,7 +27,7 @@ import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/u
 import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {format} from "date-fns";
+import {addDays, format} from "date-fns";
 import {CalendarIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
 import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
@@ -41,12 +41,14 @@ const newE_leaveFormSchema = z.object({
         }),
     rememberMe: z.boolean().optional(),
 
-    startDate: z.date({
-        required_error: "A start date is required.",
-    }),
-    // endDate: z.date({
-    //     required_error: "An end date is required.",
-    // }),
+    dateRange: z.object({
+        from: z.date({
+            required_error: "A start date is required.",
+        }),
+        to: z.date({
+            required_error: "An end date is required.",
+        }),
+    }).required(),
 
     reason: z.string().max(160).min(4),
 
@@ -72,6 +74,10 @@ const leaveTypes = [
 const defaultValues: Partial<NewE_leaveFormValues> = {
     leaveType: leaveTypes[0].value,
     rememberMe: false,
+    dateRange: {
+        from: new Date(),
+        to: addDays(new Date(), 2),
+    },
 }
 
 const body = {
@@ -188,52 +194,8 @@ export function NewE_leaveForm() {
                             )}
                         />
                     </div>
-                    <DatePickerWithRangeFormField form={form} toName="endDate" fromName="startDate"/>
 
-                    <FormField
-                        control={form.control}
-                        name="startDate"
-                        render={({field}) => (
-                            <FormItem className="flex flex-col">
-                                <FormLabel>Start Date</FormLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={"outline"}
-                                                className={cn(
-                                                    "w-[240px] pl-3 text-left font-normal",
-                                                    !field.value && "text-muted-foreground"
-                                                )}
-                                            >
-                                                {field.value ? (
-                                                    format(field.value, "PPP")
-                                                ) : (
-                                                    <span>Pick a date</span>
-                                                )}
-                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="single"
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() || date < new Date("1900-01-01")
-                                            }
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormDescription>
-                                    Start date must be before end date.
-                                </FormDescription>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
+                    <DatePickerWithRangeFormField form={form} className=""/>
 
                     <FormField
                         control={form.control}
@@ -256,6 +218,7 @@ export function NewE_leaveForm() {
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="attachments"
