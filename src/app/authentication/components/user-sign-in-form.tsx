@@ -45,10 +45,6 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         ).then(async (res) => {
             // redirect to dashboard
             if (res.status === 204) {
-
-                // save bonita token
-                const res = await getCurrentUserSession();
-                store.token = res.headers['x-bonita-api-token'];
                 router.push('/workspace/dashboard');
             }
         }).catch((err) => {
