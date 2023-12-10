@@ -6,7 +6,7 @@ import * as z from "zod"
 
 import {
     Form,
-    FormControl,
+    FormControl, FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -26,6 +26,10 @@ import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/u
 
 import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {format} from "date-fns";
+import {CalendarIcon} from "lucide-react";
+import {Calendar} from "@/components/ui/calendar";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -33,6 +37,14 @@ const newE_leaveFormSchema = z.object({
             required_error: "Please select a leave type.",
         }),
     rememberMe: z.boolean().optional(),
+
+    startDate: z.date({
+        required_error: "A start date is required.",
+    }),
+    // endDate: z.date({
+    //     required_error: "An end date is required.",
+    // }),
+
     reason: z.string().max(160).min(4),
 
     attachments: z.array(z.string()).optional(),
@@ -109,7 +121,7 @@ export function NewE_leaveForm() {
 
     async function onSubmit(data: NewE_leaveFormValues) {
 
-        console.debug("data", data)
+        console.debug("New data", data)
         body.eleaveInput.reason = data.reason;
 
 
@@ -130,7 +142,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        await initE_leaveProcess(processId)
+        // await initE_leaveProcess(processId)
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
@@ -208,6 +220,52 @@ export function NewE_leaveForm() {
                         </Label>
                         <DatePickerWithRange className="[&>button]:w-[260px]"/>
                     </div>
+
+                    <FormField
+                        control={form.control}
+                        name="startDate"
+                        render={({field}) => (
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Start Date</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-[240px] pl-3 text-left font-normal",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>Pick a date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            disabled={(date) =>
+                                                date > new Date() || date < new Date("1900-01-01")
+                                            }
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormDescription>
+                                    Start date must be before end date.
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+
                     <FormField
                         control={form.control}
                         name="reason"
