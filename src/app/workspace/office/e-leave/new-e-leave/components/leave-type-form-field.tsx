@@ -20,14 +20,16 @@ const leaveTypes = [
 export default function LeaveTypeFormField(
     {
         form,
+        name,
     }: {
         form: any,
+        name: string
     }
 ) {
     return (
         <FormField
             control={form.control}
-            name="leaveType"
+            name={name}
             render={({field}) => (
                 <FormItem>
                     <FormLabel>Leave Type</FormLabel>

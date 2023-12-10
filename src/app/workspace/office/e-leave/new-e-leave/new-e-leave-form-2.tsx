@@ -161,7 +161,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <LeaveTypeFormField form={form}/>
+                        <LeaveTypeFormField form={form} name="leaveType"/>
                         <FormField
                             control={form.control}
                             name="rememberMe"
