@@ -1,5 +1,9 @@
 import {default as axios} from "@/lib/axios-instance";
 
+interface Filter {
+    [key: string]: string;
+}
+
 /**
  *
  * @param businessDataType Business Data Type, Example: com.company.model.Employee
@@ -20,7 +24,7 @@ async function findsBusinessData(
     q: string,
     p: number,
     c: number,
-    filter: Object = {},
+    filter: Filter = {},
 ) {
     let url = '/API/bdm/businessData/' + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c
 
