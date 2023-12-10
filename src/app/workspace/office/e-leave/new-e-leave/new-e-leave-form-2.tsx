@@ -188,7 +188,7 @@ export function NewE_leaveForm() {
                             )}
                         />
                     </div>
-                    <DatePickerWithRangeFormField/>
+                    <DatePickerWithRangeFormField form={form} toName="endDate" fromName="startDate"/>
 
                     <FormField
                         control={form.control}
