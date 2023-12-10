@@ -31,6 +31,8 @@ import {format} from "date-fns";
 import {CalendarIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
 import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
+import DatePickerWithRangeFormField
+    from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -186,12 +188,7 @@ export function NewE_leaveForm() {
                             )}
                         />
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="date" className="shrink-0">
-                            Pick a date
-                        </Label>
-                        <DatePickerWithRange className="[&>button]:w-[260px]"/>
-                    </div>
+                    <DatePickerWithRangeFormField/>
 
                     <FormField
                         control={form.control}
