@@ -15,6 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import LogoutDropdownMenuItem from "@/app/workspace/components/logout-dropdown-menu-item";
+import UserInfoDropdownMenuLabel from "@/app/workspace/components/user-info-dropdown-menu-label";
 
 export function UserNav() {
     return (
@@ -28,14 +29,7 @@ export function UserNav() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">shadcn</p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                            m@example.com
-                        </p>
-                    </div>
-                </DropdownMenuLabel>
+                <UserInfoDropdownMenuLabel/>
                 <DropdownMenuSeparator/>
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
