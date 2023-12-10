@@ -1,6 +1,6 @@
 // Source: https://uiverse.io/Yaya12085/tender-moose-95
 
-export default function UpdateFiles() {
+export default function UploadFiles() {
     return (
         <label className="dark:bg-[--background] h-[200px] w-auto flex flex-col gap-5 cursor-pointer items-center justify-center bg-white shadow-[0px_48px_35px_-48px_rgba(0,0,0,0.1)] p-6 rounded-[10px] border-2 border-dashed border-[#cacaca]" htmlFor="file">
             <div className="flex items-center justify-center">

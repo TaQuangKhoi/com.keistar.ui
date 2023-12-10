@@ -6,7 +6,7 @@ import * as z from "zod"
 
 import {
     Form,
-    FormControl,
+    FormControl, FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -22,10 +22,17 @@ import {Textarea} from "@/components/ui/textarea";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import UpdateFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
+import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
 import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {addDays, format} from "date-fns";
+import {CalendarIcon} from "lucide-react";
+import {Calendar} from "@/components/ui/calendar";
+import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
+import DatePickerWithRangeFormField
+    from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 
 const newE_leaveFormSchema = z.object({
     leaveType: z
@@ -33,7 +40,17 @@ const newE_leaveFormSchema = z.object({
             required_error: "Please select a leave type.",
         }),
     rememberMe: z.boolean().optional(),
-    about: z.string().max(160).min(4),
+
+    dateRange: z.object({
+        from: z.date({
+            required_error: "A start date is required.",
+        }),
+        to: z.date({
+            required_error: "An end date is required.",
+        }),
+    }).required(),
+
+    reason: z.string().max(160).min(4),
 
     attachments: z.array(z.string()).optional(),
 })
@@ -57,6 +74,10 @@ const leaveTypes = [
 const defaultValues: Partial<NewE_leaveFormValues> = {
     leaveType: leaveTypes[0].value,
     rememberMe: false,
+    dateRange: {
+        from: new Date(),
+        to: addDays(new Date(), 2),
+    },
 }
 
 const body = {
@@ -72,7 +93,9 @@ const body = {
         startDate: "2023-12-08T00:00:00.000Z",
         endDate: "2023-12-08T00:00:00.000Z",
         totalDays: 1,
-        leaveReason: "Test",
+
+        reason: "",
+
         createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
         createdDate: null,
         updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
@@ -106,8 +129,13 @@ export function NewE_leaveForm() {
     }
 
     async function onSubmit(data: NewE_leaveFormValues) {
+
+        console.debug("New data", data)
+        body.eleaveInput.reason = data.reason;
+
+
         let processId = await axios.get(
-            process.env.NEXT_PUBLIC_BONITA_URL + '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
+            '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
             {
                 withCredentials: true,
             }
@@ -123,7 +151,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        await initE_leaveProcess(processId)
+        // await initE_leaveProcess(processId)
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
@@ -141,36 +169,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <FormField
-                            control={form.control}
-                            name="leaveType"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Leave Type</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a leave type"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {
-                                                leaveTypes.map((leaveType, index) => (
-                                                    <SelectItem key={index} value={leaveType.value}>
-                                                        {leaveType.value}
-                                                    </SelectItem>
-                                                ))
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                    {/*<FormDescription>*/}
-                                    {/*    You can manage verified email addresses in your{" "}*/}
-                                    {/*    <Link href="/examples/forms">email settings</Link>.*/}
-                                    {/*</FormDescription>*/}
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
+                        <LeaveTypeFormField form={form} name="leaveType"/>
                         <FormField
                             control={form.control}
                             name="rememberMe"
@@ -195,18 +194,15 @@ export function NewE_leaveForm() {
                             )}
                         />
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="date" className="shrink-0">
-                            Pick a date
-                        </Label>
-                        <DatePickerWithRange className="[&>button]:w-[260px]"/>
-                    </div>
+
+                    <DatePickerWithRangeFormField form={form} className=""/>
+
                     <FormField
                         control={form.control}
-                        name="about"
+                        name="reason"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>About</FormLabel>
+                                <FormLabel>Reason</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Include comments for your approver"
@@ -222,6 +218,7 @@ export function NewE_leaveForm() {
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="attachments"
@@ -229,7 +226,7 @@ export function NewE_leaveForm() {
                             <FormItem>
                                 <FormLabel>Attachments</FormLabel>
                                 <FormControl>
-                                    <UpdateFiles/>
+                                    <UploadFiles/>
                                 </FormControl>
                                 {/*<FormDescription>*/}
                                 {/*    You can <span>@mention</span> other users and organizations to*/}
