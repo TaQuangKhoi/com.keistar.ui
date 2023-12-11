@@ -28,7 +28,7 @@ import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 
 const newE_leaveFormSchema = z.object({
-    leaveType: z
+    leaveTypeId: z
         .string({
             required_error: "Please select a leave type.",
         }),
@@ -58,14 +58,13 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
     },
 }
 
-interface EleaveInput {
+interface E_leaveInput {
     status: string;
     employeeId: string;
     employeeFullName: string;
     directManagerId: string;
     managerFullName: string;
-    leaveTypeId: string;
-    leaveTypeName: string;
+    leaveTypeId: number;
     leaveTime: string;
     startDate: Date;
     endDate: Date;
@@ -87,14 +86,14 @@ interface EleaveInput {
     updatedDateString: string;
 }
 
-let eleaveInput: EleaveInput = {
+let eleaveInput: E_leaveInput = {
     status: "Waiting for approve",
     employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
     employeeFullName: "Hanh Nguyen Hong",
     directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
     managerFullName: "Nguyet Pham Minh",
-    leaveTypeId: "",
-    leaveTypeName: "",
+    leaveTypeId: 0,
+
     leaveTime: "Full day",
     startDate: new Date(),
     endDate: new Date(),
@@ -142,6 +141,7 @@ export function NewE_leaveForm() {
 
         console.debug("New data", data)
 
+        body.eleaveInput.leaveTypeId = parseInt(data.leaveTypeId);
         body.eleaveInput.reason = data.reason;
         body.eleaveInput.startDate = data.dateRange.from;
         body.eleaveInput.endDate = data.dateRange.to;
@@ -183,7 +183,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <LeaveTypeFormField form={form} name="leaveType"/>
+                        <LeaveTypeFormField form={form} name="leaveTypeId"/>
                         <FormField
                             control={form.control}
                             name="rememberMe"
