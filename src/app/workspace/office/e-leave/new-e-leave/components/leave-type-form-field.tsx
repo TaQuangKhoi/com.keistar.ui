@@ -27,12 +27,14 @@ export default function LeaveTypeFormField(
         form,
         label,
         name,
+        placeholder = "Select an option",
         options = [],
         valueKey = "value",
     }: {
         form: UseFormReturn<any>,
         label: string,
         name: string,
+        placeholder?: string,
         options: any[],
         valueKey?: string
     }
@@ -65,7 +67,7 @@ export default function LeaveTypeFormField(
                             <Select onValueChange={field.onChange} defaultValue={options[0][valueKey]}>
                             <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a leave type"/>
+                                        <SelectValue placeholder={placeholder}/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
