@@ -68,9 +68,9 @@ export default function LeaveTypeFormField(
                                 </FormControl>
                                 <SelectContent>
                                     {
-                                        options.map((leaveType, index) => (
-                                            <SelectItem key={index} value={leaveType.persistenceId_string}>
-                                                {leaveType.name}
+                                        options.map((option, index) => (
+                                            <SelectItem key={index} value={option.persistenceId_string}>
+                                                {option.name}
                                             </SelectItem>
                                         ))
                                     }
