@@ -27,12 +27,14 @@ export default function LeaveTypeFormField(
         form,
         label,
         name,
-        options = []
+        options = [],
+        valueKey = "value",
     }: {
         form: UseFormReturn<any>,
         label: string,
         name: string,
-        options: any[]
+        options: any[],
+        valueKey?: string
     }
 ) {
     return (
@@ -60,7 +62,7 @@ export default function LeaveTypeFormField(
                     }
                     {
                         options.length > 0 && (
-                            <Select onValueChange={field.onChange} defaultValue={options[0].persistenceId_string}>
+                            <Select onValueChange={field.onChange} defaultValue={options[0][valueKey]}>
                             <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a leave type"/>
@@ -69,7 +71,7 @@ export default function LeaveTypeFormField(
                                 <SelectContent>
                                     {
                                         options.map((option, index) => (
-                                            <SelectItem key={index} value={option.persistenceId_string}>
+                                            <SelectItem key={index} value={option[valueKey]}>
                                                 {option.name}
                                             </SelectItem>
                                         ))

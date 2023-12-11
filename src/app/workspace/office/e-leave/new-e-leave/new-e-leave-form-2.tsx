@@ -213,7 +213,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <LeaveTypeFormField form={form} name="leaveTypeId" options={options} label="Leave Type"/>
+                        <LeaveTypeFormField form={form} name="leaveTypeId" options={options} label="Leave Type" valueKey="persistenceId_string"/>
                         <FormField
                             control={form.control}
                             name="rememberMe"
