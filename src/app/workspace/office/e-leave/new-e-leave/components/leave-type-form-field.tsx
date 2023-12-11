@@ -34,37 +34,25 @@ interface LeaveType {
 export default function LeaveTypeFormField(
     {
         form,
+        label,
         name,
+        options = []
     }: {
         form: UseFormReturn<any>,
-        name: string
+        label: string,
+        name: string,
+        options: any[]
     }
 ) {
-    const [options, setOptions] = useState([] as LeaveType[])
-
-    useEffect(() => {
-        const getLeaveType = async () => {
-            await findsBusinessData(
-                "com.havako.model.office.LeaveType", "find", 0, 20
-            ).then(function (response) {
-
-                // set default value
-                form.setValue(name, response.data[0].persistenceId_string)
-
-                setOptions(response.data)
-            })
-        };
-
-        getLeaveType();
-    }, [])
-
     return (
         <FormField
             control={form.control}
             name={name}
             render={({field}) => (
                 <FormItem>
-                    <FormLabel>Leave Type</FormLabel>
+                    <FormLabel>
+                        {label}
+                    </FormLabel>
                     {
                         options.length === 0 && (
                             <Select>

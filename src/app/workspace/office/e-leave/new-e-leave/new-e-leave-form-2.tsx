@@ -26,6 +26,8 @@ import {addDays} from "date-fns";
 import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
+import {useEffect, useState} from "react";
+import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
 
 const newE_leaveFormSchema = z.object({
     leaveTypeId: z
@@ -126,6 +128,23 @@ const body = {
 }
 
 export function NewE_leaveForm() {
+    const [options, setOptions] = useState([] as LeaveType[])
+
+    useEffect(() => {
+        const getLeaveType = async () => {
+            await findsBusinessData(
+                "com.havako.model.office.LeaveType", "find", 0, 20
+            ).then(function (response) {
+
+                // set default value
+                form.setValue(name, response.data[0].persistenceId_string)
+
+                setOptions(response.data)
+            })
+        };
+
+        getLeaveType();
+    }, [])
 
 
     const form = useForm<NewE_leaveFormValues>({
@@ -183,7 +202,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <LeaveTypeFormField form={form} name="leaveTypeId"/>
+                        <LeaveTypeFormField form={form} name="leaveTypeId" options={options} label="Leave Type"/>
                         <FormField
                             control={form.control}
                             name="rememberMe"
