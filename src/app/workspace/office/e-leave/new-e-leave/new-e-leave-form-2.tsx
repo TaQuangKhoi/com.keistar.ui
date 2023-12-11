@@ -285,7 +285,11 @@ export function NewE_leaveForm() {
                                     <FormItem>
                                         <FormLabel>Total days</FormLabel>
                                         <FormControl>
-                                            <Input type="text" placeholder="Total days" disabled={true} value={field.value}/>
+                                            <Input type="text"
+                                                   placeholder="Total days"
+                                                   {...field}
+                                                   disabled={true}
+                                            />
                                         </FormControl>
                                         {/*<FormDescription>*/}
                                         {/*    You can <span>@mention</span> other users and organizations to*/}
