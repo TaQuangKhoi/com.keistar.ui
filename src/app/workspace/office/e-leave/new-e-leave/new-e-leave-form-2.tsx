@@ -23,7 +23,7 @@ import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/u
 import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
 import {addDays} from "date-fns";
-import LeaveTypeFormField from "@/app/workspace/office/e-leave/new-e-leave/components/leave-type-form-field";
+import SelectFormField from "@/app/workspace/office/e-leave/new-e-leave/components/select-form-field";
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 import {useEffect, useState} from "react";
@@ -213,7 +213,7 @@ export function NewE_leaveForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
                     <div className="flex-row space-y-2">
-                        <LeaveTypeFormField
+                        <SelectFormField
                             form={form} name="leaveTypeId"
                             options={options}
                             label="Leave Type"

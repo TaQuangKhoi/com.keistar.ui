@@ -22,7 +22,7 @@ const leaveTypes = [
 
 
 
-export default function LeaveTypeFormField(
+export default function SelectFormField(
     {
         form,
         label,
