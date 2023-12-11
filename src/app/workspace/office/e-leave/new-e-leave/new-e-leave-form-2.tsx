@@ -36,6 +36,9 @@ const newE_leaveFormSchema = z.object({
         }),
     rememberMe: z.boolean().optional(),
 
+    dateStatus: z.string().optional(),
+    totalDays: z.number().optional(),
+
     dateRange: z.object({
         from: z.date({
             required_error: "A start date is required.",
