@@ -58,7 +58,7 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
     },
 }
 
-interface EleaveInput {
+interface E_leaveInput {
     status: string;
     employeeId: string;
     employeeFullName: string;
@@ -87,7 +87,7 @@ interface EleaveInput {
     updatedDateString: string;
 }
 
-let eleaveInput: EleaveInput = {
+let eleaveInput: E_leaveInput = {
     status: "Waiting for approve",
     employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
     employeeFullName: "Hanh Nguyen Hong",
