@@ -41,6 +41,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.16",
     "jotai": "^2.5.1",
     "jotai-tanstack-query": "^0.7.2",
     "lodash.template": "^4.5.0",
