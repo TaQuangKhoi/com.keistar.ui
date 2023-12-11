@@ -60,6 +60,17 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
     },
 }
 
+interface LeaveType {
+    description: string,
+    isActive: boolean,
+    name: string,
+    persistenceId: number,
+    persistenceId_string: string,
+    persistenceVersion: number,
+    persistenceVersion_string: string,
+
+}
+
 interface E_leaveInput {
     status: string;
     employeeId: string;
@@ -137,7 +148,7 @@ export function NewE_leaveForm() {
             ).then(function (response) {
 
                 // set default value
-                form.setValue(name, response.data[0].persistenceId_string)
+                form.setValue("leaveTypeId", response.data[0].persistenceId_string)
 
                 setOptions(response.data)
             })

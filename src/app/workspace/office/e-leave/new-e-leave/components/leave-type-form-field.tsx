@@ -19,16 +19,7 @@ const leaveTypes = [
     {value: "Others"},
 ]
 
-interface LeaveType {
-    description: string,
-    isActive: boolean,
-    name: string,
-    persistenceId: number,
-    persistenceId_string: string,
-    persistenceVersion: number,
-    persistenceVersion_string: string,
 
-}
 
 
 export default function LeaveTypeFormField(
