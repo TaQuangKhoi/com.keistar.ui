@@ -1,8 +1,8 @@
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {UseFormReturn} from "react-hook-form";
-import {useEffect, useState} from "react";
-import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
+import {Loader2} from 'lucide-react';
+import {motion} from "framer-motion";
 
 
 const leaveTypes = [
@@ -19,74 +19,62 @@ const leaveTypes = [
     {value: "Others"},
 ]
 
-interface LeaveType {
-    description: string,
-    isActive: boolean,
-    name: string,
-    persistenceId: number,
-    persistenceId_string: string,
-    persistenceVersion: number,
-    persistenceVersion_string: string,
-
-}
 
 
-export default function LeaveTypeFormField(
+
+export default function SelectFormField(
     {
         form,
+        label,
         name,
+        placeholder = "Select an option",
+        options = [],
+        valueKey = "value",
     }: {
         form: UseFormReturn<any>,
-        name: string
+        label: string,
+        name: string,
+        placeholder?: string,
+        options: any[],
+        valueKey?: string
     }
 ) {
-    const [leaveTypes, setLeaveTypes] = useState([] as LeaveType[])
-
-    useEffect(() => {
-        const getLeaveType = async () => {
-            await findsBusinessData(
-                "com.havako.model.office.LeaveType", "find", 0, 20
-            ).then(function (response) {
-
-                // set default value
-                form.setValue(name, response.data[0].persistenceId_string)
-
-                setLeaveTypes(response.data)
-            })
-        };
-
-        getLeaveType();
-    }, [])
-
     return (
         <FormField
             control={form.control}
             name={name}
             render={({field}) => (
                 <FormItem>
-                    <FormLabel>Leave Type</FormLabel>
+                    <FormLabel>
+                        {label}
+                    </FormLabel>
                     {
-                        leaveTypes.length === 0 && (
+                        options.length === 0 && (
                             <Select>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Loading"/>
+                                    <motion.div
+                                        animate={{rotate: 360}}
+                                        transition={{repeat: Infinity, duration: 1, ease: "linear"}}
+                                    >
+                                        <Loader2/>
+                                    </motion.div>
                                 </SelectTrigger>
                             </Select>
                         )
                     }
                     {
-                        leaveTypes.length > 0 && (
-                            <Select onValueChange={field.onChange} defaultValue={leaveTypes[0].persistenceId_string}>
-                                <FormControl>
+                        options.length > 0 && (
+                            <Select onValueChange={field.onChange} defaultValue={options[0][valueKey]}>
+                            <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a leave type"/>
+                                        <SelectValue placeholder={placeholder}/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
                                     {
-                                        leaveTypes.map((leaveType, index) => (
-                                            <SelectItem key={index} value={leaveType.persistenceId_string}>
-                                                {leaveType.name}
+                                        options.map((option, index) => (
+                                            <SelectItem key={index} value={option[valueKey]}>
+                                                {option.name}
                                             </SelectItem>
                                         ))
                                     }
