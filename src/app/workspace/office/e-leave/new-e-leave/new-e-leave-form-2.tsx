@@ -141,6 +141,22 @@ const body = {
     eleaveInput: eleaveInput,
 }
 
+const dateStatus = [
+    {
+        value: "full",
+        label: "Full day",
+    },
+    {
+        value: "am",
+        label: "Morning",
+    },
+    {
+        value: "pm",
+        label: "Afternoon",
+    },
+
+]
+
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
 
