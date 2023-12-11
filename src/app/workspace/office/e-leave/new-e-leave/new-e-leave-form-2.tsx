@@ -28,6 +28,7 @@ import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 import {useEffect, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
+import {Input} from "@/components/ui/input";
 
 const newE_leaveFormSchema = z.object({
     leaveTypeId: z
@@ -35,6 +36,9 @@ const newE_leaveFormSchema = z.object({
             required_error: "Please select a leave type.",
         }),
     rememberMe: z.boolean().optional(),
+
+    dateStatus: z.string().optional(),
+    totalDays: z.number().optional(),
 
     dateRange: z.object({
         from: z.date({
@@ -68,7 +72,6 @@ interface LeaveType {
     persistenceId_string: string,
     persistenceVersion: number,
     persistenceVersion_string: string,
-
 }
 
 interface E_leaveInput {
@@ -137,6 +140,22 @@ let eleaveInput: E_leaveInput = {
 const body = {
     eleaveInput: eleaveInput,
 }
+
+const dateStatus = [
+    {
+        value: "full",
+        label: "Full day",
+    },
+    {
+        value: "am",
+        label: "Morning",
+    },
+    {
+        value: "pm",
+        label: "Afternoon",
+    },
+
+]
 
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
@@ -244,6 +263,40 @@ export function NewE_leaveForm() {
                             )}
                         />
                     </div>
+
+                    <div className="flex gap-5">
+                        <div className="w-full">
+                            <SelectFormField
+                                form={form} name="dateStatus"
+                                options={dateStatus}
+                                label="Date Status"
+                                valueKey="value"
+                                nameKey="label"
+                                placeholder={"Select a date status"}
+                            />
+                        </div>
+
+                        <div className="w-full">
+                            <FormField
+                                control={form.control}
+                                name="totalDays"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Total days</FormLabel>
+                                        <FormControl>
+                                            <Input type="text" placeholder="Total days" disabled={true} value={field.value}/>
+                                        </FormControl>
+                                        {/*<FormDescription>*/}
+                                        {/*    You can <span>@mention</span> other users and organizations to*/}
+                                        {/*    link to them.*/}
+                                        {/*</FormDescription>*/}
+                                        <FormMessage/>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+
 
                     <DatePickerWithRangeFormField form={form} className=""/>
 

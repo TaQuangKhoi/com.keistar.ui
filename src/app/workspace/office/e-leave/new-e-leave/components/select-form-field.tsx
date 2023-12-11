@@ -30,13 +30,15 @@ export default function SelectFormField(
         placeholder = "Select an option",
         options = [],
         valueKey = "value",
+        nameKey = "name",
     }: {
         form: UseFormReturn<any>,
         label: string,
         name: string,
         placeholder?: string,
         options: any[],
-        valueKey?: string
+        valueKey?: string,
+        nameKey?: string,
     }
 ) {
     return (
@@ -74,7 +76,7 @@ export default function SelectFormField(
                                     {
                                         options.map((option, index) => (
                                             <SelectItem key={index} value={option[valueKey]}>
-                                                {option.name}
+                                                {option[nameKey]}
                                             </SelectItem>
                                         ))
                                     }
