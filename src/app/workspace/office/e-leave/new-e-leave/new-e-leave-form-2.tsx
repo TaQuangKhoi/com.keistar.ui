@@ -28,6 +28,7 @@ import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 import {useEffect, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
+import {Input} from "@/components/ui/input";
 
 const newE_leaveFormSchema = z.object({
     leaveTypeId: z
@@ -71,7 +72,6 @@ interface LeaveType {
     persistenceId_string: string,
     persistenceVersion: number,
     persistenceVersion_string: string,
-
 }
 
 interface E_leaveInput {
@@ -263,6 +263,40 @@ export function NewE_leaveForm() {
                             )}
                         />
                     </div>
+
+                    <div className="flex gap-5">
+                        <div className="w-full">
+                            <SelectFormField
+                                form={form} name="dateStatus"
+                                options={dateStatus}
+                                label="Date Status"
+                                valueKey="value"
+                                nameKey="label"
+                                placeholder={"Select a date status"}
+                            />
+                        </div>
+
+                        <div className="w-full">
+                            <FormField
+                                control={form.control}
+                                name="totalDays"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Total days</FormLabel>
+                                        <FormControl>
+                                            <Input type="text" placeholder="Total days" disabled={true} value={field.value}/>
+                                        </FormControl>
+                                        {/*<FormDescription>*/}
+                                        {/*    You can <span>@mention</span> other users and organizations to*/}
+                                        {/*    link to them.*/}
+                                        {/*</FormDescription>*/}
+                                        <FormMessage/>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+
 
                     <DatePickerWithRangeFormField form={form} className=""/>
 
