@@ -1,8 +1,8 @@
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {UseFormReturn} from "react-hook-form";
-import {useEffect, useState} from "react";
-import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
+import {Loader2} from 'lucide-react';
+import {motion} from "framer-motion";
 
 
 const leaveTypes = [
@@ -57,7 +57,12 @@ export default function LeaveTypeFormField(
                         options.length === 0 && (
                             <Select>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Loading"/>
+                                    <motion.div
+                                        animate={{rotate: 360}}
+                                        transition={{repeat: Infinity, duration: 1, ease: "linear"}}
+                                    >
+                                        <Loader2/>
+                                    </motion.div>
                                 </SelectTrigger>
                             </Select>
                         )
@@ -65,7 +70,7 @@ export default function LeaveTypeFormField(
                     {
                         options.length > 0 && (
                             <Select onValueChange={field.onChange} defaultValue={options[0].persistenceId_string}>
-                                <FormControl>
+                            <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a leave type"/>
                                     </SelectTrigger>
