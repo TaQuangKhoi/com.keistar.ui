@@ -40,7 +40,7 @@ export default function LeaveTypeFormField(
         name: string
     }
 ) {
-    const [leaveTypes, setLeaveTypes] = useState([] as LeaveType[])
+    const [options, setOptions] = useState([] as LeaveType[])
 
     useEffect(() => {
         const getLeaveType = async () => {
@@ -51,7 +51,7 @@ export default function LeaveTypeFormField(
                 // set default value
                 form.setValue(name, response.data[0].persistenceId_string)
 
-                setLeaveTypes(response.data)
+                setOptions(response.data)
             })
         };
 
@@ -66,7 +66,7 @@ export default function LeaveTypeFormField(
                 <FormItem>
                     <FormLabel>Leave Type</FormLabel>
                     {
-                        leaveTypes.length === 0 && (
+                        options.length === 0 && (
                             <Select>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Loading"/>
@@ -75,8 +75,8 @@ export default function LeaveTypeFormField(
                         )
                     }
                     {
-                        leaveTypes.length > 0 && (
-                            <Select onValueChange={field.onChange} defaultValue={leaveTypes[0].persistenceId_string}>
+                        options.length > 0 && (
+                            <Select onValueChange={field.onChange} defaultValue={options[0].persistenceId_string}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a leave type"/>
@@ -84,7 +84,7 @@ export default function LeaveTypeFormField(
                                 </FormControl>
                                 <SelectContent>
                                     {
-                                        leaveTypes.map((leaveType, index) => (
+                                        options.map((leaveType, index) => (
                                             <SelectItem key={index} value={leaveType.persistenceId_string}>
                                                 {leaveType.name}
                                             </SelectItem>
