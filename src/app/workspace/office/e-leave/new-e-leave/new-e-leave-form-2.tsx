@@ -58,6 +58,7 @@ type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
 
 const defaultValues: Partial<NewE_leaveFormValues> = {
     rememberMe: false,
+    totalDays: 0,
     dateRange: {
         from: new Date(),
         to: addDays(new Date(), 2),
