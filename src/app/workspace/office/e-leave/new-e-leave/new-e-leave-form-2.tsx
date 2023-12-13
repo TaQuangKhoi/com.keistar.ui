@@ -142,7 +142,7 @@ const body = {
     eleaveInput: eleaveInput,
 }
 
-const dateStatus = [
+const dateStatuses = [
     {
         value: "full",
         label: "Full day",
@@ -272,7 +272,7 @@ export function NewE_leaveForm() {
                         <div className="w-full">
                             <SelectFormField
                                 form={form} name="dateStatus"
-                                options={dateStatus}
+                                options={dateStatuses}
                                 label="Date Status"
                                 valueKey="value"
                                 nameKey="label"
