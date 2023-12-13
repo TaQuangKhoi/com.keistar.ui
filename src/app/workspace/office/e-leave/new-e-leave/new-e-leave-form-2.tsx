@@ -1,7 +1,7 @@
 "use client"
 
 import {zodResolver} from "@hookform/resolvers/zod"
-import {useForm} from "react-hook-form"
+import {useForm, useWatch} from "react-hook-form"
 import * as z from "zod"
 
 import {
@@ -26,43 +26,16 @@ import {addDays} from "date-fns";
 import SelectFormField from "@/app/workspace/office/e-leave/new-e-leave/components/select-form-field";
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
 import {Input} from "@/components/ui/input";
+import {differenceInBusinessDays, differenceInCalendarDays, differenceInDays} from 'date-fns';
+import {
+    defaultValues,
+    newE_leaveFormSchema,
+    NewE_leaveFormValues
+} from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 
-const newE_leaveFormSchema = z.object({
-    leaveTypeId: z
-        .string({
-            required_error: "Please select a leave type.",
-        }),
-    rememberMe: z.boolean().optional(),
-
-    dateStatus: z.string().optional(),
-    totalDays: z.number().optional(),
-
-    dateRange: z.object({
-        from: z.date({
-            required_error: "A start date is required.",
-        }),
-        to: z.date({
-            required_error: "An end date is required.",
-        }),
-    }).required(),
-
-    reason: z.string().max(160).min(4),
-
-    attachments: z.array(z.string()).optional(),
-})
-
-type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
-
-const defaultValues: Partial<NewE_leaveFormValues> = {
-    rememberMe: false,
-    dateRange: {
-        from: new Date(),
-        to: addDays(new Date(), 2),
-    },
-}
 
 interface LeaveType {
     description: string,
@@ -141,7 +114,7 @@ const body = {
     eleaveInput: eleaveInput,
 }
 
-const dateStatus = [
+const dateStatuses = [
     {
         value: "full",
         label: "Full day",
@@ -159,7 +132,31 @@ const dateStatus = [
 
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
+    const form = useForm<NewE_leaveFormValues>(
+        {
+            resolver: zodResolver(newE_leaveFormSchema),
+            defaultValues,
+            mode: "onChange",
+        },
+    )
+    const dateRange = useWatch(
+        {
+            control: form.control,
+            name: "dateRange",
+        }
+    )
+    const dateStatus = useWatch(
+        {
+            control: form.control,
+            name: "dateStatus",
+        }
+    )
+    const [totalDays, setTotalDays] = useState(0)
 
+
+    /**
+     * Get leave type from bonita
+     */
     useEffect(() => {
         const getLeaveType = async () => {
             await findsBusinessData(
@@ -177,23 +174,23 @@ export function NewE_leaveForm() {
     }, [])
 
 
-    const form = useForm<NewE_leaveFormValues>({
-        resolver: zodResolver(newE_leaveFormSchema), defaultValues,
-        mode: "onChange",
-    })
-
-    async function initE_leaveProcess(processId: string) {
-        let res = await instantiateProcess(processId, body);
-    }
-
     async function onSubmit(data: NewE_leaveFormValues) {
+        const neweleaveInput = Object.assign(body.eleaveInput, {
+            leaveTypeId: parseInt(data.leaveTypeId),
+            reason: data.reason,
+            startDate: data.dateRange.from,
+            endDate: data.dateRange.to,
+            totalDays: data.totalDays,
+        });
 
-        console.debug("New data", data)
+        const newBody = {
+            eleaveInput: neweleaveInput,
+        }
 
-        body.eleaveInput.leaveTypeId = parseInt(data.leaveTypeId);
-        body.eleaveInput.reason = data.reason;
-        body.eleaveInput.startDate = data.dateRange.from;
-        body.eleaveInput.endDate = data.dateRange.to;
+        // body.eleaveInput.leaveTypeId = parseInt(data.leaveTypeId);
+        // body.eleaveInput.reason = data.reason;
+        // body.eleaveInput.startDate = data.dateRange.from;
+        // body.eleaveInput.endDate = data.dateRange.to;
 
 
         let processId = await axios.get(
@@ -213,7 +210,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        await initE_leaveProcess(processId)
+        await instantiateProcess(processId, newBody);
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
@@ -223,6 +220,51 @@ export function NewE_leaveForm() {
         //     ),
         //     })
     }
+
+
+    function getTotalDays() {
+        let diffInDays = differenceInBusinessDays(
+            form.getValues("dateRange")?.to,
+            form.getValues("dateRange")?.from
+        );
+
+        let _totalDays = 0;
+        switch (dateStatus) {
+            case "full":
+                _totalDays = diffInDays + 1;
+                break;
+            case "am":
+                _totalDays = diffInDays + 0.5;
+                break;
+            case "pm":
+                _totalDays = diffInDays + 0.5;
+                break;
+            default:
+                _totalDays = 0;
+                break;
+        }
+
+        return _totalDays;
+    }
+
+    function updateTotalDays(totalDays: number) {
+        // check if totalDays is NaN
+        if (isNaN(totalDays)) {
+            totalDays = 0;
+        }
+        form.setValue("totalDays", totalDays);
+        setTotalDays(totalDays);
+    }
+
+
+    /**
+     * Update total days
+     */
+    useEffect(() => {
+        let _totalDays = getTotalDays();
+        console.debug("_totalDays", _totalDays)
+        updateTotalDays(_totalDays)
+    }, [dateRange, dateStatus]);
 
 
     return (
@@ -268,7 +310,7 @@ export function NewE_leaveForm() {
                         <div className="w-full">
                             <SelectFormField
                                 form={form} name="dateStatus"
-                                options={dateStatus}
+                                options={dateStatuses}
                                 label="Date Status"
                                 valueKey="value"
                                 nameKey="label"
@@ -284,7 +326,11 @@ export function NewE_leaveForm() {
                                     <FormItem>
                                         <FormLabel>Total days</FormLabel>
                                         <FormControl>
-                                            <Input type="text" placeholder="Total days" disabled={true} value={field.value}/>
+                                            <Input type="text"
+                                                   placeholder="Total days"
+                                                   {...field}
+                                                   disabled={true}
+                                            />
                                         </FormControl>
                                         {/*<FormDescription>*/}
                                         {/*    You can <span>@mention</span> other users and organizations to*/}
