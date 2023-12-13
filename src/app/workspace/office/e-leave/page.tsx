@@ -1,7 +1,8 @@
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import {Calendar} from 'antd';
+import E_leaveCalendar from "@/app/workspace/office/e-leave/e-leave-calendar";
+
 
 export default function E_leavePage() {
     return (
@@ -9,7 +10,7 @@ export default function E_leavePage() {
             <Link href={'e-leave/new-e-leave'} className={cn(buttonVariants({variant: "default"}))}>
                 New E-leave
             </Link>
-            <Calendar/>
+            <E_leaveCalendar/>
         </div>
     )
 }
