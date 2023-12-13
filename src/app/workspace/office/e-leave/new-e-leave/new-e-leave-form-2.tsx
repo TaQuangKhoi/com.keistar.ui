@@ -179,6 +179,8 @@ export function NewE_leaveForm() {
             name: "dateStatus",
         }
     )
+    const [totalDays, setTotalDays] = useState(0)
+
 
     useEffect(() => {
         const getLeaveType = async () => {
