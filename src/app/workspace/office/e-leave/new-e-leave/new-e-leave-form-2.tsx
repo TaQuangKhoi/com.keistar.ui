@@ -174,18 +174,23 @@ export function NewE_leaveForm() {
     }, [])
 
 
-    async function initE_leaveProcess(processId: string) {
-        let res = await instantiateProcess(processId, body);
-    }
-
     async function onSubmit(data: NewE_leaveFormValues) {
+        const neweleaveInput = Object.assign(body.eleaveInput, {
+            leaveTypeId: parseInt(data.leaveTypeId),
+            reason: data.reason,
+            startDate: data.dateRange.from,
+            endDate: data.dateRange.to,
+            totalDays: data.totalDays,
+        });
 
-        console.debug("New data", data)
+        const newBody = {
+            eleaveInput: neweleaveInput,
+        }
 
-        body.eleaveInput.leaveTypeId = parseInt(data.leaveTypeId);
-        body.eleaveInput.reason = data.reason;
-        body.eleaveInput.startDate = data.dateRange.from;
-        body.eleaveInput.endDate = data.dateRange.to;
+        // body.eleaveInput.leaveTypeId = parseInt(data.leaveTypeId);
+        // body.eleaveInput.reason = data.reason;
+        // body.eleaveInput.startDate = data.dateRange.from;
+        // body.eleaveInput.endDate = data.dateRange.to;
 
 
         let processId = await axios.get(
@@ -205,7 +210,7 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        await initE_leaveProcess(processId)
+        await instantiateProcess(processId, newBody);
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
