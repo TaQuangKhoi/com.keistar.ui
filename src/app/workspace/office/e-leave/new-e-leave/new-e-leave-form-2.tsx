@@ -167,6 +167,18 @@ export function NewE_leaveForm() {
             mode: "onChange",
         },
     )
+    const dateRange = useWatch(
+        {
+            control: form.control,
+            name: "dateRange",
+        }
+    )
+    const dateStatus = useWatch(
+        {
+            control: form.control,
+            name: "dateStatus",
+        }
+    )
 
     useEffect(() => {
         const getLeaveType = async () => {
