@@ -154,6 +154,9 @@ export function NewE_leaveForm() {
     const [totalDays, setTotalDays] = useState(0)
 
 
+    /**
+     * Get leave type from bonita
+     */
     useEffect(() => {
         const getLeaveType = async () => {
             await findsBusinessData(
@@ -239,6 +242,15 @@ export function NewE_leaveForm() {
         return _totalDays;
     }
 
+    function updateTotalDays(totalDays: number) {
+        // check if totalDays is NaN
+        if (isNaN(totalDays)) {
+            totalDays = 0;
+        }
+        form.setValue("totalDays", totalDays);
+        setTotalDays(totalDays);
+    }
+
 
     /**
      * Update total days
@@ -246,15 +258,12 @@ export function NewE_leaveForm() {
     useEffect(() => {
         let _totalDays = getTotalDays();
         console.debug("_totalDays", _totalDays)
-        setTotalDays(_totalDays);
+        updateTotalDays(_totalDays)
     }, [dateRange, dateStatus]);
 
 
     return (
         <Form {...form}>
-            <p>
-                getTotalDays: {totalDays}
-            </p>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
