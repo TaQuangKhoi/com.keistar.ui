@@ -160,6 +160,13 @@ const dateStatuses = [
 
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
+    const form = useForm<NewE_leaveFormValues>(
+        {
+            resolver: zodResolver(newE_leaveFormSchema),
+            defaultValues,
+            mode: "onChange",
+        },
+    )
 
     useEffect(() => {
         const getLeaveType = async () => {
@@ -177,14 +184,6 @@ export function NewE_leaveForm() {
         getLeaveType();
     }, [])
 
-
-    const form = useForm<NewE_leaveFormValues>(
-        {
-            resolver: zodResolver(newE_leaveFormSchema),
-            defaultValues,
-            mode: "onChange",
-        },
-    )
 
     async function initE_leaveProcess(processId: string) {
         let res = await instantiateProcess(processId, body);
