@@ -229,6 +229,35 @@ export function NewE_leaveForm() {
     }
 
 
+
+    /**
+     * Update total days
+     */
+    useEffect(() => {
+        let diffInDays = differenceInBusinessDays(
+            form.getValues("dateRange")?.to,
+            form.getValues("dateRange")?.from
+        );
+        console.debug("diffInDays", diffInDays)
+
+        let _totalDays = 0;
+        switch (dateStatus) {
+            case "full":
+                _totalDays = diffInDays + 1;
+                break;
+            case "am":
+                _totalDays =  diffInDays + 0.5;
+                break;
+            case "pm":
+                _totalDays =  diffInDays + 0.5;
+                break;
+            default:
+                _totalDays =  0;
+                break;
+        }
+        console.debug("_totalDays", _totalDays)
+
+    }, [dateRange, dateStatus]);
     return (
         <Form {...form}>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
