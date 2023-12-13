@@ -1,7 +1,7 @@
 "use client"
 
 import {zodResolver} from "@hookform/resolvers/zod"
-import {useForm} from "react-hook-form"
+import {useForm, useWatch} from "react-hook-form"
 import * as z from "zod"
 
 import {
@@ -26,44 +26,19 @@ import {addDays} from "date-fns";
 import SelectFormField from "@/app/workspace/office/e-leave/new-e-leave/components/select-form-field";
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
 import {Input} from "@/components/ui/input";
+import {differenceInBusinessDays, differenceInCalendarDays, differenceInDays} from 'date-fns';
+import {
+    defaultValues,
+    newE_leaveFormSchema,
+    NewE_leaveFormValues
+} from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 
-const newE_leaveFormSchema = z.object({
-    leaveTypeId: z
-        .string({
-            required_error: "Please select a leave type.",
-        }),
-    rememberMe: z.boolean().optional(),
 
-    dateStatus: z.string().optional(),
-    totalDays: z.number().optional(),
 
-    dateRange: z.object({
-        from: z.date({
-            required_error: "A start date is required.",
-        }),
-        to: z.date({
-            required_error: "An end date is required.",
-        }),
-    }).required(),
 
-    reason: z.string().max(160).min(4),
-
-    attachments: z.array(z.string()).optional(),
-})
-
-type NewE_leaveFormValues = z.infer<typeof newE_leaveFormSchema>
-
-const defaultValues: Partial<NewE_leaveFormValues> = {
-    rememberMe: false,
-    totalDays: 0,
-    dateRange: {
-        from: new Date(),
-        to: addDays(new Date(), 2),
-    },
-}
 
 interface LeaveType {
     description: string,
@@ -269,10 +244,18 @@ export function NewE_leaveForm() {
                 break;
         }
         console.debug("_totalDays", _totalDays)
+        setTotalDays(_totalDays)
 
     }, [dateRange, dateStatus]);
+
+
+
+
     return (
         <Form {...form}>
+            <p>
+                getTotalDays: {totalDays}
+            </p>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
