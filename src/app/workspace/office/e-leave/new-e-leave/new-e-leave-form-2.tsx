@@ -37,9 +37,6 @@ import {
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 
 
-
-
-
 interface LeaveType {
     description: string,
     isActive: boolean,
@@ -217,16 +214,11 @@ export function NewE_leaveForm() {
     }
 
 
-
-    /**
-     * Update total days
-     */
-    useEffect(() => {
+    function getTotalDays() {
         let diffInDays = differenceInBusinessDays(
             form.getValues("dateRange")?.to,
             form.getValues("dateRange")?.from
         );
-        console.debug("diffInDays", diffInDays)
 
         let _totalDays = 0;
         switch (dateStatus) {
@@ -234,21 +226,28 @@ export function NewE_leaveForm() {
                 _totalDays = diffInDays + 1;
                 break;
             case "am":
-                _totalDays =  diffInDays + 0.5;
+                _totalDays = diffInDays + 0.5;
                 break;
             case "pm":
-                _totalDays =  diffInDays + 0.5;
+                _totalDays = diffInDays + 0.5;
                 break;
             default:
-                _totalDays =  0;
+                _totalDays = 0;
                 break;
         }
+
+        return _totalDays;
+    }
+
+
+    /**
+     * Update total days
+     */
+    useEffect(() => {
+        let _totalDays = getTotalDays();
         console.debug("_totalDays", _totalDays)
-        setTotalDays(_totalDays)
-
+        setTotalDays(_totalDays);
     }, [dateRange, dateStatus]);
-
-
 
 
     return (

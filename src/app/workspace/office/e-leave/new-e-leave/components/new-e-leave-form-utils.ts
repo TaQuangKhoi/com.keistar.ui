@@ -34,6 +34,7 @@ const defaultValues: Partial<NewE_leaveFormValues> = {
         from: new Date(),
         to: addDays(new Date(), 2),
     },
+    dateStatus: "full",
 }
 
 export {
