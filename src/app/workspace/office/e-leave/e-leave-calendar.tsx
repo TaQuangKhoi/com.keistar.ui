@@ -69,6 +69,7 @@ interface processedE_leave extends E_leave {
 
 export default function E_leaveCalendar() {
     const [listOfE_leaves, setListOfE_leaves] = useState([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     function processData() {
         let processedData: processedE_leave[] = [];
@@ -107,6 +108,7 @@ export default function E_leaveCalendar() {
                 }
             ).then(function (response) {
                 setListOfE_leaves(response.data);
+                setIsLoading(false);
             })
         }
 
@@ -114,7 +116,6 @@ export default function E_leaveCalendar() {
     }, []);
 
     const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
-
         const processedData = processData();
 
         // get e_leaves of current date
@@ -132,7 +133,13 @@ export default function E_leaveCalendar() {
             }
         })
 
-        return dateCellRender(current, listData);
+        if (processedData.length === 0 && isLoading) {
+            return <p>Loading...</p>;
+        }
+
+        if (processedData.length > 0 && !isLoading) {
+            return dateCellRender(current, listData);
+        }
     };
 
     return (
