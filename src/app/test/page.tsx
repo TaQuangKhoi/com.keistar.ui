@@ -5,31 +5,6 @@ import {updateUserById} from "@/bonita/api/identity/user";
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 import axios from "axios";
 
-async function signIn() {
-    let url = process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice'
-    let username = 'haovan'
-    let password = 'toikhoi'
-
-    await fetch(url,
-        {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `username=${username}&password=${password}&redirect=false&redirectURL=`,
-            method: 'POST',
-            mode: 'cors',
-            credentials: "include",
-        }
-    ).then(response => {
-        console.log(response.status)
-        console.log(response)
-    }).catch(
-        error => {
-            console.log(error)
-        }
-    )
-}
-
 export default function TestPage() {
     const {session, isSessionLoading, sessionError} = useBonitaSession()
 
