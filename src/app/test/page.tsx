@@ -4,6 +4,7 @@ import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {updateUserById} from "@/bonita/api/identity/user";
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 import axios from "axios";
+import {findsArchivedProcessInstances} from "@/bonita/api/bpm/archived-process-instance";
 
 export default function TestPage() {
     const {session, isSessionLoading, sessionError} = useBonitaSession()
@@ -52,10 +53,15 @@ export default function TestPage() {
     }
 
 
+    async function getProcesses() {
+        const data = await findsArchivedProcessInstances();
+        console.debug(data)
+    }
+
     return (
         <div>
             <h1>Test Page</h1>
-            <Button onClick={test}>
+            <Button onClick={getProcesses}>
                 Test Button
             </Button>
 
