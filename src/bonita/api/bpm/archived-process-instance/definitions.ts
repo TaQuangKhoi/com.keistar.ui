@@ -12,6 +12,7 @@ async function findsArchivedProcessInstances(
     p: number = 0,
 ) {
     /**
+     * Show details of these fields
      * &d=processDefinitionId
      * &d=started_by
      * &d=startedBySubstitute
@@ -34,6 +35,23 @@ async function findsArchivedProcessInstances(
     })
 }
 
+function findsArchivedProcessInstanceID(id: string) {
+    const url = `/API/bpm/archivedCase/${id}`
+}
+
+async function findsContextByArchivedProcessInstanceID(id: string) {
+    const url = `/API/bpm/archivedCase/${id}/context`;
+
+    return await axios.get(url, {
+            withCredentials: true,
+        }
+    ).then((response) => {
+        return response.data;
+    })
+}
+
 export {
     findsArchivedProcessInstances,
+
+    findsContextByArchivedProcessInstanceID,
 }

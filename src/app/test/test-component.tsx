@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button";
 import {
     findsArchivedProcessInstances,
     findsContextByArchivedProcessInstanceID
-} from "@/bonita/api/bpm/archived-process-instance";
+} from "@/bonita/api/bpm/archived-process-instance/definitions";
 import ArchivedProcessInstance from "@/bonita/api/bpm/archived-process-instance/types";
 
 export default function TestComponent() {
