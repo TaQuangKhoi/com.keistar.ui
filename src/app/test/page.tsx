@@ -1,37 +1,14 @@
-'use client'
-import {Button} from "@/components/ui/button";
-import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
-import {updateUserById} from "@/bonita/api/identity/user";
-import {getCurrentUserSession} from "@/bonita/api/system/session";
 import axios from "axios";
+import {Metadata} from "next";
+import TestComponent from "@/app/test/test-component";
 
-async function signIn() {
-    let url = process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice'
-    let username = 'haovan'
-    let password = 'toikhoi'
-
-    await fetch(url,
-        {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `username=${username}&password=${password}&redirect=false&redirectURL=`,
-            method: 'POST',
-            mode: 'cors',
-            credentials: "include",
-        }
-    ).then(response => {
-        console.log(response.status)
-        console.log(response)
-    }).catch(
-        error => {
-            console.log(error)
-        }
-    )
+export const metadata: Metadata = {
+    title: "Test Page",
+    description: "This page is for testing purpose only",
 }
 
 export default function TestPage() {
-    const {session, isSessionLoading, sessionError} = useBonitaSession()
+    // const {session, isSessionLoading, sessionError} = useBonitaSession()
 
     async function test() {
         console.log('test')
@@ -76,14 +53,10 @@ export default function TestPage() {
         // console.log(session)
     }
 
-
     return (
         <div>
             <h1>Test Page</h1>
-            <Button onClick={test}>
-                Test Button
-            </Button>
-
+            <TestComponent/>
         </div>
     )
 }
