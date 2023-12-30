@@ -7,6 +7,14 @@ import {
 } from "@/bonita/api/bpm/archived-process-instance/definitions";
 import ArchivedProcessInstance from "@/bonita/api/bpm/archived-process-instance/types";
 
+interface ContextRef {
+    "name": string, // "newEleave"
+    "type": string, // "com.havako.model.office.Eleave"
+    "link": string, // "API/bdm/businessData/com.havako.model.office.Eleave/147"
+    storageId: number, // 147
+    "storageId_string": string, // "147"
+}
+
 export default function TestComponent() {
     async function getProcesses() {
         const data = await findsArchivedProcessInstances();
