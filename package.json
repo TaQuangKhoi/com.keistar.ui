@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "jest": "jest"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.2",
