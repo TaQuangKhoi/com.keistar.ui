@@ -2,6 +2,12 @@ import {Dayjs} from "dayjs";
 import type {BadgeProps} from "antd";
 import {Badge} from 'antd';
 
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
 interface LiType {
     persistenceId_string: string,
     type: string,
@@ -18,7 +24,16 @@ export default function DateCellRender(value: Dayjs, listData: LiType[]) {
         <ul className="events">
             {listData.map((item) => (
                 <li key={item.persistenceId_string}>
-                    <Badge status={item.type as BadgeProps['status']} text={item.content}/>
+                    <HoverCard>
+                        <HoverCardTrigger>
+                            <Badge className="hover:font-bold"
+                                status={item.type as BadgeProps['status']}
+                                text={item.content}/>
+                        </HoverCardTrigger>
+                        <HoverCardContent>
+                            The React Framework – created and maintained by @vercel.
+                        </HoverCardContent>
+                    </HoverCard>
                 </li>
             ))}
         </ul>
