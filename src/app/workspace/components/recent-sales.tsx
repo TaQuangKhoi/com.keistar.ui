@@ -4,7 +4,15 @@ import {
     AvatarImage,
 } from "@/components/ui/avatar"
 
-function SalesCard() {
+interface Sale {
+    user: {
+        name: string,
+        email: string,
+        avatar: string,
+    },
+    amount: number,
+}
+function SalesCard({sale}: { sale: Sale }) {
     return <div className="flex items-center">
         <Avatar className="h-9 w-9">
             <AvatarImage src="/haovan/01.jpg" alt="Avatar"/>
