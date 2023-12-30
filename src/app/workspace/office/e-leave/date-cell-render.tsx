@@ -1,3 +1,5 @@
+'use client';
+
 import {Dayjs} from "dayjs";
 import type {BadgeProps} from "antd";
 import {Badge} from 'antd';
@@ -7,6 +9,7 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import ProcessHoverCardContent from "@/app/workspace/office/e-leave/process-hover-card-content";
 
 interface LiType {
     persistenceId_string: string,
