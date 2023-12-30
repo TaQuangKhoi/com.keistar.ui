@@ -62,71 +62,41 @@ const sales: Sale[] = [
     {
         user: {
             name: "Jackson Lee",
-            email: "jackson.lee@email.com",
-            avatar: "/haovan/02.png",
+            email: "jackson.lee@mailinator.com",
+            avatar: "/haovan/02.jpg",
         },
         amount: 39.00,
     },
     {
         user: {
             name: "Isabella Nguyen",
-            email: "isabella.nguyen@email.com",
-            avatar: "/haovan/03.png",
+            email: "isabella.nguyen@mailinator.com",
+            avatar: "/haovan/03.jpg",
+        },
+        amount: 299.00,
+    },
+    {
+        user: {
+            name: "William Kim",
+            email: "will.kim@mailinator.com",
+            avatar: "/haovan/04.jpg",
+        },
+        amount: 99.00,
+    },
+    {
+        user: {
+            name: "Sofia Davis",
+            email: "sofia.davis@mailinator.com",
+            avatar: "/haovan/05.jpg",
         },
         amount: 39.00,
-    }
+    },
 ]
 
 export function RecentSales() {
     return (
         <div className="space-y-8">
-            <SalesCard/>
-            <div className="flex items-center">
-                <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
-                    <AvatarImage src="/avatars/02.png" alt="Avatar"/>
-                    <AvatarFallback>JL</AvatarFallback>
-                </Avatar>
-                <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">Jackson Lee</p>
-                    <p className="text-sm text-muted-foreground">jackson.lee@email.com</p>
-                </div>
-                <div className="ml-auto font-medium">+$39.00</div>
-            </div>
-            <div className="flex items-center">
-                <Avatar className="h-9 w-9">
-                    <AvatarImage src="/avatars/03.png" alt="Avatar"/>
-                    <AvatarFallback>IN</AvatarFallback>
-                </Avatar>
-                <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">Isabella Nguyen</p>
-                    <p className="text-sm text-muted-foreground">
-                        isabella.nguyen@email.com
-                    </p>
-                </div>
-                <div className="ml-auto font-medium">+$299.00</div>
-            </div>
-            <div className="flex items-center">
-                <Avatar className="h-9 w-9">
-                    <AvatarImage src="/avatars/04.png" alt="Avatar"/>
-                    <AvatarFallback>WK</AvatarFallback>
-                </Avatar>
-                <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">William Kim</p>
-                    <p className="text-sm text-muted-foreground">will@email.com</p>
-                </div>
-                <div className="ml-auto font-medium">+$99.00</div>
-            </div>
-            <div className="flex items-center">
-                <Avatar className="h-9 w-9">
-                    <AvatarImage src="/avatars/05.png" alt="Avatar"/>
-                    <AvatarFallback>SD</AvatarFallback>
-                </Avatar>
-                <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">Sofia Davis</p>
-                    <p className="text-sm text-muted-foreground">sofia.davis@email.com</p>
-                </div>
-                <div className="ml-auto font-medium">+$39.00</div>
-            </div>
+            {sales.map((sale, index) => (<SalesCard sale={sale} key={index}/>))}
         </div>
     )
 }
