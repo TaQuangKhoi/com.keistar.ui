@@ -49,6 +49,11 @@ interface LiType {
     content: string,
 }
 
+/**
+ * Render one cell of calendar
+ * @param value
+ * @param listData
+ */
 const dateCellRender = (value: Dayjs, listData: LiType[]) => {
     return (
         <ul className="events">
@@ -115,6 +120,11 @@ export default function E_leaveCalendar() {
         getE_leaves();
     }, []);
 
+    /**
+     * Render processed cells of calendar
+     * @param current
+     * @param info
+     */
     const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
         const processedData = processData();
 
