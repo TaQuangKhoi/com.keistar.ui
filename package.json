@@ -63,6 +63,7 @@
     "swr": "^2.2.4",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node-dev": "^2.0.0",
     "universal-cookie": "^6.1.1",
     "valtio": "^1.12.1",
     "vaul": "^0.7.9",
