@@ -30,11 +30,11 @@ export default function DateCellRender(value: Dayjs, listData: LiType[]) {
                     <HoverCard>
                         <HoverCardTrigger>
                             <Badge className="hover:font-bold"
-                                status={item.type as BadgeProps['status']}
-                                text={item.content}/>
+                                   status={item.type as BadgeProps['status']}
+                                   text={item.content}/>
                         </HoverCardTrigger>
                         <HoverCardContent>
-                            The React Framework – created and maintained by @vercel.
+                            <ProcessHoverCardContent/>
                         </HoverCardContent>
                     </HoverCard>
                 </li>
