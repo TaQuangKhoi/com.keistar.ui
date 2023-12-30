@@ -39,9 +39,9 @@ function SalesCard({sale}: { sale: Sale }) {
             </AvatarFallback>
         </Avatar>
         <div className="ml-4 space-y-1">
-            <p className="text-sm font-medium leading-none">Olivia Martin</p>
+            <p className="text-sm font-medium leading-none">{sale.user.name}</p>
             <p className="text-sm text-muted-foreground">
-                olivia.martin@email.com
+                {sale.user.email}
             </p>
         </div>
         <div className="ml-auto font-medium">
