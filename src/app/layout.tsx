@@ -4,6 +4,7 @@ import './globals.css'
 import {Analytics} from "@/components/analytics";
 import {ThemeProvider} from "@/components/theme-provider";
 import {Toaster} from "@/components/ui/toaster"
+import StyledComponentsRegistry from "@/lib/AntdRegistry";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -26,7 +27,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
-            {children}
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
             <Toaster/>
         </ThemeProvider>
         <Analytics/>
