@@ -5,9 +5,6 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Overview} from "@/app/workspace/components/overview";
 import {RecentSales} from "@/app/workspace/components/recent-sales";
 import {Metadata} from "next";
-import {redirect} from "next/navigation";
-import {cookies} from "next/headers";
-import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 
 export const metadata: Metadata = {
     title: "Dashboard",
