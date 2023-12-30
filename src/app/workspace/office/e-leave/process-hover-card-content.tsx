@@ -1,6 +1,6 @@
 'use client';
 
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import ArchivedProcessInstance from "@/bonita/api/bpm/archived-process-instance/types";
 import {
     findsArchivedProcessInstances,
@@ -35,16 +35,24 @@ export async function getProcessesByEleaveId(eleaveId: string) {
 }
 
 export default function ProcessHoverCardContent() {
+    const [archivedProcessInstances, setArchivedProcessInstances] = useState([] as ArchivedProcessInstance[])
+
     useEffect(() => {
         async function prepareData() {
             const processes = await getProcessesByEleaveId("143");
+            setArchivedProcessInstances(processes)
         }
 
         prepareData();
     }, []);
     return (
         <div>
-            Process Hover Card Content
+            {archivedProcessInstances.map((instance: ArchivedProcessInstance) => (
+                <>
+                    <div>{instance.state}</div>
+                    <div>{instance.id}</div>
+                </>
+            ))}
         </div>
     )
 }
