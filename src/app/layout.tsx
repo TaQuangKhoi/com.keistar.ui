@@ -5,6 +5,7 @@ import {Analytics} from "@/components/analytics";
 import {ThemeProvider} from "@/components/theme-provider";
 import {Toaster} from "@/components/ui/toaster"
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
+import {NextUIProviders} from "@/app/nextui-providers";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -27,7 +28,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            <NextUIProviders>
+                <StyledComponentsRegistry>
+                    {children}
+                </StyledComponentsRegistry>
+            </NextUIProviders>
             <Toaster/>
         </ThemeProvider>
         <Analytics/>
