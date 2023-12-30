@@ -27,7 +27,7 @@ function formatNumber(inputNumber: number) {
 function SalesCard({sale}: { sale: Sale }) {
     return <div className="flex items-center">
         <Avatar className="h-9 w-9">
-            <AvatarImage src="/haovan/01.jpg" alt="Avatar"/>
+            <AvatarImage src={sale.user.avatar} alt="Avatar"/>
             <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <div className="ml-4 space-y-1">
