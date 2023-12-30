@@ -1,6 +1,6 @@
 import {Metadata} from "next"
 import AuthBox from "@/app/authentication/components/auth-box";
-import ArtWork from "@/app/authentication/components/art-work";
+import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "Authentication",
@@ -13,7 +13,9 @@ export default function AuthenticationPage() {
             <div
                 className="min-h-screen flex-col items-center justify-center md:grid lg:grid-cols-2 lg:p-0">
                 <div className="relative hidden lg:h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-                    <ArtWork/>
+                    <div className="absolute inset-0 bg-zinc-900">
+                        <Image src='/haovan/authartwork.jpg' alt="Hảo Văn" fill={true} style={{objectFit: "cover"}}/>
+                    </div>
                     <div className="relative z-20 flex items-center text-lg font-medium">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
