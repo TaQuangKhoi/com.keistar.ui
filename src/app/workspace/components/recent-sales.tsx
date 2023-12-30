@@ -12,6 +12,18 @@ interface Sale {
     },
     amount: number,
 }
+
+function formatNumber(inputNumber: number) {
+    const formattedNumber = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(inputNumber);
+
+    return Number(inputNumber) > 0 ? `+${formattedNumber}` : `${formattedNumber}`;
+}
+
 function SalesCard({sale}: { sale: Sale }) {
     return <div className="flex items-center">
         <Avatar className="h-9 w-9">
@@ -24,7 +36,9 @@ function SalesCard({sale}: { sale: Sale }) {
                 olivia.martin@email.com
             </p>
         </div>
-        <div className="ml-auto font-medium">+$1,999.00</div>
+        <div className="ml-auto font-medium">
+            {formatNumber(sale.amount)}
+        </div>
     </div>
 }
 
