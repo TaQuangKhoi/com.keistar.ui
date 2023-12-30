@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 import {isSameDay, eachDayOfInterval} from 'date-fns'
+import DateCellRender from "@/app/workspace/office/e-leave/date-cell-render";
 
 interface E_leave {
     persistenceId?: number | any,
@@ -43,28 +44,7 @@ interface E_leave {
     ],
 }
 
-interface LiType {
-    persistenceId_string: string,
-    type: string,
-    content: string,
-}
 
-/**
- * Render one cell of calendar
- * @param value
- * @param listData
- */
-const dateCellRender = (value: Dayjs, listData: LiType[]) => {
-    return (
-        <ul className="events">
-            {listData.map((item) => (
-                <li key={item.persistenceId_string}>
-                    <Badge status={item.type as BadgeProps['status']} text={item.content}/>
-                </li>
-            ))}
-        </ul>
-    );
-};
 
 // type extends E_leave
 interface processedE_leave extends E_leave {
@@ -148,7 +128,7 @@ export default function E_leaveCalendar() {
         }
 
         if (processedData.length > 0 && !isLoading) {
-            return dateCellRender(current, listData);
+            return DateCellRender(current, listData);
         }
     };
 
