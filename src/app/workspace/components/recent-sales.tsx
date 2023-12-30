@@ -28,6 +28,33 @@ function SalesCard({sale}: { sale: Sale }) {
     </div>
 }
 
+const sales: Sale[] = [
+    {
+        user: {
+            name: "Olivia Martin",
+            email: "olivia.martin@mailinator.com",
+            avatar: "/haovan/01.jpg",
+        },
+        amount: 1999.00,
+    },
+    {
+        user: {
+            name: "Jackson Lee",
+            email: "jackson.lee@email.com",
+            avatar: "/haovan/02.png",
+        },
+        amount: 39.00,
+    },
+    {
+        user: {
+            name: "Isabella Nguyen",
+            email: "isabella.nguyen@email.com",
+            avatar: "/haovan/03.png",
+        },
+        amount: 39.00,
+    }
+]
+
 export function RecentSales() {
     return (
         <div className="space-y-8">
