@@ -7,7 +7,7 @@ import {Toaster} from "@/components/ui/toaster"
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
 import {NextUIProviders} from "@/app/nextui-providers";
 
-const inter = Inter({subsets: ['latin']})
+const nextFont = Inter({subsets: ['latin']})
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-        <body className={inter.className}>
+        <body className={nextFont.className}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
