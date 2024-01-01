@@ -2,6 +2,7 @@ import {MainNav} from "./components/main-nav"
 import {Search} from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 import {UserNav} from "./components/user-nav"
+import { Bell } from 'lucide-react';
 
 interface WorkspaceLayoutProps {
     children: React.ReactNode
@@ -17,6 +18,7 @@ export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
                         <MainNav className="mx-6"/>
                         <div className="ml-auto flex items-center space-x-4">
                             <Search/>
+                            <Bell />
                             <UserNav/>
                         </div>
                     </div>
