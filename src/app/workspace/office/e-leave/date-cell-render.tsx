@@ -34,7 +34,7 @@ export default function DateCellRender(value: Dayjs, listData: LiType[]) {
                                    text={item.content}/>
                         </HoverCardTrigger>
                         <HoverCardContent>
-                            <ProcessHoverCardContent/>
+                            <ProcessHoverCardContent persistenceId_string={item.persistenceId_string}/>
                         </HoverCardContent>
                     </HoverCard>
                 </li>

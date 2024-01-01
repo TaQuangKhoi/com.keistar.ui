@@ -34,12 +34,18 @@ export async function getProcessesByEleaveId(eleaveId: string) {
     return processInstances;
 }
 
-export default function ProcessHoverCardContent() {
+export default function ProcessHoverCardContent(
+    {
+        persistenceId_string
+    } : {
+        persistenceId_string: string
+    }
+) {
     const [archivedProcessInstances, setArchivedProcessInstances] = useState([] as ArchivedProcessInstance[])
 
     useEffect(() => {
         async function prepareData() {
-            const processes = await getProcessesByEleaveId("143");
+            const processes = await getProcessesByEleaveId(persistenceId_string);
             setArchivedProcessInstances(processes)
         }
 
@@ -53,6 +59,11 @@ export default function ProcessHoverCardContent() {
                     <div>{instance.id}</div>
                 </>
             ))}
+            {
+                archivedProcessInstances.length === 0 && (
+                    <div>No process found</div>
+                )
+            }
         </div>
     )
 }
