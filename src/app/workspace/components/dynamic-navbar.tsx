@@ -42,7 +42,7 @@ export default function DynamicNavbar() {
             y === 0 && <FullNavBar/>
         }
         {
-            y && y > 10 && <CompactNavBar/>
+            y !== null && y > 10 && <CompactNavBar/>
         }
     </>
 }
