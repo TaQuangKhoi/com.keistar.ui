@@ -1,8 +1,4 @@
-import {MainNav} from "./components/main-nav"
-import {Search} from "./components/search"
-import TeamSwitcher from "./components/team-switcher"
-import {UserNav} from "./components/user-nav"
-import Notification from "@/app/workspace/components/Notification";
+import DynamicNavbar from "@/app/workspace/components/dynamic-navbar";
 
 interface WorkspaceLayoutProps {
     children: React.ReactNode
@@ -10,21 +6,13 @@ interface WorkspaceLayoutProps {
 
 export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
     return (
-        <>
-            <div className="flex-col md:flex">
-                <div className="border-b sticky top-0 bg-white dark:bg-slate-900">
-                    <div className="flex h-16 items-center px-4">
-                        <TeamSwitcher/>
-                        <MainNav className="mx-6"/>
-                        <div className="ml-auto flex items-center space-x-4">
-                            <Search/>
-                            <Notification />
-                            <UserNav/>
-                        </div>
-                    </div>
+        <div className="flex-col md:flex">
+            <div className="border-b sticky top-0 bg-white dark:bg-slate-900">
+                <div className="flex h-16 items-center px-4">
+                    <DynamicNavbar/>
                 </div>
-                <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
             </div>
-        </>
+            <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
+        </div>
     )
 }
