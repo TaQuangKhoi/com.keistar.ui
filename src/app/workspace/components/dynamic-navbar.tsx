@@ -37,13 +37,12 @@ function CompactNavBar() {
 export default function DynamicNavbar() {
     const [{x, y}, scrollTo] = useWindowScroll();
 
-    // @ts-ignore
     return <>
         {
             y === 0 && <FullNavBar/>
         }
         {
-            y > 10 && <CompactNavBar/>
+            y && y > 10 && <CompactNavBar/>
         }
     </>
 }
