@@ -25,7 +25,7 @@ export default function ExamplePage() {
                 Music
             </Link>
             <Link href={"/examples/mail"} className={className}>
-                Email
+                Mail
             </Link>
         </>
     )
