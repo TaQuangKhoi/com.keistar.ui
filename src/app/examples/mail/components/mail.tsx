@@ -56,7 +56,6 @@ export function Mail({
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
   const [mail] = useMail()
 
-  // @ts-ignore
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -74,10 +73,16 @@ export function Mail({
           collapsible={true}
           minSize={15}
           maxSize={20}
-          onCollapse={(collapsed:boolean)  => {
-            setIsCollapsed(collapsed)
+          onCollapse={() => {
+            setIsCollapsed(true);
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              collapsed
+                true
+            )}`
+          }}
+          onExpand={() => {
+            setIsCollapsed(false);
+            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                false
             )}`
           }}
           className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
