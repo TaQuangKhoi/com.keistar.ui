@@ -24,6 +24,9 @@ export default function ExamplePage() {
             <Link href={"/examples/music"} className={className}>
                 Music
             </Link>
+            <Link href={"/examples/mail"} className={className}>
+                Email
+            </Link>
         </>
     )
 }
