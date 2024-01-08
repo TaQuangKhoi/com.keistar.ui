@@ -15,13 +15,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { CalendarDateRangePicker } from "@/app/dashboard/components/date-range-picker"
-import { MainNav } from "@/app/dashboard/components/main-nav"
-import { Overview } from "@/app/dashboard/components/overview"
-import { RecentSales } from "@/app/dashboard/components/recent-sales"
-import { Search } from "@/app/dashboard/components/search"
-import TeamSwitcher from "@/app/dashboard/components/team-switcher"
-import { UserNav } from "@/app/dashboard/components/user-nav"
+import { CalendarDateRangePicker } from "@/app/examples/dashboard/components/date-range-picker"
+import { MainNav } from "@/app/examples/dashboard/components/main-nav"
+import { Overview } from "@/app/examples/dashboard/components/overview"
+import { RecentSales } from "@/app/examples/dashboard/components/recent-sales"
+import { Search } from "@/app/examples/dashboard/components/search"
+import TeamSwitcher from "@/app/examples/dashboard/components/team-switcher"
+import { UserNav } from "@/app/examples/dashboard/components/user-nav"
 
 export const metadata: Metadata = {
   title: "Dashboard",

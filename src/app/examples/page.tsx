@@ -6,6 +6,9 @@ export default function ExamplePage() {
     let className = cn(buttonVariants({variant: "default"}), "m-2");
     return (
         <>
+            <Link href={"/examples/dashboard"} className={className}>
+                Dashboard
+            </Link>
             <Link href={"/examples/authentication"} className={className}>
                 Authentication
             </Link>
