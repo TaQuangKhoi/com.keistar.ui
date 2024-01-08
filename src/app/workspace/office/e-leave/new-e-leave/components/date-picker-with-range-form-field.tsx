@@ -1,5 +1,5 @@
 import {Label} from "@/components/ui/label";
-import DatePickerWithRange from "@/app/cards/components/date-picker-with-range";
+import DatePickerWithRange from "@/app/examples/cards/components/date-picker-with-range";
 import {UseFormReturn} from "react-hook-form";
 import * as React from "react";
 import {DateRange} from "react-day-picker";

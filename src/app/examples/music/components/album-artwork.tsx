@@ -13,8 +13,8 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 
-import { Album } from "../data/albums"
-import { playlists } from "../data/playlists"
+import { Album } from "@/app/examples/music/data/albums"
+import { playlists } from "@/app/examples/music/data/playlists"
 
 interface AlbumArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
   album: Album

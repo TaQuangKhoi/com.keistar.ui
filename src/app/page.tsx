@@ -10,22 +10,10 @@ export default function Home() {
                 Workspace
             </Link>
             <Link href={"/authentication"} className={className}>
-                Authentication
+                Login
             </Link>
-            <Link href={"/tasks"} className={className}>
-                Tasks
-            </Link>
-            <Link href={"/playground"} className={className}>
-                Playground
-            </Link>
-            <Link href={"/cards"} className={className}>
-                Cards
-            </Link>
-            <Link href={"/forms"} className={className}>
-                Forms
-            </Link>
-            <Link href={"/music"} className={className}>
-                Music
+            <Link href={"/examples"} className={className}>
+                Example
             </Link>
         </>
     )
