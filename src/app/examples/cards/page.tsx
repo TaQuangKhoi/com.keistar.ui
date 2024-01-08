@@ -3,15 +3,15 @@ import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 
-import { DemoCookieSettings } from "./components/cookie-settings"
-import { DemoCreateAccount } from "./components/create-account"
-import { DemoDatePicker } from "./components/date-picker"
-import { DemoGithub } from "./components/github-card"
-import { DemoNotifications } from "./components/notifications"
-import { DemoPaymentMethod } from "./components/payment-method"
-import { DemoReportAnIssue } from "./components/report-an-issue"
-import { DemoShareDocument } from "./components/share-document"
-import { DemoTeamMembers } from "./components/team-members"
+import { DemoCookieSettings } from "@/app/examples/cards/components/cookie-settings"
+import { DemoCreateAccount } from "@/app/examples/cards/components/create-account"
+import { DemoDatePicker } from "@/app/examples/cards/components/date-picker"
+import { DemoGithub } from "@/app/examples/cards/components/github-card"
+import { DemoNotifications } from "@/app/examples/cards/components/notifications"
+import { DemoPaymentMethod } from "@/app/examples/cards/components/payment-method"
+import { DemoReportAnIssue } from "@/app/examples/cards/components/report-an-issue"
+import { DemoShareDocument } from "@/app/examples/cards/components/share-document"
+import { DemoTeamMembers } from "@/app/examples/cards/components/team-members"
 
 export const metadata: Metadata = {
   title: "Cards",
