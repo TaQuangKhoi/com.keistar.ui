@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/tabs"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
+import {PanelOnCollapse} from "react-resizable-panels";
 
 interface MailProps {
   accounts: {
@@ -55,6 +56,7 @@ export function Mail({
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
   const [mail] = useMail()
 
+  // @ts-ignore
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -72,7 +74,7 @@ export function Mail({
           collapsible={true}
           minSize={15}
           maxSize={20}
-          onCollapse={(collapsed:boolean) => {
+          onCollapse={(collapsed:boolean)  => {
             setIsCollapsed(collapsed)
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
               collapsed
