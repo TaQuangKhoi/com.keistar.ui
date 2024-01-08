@@ -24,7 +24,7 @@ async function getTasks() {
 }
 
 export default function HvTable() {
-    const [tasks, setTasks] = useState<Task>()
+    const [tasks, setTasks] = useState<Task[]>()
 
     useEffect(() => {
         getTasks().then((tasks) => {
