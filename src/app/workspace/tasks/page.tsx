@@ -6,25 +6,16 @@ import {z} from "zod"
 import {DataTable} from "./components/data-table"
 import {taskSchema} from "./data/schema"
 import {columns} from "./components/columns";
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
+import HvTable from "@/app/workspace/tasks/hv-table";
 
 export const metadata: Metadata = {
     title: "Tasks",
     description: "A task and issue tracker build using Tanstack Table.",
 }
 
-// Simulate a database read for tasks.
-async function getTasks() {
-    const data = await fs.readFile(
-        path.join(process.cwd(), "src/app/workspace/tasks/data/tasks.json")
-    )
-
-    const tasks = JSON.parse(data.toString())
-
-    return z.array(taskSchema).parse(tasks)
-}
-
 export default async function TaskPage() {
-    const tasks = await getTasks()
+    // const tasks = await getTasks()
 
     return (
         <>
@@ -37,7 +28,7 @@ export default async function TaskPage() {
                         </p>
                     </div>
                 </div>
-                <DataTable data={tasks} columns={columns}/>
+                <HvTable/>
             </div>
         </>
     )

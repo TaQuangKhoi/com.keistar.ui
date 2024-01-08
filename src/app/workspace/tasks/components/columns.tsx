@@ -45,19 +45,22 @@ export const columns: ColumnDef<Task>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "title",
+        accessorKey: "name",
         header: ({column}) => (
             <DataTableColumnHeader column={column} title="Title"/>
         ),
         cell: ({row}) => {
-            const label = labels.find((label) => label.value === row.original.label)
+            console.debug("row: ", row);
+            const label = labels.find((label) => {
+                console.debug("label: ", label);
+                return label.value === row.original.name
+            })
 
             return (
                 <div className="flex space-x-2">
-                    {label && <Badge variant="outline">{label.label}</Badge>}
-                    <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("title")}
-          </span>
+                    {/*{label && <Badge variant="outline">{label.label}</Badge>}*/}
+                    {/*<span className="max-w-[500px] truncate font-medium"></span>*/}
+                    {row.getValue("name")}
                 </div>
             )
         },
