@@ -12,12 +12,12 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 
-import { AlbumArtwork } from "./components/album-artwork"
-import { Menu } from "./components/menu"
-import { PodcastEmptyPlaceholder } from "./components/podcast-empty-placeholder"
-import { Sidebar } from "./components/sidebar"
-import { listenNowAlbums, madeForYouAlbums } from "./data/albums"
-import { playlists } from "./data/playlists"
+import { AlbumArtwork } from "@/app/examples/music/components/album-artwork"
+import { Menu } from "@/app/examples/music/components/menu"
+import { PodcastEmptyPlaceholder } from "@/app/examples/music/components/podcast-empty-placeholder"
+import { Sidebar } from "@/app/examples/music/components/sidebar"
+import { listenNowAlbums, madeForYouAlbums } from "@/app/examples/music/data/albums"
+import { playlists } from "@/app/examples/music/data/playlists"
 
 export const metadata: Metadata = {
   title: "Music App",
