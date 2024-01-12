@@ -161,7 +161,7 @@ export default async function DashboardPage() {
                     </div>
                 </TabsContent>
                 <TabsContent value="analytics" className="space-y-4">
-                    Khôi vẫn yêu Hảo
+                    Coming soon...
                 </TabsContent>
             </Tabs>
         </>
