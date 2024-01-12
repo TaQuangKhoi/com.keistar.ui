@@ -1,13 +1,7 @@
-import {promises as fs} from "fs"
-import path from "path"
 import {Metadata} from "next"
-import {z} from "zod"
-
-import {DataTable} from "./components/data-table"
-import {taskSchema} from "./data/schema"
-import {columns} from "./components/columns";
-import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
-import HvTable from "@/app/workspace/tasks/hv-table";
+import * as React from "react";
+import TaskList from "@/app/examples/mail/components/task-list";
+import {TooltipProvider} from "@/components/ui/tooltip"
 
 export const metadata: Metadata = {
     title: "Tasks",
@@ -15,8 +9,6 @@ export const metadata: Metadata = {
 }
 
 export default async function TaskPage() {
-    // const tasks = await getTasks()
-
     return (
         <>
             <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
@@ -28,7 +20,9 @@ export default async function TaskPage() {
                         </p>
                     </div>
                 </div>
-                <HvTable/>
+                <TooltipProvider delayDuration={0}>
+                    <TaskList/>
+                </TooltipProvider>
             </div>
         </>
     )
