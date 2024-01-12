@@ -24,18 +24,6 @@ export default function TestPage() {
 
         // await updateUserById("152", userDescription);
 
-        const res = await axios.post(process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice',
-            `username=haovan&password=toikhoi&redirect=false&redirectURL=`,
-            {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            }
-        );
-
-        console.debug("res.headers: ", res.headers['Set-Cookie']);
-
         // fetch (process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice?username=haovan&password=toikhoi&redirect=false&redirectURL=', {
         //     method: 'GET',
         //     mode: 'cors',

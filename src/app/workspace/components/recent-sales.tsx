@@ -55,7 +55,7 @@ const sales: Sale[] = [
         user: {
             name: "Olivia Martin",
             email: "olivia.martin@mailinator.com",
-            avatar: "/haovan/01.jpg",
+            avatar: "/toikhoi/mine.jpg",
         },
         amount: 1999.00,
     },
@@ -63,7 +63,7 @@ const sales: Sale[] = [
         user: {
             name: "Jackson Lee",
             email: "jackson.lee@mailinator.com",
-            avatar: "/haovan/02.jpg",
+            avatar: "/toikhoi/mine.jpg",
         },
         amount: 39.00,
     },
@@ -71,7 +71,7 @@ const sales: Sale[] = [
         user: {
             name: "Isabella Nguyen",
             email: "isabella.nguyen@mailinator.com",
-            avatar: "/haovan/03.jpg",
+            avatar: "/toikhoi/mine.jpg",
         },
         amount: 299.00,
     },
@@ -79,7 +79,7 @@ const sales: Sale[] = [
         user: {
             name: "William Kim",
             email: "will.kim@mailinator.com",
-            avatar: "/haovan/04.jpg",
+            avatar: "/toikhoi/mine.jpg",
         },
         amount: 99.00,
     },
@@ -87,7 +87,7 @@ const sales: Sale[] = [
         user: {
             name: "Sofia Davis",
             email: "sofia.davis@mailinator.com",
-            avatar: "/haovan/05.jpg",
+            avatar: "/toikhoi/mine.jpg",
         },
         amount: 39.00,
     },
