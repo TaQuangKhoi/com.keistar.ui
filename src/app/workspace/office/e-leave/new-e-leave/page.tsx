@@ -3,7 +3,7 @@ import {Metadata} from "next";
 
 export const metadata: Metadata = {
     title: 'Create New E-Leave',
-    description: 'Khôi nhớ Hảo',
+    description: 'Create New E-Leave Form for Employee',
 }
 
 export default function NewE_leavePage() {

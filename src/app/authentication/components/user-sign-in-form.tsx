@@ -51,7 +51,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
             toast({
                 title: "Error",
                 description: (
-                    "Hảo, có lỗi xảy ra, vui lòng thử lại sau."
+                    "Có lỗi xảy ra, vui lòng thử lại sau."
                 ),
             })
             setIsLoading(false)

@@ -14,7 +14,7 @@ export default function AuthenticationPage() {
                 className="min-h-screen flex-col items-center justify-center md:grid lg:grid-cols-2 lg:p-0">
                 <div className="relative hidden lg:h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
                     <div className="absolute inset-0 bg-zinc-900">
-                        <Image src='' alt="Hảo Văn" fill={true} style={{objectFit: "cover"}}/>
+                        <Image src='' alt="" fill={true} style={{objectFit: "cover"}}/>
                     </div>
                     <div className="relative z-20 flex items-center text-lg font-medium">
                         <svg
