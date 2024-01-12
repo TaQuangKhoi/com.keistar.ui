@@ -7,7 +7,7 @@ import {sessionApiUrl} from "@/lib/api-enpoints";
 const isOpenTeamSwitcherAtom = atom(false);
 const isShowNewTeamDialogAtom = atom(false);
 
-const userFullNameAtom = atom("Hảo Văn 2");
+const userFullNameAtom = atom("Tôi Khôi");
 
 const groupAtom = atom((get) => {
     let userFullName = get(userFullNameAtom);
