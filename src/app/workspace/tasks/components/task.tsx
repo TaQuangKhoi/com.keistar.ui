@@ -159,10 +159,15 @@ export default function Task() {
                     <div className="flex items-center px-4 py-2">
                         <h1 className="text-xl font-bold">Inbox</h1>
                         <TabsList className="ml-auto">
-                            <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">All
-                                mail</TabsTrigger>
-                            <TabsTrigger value="unread"
-                                         className="text-zinc-600 dark:text-zinc-200">Unread</TabsTrigger>
+                            <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">
+                                All tasks
+                            </TabsTrigger>
+                            <TabsTrigger value="assigned" className="text-zinc-600 dark:text-zinc-200">
+                                Assigned tasks
+                            </TabsTrigger>
+                            <TabsTrigger value="unassigned" className="text-zinc-600 dark:text-zinc-200">
+                                Unassigned tasks
+                            </TabsTrigger>
                         </TabsList>
                     </div>
                     <Separator/>
