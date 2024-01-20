@@ -1,6 +1,6 @@
 import {Metadata} from "next"
 import * as React from "react";
-import TaskList from "@/app/examples/mail/components/task-list";
+import TaskList from "@/app/workspace/tasks/components/task-list";
 import {TooltipProvider} from "@/components/ui/tooltip"
 
 export const metadata: Metadata = {
@@ -10,10 +10,8 @@ export const metadata: Metadata = {
 
 export default async function TaskPage() {
     return (
-        <div className="h-full">
-            <TooltipProvider delayDuration={0}>
-                <TaskList/>
-            </TooltipProvider>
-        </div>
+        <TooltipProvider delayDuration={0}>
+            <TaskList/>
+        </TooltipProvider>
     )
 }

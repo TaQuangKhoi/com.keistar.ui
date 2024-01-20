@@ -36,7 +36,7 @@ export default function TaskList() {
                     sizes
                 )}`
             }}
-            className="items-stretch"
+            className="h-full items-stretch"
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
