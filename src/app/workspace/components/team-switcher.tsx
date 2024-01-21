@@ -53,9 +53,9 @@ import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {
     isOpenTeamSwitcherAtom,
     isShowNewTeamDialogAtom, personalGroupAtom,
-    selectedTeamAtom,
 } from "@/app/workspace/atoms";
 import PersonalTeam from "@/app/workspace/components/personal-team";
+import {useSelectedTeam} from "@/app/workspace/hooks/use-selected-team";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -116,7 +116,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
     const [showNewTeamDialog, setShowNewTeamDialog] = useAtom(isShowNewTeamDialogAtom)
     const [defaultTeam] = useAtom(personalGroupAtom)
-    const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
+    const [selectedTeam, setSelectedTeam] = useSelectedTeam()
 
     /**
      * Run if any deps change

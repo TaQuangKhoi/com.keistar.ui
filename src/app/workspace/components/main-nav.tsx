@@ -5,14 +5,14 @@ import {cn} from "@/lib/utils"
 import clsx from 'clsx';
 import {useAtomValue} from "jotai";
 import {hr_department_items, personal_items} from "@/app/workspace/data/data";
-import {selectedTeamAtom} from "@/app/workspace/atoms";
+import {useSelectedTeamValue} from "@/app/workspace/hooks/use-selected-team";
 
 export function MainNav({
                             className,
                             ...props
                         }: React.HTMLAttributes<HTMLElement>) {
     const pathname = usePathname()
-    const team = useAtomValue(selectedTeamAtom)
+    const team = useSelectedTeamValue()
     const items = team.value === 'personal' ? personal_items : hr_department_items
 
     return (

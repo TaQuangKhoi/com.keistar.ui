@@ -60,10 +60,6 @@ const groupAtom = atom((get) => {
         },
     ]
 });
-const selectedTeamAtom = atom({
-    label: "Loading...",
-    value: "personal",
-});
 
 const personalGroupAtom = atom((get) => {
     let userFullName = get(userNameAtom);
@@ -103,6 +99,5 @@ export {
     isShowNewTeamDialogAtom,
 
     // Object
-    selectedTeamAtom,
     personalGroupAtom
 };
