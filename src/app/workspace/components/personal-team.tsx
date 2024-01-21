@@ -4,9 +4,10 @@ import {CheckIcon} from "@radix-ui/react-icons";
 import {cn} from "@/lib/utils";
 import * as React from "react";
 import {useAtom} from "jotai/index";
-import {isOpenTeamSwitcherAtom, personalGroupAtom, selectedTeamAtom} from "@/app/workspace/atoms";
+import {isOpenTeamSwitcherAtom, personalGroupAtom} from "@/app/workspace/atoms";
 import {useRouter} from "next/navigation";
 import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
+import {useSelectedTeam} from "@/app/workspace/hooks/use-selected-team";
 
 // const personalGroup = {
 //     label: "Personal",
@@ -17,7 +18,7 @@ import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 
 export default function PersonalTeam() {
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
-    const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom)
+    const [selectedTeam, setSelectedTeam] = useSelectedTeam()
     const router = useRouter()
     const {session, isSessionLoading, sessionError} = useBonitaSession();
     const [personalGroup, setPersonalGroup] = useAtom(personalGroupAtom)
