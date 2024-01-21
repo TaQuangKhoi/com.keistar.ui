@@ -2,7 +2,6 @@
 
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components/ui/resizable";
 import {cn} from "@/lib/utils";
-import {AccountSwitcher} from "@/app/examples/mail/components/account-switcher";
 import {Separator} from "@/components/ui/separator";
 import {Nav} from "@/app/examples/mail/components/nav";
 import {
