@@ -1,31 +1,33 @@
+import {ProcessDefinition} from "@/bonita/api/bpm/archived-process-instance/types";
+
 interface HumanTask {
     displayDescription: string | null,
-    executedBySubstitute: number,
+    executedBySubstitute: string,
     /** 5826139717723008000 */
-    processId: number,
-    parentCaseId: number,
+    processId: string,
+    parentCaseId: string,
 
     /** "ready" */
     state: string,
-    rootContainerId: number,
+    rootContainerId: ProcessDefinition | number,
 
     /** "USER_TASK" */
     type: string,
-    assigned_id: null,
-    assigned_date: null,
-    id: number,
-    executedBy: number,
-    caseId: number,
+    assigned_id: string,
+    assigned_date: string,
+    id: string,
+    executedBy: string,
+    caseId: string,
 
     /** "normal" */
     priority: string,
-    actorId: number,
-    description: null,
+    actorId: string,
+    description: string,
     name: string,
     reached_state_date: string,
-    rootCaseId: number,
+    rootCaseId: string,
     displayName: string,
-    parentTaskId: number,
+    parentTaskId?: number,
     dueDate: string,
     last_update_date: string
 }
