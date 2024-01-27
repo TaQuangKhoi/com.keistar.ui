@@ -4,10 +4,10 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {Badge} from "@/components/ui/badge";
 import { faker } from '@faker-js/faker';
 import {useTask} from "@/app/workspace/tasks/use-task";
-import {HumanTask} from "@/bonita/api/bpm/human-task/types";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {ProcessDefinition} from "@/bonita/api/bpm/archived-process-instance/types";
 
-const items: HumanTask[] = [
+const items: FullHumanTask[] = [
     {
         displayDescription: "",
         executedBy: "0",

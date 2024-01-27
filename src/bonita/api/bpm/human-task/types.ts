@@ -1,7 +1,5 @@
 import {ProcessDefinition} from "@/bonita/api/bpm/archived-process-instance/types";
 
-type RootContainerId = ProcessDefinition | number;
-
 interface HumanTask {
     displayDescription: string | null,
     executedBySubstitute: string,
@@ -11,7 +9,6 @@ interface HumanTask {
 
     /** "ready" */
     state: string,
-    rootContainerId: RootContainerId,
 
     /** "USER_TASK" */
     type: string,
@@ -34,6 +31,15 @@ interface HumanTask {
     last_update_date: string
 }
 
+interface SimpleHumanTask {
+    rootContainerId: number,
+}
+
+interface FullHumanTask extends HumanTask {
+    rootContainerId: ProcessDefinition,
+}
+
 export type {
     HumanTask,
+    FullHumanTask,
 };
