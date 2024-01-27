@@ -55,3 +55,8 @@ interface ArchivedProcessInstance {
 }
 
 export default ArchivedProcessInstance;
+
+export type {
+    User,
+    ProcessDefinition,
+}
