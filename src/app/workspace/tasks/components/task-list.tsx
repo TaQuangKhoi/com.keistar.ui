@@ -5,6 +5,7 @@ import {Badge} from "@/components/ui/badge";
 import { faker } from '@faker-js/faker';
 import {useTask} from "@/app/workspace/tasks/use-task";
 import {HumanTask} from "@/bonita/api/bpm/human-task/types";
+import {ProcessDefinition} from "@/bonita/api/bpm/archived-process-instance/types";
 
 const items: HumanTask[] = [
     {
@@ -23,7 +24,7 @@ const items: HumanTask[] = [
             configurationState: "RESOLVED",
             last_update_date: "2024-01-27 15:49:54.771",
             actorinitiatorid: "508"
-        },
+        } as ProcessDefinition,
         assigned_date: "2024-01-27 15:50:38.255",
         displayName: "Review E-leave",
         executedBySubstitute: "0",
