@@ -21,17 +21,86 @@ import {Input} from "@/components/ui/input";
 import {useState} from "react";
 import TaskList from "@/app/workspace/tasks/components/task-list";
 import TaskDisplay from "@/app/workspace/tasks/components/task-display";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
+import {faker} from "@faker-js/faker";
+import {useTask} from "@/app/workspace/tasks/use-task";
 
-const item = {
-    id: "6c84fb90-12c4-11e1-840d-7b25c5ee775a",
-    name: "Review Eleave",
-    email: "williamsmith@example.com",
-    subject: "Create Eleave Process",
-    text: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success.\n\nPlease come prepared with any questions or insights you may have. Looking forward to our meeting!\n\nBest regards, William",
-    date: "2023-10-22T09:00:00",
-    read: true,
-    labels: ["meeting", "work", "important"],
-}
+const items: FullHumanTask[] = [
+    {
+        displayDescription: "",
+        executedBy: faker.number.int({max: 1000, min: 1}).toString(),
+        rootContainerId: {
+            displayDescription: "",
+            deploymentDate: faker.date.past().toISOString(),
+            displayName: "Create E-Leave Request",
+            name: "Create_Eleave",
+            description: "",
+            deployedBy: faker.number.int({max: 1000, min: 1}).toString(),
+            id: "8569231201909689792",
+            activationState: "ENABLED",
+            version: "1.3.0.alpha",
+            configurationState: "RESOLVED",
+            last_update_date: faker.date.past().toISOString(),
+            actorinitiatorid: faker.number.int({max: 1000, min: 1}).toString(),
+        },
+        assigned_date: faker.date.past().toISOString(),
+        displayName: "Review E-leave",
+        executedBySubstitute: faker.number.int({max: 1000, min: 0}).toString(),
+        dueDate: "",
+        description: "",
+        type: "USER_TASK",
+        priority: "normal",
+        actorId: faker.number.int({max: 1000, min: 1}).toString(),
+        processId: "8569231201909689792",
+        caseId: faker.number.int({max: 10000, min: 1}).toString(),
+        name: "Review E-leave",
+        reached_state_date: faker.date.past().toISOString(),
+        rootCaseId: faker.number.int({max: 10000, min: 1}).toString(),
+        id: faker.number.int({max: 1000000, min: 1}).toString(),
+        state: "ready",
+        parentCaseId: faker.number.int({max: 10000, min: 1}).toString(),
+        last_update_date: faker.date.past().toISOString(),
+        assigned_id: faker.number.int({max: 1000, min: 1}).toString(),
+    },
+    {
+        displayDescription: "",
+        executedBy: faker.number.int({max: 1000, min: 1}).toString(),
+        rootContainerId: {
+            displayDescription: "",
+            deploymentDate: faker.date.past().toISOString(),
+            displayName: "Create E-Leave Request",
+            name: "Create_Eleave",
+            description: "",
+            deployedBy: faker.number.int({max: 1000, min: 1}).toString(),
+            id: "8569231201909689792",
+            activationState: "ENABLED",
+            version: "1.3.0.alpha",
+            configurationState: "RESOLVED",
+            last_update_date: faker.date.past().toISOString(),
+            actorinitiatorid: faker.number.int({max: 1000, min: 1}).toString(),
+        },
+        assigned_date: faker.date.past().toISOString(),
+        displayName: "Năm tháng trôi",
+        executedBySubstitute: faker.number.int({max: 1000, min: 0}).toString(),
+        dueDate: "",
+        description: "",
+        type: "USER_TASK",
+        priority: "normal",
+        actorId: faker.number.int({max: 1000, min: 1}).toString(),
+        processId: "8569231201909689792",
+        caseId: faker.number.int({max: 10000, min: 1}).toString(),
+        name: "Review E-leave",
+        reached_state_date: faker.date.past().toISOString(),
+        rootCaseId: faker.number.int({max: 10000, min: 1}).toString(),
+        id: faker.number.int({max: 1000000, min: 1}).toString(),
+        state: "ready",
+        parentCaseId: faker.number.int({max: 10000, min: 1}).toString(),
+        last_update_date: faker.date.past().toISOString(),
+        assigned_id: faker.number.int({max: 1000, min: 1}).toString(),
+    }
+]
+
+export {items}
 
 export default function Task() {
     let navCollapsedSize = 4;
@@ -39,6 +108,7 @@ export default function Task() {
     let defaultCollapsed = false;
 
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
+    const [task, setMail] = useTask()
 
     return <>
         <ResizablePanelGroup
@@ -193,7 +263,9 @@ export default function Task() {
                 {/*<MailDisplay*/}
                 {/*    mail={mails.find((item) => item.id === mail.selected) || null}*/}
                 {/*/>*/}
-                <TaskDisplay mail={item}/>
+                <TaskDisplay mail={
+                    items.find((item) => item.id === task.selected) || null
+                }/>
             </ResizablePanel>
         </ResizablePanelGroup>
     </>

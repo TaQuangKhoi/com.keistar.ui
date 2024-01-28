@@ -14,16 +14,17 @@ import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
 import {Mail} from "@/app/examples/mail/data";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 interface TaskDisplayProps {
-    mail: Mail | null
+    mail: FullHumanTask | null
 }
 
 export default function TaskDisplay(
-    { mail }: TaskDisplayProps
+    {mail}: TaskDisplayProps
 ) {
     const today = new Date()
-    
+
     return (
         <div className="flex h-full flex-col">
             <div className="flex items-center p-2">
@@ -177,21 +178,33 @@ export default function TaskDisplay(
                             </Avatar>
                             <div className="grid gap-1">
                                 <div className="font-semibold">{mail.name}</div>
-                                <div className="line-clamp-1 text-xs">{mail.subject}</div>
+                                <div className="line-clamp-1 text-xs">{mail.displayName}</div>
                                 <div className="line-clamp-1 text-xs">
-                                    <span className="font-medium">Reply-To:</span> {mail.email}
+                                    <span className="font-medium">Reply-To:</span> {mail.rootContainerId.id}
                                 </div>
                             </div>
                         </div>
-                        {mail.date && (
+                        {mail.assigned_date && (
                             <div className="ml-auto text-xs text-muted-foreground">
-                                {format(new Date(mail.date), "PPpp")}
+                                {format(new Date(mail.assigned_date), "PPpp")}
                             </div>
                         )}
                     </div>
                     <Separator/>
                     <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-                        {mail.text}
+                        {
+                            mail && Object.entries(mail).map(([key, value]) => {
+                                if (typeof value === 'object') {
+                                    return null
+                                }
+                                return (
+                                    <div key={key}>
+                                        <span className="font-semibold">{key}: </span>
+                                        <span>{value}</span>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     <Separator className="mt-auto"/>
                     <div className="p-4">
