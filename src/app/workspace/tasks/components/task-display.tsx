@@ -13,24 +13,25 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-import {Mail} from "@/app/examples/mail/data";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
+import {Input} from "@/components/ui/input";
 
 interface TaskDisplayProps {
-    mail: Mail | null
+    task: FullHumanTask | null
 }
 
 export default function TaskDisplay(
-    { mail }: TaskDisplayProps
+    {task}: TaskDisplayProps
 ) {
     const today = new Date()
-    
+
     return (
         <div className="flex h-full flex-col">
             <div className="flex items-center p-2">
                 <div className="flex items-center gap-2">
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!mail}>
+                            <Button variant="ghost" size="icon" disabled={!task}>
                                 <Archive className="h-4 w-4"/>
                                 <span className="sr-only">Archive</span>
                             </Button>
@@ -39,7 +40,7 @@ export default function TaskDisplay(
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!mail}>
+                            <Button variant="ghost" size="icon" disabled={!task}>
                                 <ArchiveX className="h-4 w-4"/>
                                 <span className="sr-only">Move to junk</span>
                             </Button>
@@ -48,7 +49,7 @@ export default function TaskDisplay(
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!mail}>
+                            <Button variant="ghost" size="icon" disabled={!task}>
                                 <Trash2 className="h-4 w-4"/>
                                 <span className="sr-only">Move to trash</span>
                             </Button>
@@ -60,7 +61,7 @@ export default function TaskDisplay(
                         <Popover>
                             <PopoverTrigger asChild>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
+                                    <Button variant="ghost" size="icon" disabled={!task}>
                                         <Clock className="h-4 w-4"/>
                                         <span className="sr-only">Snooze</span>
                                     </Button>
@@ -119,7 +120,7 @@ export default function TaskDisplay(
                 <div className="ml-auto flex items-center gap-2">
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!mail}>
+                            <Button variant="ghost" size="icon" disabled={!task}>
                                 <Reply className="h-4 w-4"/>
                                 <span className="sr-only">Reply</span>
                             </Button>
@@ -128,7 +129,7 @@ export default function TaskDisplay(
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!mail}>
+                            <Button variant="ghost" size="icon" disabled={!task}>
                                 <ReplyAll className="h-4 w-4"/>
                                 <span className="sr-only">Reply all</span>
                             </Button>
@@ -137,7 +138,7 @@ export default function TaskDisplay(
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!mail}>
+                            <Button variant="ghost" size="icon" disabled={!task}>
                                 <Forward className="h-4 w-4"/>
                                 <span className="sr-only">Forward</span>
                             </Button>
@@ -148,7 +149,7 @@ export default function TaskDisplay(
                 <Separator orientation="vertical" className="mx-2 h-6"/>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" disabled={!mail}>
+                        <Button variant="ghost" size="icon" disabled={!task}>
                             <MoreVertical className="h-4 w-4"/>
                             <span className="sr-only">More</span>
                         </Button>
@@ -162,36 +163,54 @@ export default function TaskDisplay(
                 </DropdownMenu>
             </div>
             <Separator/>
-            {mail ? (
+            {task ? (
                 <div className="flex flex-1 flex-col">
                     <div className="flex items-start p-4">
                         <div className="flex items-start gap-4 text-sm">
                             <Avatar>
-                                <AvatarImage alt={mail.name}/>
+                                <AvatarImage alt={task.name}/>
                                 <AvatarFallback>
-                                    {mail.name
+                                    {task.name
                                         .split(" ")
                                         .map((chunk) => chunk[0])
                                         .join("")}
                                 </AvatarFallback>
                             </Avatar>
                             <div className="grid gap-1">
-                                <div className="font-semibold">{mail.name}</div>
-                                <div className="line-clamp-1 text-xs">{mail.subject}</div>
+                                <div className="font-semibold">{task.name}</div>
+                                <div className="line-clamp-1 text-xs">{task.displayName}</div>
                                 <div className="line-clamp-1 text-xs">
-                                    <span className="font-medium">Reply-To:</span> {mail.email}
+                                    <span className="font-medium">Reply-To:</span> {task.rootContainerId.id}
                                 </div>
                             </div>
                         </div>
-                        {mail.date && (
+                        {task.assigned_date && (
                             <div className="ml-auto text-xs text-muted-foreground">
-                                {format(new Date(mail.date), "PPpp")}
+                                {format(new Date(task.assigned_date), "PPpp")}
                             </div>
                         )}
                     </div>
                     <Separator/>
                     <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-                        {mail.text}
+                        {
+                            task && Object.entries(task).map(([key, value]) => {
+                                if (typeof value === 'object') {
+                                    return null
+                                }
+                                return (
+                                    <div key={key}>
+                                        <Label>
+                                            {key}
+                                        </Label>
+                                        <Input type="text"
+                                               placeholder={key}
+                                               value={value}
+                                               disabled={true}
+                                        />
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     <Separator className="mt-auto"/>
                     <div className="p-4">
@@ -199,7 +218,7 @@ export default function TaskDisplay(
                             <div className="grid gap-4">
                                 <Textarea
                                     className="p-4"
-                                    placeholder={`Reply ${mail.name}...`}
+                                    placeholder={`Reply ${task.name}...`}
                                 />
                                 <div className="flex items-center">
                                     <Label

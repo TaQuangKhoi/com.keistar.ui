@@ -2,49 +2,8 @@ import {ScrollArea} from "@/components/ui/scroll-area"
 import {cn} from "@/lib/utils";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {Badge} from "@/components/ui/badge";
-import { faker } from '@faker-js/faker';
 import {useTask} from "@/app/workspace/tasks/use-task";
-import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
-import {ProcessDefinition} from "@/bonita/api/bpm/archived-process-instance/types";
-
-const items: FullHumanTask[] = [
-    {
-        displayDescription: "",
-        executedBy: faker.number.int({max: 1000, min: 1}).toString(),
-        rootContainerId: {
-            displayDescription: "",
-            deploymentDate: faker.date.past().toISOString(),
-            displayName: "Create E-Leave Request",
-            name: "Create_Eleave",
-            description: "",
-            deployedBy: faker.number.int({max: 1000, min: 1}).toString(),
-            id: "8569231201909689792",
-            activationState: "ENABLED",
-            version: "1.3.0.alpha",
-            configurationState: "RESOLVED",
-            last_update_date: faker.date.past().toISOString(),
-            actorinitiatorid: faker.number.int({max: 1000, min: 1}).toString(),
-        },
-        assigned_date: faker.date.past().toISOString(),
-        displayName: "Review E-leave",
-        executedBySubstitute: faker.number.int({max: 1000, min: 0}).toString(),
-        dueDate: "",
-        description: "",
-        type: "USER_TASK",
-        priority: "normal",
-        actorId: faker.number.int({max: 1000, min: 1}).toString(),
-        processId: "8569231201909689792",
-        caseId: faker.number.int({max: 10000, min: 1}).toString(),
-        name: "Review E-leave",
-        reached_state_date: faker.date.past().toISOString(),
-        rootCaseId: faker.number.int({max: 10000, min: 1}).toString(),
-        id: faker.number.int({max: 1000000, min: 1}).toString(),
-        state: "ready",
-        parentCaseId: faker.number.int({max: 10000, min: 1}).toString(),
-        last_update_date: faker.date.past().toISOString(),
-        assigned_id: faker.number.int({max: 1000, min: 1}).toString(),
-    }
-]
+import {items} from "@/app/workspace/tasks/components/task";
 
 export default function TaskList() {
     const [mail, setMail] = useTask()
