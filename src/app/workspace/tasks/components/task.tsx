@@ -263,7 +263,7 @@ export default function Task() {
                 {/*<MailDisplay*/}
                 {/*    mail={mails.find((item) => item.id === mail.selected) || null}*/}
                 {/*/>*/}
-                <TaskDisplay mail={
+                <TaskDisplay task={
                     items.find((item) => item.id === task.selected) || null
                 }/>
             </ResizablePanel>
