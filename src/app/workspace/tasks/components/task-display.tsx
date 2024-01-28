@@ -13,8 +13,8 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-import {Mail} from "@/app/examples/mail/data";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
+import {Input} from "@/components/ui/input";
 
 interface TaskDisplayProps {
     task: FullHumanTask | null
@@ -199,8 +199,14 @@ export default function TaskDisplay(
                                 }
                                 return (
                                     <div key={key}>
-                                        <span className="font-semibold">{key}: </span>
-                                        <span>{value}</span>
+                                        <Label>
+                                            {key}
+                                        </Label>
+                                        <Input type="text"
+                                               placeholder={key}
+                                               value={value}
+                                               disabled={true}
+                                        />
                                     </div>
                                 )
                             })
