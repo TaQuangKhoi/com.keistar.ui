@@ -7,13 +7,15 @@ function isStartOfQueryString(url: string) {
 /**
  * Finds HumanTasks with pagination params and filters
  * @param c maximum number of elements to retrieve
+ *
+ * @link https://api-documentation.bonitasoft.com/latest/#tag/HumanTask/operation/searchHumanTasks
  */
 async function findsHumanTasks(
     p: number = 0,
     c: number = 20,
     f: string,
     o: string,
-    s: string|null,
+    s: string | null,
 ) {
     let url = `/API/bpm/humanTask`;
 

@@ -1,12 +1,39 @@
+'use client'
+
 import {ScrollArea} from "@/components/ui/scroll-area"
 import {cn} from "@/lib/utils";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {Badge} from "@/components/ui/badge";
 import {useTask} from "@/app/workspace/tasks/use-task";
 import {items} from "@/app/workspace/tasks/components/task";
+import {useEffect, useState} from "react";
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 export default function TaskList() {
     const [mail, setMail] = useTask()
+    const [items, setItems] = useState<FullHumanTask[]>([])
+
+    useEffect(() => {
+        const getData = async () => {
+            const data = await findsHumanTasks(
+                0,
+                50,
+                "", //user_id%3D815
+                "displayName%20ASC",
+                null
+            );
+            setItems(data)
+            return data
+        }
+        getData().then((data) => {
+            console.debug(data)
+        })
+    }, [])
+
+    if (items.length === 0) {
+        return <div>Loading...</div>
+    }
 
     return (
         <ScrollArea className="h-screen">
