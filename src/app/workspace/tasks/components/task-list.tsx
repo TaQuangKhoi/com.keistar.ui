@@ -21,7 +21,8 @@ export default function TaskList() {
                 50,
                 "", //user_id%3D815
                 "displayName%20ASC",
-                null
+                null,
+                ["rootContainerId"]
             );
             setItems(data)
             return data

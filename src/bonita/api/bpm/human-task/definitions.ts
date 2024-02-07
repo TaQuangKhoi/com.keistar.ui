@@ -7,6 +7,7 @@ function isStartOfQueryString(url: string) {
 /**
  * Finds HumanTasks with pagination params and filters
  * @param c maximum number of elements to retrieve
+ * @param d get deep object
  *
  * @link https://api-documentation.bonitasoft.com/latest/#tag/HumanTask/operation/searchHumanTasks
  */
@@ -16,6 +17,7 @@ async function findsHumanTasks(
     f: string,
     o: string,
     s: string | null,
+    d: string[] | null = null
 ) {
     let url = `/API/bpm/humanTask`;
 
@@ -50,6 +52,16 @@ async function findsHumanTasks(
         } else {
             url = url.concat(`&s=${s}`);
         }
+    }
+
+    if (d) {
+        d.forEach((value) => {
+            if (isStartOfQueryString(url)) {
+                url = url.concat(`?d=${value}`);
+            } else {
+                url = url.concat(`&d=${value}`);
+            }
+        });
     }
 
     return await axios.get(url, {
