@@ -11,7 +11,7 @@ import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 export default function TaskList() {
-    const [mail, setMail] = useTask()
+    const [task, setTask] = useTask()
     const [items, setItems] = useState<FullHumanTask[]>([])
 
     useEffect(() => {
@@ -44,11 +44,11 @@ export default function TaskList() {
                         key={item.id}
                         className={cn(
                             "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-                            mail.selected === item.id && "bg-muted"
+                            task.selected === item.id && "bg-muted"
                         )}
                         onClick={() =>
-                            setMail({
-                                ...mail,
+                            setTask({
+                                ...task,
                                 selected: item.id,
                             })
                         }
@@ -64,7 +64,7 @@ export default function TaskList() {
                                 <div
                                     className={cn(
                                         "ml-auto text-xs",
-                                        mail.selected === item.id
+                                        task.selected === item.id
                                             ? "text-foreground"
                                             : "text-muted-foreground"
                                     )}
