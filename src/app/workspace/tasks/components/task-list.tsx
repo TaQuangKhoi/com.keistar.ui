@@ -53,7 +53,11 @@ export default function TaskList() {
                             </div>
                         </div>
                         <div className="line-clamp-2 text-xs text-muted-foreground">
-                            {item.rootContainerId.displayDescription.substring(0, 300)}
+                            {
+                                typeof item.rootContainerId === "string"
+                                    ? item.rootContainerId
+                                    : item.rootContainerId.displayDescription.substring(0, 300)
+                            }
                         </div>
                         {/*{item.labels.length ? (*/}
                         {/*    <div className="flex items-center gap-2">*/}
