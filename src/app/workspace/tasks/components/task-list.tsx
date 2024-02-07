@@ -1,26 +1,39 @@
+'use client'
+
 import {ScrollArea} from "@/components/ui/scroll-area"
 import {cn} from "@/lib/utils";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {Badge} from "@/components/ui/badge";
 import {useTask} from "@/app/workspace/tasks/use-task";
 import {items} from "@/app/workspace/tasks/components/task";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
-export default function TaskList() {
-    const [mail, setMail] = useTask()
+interface TaskListProps {
+    items: FullHumanTask[]
+}
+
+export default function TaskList({ items }: TaskListProps) {
+    const [task, setTask] = useTask()
 
     return (
         <ScrollArea className="h-screen">
             <div className="flex flex-col gap-2 p-4 pt-0">
-                {items.map((item) => (
+                {
+                    items.length === 0 && <div className="m-3">
+                        Loading...
+                    </div>
+                }
+
+                {items.length > 0 && items.map((item) => (
                     <button
                         key={item.id}
                         className={cn(
                             "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-                            mail.selected === item.id && "bg-muted"
+                            task.selected === item.id && "bg-muted"
                         )}
                         onClick={() =>
-                            setMail({
-                                ...mail,
+                            setTask({
+                                ...task,
                                 selected: item.id,
                             })
                         }
@@ -36,7 +49,7 @@ export default function TaskList() {
                                 <div
                                     className={cn(
                                         "ml-auto text-xs",
-                                        mail.selected === item.id
+                                        task.selected === item.id
                                             ? "text-foreground"
                                             : "text-muted-foreground"
                                     )}
@@ -53,7 +66,11 @@ export default function TaskList() {
                             </div>
                         </div>
                         <div className="line-clamp-2 text-xs text-muted-foreground">
-                            {item.rootContainerId.displayDescription.substring(0, 300)}
+                            {
+                                typeof item.rootContainerId === "string"
+                                    ? item.rootContainerId
+                                    : item.rootContainerId.displayDescription.substring(0, 300)
+                            }
                         </div>
                         {/*{item.labels.length ? (*/}
                         {/*    <div className="flex items-center gap-2">*/}
