@@ -15,22 +15,22 @@ export default function TaskList() {
     const [items, setItems] = useState<FullHumanTask[]>([])
 
     useEffect(() => {
-        const getData = async () => {
-            const data = await findsHumanTasks(
-                0,
-                50,
-                "", //user_id%3D815
-                "displayName%20ASC",
-                null,
-                ["rootContainerId"]
-            );
-            setItems(data)
-            return data
-        }
         getData().then((data) => {
-            console.debug(data)
+            setItems(data)
         })
     }, [])
+
+    const getData = async () => {
+        const data = await findsHumanTasks(
+            0,
+            50,
+            "", //user_id%3D815
+            "displayName%20ASC",
+            null,
+            ["rootContainerId"]
+        );
+        return data
+    }
 
     if (items.length === 0) {
         return <div>Loading...</div>
