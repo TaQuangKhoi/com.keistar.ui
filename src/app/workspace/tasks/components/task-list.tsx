@@ -32,14 +32,15 @@ export default function TaskList() {
         return data
     }
 
-    if (items.length === 0) {
-        return <div>Loading...</div>
-    }
-
     return (
         <ScrollArea className="h-screen">
             <div className="flex flex-col gap-2 p-4 pt-0">
-                {items.map((item) => (
+                {
+                    items.length === 0 && <div className="m-3">
+                        Loading...
+                    </div>
+                }
+                {items.length > 0 && items.map((item) => (
                     <button
                         key={item.id}
                         className={cn(
