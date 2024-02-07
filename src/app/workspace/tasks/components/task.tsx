@@ -10,7 +10,8 @@ import {
     ArchiveX,
     File,
     Inbox,
-    MessagesSquare, Search,
+    MessagesSquare,
+    Search,
     Send,
     ShoppingCart,
     Trash2,
@@ -18,12 +19,13 @@ import {
 } from "lucide-react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Input} from "@/components/ui/input";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TaskList from "@/app/workspace/tasks/components/task-list";
 import TaskDisplay from "@/app/workspace/tasks/components/task-display";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {faker} from "@faker-js/faker";
 import {useTask} from "@/app/workspace/tasks/use-task";
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
 
 const items: FullHumanTask[] = [
     {
@@ -108,7 +110,26 @@ export default function Task() {
     let defaultCollapsed = false;
 
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
-    const [task, setMail] = useTask()
+    const [task, setTask] = useTask()
+
+    const [tasks, setTasks] = useState<FullHumanTask[]>([])
+
+    useEffect(() => {
+        getData().then((data) => {
+            setTasks(data)
+        })
+    }, [])
+
+    const getData = async () => {
+        return await findsHumanTasks(
+            0,
+            50,
+            "", //user_id%3D815
+            "displayName%20ASC",
+            null,
+            ["rootContainerId"]
+        )
+    }
 
     return <>
         <ResizablePanelGroup
@@ -140,7 +161,7 @@ export default function Task() {
                 }}
                 className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
             >
-                <div className={cn("flex h-[56px] items-center justify-center", isCollapsed ? 'h-[56px]' : 'px-2')}>
+                <div className={cn("flex h-[56px] tasks-center justify-center", isCollapsed ? 'h-[56px]' : 'px-2')}>
                     {/*<AccountSwitcher isCollapsed={isCollapsed} accounts={accounts}/>*/}
                 </div>
                 <Separator/>
@@ -249,12 +270,10 @@ export default function Task() {
                         </form>
                     </div>
                     <TabsContent value="all" className="m-0">
-                        {/*<MailList items={mails}/>*/}
-                        <TaskList/>
+                        <TaskList items={tasks}/>
                     </TabsContent>
                     <TabsContent value="unread" className="m-0">
-                        {/*<MailList items={mails.filter((item) => !item.read)}/>*/}
-                        <TaskList/>
+                        <TaskList items={tasks}/>
                     </TabsContent>
                 </Tabs>
             </ResizablePanel>
@@ -264,7 +283,7 @@ export default function Task() {
                 {/*    mail={mails.find((item) => item.id === mail.selected) || null}*/}
                 {/*/>*/}
                 <TaskDisplay task={
-                    items.find((item) => item.id === task.selected) || null
+                    tasks.find((item) => item.id === task.selected) || null
                 }/>
             </ResizablePanel>
         </ResizablePanelGroup>

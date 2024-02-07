@@ -6,31 +6,14 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {Badge} from "@/components/ui/badge";
 import {useTask} from "@/app/workspace/tasks/use-task";
 import {items} from "@/app/workspace/tasks/components/task";
-import {useEffect, useState} from "react";
-import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
-export default function TaskList() {
+interface TaskListProps {
+    items: FullHumanTask[]
+}
+
+export default function TaskList({ items }: TaskListProps) {
     const [task, setTask] = useTask()
-    const [items, setItems] = useState<FullHumanTask[]>([])
-
-    useEffect(() => {
-        getData().then((data) => {
-            setItems(data)
-        })
-    }, [])
-
-    const getData = async () => {
-        const data = await findsHumanTasks(
-            0,
-            50,
-            "", //user_id%3D815
-            "displayName%20ASC",
-            null,
-            ["rootContainerId"]
-        );
-        return data
-    }
 
     return (
         <ScrollArea className="h-screen">
@@ -40,6 +23,7 @@ export default function TaskList() {
                         Loading...
                     </div>
                 }
+
                 {items.length > 0 && items.map((item) => (
                     <button
                         key={item.id}
