@@ -15,6 +15,7 @@ const meta = {
     argTypes: {
         children: {},
         disabled: {},
+        size: {},
     },
 } satisfies Meta<typeof Button>;
 
@@ -23,6 +24,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
-        children: 'Primary',
+        children: 'Ngày Dài Quá Em Ơi',
     },
 };
