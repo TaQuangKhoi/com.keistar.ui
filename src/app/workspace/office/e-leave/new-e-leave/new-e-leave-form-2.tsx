@@ -276,39 +276,6 @@ export function NewE_leaveForm() {
 
                     <DatePickerWithRangeFormField form={form} className=""/>
 
-                    <div className="flex-row space-y-2">
-                        <SelectFormField
-                            form={form} name="leaveTypeId"
-                            options={options}
-                            label="Leave Type"
-                            valueKey="persistenceId_string"
-                            placeholder={"Select a leave type"}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="rememberMe"
-                            render={({field}) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <div className="space-y-1 leading-none">
-                                        <FormLabel>
-                                            Remember me
-                                        </FormLabel>
-                                        {/*<FormDescription>*/}
-                                        {/*    You can manage your mobile notifications in the{" "}*/}
-                                        {/*    <Link href="/examples/forms">mobile settings</Link> page.*/}
-                                        {/*</FormDescription>*/}
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
                     <div className="flex gap-5">
                         <div className="w-full">
                             <SelectFormField
@@ -344,6 +311,39 @@ export function NewE_leaveForm() {
                                 )}
                             />
                         </div>
+                    </div>
+
+                    <div className="flex-row space-y-2">
+                        <SelectFormField
+                            form={form} name="leaveTypeId"
+                            options={options}
+                            label="Leave Type"
+                            valueKey="persistenceId_string"
+                            placeholder={"Select a leave type"}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="rememberMe"
+                            render={({field}) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                            Remember me
+                                        </FormLabel>
+                                        {/*<FormDescription>*/}
+                                        {/*    You can manage your mobile notifications in the{" "}*/}
+                                        {/*    <Link href="/examples/forms">mobile settings</Link> page.*/}
+                                        {/*</FormDescription>*/}
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
                     </div>
 
                     <FormField
