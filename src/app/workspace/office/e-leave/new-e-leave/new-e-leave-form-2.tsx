@@ -273,6 +273,9 @@ export function NewE_leaveForm() {
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-2 space-y-8">
+
+                    <DatePickerWithRangeFormField form={form} className=""/>
+
                     <div className="flex-row space-y-2">
                         <SelectFormField
                             form={form} name="leaveTypeId"
@@ -342,9 +345,6 @@ export function NewE_leaveForm() {
                             />
                         </div>
                     </div>
-
-
-                    <DatePickerWithRangeFormField form={form} className=""/>
 
                     <FormField
                         control={form.control}
