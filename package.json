@@ -66,6 +66,7 @@
     "react-hotkeys-hook": "^4.4.3",
     "react-resizable-panels": "^1.0.7",
     "recharts": "^2.10.1",
+    "sonner": "^1.4.0",
     "swr": "^2.2.4",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",

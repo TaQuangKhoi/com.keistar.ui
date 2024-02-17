@@ -3,7 +3,7 @@ import {Inter} from 'next/font/google'
 import './globals.css'
 import {Analytics} from "@/components/analytics";
 import {ThemeProvider} from "@/components/theme-provider";
-import {Toaster} from "@/components/ui/toaster"
+import {Toaster} from "@/components/ui/sonner"
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
 import {NextUIProviders} from "@/app/nextui-providers";
 

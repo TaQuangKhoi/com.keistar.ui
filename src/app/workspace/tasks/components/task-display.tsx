@@ -15,6 +15,8 @@ import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {Input} from "@/components/ui/input";
+import { toast } from "sonner"
+
 
 interface TaskDisplayProps {
     task: FullHumanTask | null
@@ -49,7 +51,11 @@ export default function TaskDisplay(
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={!task}>
+                            <Button variant="ghost" size="icon" disabled={!task}
+                                    onClick={() => {
+                                        toast("Task moved to trash")
+                                    }}
+                            >
                                 <Trash2 className="h-4 w-4"/>
                                 <span className="sr-only">Move to trash</span>
                             </Button>
