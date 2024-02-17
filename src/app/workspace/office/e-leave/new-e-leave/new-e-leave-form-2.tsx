@@ -35,6 +35,8 @@ import {
     newE_leaveFormSchema,
     NewE_leaveFormValues
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
+import * as React from "react";
+import {Icons} from "@/components/icons";
 
 
 interface LeaveType {
@@ -132,6 +134,8 @@ const dateStatuses = [
 
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     const form = useForm<NewE_leaveFormValues>(
         {
             resolver: zodResolver(newE_leaveFormSchema),
@@ -175,6 +179,7 @@ export function NewE_leaveForm() {
 
 
     async function onSubmit(data: NewE_leaveFormValues) {
+        setIsLoading(true)
         const neweleaveInput = Object.assign(body.eleaveInput, {
             leaveTypeId: parseInt(data.leaveTypeId),
             reason: data.reason,
@@ -211,6 +216,7 @@ export function NewE_leaveForm() {
                 // always executed
             });
         await instantiateProcess(processId, newBody);
+        setIsLoading(false)
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
@@ -385,7 +391,12 @@ export function NewE_leaveForm() {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Request Now</Button>
+                    <Button type="submit" disabled={isLoading}>
+                        {isLoading && (
+                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin"/>
+                        )}
+                        Request Now
+                    </Button>
                     <Link href={'./'} className={cn(buttonVariants({variant: "secondary"}), "ml-2")}>
                         Close
                     </Link>
