@@ -10,7 +10,8 @@
     "jest": "jest",
     "jest:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_6dcf6f1cd2d7492"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.2",
@@ -93,6 +94,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "chromatic": "^11.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "eslint-plugin-storybook": "^0.6.15",
