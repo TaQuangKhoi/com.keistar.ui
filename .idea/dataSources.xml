@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:h2:file:D:\BonitaStudioCommunity-2023.2-u0\workspace\havakobpm\app\h2_database/business_data.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="Havako SQL Server" uuid="221cff29-9d5a-409e-915a-d7107f0f9bd9">
+    <data-source source="LOCAL" name="Local SQL Server" uuid="221cff29-9d5a-409e-915a-d7107f0f9bd9">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://34.126.96.121</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://localhost:1433</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

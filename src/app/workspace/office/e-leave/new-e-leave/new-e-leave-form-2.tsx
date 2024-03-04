@@ -36,6 +36,7 @@ import {
     NewE_leaveFormValues
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 import {Icons} from "@/components/icons";
+import {getCurrentUserSession} from "@/bonita/api/system/session";
 
 
 interface LeaveType {
@@ -48,67 +49,33 @@ interface LeaveType {
     persistenceVersion_string: string,
 }
 
+/**
+ * Mimic the contract of contract in process
+ */
 interface E_leaveInput {
     status: string;
-    employeeId: string;
-    employeeFullName: string;
-    directManagerId: string;
-    managerFullName: string;
-    leaveTypeId: number;
-    leaveTime: string;
+
+    requesterId: string;
+
+    leaveType?: {
+        persistenceId_string: number
+    };
+
+    reason: string;
+
     startDate: Date;
     endDate: Date;
     totalDays: number;
-    reason: string;
+
     createdBy: string;
     createdDate: Date;
+
     updatedBy: string;
     updatedDate: Date;
-    isApprove: boolean;
-    isCancel: boolean;
-    isReject: boolean;
-    extendLeaveType: Object;
-    totalAnnualLeave: number;
-    totalLeaveApplied: number;
-    totalRemainLeave: number;
-    sqlId: string;
-    createdDateString: string;
-    updatedDateString: string;
 }
 
 let eleaveInput: E_leaveInput = {
     status: "Waiting for approve",
-    employeeId: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-    employeeFullName: "Hanh Nguyen Hong",
-    directManagerId: "B6C95A2A-46D2-487E-9DCD-B1414EC6AB2F",
-    managerFullName: "Nguyet Pham Minh",
-    leaveTypeId: 0,
-
-    leaveTime: "Full day",
-    startDate: new Date(),
-    endDate: new Date(),
-    totalDays: 1,
-
-    reason: "",
-
-    createdBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-    createdDate: new Date(),
-    updatedBy: "B17F5403-49D7-497E-BBBA-1B2326A4D657",
-    updatedDate: new Date(),
-    isApprove: false,
-    isCancel: false,
-    isReject: false,
-    extendLeaveType: {
-        ID: "FFFFD914-6057-4286-A321-773680D400A9",
-        Name: "Annual",
-        Description: ""
-    },
-    totalAnnualLeave: 129.25199999999944,
-    totalLeaveApplied: 103.5,
-    totalRemainLeave: 25.75200000000011,
-    sqlId: "F9E4E64A-CED9-4EB4-9C1F-6360083158FD",
-    createdDateString: "2023-12-08 13:49:26.542",
-    updatedDateString: "2023-12-08 13:49:26.542"
 }
 
 const body = {
@@ -179,23 +146,33 @@ export function NewE_leaveForm() {
 
     async function onSubmit(data: NewE_leaveFormValues) {
         setIsLoading(true)
-        const neweleaveInput = Object.assign(body.eleaveInput, {
-            leaveTypeId: parseInt(data.leaveTypeId),
+
+        const session = await getCurrentUserSession().then(function (response) {
+            return response.data;
+        })
+
+        const newE_leaveInput = Object.assign(body.eleaveInput, {
+            requester: session.user_id,
+            leaveType: {
+                persistenceId_string: parseInt(data.leaveTypeId)
+            },
+
             reason: data.reason,
+
             startDate: data.dateRange.from,
             endDate: data.dateRange.to,
             totalDays: data.totalDays,
+
+            createdBy: session.user_id,
+            createdDate: new Date(),
+
+            updatedBy: session.user_id,
+            updatedDate: new Date(),
         });
 
         const newBody = {
-            eleaveInput: neweleaveInput,
+            eleaveInput: newE_leaveInput,
         }
-
-        // body.eleaveInput.leaveTypeId = parseInt(data.leaveTypeId);
-        // body.eleaveInput.reason = data.reason;
-        // body.eleaveInput.startDate = data.dateRange.from;
-        // body.eleaveInput.endDate = data.dateRange.to;
-
 
         let processId = await axios.get(
             '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
@@ -214,8 +191,15 @@ export function NewE_leaveForm() {
             .finally(function () {
                 // always executed
             });
-        await instantiateProcess(processId, newBody);
-        setIsLoading(false)
+
+        try {
+            await instantiateProcess(processId, newBody);
+            setIsLoading(false)
+
+        } catch (e) {
+            console.error(e);
+            setIsLoading(false)
+        }
         // toast({
         //     title: "You submitted the following values:",
         //     description: (
