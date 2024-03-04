@@ -54,9 +54,7 @@ export default function TaskList({ items }: TaskListProps) {
                                             : "text-muted-foreground"
                                     )}
                                 >
-                                    {formatDistanceToNow(new Date(item.assigned_date), {
-                                        addSuffix: true,
-                                    })}
+                                    {item.assigned_date && formatDistanceToNow(new Date(item.assigned_date), {addSuffix: true,})}
                                 </div>
                             </div>
 
