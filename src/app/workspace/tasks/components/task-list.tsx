@@ -41,7 +41,7 @@ export default function TaskList({ items }: TaskListProps) {
                         <div className="flex w-full flex-col gap-1">
                             <div className="flex items-center">
                                 <div className="flex items-center gap-2">
-                                    <div className="font-semibold">{item.displayName}</div>
+                                    <div className="font-semibold">{item.id}: {item.displayName}</div>
                                     {/*{!item.read && (*/}
                                     {/*    <span className="flex h-2 w-2 rounded-full bg-blue-600"/>*/}
                                     {/*)}*/}
