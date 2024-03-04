@@ -2,7 +2,6 @@
 
 import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm, useWatch} from "react-hook-form"
-import * as z from "zod"
 
 import {
     Form,
@@ -55,23 +54,23 @@ interface LeaveType {
 interface E_leaveInput {
     status: string;
 
-    requesterId: string;
+    requesterId?: string;
 
     leaveType?: {
         persistenceId_string: number
     };
 
-    reason: string;
+    reason?: string;
 
-    startDate: Date;
-    endDate: Date;
-    totalDays: number;
+    startDate?: Date;
+    endDate?: Date;
+    totalDays?: number;
 
-    createdBy: string;
-    createdDate: Date;
+    createdBy?: string;
+    createdDate?: Date;
 
-    updatedBy: string;
-    updatedDate: Date;
+    updatedBy?: string;
+    updatedDate?: Date;
 }
 
 let eleaveInput: E_leaveInput = {
