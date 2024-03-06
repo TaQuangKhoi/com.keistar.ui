@@ -7,8 +7,32 @@ import {Input} from "@/components/ui/input";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
+import {
+    getContextByUserTaskId,
+    useGetContextByUserTaskId
+} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
+import {useEffect, useState} from "react";
+import {default as axios} from "@/lib/axios-instance";
+import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
+    const [context, setContext] = useState()
+    const [e_leave, setE_leave] = useState<E_leave>()
+
+    useEffect(() => {
+        getContextByUserTaskId(task.id).then((data) => {
+            setContext(data)
+            axios.get(data.eleave_ref.link, {
+                withCredentials: true,
+            }).then((response) => {
+                console.debug(response.data)
+                setE_leave(response.data)
+            });
+        })
+    }, [task]);
+
+    // const contextData = useGetContextByUserTaskId(task.id)
+
     return <div className="flex flex-1 flex-col">
         <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
@@ -38,7 +62,18 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         <Separator/>
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
+            <div>
+                <Label>
+                    Requestor
+                </Label>
+                <Input type="text"
+                       placeholder=""
+                       value={e_leave?.requestor}
+                       disabled={true}
+                />
+            </div>
             {
+
                 task && Object.entries(task).map(([key, value]) => {
                     if (typeof value === 'object') {
                         return null

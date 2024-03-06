@@ -8,43 +8,7 @@ import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
 import {getCurrentUserSession} from "@/bonita/api/system/session";
 import {isSameDay, eachDayOfInterval} from 'date-fns'
 import DateCellRender from "@/app/workspace/office/e-leave/date-cell-render";
-
-interface E_leave {
-    persistenceId?: number | any,
-    persistenceId_string?: string | any,
-    persistenceVersion?: number | any,
-    persistenceVersion_string?: string | any,
-    status?: any,
-    startDate?: string | any,
-    endDate?: string | any,
-    totalDays?: number | any,
-    totalDays_string?: string | any,
-    reason?: string | any,
-    isApprove?: any,
-    isCancel?: any,
-    isReject?: any,
-    cancelReason?: any,
-    cancelDate?: any,
-    approveDate?: any,
-    rejectDate?: any,
-    approveComment?: any,
-    rejectComment?: any,
-    createdDate?: string | any,
-    createdBy?: number | any,
-    createdBy_string?: string | any,
-    links?: [
-        {
-            "rel": string, // "employee"
-            "href": string, // "/API/bdm/businessData/com.havako.model.office.Eleave/146/employee"
-        },
-        {
-            "rel": string, // "leaveType"
-            "href": string, // "/API/bdm/businessData/com.havako.model.office.Eleave/146/leaveType"
-        }
-    ],
-}
-
-
+import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 
 // type extends E_leave
 interface processedE_leave extends E_leave {
