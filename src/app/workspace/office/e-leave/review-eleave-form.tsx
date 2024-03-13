@@ -79,10 +79,8 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 <Label>
                     Requestor
                 </Label>
-                <Input type="text"
-                       placeholder=""
+                <Input className="cursor-not-allowed" type="text"
                        value={requester?.firstname + " " + requester?.lastname}
-                       disabled={true}
                 />
             </div>
             {
