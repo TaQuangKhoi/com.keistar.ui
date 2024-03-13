@@ -19,7 +19,10 @@ import {User} from "@/bonita/api/bpm/archived-process-instance/types";
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [context, setContext] = useState()
     const [e_leave, setE_leave] = useState<E_leave>({})
-    const [requester, setRequester] = useState<User>()
+    const [requester, setRequester] = useState<User>({
+        firstname: "",
+        lastname: "",
+    })
 
     useEffect(() => {
         getContextByUserTaskId(task.id).then((data) => {
