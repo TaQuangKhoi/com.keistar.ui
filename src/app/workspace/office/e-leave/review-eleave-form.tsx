@@ -13,11 +13,13 @@ import {
 import {useEffect, useState} from "react";
 import {default as axios} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
+import {getUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
+import {User} from "@/bonita/api/bpm/archived-process-instance/types";
 
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [context, setContext] = useState()
-    const [e_leave, setE_leave] = useState<E_leave>()
-    const [requestor, setRequestor] = useState()
+    const [e_leave, setE_leave] = useState<E_leave>({})
+    const [requester, setRequester] = useState<User>()
 
     useEffect(() => {
         getContextByUserTaskId(task.id).then((data) => {
@@ -31,7 +33,15 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         })
     }, [task]);
 
-    // const contextData = useGetContextByUserTaskId(task.id)
+    useEffect(() => {
+        getUserById(e_leave.requestor).then((data) => {
+            setRequester(data)
+        });
+    }, [e_leave]);
+
+    function test(): string | number | readonly string[] | undefined {
+        return requester?.firstname
+    }
 
     return <div className="flex flex-1 flex-col">
         <div className="flex items-start p-4">
@@ -68,7 +78,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 </Label>
                 <Input type="text"
                        placeholder=""
-                       value={e_leave?.requestor}
+                       value={requester?.firstname + " " + requester?.lastname}
                        disabled={true}
                 />
             </div>
