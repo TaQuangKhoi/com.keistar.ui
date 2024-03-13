@@ -16,7 +16,7 @@ async function getContextByUserTaskId(taskId: string) {
 async function useGetContextByUserTaskId(taskId: string) {
     const [context, setContext] = useState()
     useEffect(() => {
-        getContextByUserTaskId(task.id).then((data) => {
+        getContextByUserTaskId(taskId).then((data) => {
             setContext(data)
         })
     }, []);
