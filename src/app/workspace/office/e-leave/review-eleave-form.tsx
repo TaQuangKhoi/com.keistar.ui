@@ -38,7 +38,6 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
             axios.get(data.eleave_ref.link, {
                 withCredentials: true,
             }).then((response) => {
-                console.debug(response.data)
                 setE_leave(response.data)
             });
         })

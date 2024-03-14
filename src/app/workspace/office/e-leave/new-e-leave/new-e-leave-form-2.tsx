@@ -60,6 +60,8 @@ interface E_leaveInput {
         persistenceId_string: number
     };
 
+    leaveTime?: string;
+
     reason?: string;
 
     startDate?: Date;
@@ -73,12 +75,12 @@ interface E_leaveInput {
     updatedDate?: Date;
 }
 
-let eleaveInput: E_leaveInput = {
+let e_leaveInput: E_leaveInput = {
     status: "Waiting for approve",
 }
 
 const body = {
-    eleaveInput: eleaveInput,
+    eleaveInput: e_leaveInput,
 }
 
 const dateStatuses = [
@@ -157,6 +159,7 @@ export function NewE_leaveForm() {
             },
 
             reason: data.reason,
+            leaveTime: data.dateStatus,
 
             startDate: data.dateRange.from,
             endDate: data.dateRange.to,
@@ -192,7 +195,7 @@ export function NewE_leaveForm() {
             });
 
         try {
-            await instantiateProcess(processId, newBody);
+            const resutl = await instantiateProcess(processId, newBody);
             setIsLoading(false)
 
         } catch (e) {
@@ -267,7 +270,8 @@ export function NewE_leaveForm() {
                     <div className="flex gap-5">
                         <div className="w-full">
                             <SelectFormField
-                                form={form} name="dateStatus"
+                                form={form}
+                                name="dateStatus"
                                 options={dateStatuses}
                                 label="Date Status"
                                 valueKey="value"
