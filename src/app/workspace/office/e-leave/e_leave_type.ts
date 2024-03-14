@@ -22,6 +22,16 @@ export default interface E_leave {
     createdDate?: string | any,
     createdBy?: number | any,
     createdBy_string?: string | any,
+    leaveType?:
+        {
+            persistenceId?: number,
+            persistenceId_string?: string,
+            persistenceVersion?: number,
+            persistenceVersion_string?: string,
+            name?: string,
+            description?: string,
+            isActive?: boolean,
+        },
     links?: [
         {
             "rel": string, // "employee"

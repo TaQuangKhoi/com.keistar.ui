@@ -24,6 +24,14 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         lastname: "",
     })
 
+    /**
+     * Display the e-leave in the form by input tags
+     */
+    const [e_leaveDisplay, setE_leaveDisplay] = useState<any>([])
+
+    /**
+     * Get the context of the task, then get the e-leave from the context
+     */
     useEffect(() => {
         getContextByUserTaskId(task.id).then((data) => {
             setContext(data)
@@ -36,14 +44,38 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         })
     }, [task]);
 
+    /**
+     * Get the requester of the e-leave
+     */
     useEffect(() => {
         getUserById(e_leave.requestor).then((data) => {
             setRequester(data)
         });
     }, [e_leave]);
 
-    function test(): string | number | readonly string[] | undefined {
-        return requester?.firstname
+    useEffect(() => {
+        setE_leaveDisplay([
+            {
+                key: "Requestor",
+                value: requester.firstname + " " + requester.lastname,
+            },
+            {
+                key: "From Date",
+                value: e_leave.startDate ? format(new Date(e_leave?.startDate), "dd/MM/yyyy") : "",
+            },
+            {
+                key: "To Date",
+                value: e_leave.endDate ? format(new Date(e_leave?.endDate), "dd/MM/yyyy") : "",
+            },
+            {
+                key: "Total Days",
+                value: e_leave.totalDays,
+            },
+        ])
+    }, [requester, e_leave]);
+
+    function inputStyle(): string {
+        return "cursor-not-allowed my-2"
     }
 
     return <div className="flex flex-1 flex-col">
@@ -75,16 +107,23 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         <Separator/>
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            <div>
-                <Label>
-                    Requestor
-                </Label>
-                <Input className="cursor-not-allowed" type="text"
-                       value={requester?.firstname + " " + requester?.lastname}
-                />
-            </div>
             {
-
+                e_leaveDisplay.map((item) => {
+                    return (
+                        <div key={item.key}>
+                            <Label>
+                                {item.key}
+                            </Label>
+                            <Input type="text"
+                                   className={inputStyle()}
+                                   placeholder={item.key}
+                                   value={item.value}
+                            />
+                        </div>
+                    )
+                })
+            }
+            {
                 task && Object.entries(task).map(([key, value]) => {
                     if (typeof value === 'object') {
                         return null
