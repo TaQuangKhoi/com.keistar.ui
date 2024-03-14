@@ -25,7 +25,8 @@ import TaskDisplay from "@/app/workspace/tasks/components/task-display";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {faker} from "@faker-js/faker";
 import {useTask} from "@/app/workspace/tasks/use-task";
-import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/finds-human-tasks";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 
 const items: FullHumanTask[] = [
     {
@@ -114,17 +115,19 @@ export default function Task() {
 
     const [tasks, setTasks] = useState<FullHumanTask[]>([])
 
+    const {data, loading} = useSession();
+
     useEffect(() => {
         getData().then((data) => {
             setTasks(data)
         })
-    }, [])
+    }, [data])
 
     const getData = async () => {
         return await findsHumanTasks(
             0,
             50,
-            "", //user_id%3D815
+            "user_id%3D" + data.user_id,
             "displayName%20ASC",
             null,
             ["rootContainerId"]

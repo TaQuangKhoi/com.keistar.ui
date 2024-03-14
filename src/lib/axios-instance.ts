@@ -1,7 +1,7 @@
 import axios from "axios";
 import {watch} from 'valtio/utils';
 import {store} from "@/app/valtio-proxy";
-import {getCurrentUserSession} from "@/bonita/api/system/session";
+import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
 
 
 const axiosInstance = axios.create({

@@ -2,7 +2,7 @@
 
 import {columns} from "@/app/workspace/tasks/components/columns";
 import {DataTable} from "@/app/workspace/tasks/components/data-table";
-import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/finds-human-tasks";
 import {z} from "zod";
 import {Task, taskSchema} from "@/app/workspace/tasks/data/schema";
 import {useEffect, useState} from "react";

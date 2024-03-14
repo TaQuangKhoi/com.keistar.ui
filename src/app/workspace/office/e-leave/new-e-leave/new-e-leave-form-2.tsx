@@ -35,7 +35,7 @@ import {
     NewE_leaveFormValues
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 import {Icons} from "@/components/icons";
-import {getCurrentUserSession} from "@/bonita/api/system/session";
+import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
 
 
 interface LeaveType {
