@@ -56,7 +56,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     useEffect(() => {
         setE_leaveDisplay([
             {
-                key: "Requestor",
+                key: "Requester",
                 value: requester.firstname + " " + requester.lastname,
             },
             {
@@ -70,6 +70,10 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
             {
                 key: "Total Days",
                 value: e_leave.totalDays,
+            },
+            {
+                key: "Date Status",
+                value: e_leave.status,
             },
         ])
     }, [requester, e_leave]);
@@ -108,7 +112,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {
-                e_leaveDisplay.map((item) => {
+                e_leaveDisplay.map((item : {key: string, value: string}) => {
                     return (
                         <div key={item.key}>
                             <Label>
