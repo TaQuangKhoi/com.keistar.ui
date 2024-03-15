@@ -47,6 +47,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
      * Get the requester of the e-leave
      */
     useEffect(() => {
+        if (!e_leave.requestor) return;
         getUserById(e_leave.requestor).then((data) => {
             setRequester(data)
         });

@@ -57,7 +57,7 @@ export default function Task() {
         )
     }
 
-    return <>
+    return <div className="flex">
         <ResizablePanelGroup
             direction="horizontal"
             onLayout={(sizes: number[]) => {
@@ -65,7 +65,7 @@ export default function Task() {
                     sizes
                 )}`
             }}
-            className="items-stretch"
+            className="shrink max-h-[90vh]"
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
@@ -213,5 +213,5 @@ export default function Task() {
                 }/>
             </ResizablePanel>
         </ResizablePanelGroup>
-    </>
+    </div>
 }

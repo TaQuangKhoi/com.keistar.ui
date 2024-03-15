@@ -11,9 +11,7 @@ export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
         <div className="flex-col md:flex">
             <ShortcutRegister/>
             <DynamicNavbar/>
-            <div className={cn(
-                "flex-1 space-y-4",
-            )}>
+            <div>
                 {children}
             </div>
         </div>
