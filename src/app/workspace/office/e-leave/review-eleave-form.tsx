@@ -72,14 +72,10 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
             },
             {
                 key: "Date Status",
-                value: e_leave.status,
+                value: e_leave.leaveTime,
             },
         ])
     }, [requester, e_leave]);
-
-    function inputStyle(): string {
-        return "cursor-not-allowed my-2"
-    }
 
     return <div className="flex flex-1 flex-col">
         <div className="flex items-start p-4">
@@ -118,7 +114,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                 {item.key}
                             </Label>
                             <Input type="text"
-                                   className={inputStyle()}
+                                   className="cursor-not-allowed my-2"
                                    placeholder={item.key}
                                    value={item.value}
                             />

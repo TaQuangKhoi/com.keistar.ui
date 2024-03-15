@@ -6,6 +6,7 @@ export default interface E_leave {
     status?: any,
     startDate?: string | any,
     endDate?: string | any,
+    leaveTime?: string | any,
     totalDays?: number | any,
     totalDays_string?: string | any,
     reason?: string | any,
