@@ -10,7 +10,7 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {useRouter} from "next/navigation";
 import {toast} from "@/components/ui/use-toast"
-import {getCurrentUserSession} from "@/bonita/api/system/session";
+import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
 import {store} from "@/app/valtio-proxy";
 import {useSnapshot} from "valtio";
 import axios from "axios";

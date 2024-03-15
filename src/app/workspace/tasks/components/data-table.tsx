@@ -28,7 +28,7 @@ import {
 import {DataTablePagination} from "./data-table-pagination"
 import {DataTableToolbar} from "./data-table-toolbar"
 import {useEffect} from "react";
-import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/finds-human-tasks";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]

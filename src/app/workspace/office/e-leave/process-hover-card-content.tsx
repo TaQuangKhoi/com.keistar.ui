@@ -15,6 +15,12 @@ interface ContextRef {
     "storageId_string": string, // "147"
 }
 
+/**
+ * Get all process instances by eleave id
+ *
+ * TODO - Add get active process instances case
+ * @param eleaveId
+ */
 export async function getProcessesByEleaveId(eleaveId: string) {
     const data: ArchivedProcessInstance[] = await findsArchivedProcessInstances();
 

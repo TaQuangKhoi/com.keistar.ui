@@ -25,84 +25,8 @@ import TaskDisplay from "@/app/workspace/tasks/components/task-display";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {faker} from "@faker-js/faker";
 import {useTask} from "@/app/workspace/tasks/use-task";
-import {findsHumanTasks} from "@/bonita/api/bpm/human-task/definitions";
-
-const items: FullHumanTask[] = [
-    {
-        displayDescription: "",
-        executedBy: faker.number.int({max: 1000, min: 1}).toString(),
-        rootContainerId: {
-            displayDescription: "",
-            deploymentDate: faker.date.past().toISOString(),
-            displayName: "Create E-Leave Request",
-            name: "Create_Eleave",
-            description: "",
-            deployedBy: faker.number.int({max: 1000, min: 1}).toString(),
-            id: "8569231201909689792",
-            activationState: "ENABLED",
-            version: "1.3.0.alpha",
-            configurationState: "RESOLVED",
-            last_update_date: faker.date.past().toISOString(),
-            actorinitiatorid: faker.number.int({max: 1000, min: 1}).toString(),
-        },
-        assigned_date: faker.date.past().toISOString(),
-        displayName: "Review E-leave",
-        executedBySubstitute: faker.number.int({max: 1000, min: 0}).toString(),
-        dueDate: "",
-        description: "",
-        type: "USER_TASK",
-        priority: "normal",
-        actorId: faker.number.int({max: 1000, min: 1}).toString(),
-        processId: "8569231201909689792",
-        caseId: faker.number.int({max: 10000, min: 1}).toString(),
-        name: "Review E-leave",
-        reached_state_date: faker.date.past().toISOString(),
-        rootCaseId: faker.number.int({max: 10000, min: 1}).toString(),
-        id: faker.number.int({max: 1000000, min: 1}).toString(),
-        state: "ready",
-        parentCaseId: faker.number.int({max: 10000, min: 1}).toString(),
-        last_update_date: faker.date.past().toISOString(),
-        assigned_id: faker.number.int({max: 1000, min: 1}).toString(),
-    },
-    {
-        displayDescription: "",
-        executedBy: faker.number.int({max: 1000, min: 1}).toString(),
-        rootContainerId: {
-            displayDescription: "",
-            deploymentDate: faker.date.past().toISOString(),
-            displayName: "Create E-Leave Request",
-            name: "Create_Eleave",
-            description: "",
-            deployedBy: faker.number.int({max: 1000, min: 1}).toString(),
-            id: "8569231201909689792",
-            activationState: "ENABLED",
-            version: "1.3.0.alpha",
-            configurationState: "RESOLVED",
-            last_update_date: faker.date.past().toISOString(),
-            actorinitiatorid: faker.number.int({max: 1000, min: 1}).toString(),
-        },
-        assigned_date: faker.date.past().toISOString(),
-        displayName: "Năm tháng trôi",
-        executedBySubstitute: faker.number.int({max: 1000, min: 0}).toString(),
-        dueDate: "",
-        description: "",
-        type: "USER_TASK",
-        priority: "normal",
-        actorId: faker.number.int({max: 1000, min: 1}).toString(),
-        processId: "8569231201909689792",
-        caseId: faker.number.int({max: 10000, min: 1}).toString(),
-        name: "Review E-leave",
-        reached_state_date: faker.date.past().toISOString(),
-        rootCaseId: faker.number.int({max: 10000, min: 1}).toString(),
-        id: faker.number.int({max: 1000000, min: 1}).toString(),
-        state: "ready",
-        parentCaseId: faker.number.int({max: 10000, min: 1}).toString(),
-        last_update_date: faker.date.past().toISOString(),
-        assigned_id: faker.number.int({max: 1000, min: 1}).toString(),
-    }
-]
-
-export {items}
+import {findsHumanTasks} from "@/bonita/api/bpm/human-task/finds-human-tasks";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 
 export default function Task() {
     let navCollapsedSize = 4;
@@ -114,17 +38,19 @@ export default function Task() {
 
     const [tasks, setTasks] = useState<FullHumanTask[]>([])
 
+    const {data, loading} = useSession();
+
     useEffect(() => {
         getData().then((data) => {
             setTasks(data)
         })
-    }, [])
+    }, [data])
 
     const getData = async () => {
         return await findsHumanTasks(
             0,
             50,
-            "", //user_id%3D815
+            "user_id%3D" + data.user_id,
             "displayName%20ASC",
             null,
             ["rootContainerId"]
