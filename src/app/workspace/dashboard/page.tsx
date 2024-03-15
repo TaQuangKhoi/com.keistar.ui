@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function DashboardPage() {
     return (
-        <>
+        <div className="mx-4 mt-3">
             <div className="flex items-center justify-between space-y-2">
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
                 <div className="flex items-center space-x-2">
@@ -164,6 +164,6 @@ export default async function DashboardPage() {
                     Coming soon...
                 </TabsContent>
             </Tabs>
-        </>
+        </div>
     )
 }

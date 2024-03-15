@@ -6,7 +6,7 @@ import E_leaveCalendar from "@/app/workspace/office/e-leave/e-leave-calendar";
 
 export default function E_leavePage() {
     return (
-        <div>
+        <div className="mx-4 mt-3">
             <Link href={'e-leave/new-e-leave'} className={cn(buttonVariants({variant: "default"}))}>
                 New E-leave
             </Link>
