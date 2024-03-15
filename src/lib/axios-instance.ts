@@ -46,6 +46,7 @@ function getBaseUrl(url: string, host: string) {
         return url;
     }
 }
+
 export {getBaseUrl};
 
 export default axiosInstance;
