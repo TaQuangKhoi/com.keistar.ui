@@ -78,6 +78,11 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 key: "Leave Type",
                 value: e_leave.leaveType?.name,
             },
+            {
+                key: "Leave Reason",
+                value: e_leave.reason,
+                type: "textarea",
+            },
         ])
     }, [requester, e_leave]);
 
@@ -117,30 +122,21 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                             <Label>
                                 {item.key}
                             </Label>
-                            <Input type="text"
-                                   className="cursor-not-allowed my-2"
-                                   placeholder={item.key}
-                                   value={item.value}
-                            />
-                        </div>
-                    )
-                })
-            }
-            {
-                task && Object.entries(task).map(([key, value]) => {
-                    if (typeof value === 'object') {
-                        return null
-                    }
-                    return (
-                        <div key={key}>
-                            <Label>
-                                {key}
-                            </Label>
-                            <Input type="text"
-                                   placeholder={key}
-                                   value={value}
-                                   disabled={true}
-                            />
+                            {
+                                item.type === "textarea" ? (
+                                    <Textarea
+                                        className="p-4"
+                                        value={item.value}
+                                        readOnly
+                                    />
+                                ) : (
+                                    <Input
+                                        className="p-4"
+                                        value={item.value}
+                                        readOnly
+                                    />
+                                )
+                            }
                         </div>
                     )
                 })
