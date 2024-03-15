@@ -11,7 +11,7 @@ import {
     getContextByUserTaskId,
 } from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 import {getUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {User} from "@/bonita/api/bpm/archived-process-instance/types";
@@ -35,7 +35,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     useEffect(() => {
         getContextByUserTaskId(task.id).then((data) => {
             setContext(data)
-            axios.get(data.eleave_ref.link, {
+            axios.get(getBaseUrl("/" + data.eleave_ref.link, window.location.hostname), {
                 withCredentials: true,
             }).then((response) => {
                 setE_leave(response.data)
@@ -50,7 +50,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         getUserById(e_leave.requestor).then((data) => {
             setRequester(data)
         });
-    }, [e_leave]);
+    }, [e_leave.requestor]);
 
     useEffect(() => {
         setE_leaveDisplay([
@@ -116,26 +116,26 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {
-                e_leaveDisplay.map((item : {
+                e_leaveDisplay.map((item: {
                     key: string, value: string, type?: string
                 }) => {
                     return (
-                        <div key={item.key}>
+                        <div className="my-2"
+                             key={item.key}>
                             <Label>
                                 {item.key}
                             </Label>
                             {
                                 item.type === "textarea" ? (
                                     <Textarea
-                                        className="p-4"
+                                        className="mt-1"
                                         value={item.value}
                                         readOnly
                                     />
                                 ) : (
-                                    <Input
-                                        className="p-4"
-                                        value={item.value}
-                                        readOnly
+                                    <Input className="mt-1"
+                                           value={item.value}
+                                           readOnly
                                     />
                                 )
                             }

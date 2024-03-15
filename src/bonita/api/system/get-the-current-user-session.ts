@@ -4,8 +4,9 @@
 
 import { useEffect, useState} from 'react';
 import axios from 'axios'
+import {default as axios2, getBaseUrl} from "@/lib/axios-instance";
 
-const url = process.env.NEXT_PUBLIC_BONITA_URL + '/API/system/session/unusedId'
+const url = getBaseUrl('/API/system/session/unusedId', window.location.hostname);
 
 async function getCurrentUserSession() {
     return await axios.get(url, {
@@ -20,7 +21,7 @@ const useSession = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data: response } = await axios.get(url, {
+                const { data: response } = await axios2.get(url, {
                     withCredentials: true,
                 });
                 setData(response);

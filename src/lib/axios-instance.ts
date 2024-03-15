@@ -3,9 +3,8 @@ import {watch} from 'valtio/utils';
 import {store} from "@/app/valtio-proxy";
 import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
 
-
 const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BONITA_URL,
+    baseURL: process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_BONITA_URL,
     withCredentials: true,
 
     // 4th way to set the AUTH token for any request
@@ -35,8 +34,18 @@ axiosInstance.interceptors.request.use(async function (config) {
     return config;
 });
 
-
-// 2nd way
-// axios.defaults.headers.common["X-Bonita-API-Token"] = "khoi-nho-hao";
+/**
+ * This func is used in development mode to get the base url
+ * @param url
+ * @param host
+ */
+function getBaseUrl(url: string, host: string) {
+    if (process.env.NODE_ENV === 'development') {
+        return `http://${host}:7123/bonita` + url;
+    } else {
+        return url;
+    }
+}
+export {getBaseUrl};
 
 export default axiosInstance;

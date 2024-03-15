@@ -1,4 +1,4 @@
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl} from "@/lib/axios-instance";
 
 interface Filter {
     [key: string]: string;
@@ -26,7 +26,8 @@ async function findsBusinessData(
     c: number,
     filter: Filter = {},
 ) {
-    let url = '/API/bdm/businessData/' + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c
+    let url = getBaseUrl('/API/bdm/businessData/', window.location.hostname)
+        + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c
 
     if (Object.keys(filter).length > 0) {
         url += '&f='

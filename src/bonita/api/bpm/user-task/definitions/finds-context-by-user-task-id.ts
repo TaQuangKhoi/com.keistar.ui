@@ -3,10 +3,10 @@
  */
 import {useState, useEffect} from 'react';
 
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl} from "@/lib/axios-instance";
 
 async function getContextByUserTaskId(taskId: string) {
-    return await axios.get(`/API/bpm/userTask/${taskId}/context`, {
+    return await axios.get(getBaseUrl(`/API/bpm/userTask/${taskId}/context`, window.location.hostname), {
         withCredentials: true,
     }).then((response) => {
         return response.data;
