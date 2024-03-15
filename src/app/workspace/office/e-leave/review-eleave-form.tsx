@@ -74,6 +74,10 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 key: "Date Status",
                 value: e_leave.leaveTime,
             },
+            {
+                key: "Leave Type",
+                value: e_leave.leaveType?.name,
+            },
         ])
     }, [requester, e_leave]);
 
