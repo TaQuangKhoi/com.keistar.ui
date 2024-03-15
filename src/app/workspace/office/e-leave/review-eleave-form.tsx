@@ -116,7 +116,9 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {
-                e_leaveDisplay.map((item : {key: string, value: string}) => {
+                e_leaveDisplay.map((item : {
+                    key: string, value: string, type?: string
+                }) => {
                     return (
                         <div key={item.key}>
                             <Label>
