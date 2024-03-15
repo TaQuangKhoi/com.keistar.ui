@@ -5,7 +5,6 @@ import {cn} from "@/lib/utils";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {Badge} from "@/components/ui/badge";
 import {useTask} from "@/app/workspace/tasks/use-task";
-import {items} from "@/app/workspace/tasks/components/task";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 interface TaskListProps {
