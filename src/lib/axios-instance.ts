@@ -2,6 +2,7 @@ import axios from "axios";
 import {watch} from 'valtio/utils';
 import {store} from "@/app/valtio-proxy";
 import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
+import {useEffect, useState} from "react";
 
 const axiosInstance = axios.create({
     baseURL: process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_BONITA_URL,
@@ -47,5 +48,21 @@ function getBaseUrl(url: string, host: string|undefined) {
     }
 }
 export {getBaseUrl};
+
+function useBaseUrl(endpoint: string) {
+    const [currentUrl, setCurrentUrl] = useState('');
+
+    useEffect(() => {
+        // Check if the code is running on the client side
+        if (process) {
+            // Access the current page URL using window.location
+            setCurrentUrl(window.location.href);
+        }
+    }, [endpoint]);
+
+    return getBaseUrl(endpoint, currentUrl);
+}
+
+export {useBaseUrl};
 
 export default axiosInstance;
