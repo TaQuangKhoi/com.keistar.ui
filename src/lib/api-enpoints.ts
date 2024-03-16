@@ -1,3 +1,5 @@
+'use client'
+
 import {getBaseUrl} from "@/lib/axios-instance";
 
 /**
