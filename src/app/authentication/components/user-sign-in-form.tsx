@@ -14,6 +14,7 @@ import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-se
 import {store} from "@/app/valtio-proxy";
 import {useSnapshot} from "valtio";
 import axios from "axios";
+import {login} from "@/bonita/api/authentication/portal-authentication";
 
 interface UserSignInFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
@@ -34,20 +35,11 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         const username = (event.target as any).username.value
         const password = (event.target as any).password.value
 
-        await axios.post(process.env.NEXT_PUBLIC_BONITA_URL + '/loginservice',
-            `username=${username}&password=${password}&redirect=false&redirectURL=`,
-            {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            }
-        ).then(async (res) => {
-            // redirect to dashboard
-            if (res.status === 204) {
-                router.push('/workspace/dashboard');
-            }
-        }).catch((err) => {
+        let res = await login(username, password);
+
+        if (res.status === 204) {
+            router.push('/workspace/dashboard');
+        } else {
             toast({
                 title: "Error",
                 description: (
@@ -55,8 +47,7 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
                 ),
             })
             setIsLoading(false)
-        })
-
+        }
     }, [])
 
     async function isLogin() {
