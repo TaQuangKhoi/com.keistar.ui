@@ -39,7 +39,7 @@ axiosInstance.interceptors.request.use(async function (config) {
  * @param url
  * @param host
  */
-function getBaseUrl(url: string, host: string) {
+function getBaseUrl(url: string, host: string|undefined) {
     if (process.env.NODE_ENV === 'development') {
         return `http://${host}:7123/bonita` + url;
     } else {
