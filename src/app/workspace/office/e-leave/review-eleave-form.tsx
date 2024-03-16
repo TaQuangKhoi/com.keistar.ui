@@ -8,21 +8,23 @@ import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
 import {
-    getContextByUserTaskId,
+    getContextByUserTaskId, useGetContextByUserTaskId,
 } from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
-import {getUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
+import {getUserById, useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {User} from "@/bonita/api/bpm/archived-process-instance/types";
 
+type eleave_Context = {
+    e_leave: E_leave
+}
+
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
-    const [context, setContext] = useState()
+    const [context, loadingContext, errorContext] = useGetContextByUserTaskId(task.id);
     const [e_leave, setE_leave] = useState<E_leave>({})
-    const [requester, setRequester] = useState<User>({
-        firstname: "",
-        lastname: "",
-    })
+    const [userById, loadingUserById, errorUserById] = useUserById(e_leave.requestor)
+    const [baseUrl, endPoint, setEndPoint] = useBaseUrl("");
 
     /**
      * Display the e-leave in the form by input tags
@@ -33,30 +35,27 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
      * Get the context of the task, then get the e-leave from the context
      */
     useEffect(() => {
-        getContextByUserTaskId(task.id).then((data) => {
-            setContext(data)
-            axios.get(data.eleave_ref.link, {
-                withCredentials: true,
-            }).then((response) => {
-                setE_leave(response.data)
-            });
-        })
-    }, [task]);
+        console.debug("context", context)
+        console.debug("loadingContext", loadingContext)
 
-    /**
-     * Get the requester of the e-leave
-     */
-    useEffect(() => {
-        getUserById(e_leave.requestor).then((data) => {
-            setRequester(data)
-        });
-    }, [e_leave.requestor]);
+        if (context) {
+            setEndPoint('/' + context.eleave_ref.link)
+            if (typeof baseUrl === "string") {
+                axios.get(baseUrl, {
+                    withCredentials: true,
+                }).then((response) => {
+                    console.debug("response.data", response.data)
+                    setE_leave(response.data)
+                });
+            }
+        }
+    }, [task, context, baseUrl]);
 
     useEffect(() => {
         setE_leaveDisplay([
             {
                 key: "Requester",
-                value: requester.firstname + " " + requester.lastname,
+                value: userById?.firstname + " " + userById?.lastname,
             },
             {
                 key: "From Date",
@@ -84,7 +83,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 type: "textarea",
             },
         ])
-    }, [requester, e_leave]);
+    }, [userById, e_leave]);
 
     return <div className="flex flex-1 flex-col">
         <div className="flex items-start p-4">

@@ -3,7 +3,7 @@
  */
 import {useState, useEffect} from 'react';
 
-import {default as axios, getBaseUrl, useBaseUrl} from "@/lib/axios-instance";
+import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 
 async function getContextByUserTaskId(taskId: string) {
     return await axios.get(`/API/bpm/userTask/${taskId}/context`, {
@@ -13,34 +13,35 @@ async function getContextByUserTaskId(taskId: string) {
     });
 }
 
-async function useGetContextByUserTaskId(taskId: string) {
-    const url = useBaseUrl(`/API/bpm/userTask/${taskId}/context`);
+function useGetContextByUserTaskId(taskId: string): [any, boolean, any] {
+    const [baseUrl] = useBaseUrl(`/API/bpm/userTask/${taskId}/context`);
+    console.debug("taskId", taskId)
 
     const [context, setContext] = useState()
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState();
-
-    function fetchData() {
-        axios.get(url, {
-            withCredentials: true,
-        }).then((response) => {
-            setContext(response.data);
-        }).catch((error) => {
-            setError(error);
-        }).finally(() => {
-            setLoading(false);
-        });
-    }
+    const [loadingContext, setLoadingContext] = useState(true);
+    const [errorContext, setErrorContext] = useState();
 
     useEffect(() => {
-        fetchData();
-    }, [taskId]);
+        const fetchData = async () => {
+            try {
+                if (typeof baseUrl === "string") {
+                    const {data: response} = await axios.get(baseUrl, {
+                        withCredentials: true,
+                    });
+                    setContext(response);
+                    setLoadingContext(false);
+                }
+            } catch (error: any) {
+                setErrorContext(error);
+            }
+        };
 
-    return {
-        context,
-        loading,
-        error
-    };
+        if (baseUrl && taskId) {
+            fetchData();
+        }
+    }, [taskId, baseUrl]);
+
+    return [context, loadingContext, errorContext];
 }
 
 export {getContextByUserTaskId, useGetContextByUserTaskId}

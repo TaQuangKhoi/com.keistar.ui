@@ -40,27 +40,28 @@ axiosInstance.interceptors.request.use(async function (config) {
  * @param url
  * @param host
  */
-function getBaseUrl(url: string, host: string|undefined) {
+function getBaseUrl(url: string | undefined, host: string | undefined) {
     if (process.env.NODE_ENV === 'development') {
         return `http://${host}:7123/bonita` + url;
     } else {
         return url;
     }
 }
+
 export {getBaseUrl};
 
-function useBaseUrl(endpoint: string) {
-    const [currentUrl, setCurrentUrl] = useState('');
+function useBaseUrl(endpoint: string): [string | undefined, string, React.Dispatch<React.SetStateAction<string>>] {
+    const [baseUrl, setBaseUrl] = useState<string>();
+    const [endPoint, setEndPoint] = useState<string>(endpoint)
 
     useEffect(() => {
         // Check if the code is running on the client side
         if (process) {
-            // Access the current page URL using window.location
-            setCurrentUrl(window.location.hostname);
+            setBaseUrl(getBaseUrl(endPoint, window.location.hostname));
         }
-    }, [endpoint]);
+    }, [endPoint]);
 
-    return getBaseUrl(endpoint, currentUrl);
+    return [baseUrl, endPoint, setEndPoint];
 }
 
 export {useBaseUrl};

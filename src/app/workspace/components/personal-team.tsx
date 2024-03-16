@@ -34,10 +34,7 @@ export default function PersonalTeam() {
         }
     }, []);
 
-    const {
-        data: session,
-        loading: isSessionLoading, error: sessionError
-    } = useSession(window.location.hostname)
+    const [session, loadingSession, errorSession] = useSession()
     const [personalGroup, setPersonalGroup] = useAtom(personalGroupAtom)
 
     return (<>
@@ -64,8 +61,8 @@ export default function PersonalTeam() {
                     {
                         // if label too long, show first 10 characters
                         team.label.length > 10
-                            ? isSessionLoading ? 'Loading...' : session?.user_name?.substring(0, 10)
-                            : isSessionLoading ? 'Loading...' : session?.user_name
+                            ? loadingSession ? 'Loading...' : session?.user_name?.substring(0, 10)
+                            : loadingSession ? 'Loading...' : session?.user_name
                     }
                     <CheckIcon
                         className={cn(

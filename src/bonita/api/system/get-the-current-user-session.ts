@@ -4,41 +4,41 @@
 
 import {useEffect, useState} from 'react';
 import axios from 'axios'
-import {default as axios2, getBaseUrl} from "@/lib/axios-instance";
+import {default as axios2, getBaseUrl, useBaseUrl} from "@/lib/axios-instance";
 
 async function getCurrentUserSession(hostname = process.env.NEXT_PUBLIC_BONITA_HOSTNAME) {
-    return await axios.get(getBaseUrl('/API/system/session/unusedId', hostname),
+    return await axios.get(<string>getBaseUrl('/API/system/session/unusedId', hostname),
         {
             withCredentials: true,
         });
 }
 
-const useSession = (hostname = process.env.NEXT_PUBLIC_BONITA_HOSTNAME) => {
-    const [data, setData] = useState<Session>({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState();
+const useSession = (): [Session, boolean, any] => {
+    const [session, setSession] = useState<Session>({});
+    const [loadingSession, setLoadingSession] = useState(true);
+    const [errorSession, setErrorSession] = useState();
+
+    const [baseUrl] = useBaseUrl('/API/system/session/unusedId');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const {data: response} = await axios2.get(getBaseUrl('/API/system/session/unusedId', hostname), {
-                    withCredentials: true,
-                });
-                setData(response);
+                if (typeof baseUrl === "string") {
+                    const {data: response} = await axios2.get(baseUrl, {
+                        withCredentials: true,
+                    });
+                    setSession(response);
+                }
             } catch (error: any) {
-                setError(error);
+                setErrorSession(error);
             }
-            setLoading(false);
+            setLoadingSession(false);
         };
 
         fetchData();
-    }, []);
+    }, [baseUrl]);
 
-    return {
-        data,
-        loading,
-        error
-    };
+    return [session, loadingSession, errorSession];
 }
 
 export {getCurrentUserSession, useSession}

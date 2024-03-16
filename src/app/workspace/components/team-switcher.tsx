@@ -109,9 +109,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const router = useRouter();
     const [userName, setUserName] = useAtom(userNameAtom)
 
-    const {
-        data: session, loading: isSessionLoading, error: sessionError
-    } = useSession()
+    const [session, loadingSession, errorSession] = useSession()
 
     const [groups, setGroups] = useState(getGroup("No Name"));
 
@@ -125,10 +123,10 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
      * Run if any deps change
      */
     useEffect(() => {
-        if (isSessionLoading) {
+        if (loadingSession) {
             return
         }
-        if (sessionError) {
+        if (errorSession) {
             router.push("/authentication")
             return
         }
@@ -136,7 +134,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
             setUserName(session.user_name)
             setSelectedTeam(defaultTeam.teams[0])
         }
-    }, [isSessionLoading, sessionError, session, defaultTeam])
+    }, [loadingSession, errorSession, session, defaultTeam])
 
     return (
         <>
