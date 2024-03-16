@@ -253,7 +253,6 @@ export function NewE_leaveForm() {
      */
     useEffect(() => {
         let _totalDays = getTotalDays();
-        console.debug("_totalDays", _totalDays)
         updateTotalDays(_totalDays)
     }, [dateRange, dateStatus]);
 

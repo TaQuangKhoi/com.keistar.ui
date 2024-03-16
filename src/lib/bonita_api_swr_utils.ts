@@ -10,16 +10,6 @@ const fetcher = (url: string) => fetch(url, init
 ).then(res => res.json())
 
 
-function useBonitaSession() {
-    const {data, error, isLoading} = useSWR(sessionApiUrl, (url) => fetcher(url))
-
-    return {
-        session: data,
-        sessionError: error,
-        isSessionLoading: isLoading,
-    }
-}
-
 async function findUserById(id: string) {
     let url = process.env.NEXT_PUBLIC_BONITA_URL + '/API/identity/user/' + id
     let result = null
@@ -57,7 +47,6 @@ async function isLogin() {
 }
 
 export {
-    useBonitaSession,
     findUserById,
     isLogin,
 }

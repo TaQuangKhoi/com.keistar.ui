@@ -1,4 +1,4 @@
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl} from "@/lib/axios-instance";
 
 function isStartOfQueryString(url: string) {
     return url.indexOf("?") === -1;
@@ -19,7 +19,7 @@ async function findsHumanTasks(
     s: string | null,
     d: string[] | null = null
 ) {
-    let url = `/API/bpm/humanTask`;
+    let url = <string>getBaseUrl('/API/bpm/humanTask', window.location.hostname)
 
     // Add p to the url if it is not null
     url = url.concat(`?p=${p}`);

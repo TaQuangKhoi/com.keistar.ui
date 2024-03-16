@@ -1,6 +1,5 @@
 import {Metadata} from "next"
 import AuthBox from "@/app/authentication/components/auth-box";
-import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "Authentication",

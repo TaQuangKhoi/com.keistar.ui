@@ -50,9 +50,7 @@ export const columns: ColumnDef<Task>[] = [
             <DataTableColumnHeader column={column} title="Title"/>
         ),
         cell: ({row}) => {
-            console.debug("row: ", row);
             const label = labels.find((label) => {
-                console.debug("label: ", label);
                 return label.value === row.original.name
             })
 

@@ -2,28 +2,12 @@ import axios from "axios";
 import {watch} from 'valtio/utils';
 import {store} from "@/app/valtio-proxy";
 import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
-
+import {useEffect, useState} from "react";
 
 const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BONITA_URL,
+    baseURL: process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_BONITA_URL,
     withCredentials: true,
-
-    // 4th way to set the AUTH token for any request
-    // headers: {
-    //     "X-Bonita-API-Token": localStorage.getItem('x-bonita-api-token'),
-    // },
 });
-
-// const unsubscribe = subscribeKey(store, 'token', (v: string) => {
-//     console.debug('subscribeKey store.token: ', v);
-// });
-// unsubscribe();
-
-// Subscribe to all state changes
-// const stop = watch((get) => {
-//     // 3rd way to set the AUTH token for any request
-//     axiosInstance.defaults.headers.common["X-Bonita-API-Token"] = get(store).token;
-// })
 
 /**
  * Set the AUTH token for any request
@@ -35,8 +19,35 @@ axiosInstance.interceptors.request.use(async function (config) {
     return config;
 });
 
+/**
+ * This func is used in development mode to get the base url
+ * @param url
+ * @param host
+ */
+function getBaseUrl(url: string | undefined, host: string | undefined) {
+    if (process.env.NODE_ENV === 'development') {
+        return `http://${host}:7123/bonita` + url;
+    } else {
+        return url;
+    }
+}
 
-// 2nd way
-// axios.defaults.headers.common["X-Bonita-API-Token"] = "khoi-nho-hao";
+export {getBaseUrl};
+
+function useBaseUrl(endpoint: string): [string | undefined, string, React.Dispatch<React.SetStateAction<string>>] {
+    const [baseUrl, setBaseUrl] = useState<string>();
+    const [endPoint, setEndPoint] = useState<string>(endpoint)
+
+    useEffect(() => {
+        // Check if the code is running on the client side
+        if (process) {
+            setBaseUrl(getBaseUrl(endPoint, window.location.hostname));
+        }
+    }, [endPoint]);
+
+    return [baseUrl, endPoint, setEndPoint];
+}
+
+export {useBaseUrl};
 
 export default axiosInstance;

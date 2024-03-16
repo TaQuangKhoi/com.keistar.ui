@@ -1,6 +1,6 @@
 export default function DashboardLoading() {
     return (
-        <>
+        <div className="mx-4 mt-3">
             <div className="flex items-center justify-between space-y-2">
                 <div className="w-32 h-6 bg-gray-200 rounded"/>
                 <div className="flex items-center space-x-2">
@@ -21,6 +21,6 @@ export default function DashboardLoading() {
                     <div className="w-full h-48 bg-gray-200 rounded"/>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

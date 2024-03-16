@@ -7,16 +7,11 @@ interface WorkspaceLayoutProps {
 }
 
 export default function WorkspaceLayout({children}: WorkspaceLayoutProps) {
-    const className = "p-8 pt-6"
-
     return (
         <div className="flex-col md:flex">
             <ShortcutRegister/>
             <DynamicNavbar/>
-            <div className={cn(
-                "flex-1 space-y-4",
-                className
-            )}>
+            <div>
                 {children}
             </div>
         </div>

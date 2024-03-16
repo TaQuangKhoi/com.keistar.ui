@@ -1,3 +1,5 @@
+'use client'
+
 import {Button} from "@/components/ui/button";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Textarea} from "@/components/ui/textarea";
@@ -7,22 +9,23 @@ import {Input} from "@/components/ui/input";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
-import {
-    getContextByUserTaskId,
+import {useGetContextByUserTaskId,
 } from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
-import {getUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
+import {getUserById, useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {User} from "@/bonita/api/bpm/archived-process-instance/types";
 
+type eleave_Context = {
+    e_leave: E_leave
+}
+
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
-    const [context, setContext] = useState()
+    const [context, loadingContext, errorContext] = useGetContextByUserTaskId(task.id);
     const [e_leave, setE_leave] = useState<E_leave>({})
-    const [requester, setRequester] = useState<User>({
-        firstname: "",
-        lastname: "",
-    })
+    const [userById, loadingUserById, errorUserById] = useUserById(e_leave.requestor)
+    const [baseUrl, endPoint, setEndPoint] = useBaseUrl("");
 
     /**
      * Display the e-leave in the form by input tags
@@ -33,30 +36,23 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
      * Get the context of the task, then get the e-leave from the context
      */
     useEffect(() => {
-        getContextByUserTaskId(task.id).then((data) => {
-            setContext(data)
-            axios.get(data.eleave_ref.link, {
-                withCredentials: true,
-            }).then((response) => {
-                setE_leave(response.data)
-            });
-        })
-    }, [task]);
-
-    /**
-     * Get the requester of the e-leave
-     */
-    useEffect(() => {
-        getUserById(e_leave.requestor).then((data) => {
-            setRequester(data)
-        });
-    }, [e_leave]);
+        if (context) {
+            setEndPoint('/' + context.eleave_ref.link)
+            if (typeof baseUrl === "string") {
+                axios.get(baseUrl, {
+                    withCredentials: true,
+                }).then((response) => {
+                    setE_leave(response.data)
+                });
+            }
+        }
+    }, [task, context, baseUrl]);
 
     useEffect(() => {
         setE_leaveDisplay([
             {
                 key: "Requester",
-                value: requester.firstname + " " + requester.lastname,
+                value: userById?.firstname + " " + userById?.lastname,
             },
             {
                 key: "From Date",
@@ -84,7 +80,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 type: "textarea",
             },
         ])
-    }, [requester, e_leave]);
+    }, [userById, e_leave]);
 
     return <div className="flex flex-1 flex-col">
         <div className="flex items-start p-4">
@@ -116,26 +112,26 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {
-                e_leaveDisplay.map((item : {
+                e_leaveDisplay.map((item: {
                     key: string, value: string, type?: string
                 }) => {
                     return (
-                        <div key={item.key}>
+                        <div className="my-2"
+                             key={item.key}>
                             <Label>
                                 {item.key}
                             </Label>
                             {
                                 item.type === "textarea" ? (
                                     <Textarea
-                                        className="p-4"
+                                        className="mt-1"
                                         value={item.value}
                                         readOnly
                                     />
                                 ) : (
-                                    <Input
-                                        className="p-4"
-                                        value={item.value}
-                                        readOnly
+                                    <Input className="mt-1"
+                                           value={item.value}
+                                           readOnly
                                     />
                                 )
                             }

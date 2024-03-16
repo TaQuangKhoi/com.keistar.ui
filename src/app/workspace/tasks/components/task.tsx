@@ -38,26 +38,26 @@ export default function Task() {
 
     const [tasks, setTasks] = useState<FullHumanTask[]>([])
 
-    const {data, loading} = useSession();
+    const [session, loadingSession, errorSession] = useSession();
 
     useEffect(() => {
         getData().then((data) => {
             setTasks(data)
         })
-    }, [data])
+    }, [session])
 
     const getData = async () => {
         return await findsHumanTasks(
             0,
             50,
-            "user_id%3D" + data.user_id,
+            "user_id%3D" + session?.user_id,
             "displayName%20ASC",
             null,
             ["rootContainerId"]
         )
     }
 
-    return <>
+    return <div className="flex">
         <ResizablePanelGroup
             direction="horizontal"
             onLayout={(sizes: number[]) => {
@@ -65,7 +65,7 @@ export default function Task() {
                     sizes
                 )}`
             }}
-            className="h-full items-stretch"
+            className="items-stretch"
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
@@ -213,5 +213,5 @@ export default function Task() {
                 }/>
             </ResizablePanel>
         </ResizablePanelGroup>
-    </>
+    </div>
 }

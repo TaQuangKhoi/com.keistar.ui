@@ -10,7 +10,7 @@ import {useWindowScroll} from "@uidotdev/usehooks";
 
 function FullNavBar() {
     return (
-        <div className="border-b top-0 bg-white dark:bg-slate-900">
+        <div className="max-h-[10vh] border-b top-0 bg-white dark:bg-slate-900">
             <div className="flex h-16 items-center px-4">
                 <TeamSwitcher/>
                 <MainNav className="mx-6"/>
