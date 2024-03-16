@@ -2,30 +2,31 @@
  * url: https://api-documentation.bonitasoft.com/latest/#tag/Session/operation/getSession
  */
 
-import { useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios'
+import {default as axios2, getBaseUrl} from "@/lib/axios-instance";
 
-const url = process.env.NEXT_PUBLIC_BONITA_URL + '/API/system/session/unusedId'
-
-async function getCurrentUserSession() {
-    return await axios.get(url, {
-        withCredentials: true,
-    });
+async function getCurrentUserSession(hostname = process.env.NEXT_PUBLIC_BONITA_HOSTNAME) {
+    return await axios.get(getBaseUrl('/API/system/session/unusedId', hostname),
+        {
+            withCredentials: true,
+        });
 }
 
-const useSession = () => {
+const useSession = (hostname = process.env.NEXT_PUBLIC_BONITA_HOSTNAME) => {
     const [data, setData] = useState<Session>({});
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data: response } = await axios.get(url, {
+                const {data: response} = await axios2.get(getBaseUrl('/API/system/session/unusedId', hostname), {
                     withCredentials: true,
                 });
                 setData(response);
-            } catch (error) {
-                console.error(error)
+            } catch (error: any) {
+                setError(error);
             }
             setLoading(false);
         };
@@ -36,6 +37,7 @@ const useSession = () => {
     return {
         data,
         loading,
+        error
     };
 }
 
