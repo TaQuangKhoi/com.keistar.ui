@@ -2,42 +2,43 @@
  * url: https://api-documentation.bonitasoft.com/latest/#tag/Session/operation/getSession
  */
 
-import { useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios'
-import {default as axios2, getBaseUrl} from "@/lib/axios-instance";
+import {default as axios2, getBaseUrl, useBaseUrl} from "@/lib/axios-instance";
 
-const url = getBaseUrl('/API/system/session/unusedId', window.location.hostname);
-
-async function getCurrentUserSession() {
-    return await axios.get(url, {
-        withCredentials: true,
-    });
+async function getCurrentUserSession(hostname = process.env.NEXT_PUBLIC_BONITA_HOSTNAME) {
+    return await axios.get(<string>getBaseUrl('/API/system/session/unusedId', hostname),
+        {
+            withCredentials: true,
+        });
 }
 
-const useSession = () => {
-    const [data, setData] = useState<Session>({});
-    const [loading, setLoading] = useState(true);
+const useSession = (): [Session, boolean, any] => {
+    const [session, setSession] = useState<Session>({});
+    const [loadingSession, setLoadingSession] = useState(true);
+    const [errorSession, setErrorSession] = useState();
+
+    const [baseUrl] = useBaseUrl('/API/system/session/unusedId');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data: response } = await axios2.get(url, {
-                    withCredentials: true,
-                });
-                setData(response);
-            } catch (error) {
-                console.error(error)
+                if (typeof baseUrl === "string") {
+                    const {data: response} = await axios2.get(baseUrl, {
+                        withCredentials: true,
+                    });
+                    setSession(response);
+                }
+            } catch (error: any) {
+                setErrorSession(error);
             }
-            setLoading(false);
+            setLoadingSession(false);
         };
 
         fetchData();
-    }, []);
+    }, [baseUrl]);
 
-    return {
-        data,
-        loading,
-    };
+    return [session, loadingSession, errorSession];
 }
 
 export {getCurrentUserSession, useSession}

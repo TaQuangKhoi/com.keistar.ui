@@ -19,7 +19,7 @@ async function findsHumanTasks(
     s: string | null,
     d: string[] | null = null
 ) {
-    let url = getBaseUrl('/API/bpm/humanTask', window.location.hostname)
+    let url = <string>getBaseUrl('/API/bpm/humanTask', window.location.hostname)
 
     // Add p to the url if it is not null
     url = url.concat(`?p=${p}`);

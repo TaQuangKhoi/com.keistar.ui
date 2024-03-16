@@ -67,24 +67,25 @@ const personalGroupAtom = atom((get) => {
         label: "Personal Account",
         teams: [
             {
-                label: userFullName,
+                label: userFullName || "",
                 value: "personal",
             },
         ],
     }
 })
 
-const [userNameAtom] = atomsWithQuery((get) => ({
-    queryKey: ['userName'],
-    queryFn: async () => {
-        const res = await fetch(sessionApiUrl, {
-            credentials: "include",
-            mode: 'cors',
-        });
-        const data = await res.json();
-        return data.user_name
-    },
-}))
+// const [userNameAtom] = atomsWithQuery((get) => ({
+//     queryKey: ['userName'],
+//     queryFn: async () => {
+//         const res = await fetch(sessionApiUrl, {
+//             credentials: "include",
+//             mode: 'cors',
+//         });
+//         const data = await res.json();
+//         return data.user_name
+//     },
+// }))
+const userNameAtom = atom<string | undefined>("");
 
 export {
     // Array

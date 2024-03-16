@@ -38,19 +38,19 @@ export default function Task() {
 
     const [tasks, setTasks] = useState<FullHumanTask[]>([])
 
-    const {data, loading} = useSession();
+    const [session, loadingSession, errorSession] = useSession();
 
     useEffect(() => {
         getData().then((data) => {
             setTasks(data)
         })
-    }, [data])
+    }, [session])
 
     const getData = async () => {
         return await findsHumanTasks(
             0,
             50,
-            "user_id%3D" + data.user_id,
+            "user_id%3D" + session?.user_id,
             "displayName%20ASC",
             null,
             ["rootContainerId"]
@@ -65,7 +65,7 @@ export default function Task() {
                     sizes
                 )}`
             }}
-            className="shrink max-h-[90vh]"
+            className="items-stretch"
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}

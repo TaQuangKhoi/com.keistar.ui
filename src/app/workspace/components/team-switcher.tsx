@@ -49,13 +49,13 @@ import {
 import {useRouter} from 'next/navigation'
 import {useAtom} from "jotai";
 import {useEffect, useState} from "react";
-import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {
     isOpenTeamSwitcherAtom,
-    isShowNewTeamDialogAtom, personalGroupAtom,
+    isShowNewTeamDialogAtom, personalGroupAtom, userNameAtom,
 } from "@/app/workspace/atoms";
 import PersonalTeam from "@/app/workspace/components/personal-team";
 import {useSelectedTeam} from "@/app/workspace/hooks/use-selected-team";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -106,9 +106,10 @@ function getGroup(userFullName: string) {
 
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
-    const router = useRouter()
+    const router = useRouter();
+    const [userName, setUserName] = useAtom(userNameAtom)
 
-    const {session, isSessionLoading, sessionError} = useBonitaSession()
+    const [session, loadingSession, errorSession] = useSession()
 
     const [groups, setGroups] = useState(getGroup("No Name"));
 
@@ -122,17 +123,18 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
      * Run if any deps change
      */
     useEffect(() => {
-        if (isSessionLoading) {
+        if (loadingSession) {
             return
         }
-        if (sessionError) {
+        if (errorSession) {
             router.push("/authentication")
             return
         }
         if (session) {
+            setUserName(session.user_name)
             setSelectedTeam(defaultTeam.teams[0])
         }
-    }, [isSessionLoading, sessionError, session, defaultTeam])
+    }, [loadingSession, errorSession, session, defaultTeam])
 
     return (
         <>

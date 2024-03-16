@@ -2,7 +2,7 @@ import axios from 'axios';
 import {default as axios2, getBaseUrl} from "@/lib/axios-instance";
 
 async function login(username: string, password: string) {
-    return await axios.post(getBaseUrl('/loginservice', window.location.hostname),
+    return await axios.post(<string>getBaseUrl('/loginservice', window.location.hostname),
         `username=${username}&password=${password}&redirect=false&redirectURL=`,
         {
             withCredentials: true,

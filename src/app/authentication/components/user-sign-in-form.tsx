@@ -36,7 +36,6 @@ export function UserSignInForm({className, ...props}: UserSignInFormProps) {
         const password = (event.target as any).password.value
 
         let res = await login(username, password);
-        console.debug('res: ', res);
 
         if (res.status === 204) {
             router.push('/workspace/dashboard');
