@@ -38,7 +38,7 @@ export default function Task() {
 
     const [tasks, setTasks] = useState<FullHumanTask[]>([])
 
-    const {data, loading} = useSession();
+    const {data, loading, error} = useSession();
 
     useEffect(() => {
         getData().then((data) => {
@@ -65,7 +65,7 @@ export default function Task() {
                     sizes
                 )}`
             }}
-            className="h-full items-stretch"
+            className="items-stretch"
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
