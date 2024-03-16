@@ -111,7 +111,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const {
         data: session,
         loading: isSessionLoading, error: sessionError
-    } = useSession(window.location.hostname)
+    } = useSession()
 
     const [groups, setGroups] = useState(getGroup("No Name"));
 

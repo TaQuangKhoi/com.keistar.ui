@@ -1,3 +1,5 @@
+'use client'
+
 import {CommandGroup, CommandItem} from "@/components/ui/command";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {CheckIcon} from "@radix-ui/react-icons";
@@ -6,8 +8,9 @@ import * as React from "react";
 import {useAtom} from "jotai/index";
 import {isOpenTeamSwitcherAtom, personalGroupAtom} from "@/app/workspace/atoms";
 import {useRouter} from "next/navigation";
-import {useBonitaSession} from "@/lib/bonita_api_swr_utils";
 import {useSelectedTeam} from "@/app/workspace/hooks/use-selected-team";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
+import { useEffect, useState } from 'react';
 
 // const personalGroup = {
 //     label: "Personal",
@@ -20,7 +23,21 @@ export default function PersonalTeam() {
     const [open, setOpen] = useAtom(isOpenTeamSwitcherAtom)
     const [selectedTeam, setSelectedTeam] = useSelectedTeam()
     const router = useRouter()
-    const {session, isSessionLoading, sessionError} = useBonitaSession();
+
+    const [currentUrl, setCurrentUrl] = useState('');
+
+    useEffect(() => {
+        // Check if the code is running on the client side
+        if (process) {
+            // Access the current page URL using window.location
+            setCurrentUrl(window.location.href);
+        }
+    }, []);
+
+    const {
+        data: session,
+        loading: isSessionLoading, error: sessionError
+    } = useSession(window.location.hostname)
     const [personalGroup, setPersonalGroup] = useAtom(personalGroupAtom)
 
     return (<>
