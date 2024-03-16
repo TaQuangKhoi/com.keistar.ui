@@ -7,23 +7,7 @@ import {useEffect, useState} from "react";
 const axiosInstance = axios.create({
     baseURL: process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_BONITA_URL,
     withCredentials: true,
-
-    // 4th way to set the AUTH token for any request
-    // headers: {
-    //     "X-Bonita-API-Token": localStorage.getItem('x-bonita-api-token'),
-    // },
 });
-
-// const unsubscribe = subscribeKey(store, 'token', (v: string) => {
-//     console.debug('subscribeKey store.token: ', v);
-// });
-// unsubscribe();
-
-// Subscribe to all state changes
-// const stop = watch((get) => {
-//     // 3rd way to set the AUTH token for any request
-//     axiosInstance.defaults.headers.common["X-Bonita-API-Token"] = get(store).token;
-// })
 
 /**
  * Set the AUTH token for any request

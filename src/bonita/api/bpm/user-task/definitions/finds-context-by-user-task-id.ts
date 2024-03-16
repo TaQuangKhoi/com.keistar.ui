@@ -15,7 +15,6 @@ async function getContextByUserTaskId(taskId: string) {
 
 function useGetContextByUserTaskId(taskId: string): [any, boolean, any] {
     const [baseUrl] = useBaseUrl(`/API/bpm/userTask/${taskId}/context`);
-    console.debug("taskId", taskId)
 
     const [context, setContext] = useState()
     const [loadingContext, setLoadingContext] = useState(true);

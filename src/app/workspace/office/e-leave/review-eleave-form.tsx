@@ -37,16 +37,12 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
      * Get the context of the task, then get the e-leave from the context
      */
     useEffect(() => {
-        console.debug("context", context)
-        console.debug("loadingContext", loadingContext)
-
         if (context) {
             setEndPoint('/' + context.eleave_ref.link)
             if (typeof baseUrl === "string") {
                 axios.get(baseUrl, {
                     withCredentials: true,
                 }).then((response) => {
-                    console.debug("response.data", response.data)
                     setE_leave(response.data)
                 });
             }
