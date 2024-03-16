@@ -3,7 +3,7 @@
  */
 import {useState, useEffect} from 'react';
 
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl, useBaseUrl} from "@/lib/axios-instance";
 
 async function getContextByUserTaskId(taskId: string) {
     return await axios.get(`/API/bpm/userTask/${taskId}/context`, {
@@ -14,13 +14,33 @@ async function getContextByUserTaskId(taskId: string) {
 }
 
 async function useGetContextByUserTaskId(taskId: string) {
+    const url = useBaseUrl(`/API/bpm/userTask/${taskId}/context`);
+
     const [context, setContext] = useState()
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState();
+
+    function fetchData() {
+        axios.get(url, {
+            withCredentials: true,
+        }).then((response) => {
+            setContext(response.data);
+        }).catch((error) => {
+            setError(error);
+        }).finally(() => {
+            setLoading(false);
+        });
+    }
+
     useEffect(() => {
-        getContextByUserTaskId(taskId).then((data) => {
-            setContext(data)
-        })
-    }, []);
-    return context
+        fetchData();
+    }, [taskId]);
+
+    return {
+        context,
+        loading,
+        error
+    };
 }
 
 export {getContextByUserTaskId, useGetContextByUserTaskId}
