@@ -50,7 +50,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         getUserById(e_leave.requestor).then((data) => {
             setRequester(data)
         });
-    }, [e_leave]);
+    }, [e_leave.requestor]);
 
     useEffect(() => {
         setE_leaveDisplay([
@@ -116,26 +116,26 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
 
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {
-                e_leaveDisplay.map((item : {
+                e_leaveDisplay.map((item: {
                     key: string, value: string, type?: string
                 }) => {
                     return (
-                        <div key={item.key}>
+                        <div className="my-2"
+                             key={item.key}>
                             <Label>
                                 {item.key}
                             </Label>
                             {
                                 item.type === "textarea" ? (
                                     <Textarea
-                                        className="p-4"
+                                        className="mt-1"
                                         value={item.value}
                                         readOnly
                                     />
                                 ) : (
-                                    <Input
-                                        className="p-4"
-                                        value={item.value}
-                                        readOnly
+                                    <Input className="mt-1"
+                                           value={item.value}
+                                           readOnly
                                     />
                                 )
                             }
