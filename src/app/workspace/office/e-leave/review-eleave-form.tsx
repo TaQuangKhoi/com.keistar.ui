@@ -157,13 +157,21 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                             <Switch id="mute" aria-label="Mute thread"/> Mute this
                             thread
                         </Label>
-                        <Button
-                            onClick={(e) => e.preventDefault()}
-                            size="sm"
-                            className="ml-auto"
-                        >
-                            Send
-                        </Button>
+                        <div className="flex ml-auto space-x-2">
+                            <Button
+                                onClick={(e) => e.preventDefault()}
+                                size="sm"
+                            >
+                                Reject
+                            </Button>
+                            <Button
+                                onClick={(e) => e.preventDefault()}
+                                size="sm"
+                                className=""
+                            >
+                                Approve
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </form>
