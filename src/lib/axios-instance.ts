@@ -56,7 +56,7 @@ function useBaseUrl(endpoint: string) {
         // Check if the code is running on the client side
         if (process) {
             // Access the current page URL using window.location
-            setCurrentUrl(window.location.href);
+            setCurrentUrl(window.location.hostname);
         }
     }, [endpoint]);
 

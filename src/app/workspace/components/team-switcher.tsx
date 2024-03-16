@@ -51,7 +51,7 @@ import {useAtom} from "jotai";
 import {useEffect, useState} from "react";
 import {
     isOpenTeamSwitcherAtom,
-    isShowNewTeamDialogAtom, personalGroupAtom,
+    isShowNewTeamDialogAtom, personalGroupAtom, userNameAtom,
 } from "@/app/workspace/atoms";
 import PersonalTeam from "@/app/workspace/components/personal-team";
 import {useSelectedTeam} from "@/app/workspace/hooks/use-selected-team";
@@ -106,11 +106,11 @@ function getGroup(userFullName: string) {
 
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
-    const router = useRouter()
+    const router = useRouter();
+    const [userName, setUserName] = useAtom(userNameAtom)
 
     const {
-        data: session,
-        loading: isSessionLoading, error: sessionError
+        data: session, loading: isSessionLoading, error: sessionError
     } = useSession()
 
     const [groups, setGroups] = useState(getGroup("No Name"));
@@ -133,6 +133,7 @@ export default function TeamSwitcher({className}: TeamSwitcherProps) {
             return
         }
         if (session) {
+            setUserName(session.user_name)
             setSelectedTeam(defaultTeam.teams[0])
         }
     }, [isSessionLoading, sessionError, session, defaultTeam])
