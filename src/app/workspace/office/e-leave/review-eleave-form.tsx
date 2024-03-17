@@ -16,6 +16,7 @@ import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 import {getUserById, useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {User} from "@/bonita/api/bpm/archived-process-instance/types";
+import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-the-user-task";
 
 type eleave_Context = {
     e_leave: E_leave
@@ -26,6 +27,8 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [e_leave, setE_leave] = useState<E_leave>({})
     const [userById, loadingUserById, errorUserById] = useUserById(e_leave.requestor)
     const [baseUrl, endPoint, setEndPoint] = useBaseUrl("");
+
+    const [comment, setComment] = useState<string>()
 
     /**
      * Display the e-leave in the form by input tags
@@ -147,7 +150,9 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 <div className="grid gap-4">
                     <Textarea
                         className="p-4"
-                        placeholder={`Reply ${task.name}...`}
+                        placeholder={`Comment for ${task.name}...`}
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                     />
                     <div className="flex items-center">
                         <Label
@@ -164,8 +169,22 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                             >
                                 Reject
                             </Button>
+
                             <Button
-                                onClick={(e) => e.preventDefault()}
+                                onClick={(e) =>{
+                                    e.preventDefault();
+                                    console.debug("comment", comment)
+                                    executeUserTask(task.id, {
+                                        newEleaveInput: {
+                                            isApprove : true,
+                                            isReject: false,
+                                            approveComment: comment,
+                                            rejectComment: ""
+                                        }
+                                    }).then(r => {
+                                        console.debug(r)
+                                    })
+                                }}
                                 size="sm"
                                 className=""
                             >

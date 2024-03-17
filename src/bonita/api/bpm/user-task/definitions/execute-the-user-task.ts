@@ -2,7 +2,7 @@
  * @url https://api-documentation.bonitasoft.com/latest/#tag/UserTask/operation/executeUserTask
  */
 
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl} from "@/lib/axios-instance";
 
 /**
  * Execute a user task
@@ -16,9 +16,11 @@ async function executeUserTask(
     data: any,
     isAssign: boolean = false
 ) {
-    return await axios.post(`/API/bpm/userTask/${taskId}/execution?assign=${isAssign}`, data, {
-        withCredentials: true,
-    }).then((response) => {
+    return await axios.post(
+        <string>getBaseUrl(`/API/bpm/userTask/${taskId}/execution?assign=${isAssign}`, window.location.hostname),
+        data, {
+            withCredentials: true,
+        }).then((response) => {
         return response.data;
     });
 }
