@@ -36,6 +36,7 @@ import {
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 import {Icons} from "@/components/icons";
 import {getCurrentUserSession, useSession} from "@/bonita/api/system/get-the-current-user-session";
+import {searchProcesses} from "@/bonita/api/bpm/process/definitions/finds-processes";
 
 
 interface LeaveType {
@@ -102,7 +103,7 @@ const dateStatuses = [
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [session] : [Session, boolean, any] = useSession()
+    const [session]: [Session, boolean, any] = useSession()
 
     const form = useForm<NewE_leaveFormValues>(
         {
@@ -173,23 +174,8 @@ export function NewE_leaveForm() {
             eleaveInput: newE_leaveInput,
         }
 
-        let processId = await axios.get(
-            '/API/bpm/process?s=Create_Eleave&p=0&c=1&o=version%20DESC&f=activationState=ENABLED',
-            {
-                withCredentials: true,
-            }
-        )
-            .then(function (response) {
-                // handle success
-                return response.data[0].id;
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .finally(function () {
-                // always executed
-            });
+        const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", "Create_Eleave")
+        const processId = processes[0].id;
 
         try {
             const resutl = await instantiateProcess(processId, newBody);
