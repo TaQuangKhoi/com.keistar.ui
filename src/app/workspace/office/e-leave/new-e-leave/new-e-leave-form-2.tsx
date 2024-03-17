@@ -35,7 +35,7 @@ import {
     NewE_leaveFormValues
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 import {Icons} from "@/components/icons";
-import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
+import {getCurrentUserSession, useSession} from "@/bonita/api/system/get-the-current-user-session";
 
 
 interface LeaveType {
@@ -102,6 +102,7 @@ const dateStatuses = [
 export function NewE_leaveForm() {
     const [options, setOptions] = useState([] as LeaveType[])
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [session] : [Session, boolean, any] = useSession()
 
     const form = useForm<NewE_leaveFormValues>(
         {
@@ -147,10 +148,6 @@ export function NewE_leaveForm() {
 
     async function onSubmit(data: NewE_leaveFormValues) {
         setIsLoading(true)
-
-        const session = await getCurrentUserSession().then(function (response) {
-            return response.data;
-        })
 
         const newE_leaveInput = Object.assign(body.eleaveInput, {
             requester: session.user_id,

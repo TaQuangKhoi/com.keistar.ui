@@ -5,7 +5,7 @@ import {Dayjs} from "dayjs";
 import {Calendar, Badge} from 'antd';
 import {useEffect, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
-import {getCurrentUserSession} from "@/bonita/api/system/get-the-current-user-session";
+import {getCurrentUserSession, useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {isSameDay, eachDayOfInterval} from 'date-fns'
 import DateCellRender from "@/app/workspace/office/e-leave/date-cell-render";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
@@ -19,6 +19,7 @@ interface processedE_leave extends E_leave {
 export default function E_leaveCalendar() {
     const [listOfE_leaves, setListOfE_leaves] = useState([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [session] : [Session, boolean, any] = useSession()
 
     /**
      * Get all process
@@ -47,11 +48,7 @@ export default function E_leaveCalendar() {
 
     useEffect(() => {
         const getE_leaves = async () => {
-            const session = await getCurrentUserSession().then(function (response) {
-                return response.data;
-            })
-
-            const user_id = session.user_id
+            const user_id = session.user_id as unknown as string;
 
             await findsBusinessData(
                 "com.havako.model.office.Eleave", "findByCreatedBy", 0, 20,
@@ -65,7 +62,7 @@ export default function E_leaveCalendar() {
         }
 
         getE_leaves();
-    }, []);
+    }, [session]);
 
     /**
      * Render processed cells of calendar
