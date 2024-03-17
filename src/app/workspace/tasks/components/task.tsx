@@ -41,6 +41,10 @@ export default function Task() {
     const [session, loadingSession, errorSession] = useSession();
 
     useEffect(() => {
+        if (session.user_id === undefined) {
+            return
+        }
+
         getData().then((data) => {
             setTasks(data)
         })
@@ -198,7 +202,7 @@ export default function Task() {
                     <TabsContent value="all" className="m-0">
                         <TaskList items={tasks}/>
                     </TabsContent>
-                    <TabsContent value="unread" className="m-0">
+                    <TabsContent value="unassigned" className="m-0">
                         <TaskList items={tasks}/>
                     </TabsContent>
                 </Tabs>
