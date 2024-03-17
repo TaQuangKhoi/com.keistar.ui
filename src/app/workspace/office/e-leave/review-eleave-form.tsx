@@ -113,7 +113,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         </div>
         <Separator/>
 
-        <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
+        <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto max-h-[400px]">
             {
                 e_leaveDisplay.map((item: {
                     key: string, value: string, type?: string
