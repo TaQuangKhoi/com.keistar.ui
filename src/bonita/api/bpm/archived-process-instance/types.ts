@@ -16,18 +16,18 @@ interface User {
 }
 
 interface ProcessDefinition {
-    displayDescription: string,
-    deploymentDate: string,
-    displayName: string,
-    name: string,
-    description: string,
-    deployedBy: string,
-    id: string,
+    actorinitiatorid: string,
     activationState: string,
-    version: string,
     configurationState: string,
+    deployedBy: string,
+    deploymentDate: string,
+    description: string,
+    displayDescription: string,
+    displayName: string,
+    id: string,
     last_update_date: string,
-    actorinitiatorid: string
+    name: string,
+    version: string,
 }
 
 interface ArchivedProcessInstance {
