@@ -1,4 +1,4 @@
-import {default as axios} from "@/lib/axios-instance";
+import {default as axios, getBaseUrl} from "@/lib/axios-instance";
 
 interface ProcessInstantiationResponse {
     caseId: string;
@@ -9,8 +9,9 @@ function getProcess(processId: string) {
 }
 
 async function instantiateProcess(processId: string, contractInputs: any) {
-    const url = getProcess(processId) + "/instantiation";
-    return await axios.post(url, contractInputs, {
+    return await axios.post(
+        <string>getBaseUrl("/API/bpm/process/", window.location.hostname) + processId + "/instantiation",
+        contractInputs, {
             withCredentials: true,
         }
     ).then((response) => {
