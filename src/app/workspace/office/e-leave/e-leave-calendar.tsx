@@ -19,14 +19,14 @@ interface processedE_leave extends E_leave {
 export default function E_leaveCalendar() {
     const [listOfE_leaves, setListOfE_leaves] = useState([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [session] : [Session, boolean, any] = useSession()
+    const [session]: [Session, boolean, any] = useSession()
+    const [processedE_leaves, setProcessedE_leaves] = useState<processedE_leave[]>()
 
     /**
      * Get all process
      */
-    function processData() {
+    useEffect(() => {
         let processedData: processedE_leave[] = [];
-
         listOfE_leaves.forEach((e_leave: E_leave, index: number) => {
             const dates = eachDayOfInterval(
                 {
@@ -43,12 +43,16 @@ export default function E_leaveCalendar() {
                 })
             });
         })
-        return processedData;
-    }
+        setProcessedE_leaves(processedData);
+    }, [listOfE_leaves]);
 
     useEffect(() => {
         const getE_leaves = async () => {
             const user_id = session.user_id as unknown as string;
+
+            if (user_id === undefined) {
+                return;
+            }
 
             await findsBusinessData(
                 "com.havako.model.office.Eleave", "findByCreatedBy", 0, 20,
@@ -56,8 +60,11 @@ export default function E_leaveCalendar() {
                     "createdBy": user_id
                 }
             ).then(function (response) {
-                setListOfE_leaves(response.data);
-                setIsLoading(false);
+                console.debug('response', response)
+                if (response.data.length !== 0) {
+                    setListOfE_leaves(response.data);
+                    setIsLoading(false);
+                }
             })
         }
 
@@ -70,7 +77,11 @@ export default function E_leaveCalendar() {
      * @param info
      */
     const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
-        const processedData = processData();
+        const processedData = processedE_leaves as processedE_leave[];
+
+        if (processedData === undefined) {
+            return;
+        }
 
         // get e_leaves of current date
         const currentDateE_leaves = processedData.filter((e_leave: processedE_leave) => {
