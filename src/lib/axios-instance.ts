@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
  */
 // 1st way
 axiosInstance.interceptors.request.use(async function (config) {
-    const res = await getCurrentUserSession();
+    const res = await getCurrentUserSession(window.location.hostname);
     config.headers["X-Bonita-API-Token"] = res.headers['x-bonita-api-token'];
     return config;
 });
