@@ -63,8 +63,8 @@ export default function E_leaveCalendar() {
                 console.debug('response', response)
                 if (response.data.length !== 0) {
                     setListOfE_leaves(response.data);
-                    setIsLoading(false);
                 }
+                setIsLoading(false);
             })
         }
 
@@ -98,8 +98,11 @@ export default function E_leaveCalendar() {
             }
         })
 
-        if (processedData.length === 0 && isLoading) {
-            return <p>Loading...</p>;
+        if (processedData.length === 0 ) {
+            if (isLoading)
+                return <p>Loading...</p>;
+            else
+                return <p></p>;
         }
 
         if (processedData.length > 0 && !isLoading) {
