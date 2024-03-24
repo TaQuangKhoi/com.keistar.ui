@@ -26,7 +26,7 @@ axiosInstance.interceptors.request.use(async function (config) {
  */
 function getBaseUrl(url: string | undefined, host: string | undefined) {
     if (process.env.NODE_ENV === 'development') {
-        return `http://${host}:7123/bonita` + url;
+        return `http://${host}:${process.env.NEXT_PUBLIC_BONITA_DEV_PORT}/bonita` + url;
     } else {
         return url;
     }
