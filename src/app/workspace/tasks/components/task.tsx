@@ -23,10 +23,12 @@ import {useEffect, useState} from "react";
 import TaskList from "@/app/workspace/tasks/components/task-list";
 import TaskDisplay from "@/app/workspace/tasks/components/task-display";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
-import {faker} from "@faker-js/faker";
 import {useTask} from "@/app/workspace/tasks/use-task";
 import {findsHumanTasks} from "@/bonita/api/bpm/human-task/finds-human-tasks";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
+import {useAtom} from "jotai";
+import {tasksAtom} from "@/app/workspace/tasks/atoms/tasks-atom";
+import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 
 export default function Task() {
     let navCollapsedSize = 4;
@@ -36,7 +38,8 @@ export default function Task() {
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
     const [task, setTask] = useTask()
 
-    const [tasks, setTasks] = useState<FullHumanTask[]>([])
+    const [tasks, setTasks] = useAtom(tasksAtom);
+    const [tasksLoadingAtomValue, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
     const [session, loadingSession, errorSession] = useSession();
 
@@ -44,11 +47,13 @@ export default function Task() {
         if (session.user_id === undefined) {
             return
         }
+        setTasksLoadingAtomValue(true)
 
         getData().then((data) => {
             setTasks(data)
+            setTasksLoadingAtomValue(false)
         })
-    }, [session])
+    }, [session, tasksLoadingAtomValue])
 
     const getData = async () => {
         return await findsHumanTasks(
