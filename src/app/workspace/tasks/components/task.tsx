@@ -69,7 +69,7 @@ export default function Task() {
                     sizes
                 )}`
             }}
-            className="max-h-[90vh]"
+            className="max-h-[91vh]"
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
