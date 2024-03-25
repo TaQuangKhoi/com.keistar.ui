@@ -185,11 +185,12 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                         if (response.status === 204) {
                                             toast.success("E-leave has been rejected",
                                                 {duration: 3000})
-                                            setTasksLoadingAtomValue(true);
                                         }
                                     }).catch(e => {
                                         toast.error("Error: " + e)
-                                    })
+                                    }).finally(() => {
+                                        setTasksLoadingAtomValue(true);
+                                    });
                                 }}
                                 size="sm"
                             >
@@ -210,10 +211,11 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                         if (response.status === 204) {
                                             toast.success("E-leave has been approved",
                                                 {duration: 3000})
-                                            setTasksLoadingAtomValue(true);
                                         }
                                     }).catch(e => {
                                         toast.error("Error: " + e)
+                                    }).finally(() => {
+                                        setTasksLoadingAtomValue(true);
                                     });
                                 }}
                                 size="sm"
