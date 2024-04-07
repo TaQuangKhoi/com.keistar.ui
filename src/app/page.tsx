@@ -4,6 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import Link from "next/link"
+import ButtonForEnterApp from "@/app/components/button-for-enter-app";
 
 export default function Component() {
     return (
@@ -12,9 +13,7 @@ export default function Component() {
                 <div className="container mx-auto flex items-center justify-between">
                     <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">Keistar BPM</div>
                     <button className="md:hidden" onClick={undefined}>
-                        <button className="md:hidden" onClick={undefined}>
-                            <MenuIcon className="h-6 w-6"/>
-                        </button>
+                        <MenuIcon className="h-6 w-6"/>
                     </button>
                     <nav className="space-x-4 hidden md:block">
                         <Link className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
@@ -33,6 +32,7 @@ export default function Component() {
                               href="#">
                             Contact
                         </Link>
+                        <ButtonForEnterApp/>
                     </nav>
                 </div>
             </header>
