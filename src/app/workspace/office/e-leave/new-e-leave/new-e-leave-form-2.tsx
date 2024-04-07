@@ -37,6 +37,7 @@ import {
 import {Icons} from "@/components/icons";
 import {getCurrentUserSession, useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {searchProcesses} from "@/bonita/api/bpm/process/definitions/finds-processes";
+import {toast} from "sonner";
 
 
 interface LeaveType {
@@ -179,20 +180,28 @@ export function NewE_leaveForm() {
 
         try {
             const resutl = await instantiateProcess(processId, newBody);
+            toast("New e-leave has been created successfully",
+                {
+                    description: "Case ID: " + resutl.caseId,
+                    action: {
+                        label: "View",
+                        onClick: () => console.log("View"),
+                    },
+                })
             setIsLoading(false)
-
         } catch (e) {
             console.error(e);
+            toast("Failed to create new e-leave. Please try again later",
+                {
+                    description: "Failed to create new e-leave. Please try again later",
+                    action: {
+                        label: "Retry",
+                        onClick: () => console.log("Retry"),
+                    },
+                })
             setIsLoading(false)
         }
-        // toast({
-        //     title: "You submitted the following values:",
-        //     description: (
-        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        //             <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        //         </pre>
-        //     ),
-        //     })
+
     }
 
 

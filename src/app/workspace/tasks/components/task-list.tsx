@@ -19,7 +19,7 @@ export default function TaskList({ items }: TaskListProps) {
             <div className="flex flex-col gap-2 p-4 pt-0">
                 {
                     items.length === 0 && <div className="m-3">
-                        Loading...
+                        No tasks found
                     </div>
                 }
 

@@ -9,14 +9,18 @@ import {Input} from "@/components/ui/input";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
-import {useGetContextByUserTaskId,
+import {
+    useGetContextByUserTaskId,
 } from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
 import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
-import {getUserById, useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
-import {User} from "@/bonita/api/bpm/archived-process-instance/types";
+import {useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-the-user-task";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
+import {useAtom} from "jotai";
+import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 
 type eleave_Context = {
     e_leave: E_leave
@@ -26,9 +30,13 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [context, loadingContext, errorContext] = useGetContextByUserTaskId(task.id);
     const [e_leave, setE_leave] = useState<E_leave>({})
     const [userById, loadingUserById, errorUserById] = useUserById(e_leave.requestor)
-    const [baseUrl, endPoint, setEndPoint] = useBaseUrl("");
+    const [baseUrl, endPoint, setBaseUrl] = useBaseUrl("");
 
-    const [comment, setComment] = useState<string>()
+    const [comment, setComment] = useState<string>();
+
+    const [tasksLoadingAtomValue, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
+
+    const router = useRouter();
 
     /**
      * Display the e-leave in the form by input tags
@@ -40,7 +48,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
      */
     useEffect(() => {
         if (context) {
-            setEndPoint('/' + context.eleave_ref.link)
+            setBaseUrl('/' + context.eleave_ref.link)
             if (typeof baseUrl === "string") {
                 axios.get(baseUrl, {
                     withCredentials: true,
@@ -164,26 +172,51 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                         </Label>
                         <div className="flex ml-auto space-x-2">
                             <Button
-                                onClick={(e) => e.preventDefault()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    executeUserTask(task.id, {
+                                        newEleaveInput: {
+                                            isApprove: false,
+                                            isReject: true,
+                                            approveComment: "",
+                                            rejectComment: comment
+                                        }
+                                    }).then(response => {
+                                        if (response.status === 204) {
+                                            toast.success("E-leave has been rejected",
+                                                {duration: 3000})
+                                        }
+                                    }).catch(e => {
+                                        toast.error("Error: " + e)
+                                    }).finally(() => {
+                                        setTasksLoadingAtomValue(true);
+                                    });
+                                }}
                                 size="sm"
                             >
                                 Reject
                             </Button>
 
                             <Button
-                                onClick={(e) =>{
+                                onClick={(e) => {
                                     e.preventDefault();
-                                    console.debug("comment", comment)
                                     executeUserTask(task.id, {
                                         newEleaveInput: {
-                                            isApprove : true,
+                                            isApprove: true,
                                             isReject: false,
                                             approveComment: comment,
                                             rejectComment: ""
                                         }
-                                    }).then(r => {
-                                        console.debug(r)
-                                    })
+                                    }).then(response => {
+                                        if (response.status === 204) {
+                                            toast.success("E-leave has been approved",
+                                                {duration: 3000})
+                                        }
+                                    }).catch(e => {
+                                        toast.error("Error: " + e)
+                                    }).finally(() => {
+                                        setTasksLoadingAtomValue(true);
+                                    });
                                 }}
                                 size="sm"
                                 className=""

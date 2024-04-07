@@ -21,7 +21,7 @@ async function executeUserTask(
         data, {
             withCredentials: true,
         }).then((response) => {
-        return response.data;
+        return response;
     });
 }
 
