@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 }
 
 export default function TestPage() {
-    // const {session, isSessionLoading, sessionError} = useBonitaSession()
 
     async function test() {
         console.log('test')
