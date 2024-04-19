@@ -54,9 +54,7 @@ export default function KeistarToolbar() {
     )
 }
 
-function ArrowLeftCircleIcon(
-    props
-) {
+function ArrowLeftCircleIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -78,7 +76,7 @@ function ArrowLeftCircleIcon(
 }
 
 
-function ChevronLeftIcon(props) {
+function ChevronLeftIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -98,7 +96,7 @@ function ChevronLeftIcon(props) {
 }
 
 
-function ChevronRightIcon(props) {
+function ChevronRightIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -139,7 +137,7 @@ function FileIcon(props: React.HTMLAttributes<any>) {
 }
 
 
-function FilesIcon(props) {
+function FilesIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -162,9 +160,7 @@ function FilesIcon(props) {
 }
 
 
-function HardDriveIcon(
-    props: React.HTMLAttributes<any>
-) {
+function HardDriveIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -188,7 +184,7 @@ function HardDriveIcon(
 }
 
 
-function PrinterIcon(props) {
+function PrinterIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -210,7 +206,7 @@ function PrinterIcon(props) {
 }
 
 
-function SplitIcon(props) {
+function SplitIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -233,7 +229,7 @@ function SplitIcon(props) {
 }
 
 
-function TrashIcon(props) {
+function TrashIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
@@ -255,7 +251,7 @@ function TrashIcon(props) {
 }
 
 
-function XIcon(props) {
+function XIcon(props: React.HTMLAttributes<any>) {
     return (
         <svg
             {...props}
