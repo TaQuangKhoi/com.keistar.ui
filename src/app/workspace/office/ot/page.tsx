@@ -11,25 +11,25 @@ const listItems: any = [
         ID: 1,
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
-        "from": "2/4/2024",
+        "from": "1/4/2024",
         "to": "2/4/2024",
         "total_hours": "8.00"
     },
     {
         ID: 2,
-        "approver": "Vu Nguyen Quang Phap",
+        "approver": "Vu Hoang Lam Nhi",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
-        "to": "2/4/2024",
-        "total_hours": "8.00"
+        "to": "3/4/2024",
+        "total_hours": "4.00"
     },
     {
         ID: 3,
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
-        "to": "2/4/2024",
-        "total_hours": "8.00"
+        "to": "5/4/2024",
+        "total_hours": "9.00"
     }
 ]
 
@@ -70,6 +70,6 @@ export default function OTPage() {
             cardConfig={headerItem}
             onClick={(item: any) => setSelected(item)}
         />,
-        <OTFragment/>,
+        <OTFragment selected={selected}/>,
     );
 }

@@ -54,23 +54,23 @@ export default function KeistarLeftSidebar(
                                         <CardContent>
                                             <p>
                                                 <strong>Approver:</strong>
-                                                Vu Nguyen Quang Phap
+                                                {item.approver}
                                             </p>
                                             <p>
                                                 <strong>Status:</strong>
-                                                OT waiting for approve
+                                                {item.status}
                                             </p>
                                             <p>
                                                 <strong>From:</strong>
-                                                2/4/2024
+                                                {item.from}
                                             </p>
                                             <p>
                                                 <strong>To:</strong>
-                                                2/4/2024
+                                                {item.to}
                                             </p>
                                             <p>
                                                 <strong>Total hours:</strong>
-                                                8.00
+                                                {item.total_hours}
                                             </p>
                                         </CardContent>
                                     </Card>

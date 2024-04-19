@@ -3,13 +3,19 @@
  * @see https://v0.dev/t/X2OytZX4ynZ
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import { TabsTrigger, TabsList, TabsContent, Tabs } from "@/components/ui/tabs"
-import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
+import {TabsTrigger, TabsList, TabsContent, Tabs} from "@/components/ui/tabs"
+import {SelectValue, SelectTrigger, SelectItem, SelectContent, Select} from "@/components/ui/select"
+import {Input} from "@/components/ui/input"
+import {Textarea} from "@/components/ui/textarea"
+import {TableHead, TableRow, TableHeader, TableCell, TableBody, Table} from "@/components/ui/table"
 
-export default function OTFragment() {
+export default function OTFragment(
+    {
+        selected
+    }: {
+        selected: any
+    }
+) {
     return (
         <div key="1" className="p-6">
             <Tabs className="w-full" defaultValue="register">
@@ -23,7 +29,7 @@ export default function OTFragment() {
                                 <label className="block text-sm font-medium">Approver</label>
                                 <Select>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a person" />
+                                        <SelectValue placeholder="Select a person"/>
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="person1">Vu Nguyen Quang Phap</SelectItem>
@@ -34,36 +40,37 @@ export default function OTFragment() {
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">From Date - To Date</label>
-                                <Input placeholder="02/04/2024 - 02/04/2024" />
+                                <Input placeholder="02/04/2024 - 02/04/2024"/>
                             </div>
                         </div>
                         <div className="grid grid-cols-4 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">AM: From</label>
-                                <Input placeholder="07:30" type="time" />
+                                <Input placeholder="07:30" type="time"/>
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">To</label>
-                                <Input placeholder="11:30" type="time" />
+                                <Input placeholder="11:30" type="time"/>
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">PM: From</label>
-                                <Input placeholder="13:00" type="time" />
+                                <Input placeholder="13:00" type="time"/>
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">To</label>
-                                <Input placeholder="17:00" type="time" />
+                                <Input placeholder="17:00" type="time"/>
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Total hours applied</label>
-                                <Input placeholder="8.00" />
+                                <Input placeholder="Enter total hours" type="number"
+                                       value={selected.total_hours}/>
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="block text-sm font-medium">Cancel Reasons</label>
-                            <Textarea placeholder="Đỗ Quyên" />
+                            <Textarea placeholder="Đỗ Quyên"/>
                         </div>
                         <div>
                             <h3 className="text-lg">Reasons</h3>
@@ -83,7 +90,7 @@ export default function OTFragment() {
                                         <TableCell>
                                             <Select>
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="Select type" />
+                                                    <SelectValue placeholder="Select type"/>
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="type1">Type 1</SelectItem>
@@ -93,7 +100,7 @@ export default function OTFragment() {
                                             </Select>
                                         </TableCell>
                                         <TableCell>
-                                            <Input placeholder="Data 3" />
+                                            <Input placeholder="Data 3"/>
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -103,7 +110,7 @@ export default function OTFragment() {
                                         <TableCell>
                                             <Select>
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="Select type" />
+                                                    <SelectValue placeholder="Select type"/>
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="type1">Type 1</SelectItem>
@@ -113,7 +120,7 @@ export default function OTFragment() {
                                             </Select>
                                         </TableCell>
                                         <TableCell>
-                                            <Input placeholder="Data 6" />
+                                            <Input placeholder="Data 6"/>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
