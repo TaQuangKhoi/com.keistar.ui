@@ -39,6 +39,11 @@ export const personal_items = [
         href: "/workspace/office/travel",
     },
     {
+        label: "OT",
+        value: "ot",
+        href: "/workspace/office/ot",
+    },
+    {
         label: "Car Booking",
         value: "car-booking",
         href: "/workspace/office/car-booking",
