@@ -28,7 +28,7 @@ function getBaseUrl(url: string | undefined, host: string | undefined) {
     if (process.env.NODE_ENV === 'development') {
         return `http://${host}:${process.env.NEXT_PUBLIC_BONITA_DEV_PORT}/bonita` + url;
     } else {
-        return url;
+        return `http://${host}:${process.env.NEXT_PUBLIC_BONITA_DEV_PORT}/bonita` + url;
     }
 }
 
