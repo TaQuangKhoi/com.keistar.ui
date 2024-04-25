@@ -15,13 +15,17 @@ import {PrimitiveAtom, useAtom} from "jotai/index";
 
 export default function KeistarLeftSidebar(
     {
+        idKey,
         selected,
         list,
         cardConfig,
+        titleKey,
     }: {
+        idKey: string,
         selected: PrimitiveAtom<any>
         list: any,
         cardConfig: any,
+        titleKey: string,
     }
 ) {
     const windowsSize = useWindowSize();
@@ -61,35 +65,26 @@ export default function KeistarLeftSidebar(
                             list.map((item: any, index: number) => {
                                 return <>
                                     <Card className={clsx("bg-gray-100 transition-transform hover:scale-105",
-                                        selectedItem.ID === item.ID ? "ring-2 ring-blue-500" : "")}
+                                        selectedItem[idKey] === item[idKey]
+                                            ? "ring-2 ring-blue-500" : "")}
                                           onClick={() => {
                                               setSelectedItem(item);
                                           }}
                                     >
                                         <CardHeader>
-                                            <CardTitle>TT-VT-OT-0001109</CardTitle>
+                                            <CardTitle>
+                                                {item[titleKey]}
+                                            </CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p>
-                                                <strong>Approver:</strong>
-                                                {item.approver}
-                                            </p>
-                                            <p>
-                                                <strong>Status:</strong>
-                                                {item.status}
-                                            </p>
-                                            <p>
-                                                <strong>From:</strong>
-                                                {item.from}
-                                            </p>
-                                            <p>
-                                                <strong>To:</strong>
-                                                {item.to}
-                                            </p>
-                                            <p>
-                                                <strong>Total hours:</strong>
-                                                {item.total_hours}
-                                            </p>
+                                            {
+                                                cardConfig.map((config: any) => {
+                                                    return <p key={config.key}>
+                                                        <strong>{config.label}:</strong>
+                                                        {item[config.key]}
+                                                    </p>
+                                                })
+                                            }
                                         </CardContent>
                                     </Card>
                                 </>

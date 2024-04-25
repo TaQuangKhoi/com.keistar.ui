@@ -10,7 +10,8 @@ import {useEffect} from "react";
 
 const listItems: any = [
     {
-        ID: 1,
+        id: 1,
+        code: "TT-VT-OT-0001109",
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "1/4/2024",
@@ -18,7 +19,7 @@ const listItems: any = [
         "total_hours": "8.00"
     },
     {
-        ID: 2,
+        id: 2,
         "approver": "Nguyen Thach Son",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
@@ -26,7 +27,7 @@ const listItems: any = [
         "total_hours": "4.00"
     },
     {
-        ID: 3,
+        id: 3,
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
@@ -34,7 +35,7 @@ const listItems: any = [
         "total_hours": "16.00"
     },
     {
-        ID: 4,
+        id: 4,
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "5/4/2024",
@@ -78,6 +79,8 @@ export default function OTPage() {
         "OT Registration",
         <KeistarToolbar selected={selectedOT}/>,
         <KeistarLeftSidebar
+            idKey={"id"}
+            titleKey="approver"
             selected={selectedOT}
             list={listItems}
             cardConfig={headerItem}

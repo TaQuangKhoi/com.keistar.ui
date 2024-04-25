@@ -10,68 +10,49 @@ import {selectedEmployee} from "@/app/workspace/office/employee/employee-selecte
 const listItems: any = [
     {
         ID: 1,
-        "approver": "Vu Nguyen Quang Phap",
-        "status": "OT waiting for approve",
-        "from": "1/4/2024",
-        "to": "2/4/2024",
-        "total_hours": "8.00"
+        username: "taquangkhoi",
+        status: "Onboarded",
+        isActive: true,
     },
     {
         ID: 2,
-        "approver": "Vu Hoang Lam Nhi",
-        "status": "OT waiting for approve",
-        "from": "2/4/2024",
-        "to": "3/4/2024",
-        "total_hours": "4.00"
+        username: "vuhoanglamnhi",
+        status: "Onboarded",
+
     },
     {
         ID: 3,
-        "approver": "Vu Nguyen Quang Phap",
-        "status": "OT waiting for approve",
-        "from": "2/4/2024",
-        "to": "5/4/2024",
-        "total_hours": "9.00"
+        username: "trannguyenminhthuan",
+        status: "Onboarded",
     },
     {
         ID: 4,
-        "approver": "Vu Nguyen Quang Phap",
-        "status": "OT waiting for approve",
-        "from": "2/4/2024",
-        "to": "5/4/2024",
-        "total_hours": "9.00"
+        username: "nguyenquangphapvu",
+        status: "Onboarded",
     },
 ]
 
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
 
+    const titleKey = "username";
     const headerItem = [
         {
-            "label": "Approver",
-            "key": "approver"
+            "label": "Username",
+            "key": "username"
         },
         {
             "label": "Status",
             "key": "status"
         },
-        {
-            "label": "From",
-            "key": "from"
-        },
-        {
-            "label": "To",
-            "key": "to"
-        },
-        {
-            "label": "Total hours",
-            "key": "total_hours"
-        }
     ]
 
     return KeistarLayout(
         "Employee",
         <KeistarToolbar selected={selectedEmployee}/>,
         <KeistarLeftSidebar
+            idKey={"ID"}
+            titleKey={titleKey}
             selected={selectedEmployee}
             list={listItems}
             cardConfig={headerItem}
