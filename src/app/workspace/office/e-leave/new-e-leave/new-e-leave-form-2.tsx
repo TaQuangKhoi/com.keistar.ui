@@ -134,7 +134,7 @@ export function NewE_leaveForm() {
     useEffect(() => {
         const getLeaveType = async () => {
             await findsBusinessData(
-                "com.havako.model.office.LeaveType", "find", 0, 20
+                "com.keistar.model.office.LeaveType", "find", 0, 20
             ).then(function (response) {
 
                 // set default value

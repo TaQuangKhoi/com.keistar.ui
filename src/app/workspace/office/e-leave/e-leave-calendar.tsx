@@ -55,7 +55,7 @@ export default function E_leaveCalendar() {
             }
 
             await findsBusinessData(
-                "com.havako.model.office.Eleave", "findByCreatedBy", 0, 20,
+                "com.keistar.model.office.Eleave", "findByCreatedBy", 0, 20,
                 {
                     "createdBy": user_id
                 }

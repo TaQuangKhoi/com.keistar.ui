@@ -30,7 +30,15 @@ const listItems: any = [
         "from": "2/4/2024",
         "to": "5/4/2024",
         "total_hours": "9.00"
-    }
+    },
+    {
+        ID: 4,
+        "approver": "Vu Nguyen Quang Phap",
+        "status": "OT waiting for approve",
+        "from": "2/4/2024",
+        "to": "5/4/2024",
+        "total_hours": "9.00"
+    },
 ]
 
 export default function OTPage() {
