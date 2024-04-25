@@ -33,10 +33,11 @@ export default function AuthenticationPage() {
                     <div className="relative z-20 mt-auto">
                         <blockquote className="space-y-2">
                             <p className="text-lg">
-                                &ldquo;Nhưng sự thật chứng minh, không phải mỗi một phần chân thành tha thiết tình cảm
-                                đều sẽ đạt được đáp lại, trên thế giới cũng thật sự có tan không ra băng cứng.&rdquo;
+                                &ldquo;The first rule of any technology used in a business is that automation applied to an efficient operation will magnify the efficiency. The second is that automation applied to an inefficient operation will magnify the inefficiency.&rdquo;
                             </p>
-                            <footer className="text-sm">Tạ Quang Khôi</footer>
+                            <footer className="text-sm">
+                                Bill Gates
+                            </footer>
                         </blockquote>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ import {
 
 interface ContextRef {
     "name": string, // "newEleave"
-    "type": string, // "com.havako.model.office.Eleave"
+    "type": string, // "com.keistar.model.office.Eleave"
     "link": string, // "API/bdm/businessData/com.havako.model.office.Eleave/147"
     storageId: number, // 147
     "storageId_string": string, // "147"
@@ -31,7 +31,7 @@ export async function getProcessesByEleaveId(eleaveId: string) {
 
         // List all eleave type object ref
         for (const [key, value] of Object.entries(context)) {
-            if (value.type === "com.havako.model.office.Eleave" && value.storageId_string === eleaveId) {
+            if (value.type === "com.keistar.model.office.Eleave" && value.storageId_string === eleaveId) {
                 processInstances.push(data[i])
             }
         }
