@@ -32,6 +32,24 @@ export default function EmployeeFragment() {
             "", "").then((user) => {
             setEngineUser(user[0])
         })
+        setSelectedItem((draft) => {
+            draft.email= 'taquangkhoi@onmail.com'
+            draft.workplaceId= "0"
+            draft.positionName = 'New Position'
+            draft.contractTypeId = "0"
+            draft.workTypeId = "0"
+            draft.probationStartDate = '2022-01-01'
+            draft.probationEndDate = '2022-12-31'
+            draft.hrManagerAcceptance = false
+            draft.hrManagerComment = ''
+            draft.directManagerComment = ''
+            draft.isActive = true
+            draft.employeeTypeId = "0";
+            draft.directManagerId = 0
+            draft.createdBy = 'admin'
+            draft.createdDate = '2022-01-01'
+            draft.dateOfBirth = '1990-01-01'
+        })
     }, [selectedItem.username]);
 
     return (
@@ -65,7 +83,7 @@ export default function EmployeeFragment() {
                             <Input className="border px-3 py-2 rounded-lg" id="firstName"
                                    disabled={selectedItem.id !== undefined}
                                    placeholder="First Name"
-                                   value={engineUser.firstname}
+                                   value={selectedItem.firstname}
                                    onChange={(e) => {
                                        if (e.target.value && e.target.value !== selectedItem.firstname) {
                                            setSelectedItem((draft) => {
@@ -83,7 +101,7 @@ export default function EmployeeFragment() {
                             <Input className="border px-3 py-2 rounded-lg" id="lastName"
                                    disabled={selectedItem.id !== undefined}
                                    placeholder="Last Name"
-                                   value={engineUser.lastname}
+                                   value={selectedItem.lastname}
                                    onChange={(e) => {
                                        if (e.target.value) {
                                            setSelectedItem((draft) => {

@@ -6,7 +6,10 @@
  */
 import {Button} from "@/components/ui/button"
 import * as React from "react";
-import {useAtom} from "jotai/index";
+import {useAtom, useAtomValue} from "jotai/index";
+import {userNameAtom} from "@/app/workspace/atoms";
+import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import {faker} from "@faker-js/faker";
 
 export default function KeistarToolbar(
     {
@@ -19,18 +22,29 @@ export default function KeistarToolbar(
         }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
+    // get origin object from jotai atom
 
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
-                    variant="outline">
+                    variant="outline"
+                    onClick={() => {
+                        // console.debug(selectedItem)
+                        // Save to BDM
+
+
+                        console.debug(selectedItem)
+
+                        // if id is undefined, start process to create new item
+
+                    }}
+            >
                 <HardDriveIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Save</span>
             </Button>
             <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
                     onClick={() => {
-                        console.debug(defaultValue)
                         setSelectedItem(defaultValue)
                     }}
             >

@@ -14,6 +14,8 @@ let listItems: any = [
     {
         id: 1,
         username: "toikhoi",
+        lastname: "Ta",
+        firstname: "Khoi",
         status: "Onboarded",
         isActive: true,
         phone: "0935198419",
@@ -21,12 +23,16 @@ let listItems: any = [
     {
         id: 2,
         username: "tiencho",
+        lastname: "Tran",
+        firstname: "Tien",
         status: "Onboarded",
         phone: "0123456789",
     },
     {
         id: 3,
         username: "doquyen",
+        lastname: "Do",
+        firstname: "Quyen",
         status: "Onboarded",
         phone: "9812784985",
     },

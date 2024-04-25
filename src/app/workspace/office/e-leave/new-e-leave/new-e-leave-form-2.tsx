@@ -19,23 +19,21 @@ import Link from "next/link";
 import {cn} from "@/lib/utils";
 import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
-import {default as axios} from "@/lib/axios-instance";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
-import {addDays} from "date-fns";
 import SelectFormField from "@/app/workspace/office/e-leave/new-e-leave/components/select-form-field";
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
 import {Input} from "@/components/ui/input";
-import {differenceInBusinessDays, differenceInCalendarDays, differenceInDays} from 'date-fns';
+import {differenceInBusinessDays} from 'date-fns';
 import {
     defaultValues,
     newE_leaveFormSchema,
     NewE_leaveFormValues
 } from "@/app/workspace/office/e-leave/new-e-leave/components/new-e-leave-form-utils";
 import {Icons} from "@/components/icons";
-import {getCurrentUserSession, useSession} from "@/bonita/api/system/get-the-current-user-session";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {searchProcesses} from "@/bonita/api/bpm/process/definitions/finds-processes";
 import {toast} from "sonner";
 
