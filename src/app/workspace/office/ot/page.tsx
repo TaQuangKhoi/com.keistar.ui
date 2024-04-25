@@ -45,11 +45,11 @@ const listItems: any = [
 
 export default function OTPage() {
     let urlAction = {};
-    // const [selected, setSelected] = useAtom(selectedOT);
-    //
-    // useEffect(() => {
-    //     setSelected(listItems[0])
-    // }, []);
+    const [selected, setSelected] = useAtom(selectedOT);
+
+    useEffect(() => {
+        setSelected(listItems[0)
+    }, []);
 
     let headerItem = [
         {
