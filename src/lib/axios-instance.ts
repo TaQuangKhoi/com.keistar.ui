@@ -24,8 +24,12 @@ axiosInstance.interceptors.request.use(async function (config) {
  * @param url
  * @param host
  */
-function getBaseUrl(url: string | undefined, host: string | undefined) {
-    return `http://${host}:${process.env.NEXT_PUBLIC_BONITA_DEV_PORT}/bonita` + url;
+function getBaseUrl(url: string | undefined,
+                    host: string | undefined = process.env.NEXT_PUBLIC_BONITA_HOSTNAME
+) {
+    return `http://${
+        host
+    }:${process.env.NEXT_PUBLIC_BONITA_DEV_PORT}/bonita` + url;
 }
 
 export {getBaseUrl};
