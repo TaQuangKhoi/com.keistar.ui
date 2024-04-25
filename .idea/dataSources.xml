@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="business_data.db" uuid="d0021870-10b2-4bd0-8d73-6f736c68521f">
-      <driver-ref>h2.unified</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:file:D:\BonitaStudioCommunity-2023.2-u0\workspace\havakobpm\app\h2_database/business_data.db</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="Local SQL Server" uuid="221cff29-9d5a-409e-915a-d7107f0f9bd9">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
