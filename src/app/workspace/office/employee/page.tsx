@@ -58,15 +58,36 @@ export default function EmployeePage() {
     ]
     const defaultSelected = {
         id: undefined,
-        username: "",
-        status: "",
         phone: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        engine_id: "",
+        status: "",
+        email: "",
+        workplaceId: "",
+        positionName: "",
+        contractTypeId: "",
+        workTypeId: "",
+        probationStartDate: "",
+        probationEndDate: "",
+        hrManagerAcceptance: "",
+        hrManagerComment: "",
+        directManagerComment: "",
+        isActive: "",
+        employeeTypeId: "",
+        directManagerId: "",
+        createdBy: "",
+        createdDate: "",
+        dateOfBirth: ""
     };
 
     return KeistarLayout(
         "Employee",
         <KeistarToolbar selected={selectedEmployee}
                         defaultValue={defaultSelected}
+                        processName={"Create_Employee"}
+                        config={null}
         />,
         <KeistarLeftSidebar
             idKey={"id"}

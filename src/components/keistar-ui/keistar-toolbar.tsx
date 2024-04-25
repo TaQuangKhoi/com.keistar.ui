@@ -8,15 +8,22 @@ import {Button} from "@/components/ui/button"
 import * as React from "react";
 import {PrimitiveAtom, useAtom, useAtomValue} from "jotai/index";
 import KeistarItem from "@/components/keistar-ui/types/item-interface";
+import {searchProcesses} from "@/bonita/api/bpm/process/definitions/finds-processes";
+import {instantiateProcess} from "@/bonita/api/bpm/process";
+import {toast} from "sonner";
 
 export default function KeistarToolbar(
     {
         selected,
         defaultValue,
+        processName,
+        config = {},
     }:
         {
-            selected: PrimitiveAtom<KeistarItem>,
-            defaultValue?: any
+            selected: PrimitiveAtom<any>,
+            defaultValue?: any,
+            processName: string,
+            config?: any,
         }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
@@ -26,17 +33,40 @@ export default function KeistarToolbar(
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
-                    onClick={() => {
+                    onClick={async () => {
                         // console.debug(selectedItem)
                         // Save to BDM
-
-
                         console.debug(selectedItem)
 
                         // if id is undefined, start process to create new item
                         if (selectedItem.id === undefined) {
                             // start process to create new item
+                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processName)
+                            const processId = processes[0].id;
 
+                            try {
+                                const resutl = await instantiateProcess(processId, {
+                                    newEmployeeInput: selectedItem
+                                });
+                                // toast("New e-leave has been created successfully",
+                                //     {
+                                //         description: "Case ID: " + resutl.caseId,
+                                //         action: {
+                                //             label: "View",
+                                //             onClick: () => console.log("View"),
+                                //         },
+                                //     })
+                            } catch (e) {
+                                console.error(e);
+                                // toast("Failed to create new e-leave. Please try again later",
+                                //     {
+                                //         description: "Failed to create new e-leave. Please try again later",
+                                //         action: {
+                                //             label: "Retry",
+                                //             onClick: () => console.log("Retry"),
+                                //         },
+                                //     })
+                            }
                         }
                     }}
             >

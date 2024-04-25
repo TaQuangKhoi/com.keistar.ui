@@ -33,13 +33,14 @@ export default function EmployeeFragment() {
             setEngineUser(user[0])
         })
         setSelectedItem((draft) => {
-            draft.email= 'taquangkhoi@onmail.com'
-            draft.workplaceId= "0"
+            draft.username = 'taquangkhoi'
+            draft.email = 'taquangkhoi@onmail.com'
+            draft.workplaceId = "0"
             draft.positionName = 'New Position'
             draft.contractTypeId = "0"
             draft.workTypeId = "0"
-            draft.probationStartDate = '2022-01-01'
-            draft.probationEndDate = '2022-12-31'
+            draft.probationStartDate = new Date('2022-01-01').toISOString();
+            draft.probationEndDate = new Date('2022-12-31').toISOString();
             draft.hrManagerAcceptance = false
             draft.hrManagerComment = ''
             draft.directManagerComment = ''
@@ -47,8 +48,8 @@ export default function EmployeeFragment() {
             draft.employeeTypeId = "0";
             draft.directManagerId = 0
             draft.createdBy = 'admin'
-            draft.createdDate = '2022-01-01'
-            draft.dateOfBirth = '1990-01-01'
+            draft.createdDate = new Date('2022-01-01').toISOString();
+            draft.dateOfBirth = new Date('1990-01-01').toISOString();
         })
     }, [selectedItem.username]);
 
@@ -83,12 +84,13 @@ export default function EmployeeFragment() {
                             <Input className="border px-3 py-2 rounded-lg" id="firstName"
                                    disabled={selectedItem.id !== undefined}
                                    placeholder="First Name"
-                                   value={selectedItem.firstname}
+                                   value={selectedItem.firstName}
                                    onChange={(e) => {
-                                       if (e.target.value && e.target.value !== selectedItem.firstname) {
+                                       if (e.target.value && e.target.value !== selectedItem.firstName) {
                                            setSelectedItem((draft) => {
-                                               draft.firstname = e.target.value
+                                               draft.firstName = e.target.value
                                            })
+                                           console.debug(selectedItem)
                                        }
                                    }}
                                    type="text"/>
@@ -101,11 +103,11 @@ export default function EmployeeFragment() {
                             <Input className="border px-3 py-2 rounded-lg" id="lastName"
                                    disabled={selectedItem.id !== undefined}
                                    placeholder="Last Name"
-                                   value={selectedItem.lastname}
+                                   value={selectedItem.lastName}
                                    onChange={(e) => {
                                        if (e.target.value) {
                                            setSelectedItem((draft) => {
-                                               draft.lastname = e.target.value
+                                               draft.lastName = e.target.value
                                            })
                                        }
                                    }}
