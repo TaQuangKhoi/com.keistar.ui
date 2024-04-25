@@ -12,7 +12,6 @@ import {useWindowSize} from "@uidotdev/usehooks";
 import {clsx} from "clsx";
 import React, {useEffect, useState} from "react";
 import {PrimitiveAtom, useAtom} from "jotai/index";
-import KeistarItem from "@/components/keistar-ui/types/item-interface";
 
 export default function KeistarLeftSidebar(
     {
@@ -20,14 +19,14 @@ export default function KeistarLeftSidebar(
         list,
         cardConfig,
     }: {
-        selected: PrimitiveAtom<any>,
+        selected: PrimitiveAtom<any>
         list: any,
         cardConfig: any,
     }
 ) {
     const windowsSize = useWindowSize();
     const [height, setHeight] = useState<number>()
-    const [selectedItem, setSelectedItem] = useAtom<KeistarItem>(selected);
+    const [selectedItem, setSelectedItem] = useAtom(selected);
 
     // let maxH: number = 0;
     // if (windowsSize.width !== null && windowsSize.height !== null) {
