@@ -67,15 +67,19 @@ export default function EmployeePage() {
         }
     ]
 
-    return KeistarLayout(
-        "Employee",
-        <KeistarToolbar/>,
-        <KeistarLeftSidebar
-            selected={selected}
-            list={listItems}
-            cardConfig={headerItem}
-            onClick={(item: any) => setSelected(item)}
-        />,
-        <EmployeeFragment selected={selected}/>,
-    );
+    return <>
+        Null
+    </>
+
+    // return KeistarLayout(
+    //     "Employee",
+    //     <KeistarToolbar selected={}/>,
+    //     <KeistarLeftSidebar
+    //         selected={selected}
+    //         list={listItems}
+    //         cardConfig={headerItem}
+    //         onClick={(item: any) => setSelected(item)}
+    //     />,
+    //     <EmployeeFragment selected={selected}/>,
+    // );
 }
