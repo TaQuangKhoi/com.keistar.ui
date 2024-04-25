@@ -10,7 +10,7 @@ import {CardTitle, CardHeader, CardContent, Card} from "@/components/ui/card"
 import {ScrollArea} from "@/components/ui/scroll-area"
 import {useWindowSize} from "@uidotdev/usehooks";
 import {clsx} from "clsx";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 export default function KeistarLeftSidebar(
     props: {
@@ -20,7 +20,8 @@ export default function KeistarLeftSidebar(
         onClick: any
     }
 ) {
-    // const windowsSize = useWindowSize();
+    const windowsSize = useWindowSize();
+    const [height, setHeight] = useState<number>()
     //
     // let maxH: number = 0;
     // if (windowsSize.width !== null && windowsSize.height !== null) {
@@ -35,11 +36,21 @@ export default function KeistarLeftSidebar(
     //     maxH > 0 ? `max-h-${maxH}` : ""
     // )
 
+    useEffect(() => {
+        if (windowsSize.height === null) {
+            return;
+        }
+        const newHeight = windowsSize.height - 300;
+        setHeight(newHeight);
+    }, [windowsSize]);
+
     return (
         <div className="grid grid-cols-1 gap-4">
             <div>
                 <Input className="flex items-center mb-4" placeholder="Search..."/>
-                <ScrollArea className="border rounded-md max-h-screen overflow-auto">
+                <ScrollArea className="border rounded-md max-h-screen overflow-auto"
+                            style={{maxHeight: height}}
+                >
                     <div className="p-4 space-y-4">
                         {
                             props.list.map((item: any, index: number) => {
