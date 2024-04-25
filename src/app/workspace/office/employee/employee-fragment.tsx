@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/X2OytZX4ynZ
@@ -27,6 +29,8 @@ export default function EmployeeFragment(
 
     useEffect(() => {
         console.debug("EmployeeFragment: ", selectedItem)
+        // Get user from Bonita Engine
+
     }, [selectedItem]);
 
     return (
