@@ -8,6 +8,8 @@ import {SelectValue, SelectTrigger, SelectItem, SelectContent, Select} from "@/c
 import {Input} from "@/components/ui/input"
 import {Textarea} from "@/components/ui/textarea"
 import {TableHead, TableRow, TableHeader, TableCell, TableBody, Table} from "@/components/ui/table"
+import {useAtom} from "jotai/index";
+import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
 
 export default function OTFragment(
     {
@@ -16,6 +18,8 @@ export default function OTFragment(
         selected: any
     }
 ) {
+    const [selectedItem, setSelectedItem] = useAtom<OT_Item>(selected);
+
     return (
         <div key="1" className="p-6">
             <Tabs className="w-full" defaultValue="register">
@@ -65,7 +69,7 @@ export default function OTFragment(
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Total hours applied</label>
                                 <Input placeholder="Enter total hours" type="number"
-                                       value={selected.total_hours}/>
+                                       value={selectedItem.total_hours}/>
                             </div>
                         </div>
                         <div className="space-y-2">

@@ -4,7 +4,9 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import OTFragment from "@/app/workspace/office/ot/ot-fragment";
-import {useState} from "react";
+import {useAtom} from "jotai/index";
+import {selectedOT} from "@/app/workspace/office/ot/ot-selected-atom";
+import {useEffect} from "react";
 
 const listItems: any = [
     {
@@ -42,8 +44,12 @@ const listItems: any = [
 ]
 
 export default function OTPage() {
-    let urlAction = {}
-    const [selected, setSelected] = useState<object>(listItems[0])
+    let urlAction = {};
+    // const [selected, setSelected] = useAtom(selectedOT);
+    //
+    // useEffect(() => {
+    //     setSelected(listItems[0])
+    // }, []);
 
     let headerItem = [
         {
@@ -70,13 +76,12 @@ export default function OTPage() {
 
     return KeistarLayout(
         "OT Registration",
-        <KeistarToolbar selected={selected}/>,
+        <KeistarToolbar selected={selectedOT}/>,
         <KeistarLeftSidebar
-            selected={selected}
+            selected={selectedOT}
             list={listItems}
             cardConfig={headerItem}
-            onClick={(item: any) => setSelected(item)}
         />,
-        <OTFragment selected={selected}/>,
+        <OTFragment selected={selectedOT}/>,
     );
 }
