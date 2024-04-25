@@ -4,7 +4,9 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import OTFragment from "@/app/workspace/office/ot/ot-fragment";
-import {useState} from "react";
+import {useAtom} from "jotai/index";
+import {selectedOT} from "@/app/workspace/office/ot/ot-selected-atom";
+import {useEffect} from "react";
 
 const listItems: any = [
     {
@@ -12,15 +14,15 @@ const listItems: any = [
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "1/4/2024",
-        "to": "2/4/2024",
+        "to": "1/4/2024",
         "total_hours": "8.00"
     },
     {
         ID: 2,
-        "approver": "Vu Hoang Lam Nhi",
+        "approver": "Nguyen Thach Son",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
-        "to": "3/4/2024",
+        "to": "2/4/2024",
         "total_hours": "4.00"
     },
     {
@@ -28,22 +30,26 @@ const listItems: any = [
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
-        "to": "5/4/2024",
-        "total_hours": "9.00"
+        "to": "3/4/2024",
+        "total_hours": "16.00"
     },
     {
         ID: 4,
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
-        "from": "2/4/2024",
+        "from": "5/4/2024",
         "to": "5/4/2024",
-        "total_hours": "9.00"
+        "total_hours": "8.00"
     },
 ]
 
 export default function OTPage() {
-    let urlAction = {}
-    const [selected, setSelected] = useState<object>(listItems[0])
+    let urlAction = {};
+    // const [selected, setSelected] = useAtom(selectedOT);
+    //
+    // useEffect(() => {
+    //     setSelected(listItems[0])
+    // }, []);
 
     let headerItem = [
         {
@@ -70,13 +76,12 @@ export default function OTPage() {
 
     return KeistarLayout(
         "OT Registration",
-        <KeistarToolbar selected={selected}/>,
+        <KeistarToolbar selected={selectedOT}/>,
         <KeistarLeftSidebar
-            selected={selected}
+            selected={selectedOT}
             list={listItems}
             cardConfig={headerItem}
-            onClick={(item: any) => setSelected(item)}
         />,
-        <OTFragment selected={selected}/>,
+        <OTFragment selected={selectedOT}/>,
     );
 }

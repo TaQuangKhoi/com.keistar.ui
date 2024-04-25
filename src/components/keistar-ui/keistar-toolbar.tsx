@@ -1,3 +1,4 @@
+'use client'
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/FLCtgLNBgt6
@@ -5,11 +6,14 @@
  */
 import {Button} from "@/components/ui/button"
 import * as React from "react";
+import {useAtom} from "jotai/index";
 
 export default function KeistarToolbar(
     {selected}:
         { selected: any }
 ) {
+    const [selectedItem, setSelectedItem] = useAtom(selected);
+
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
@@ -20,7 +24,7 @@ export default function KeistarToolbar(
             <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
                     onClick={() => {
-                        console.debug("New", selected)
+                        console.debug("New", selectedItem)
                     }}
             >
                 <FileIcon className="h-5 w-5 hover:text-blue-500"/>

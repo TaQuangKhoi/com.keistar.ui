@@ -11,18 +11,23 @@ import {ScrollArea} from "@/components/ui/scroll-area"
 import {useWindowSize} from "@uidotdev/usehooks";
 import {clsx} from "clsx";
 import React, {useEffect, useState} from "react";
+import {PrimitiveAtom, useAtom} from "jotai/index";
 
 export default function KeistarLeftSidebar(
-    props: {
-        selected: any,
+    {
+        selected,
+        list,
+        cardConfig,
+    }: {
+        selected: PrimitiveAtom<any>
         list: any,
         cardConfig: any,
-        onClick: any
     }
 ) {
     const windowsSize = useWindowSize();
     const [height, setHeight] = useState<number>()
-    //
+    const [selectedItem, setSelectedItem] = useAtom(selected);
+
     // let maxH: number = 0;
     // if (windowsSize.width !== null && windowsSize.height !== null) {
     //     maxH = windowsSize.height - 200;
@@ -53,11 +58,13 @@ export default function KeistarLeftSidebar(
                 >
                     <div className="p-4 space-y-4">
                         {
-                            props.list.map((item: any, index: number) => {
+                            list.map((item: any, index: number) => {
                                 return <>
                                     <Card className={clsx("bg-gray-100 transition-transform hover:scale-105",
-                                        props.selected.ID === item.ID ? "ring-2 ring-blue-500" : "")}
-                                          onClick={() => props.onClick(item)}
+                                        selectedItem.ID === item.ID ? "ring-2 ring-blue-500" : "")}
+                                          onClick={() => {
+                                              setSelectedItem(item);
+                                          }}
                                     >
                                         <CardHeader>
                                             <CardTitle>TT-VT-OT-0001109</CardTitle>
