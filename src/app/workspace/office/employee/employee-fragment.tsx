@@ -13,21 +13,16 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
-import {useAtom, useAtomValue} from "jotai/index";
+import {ExtractAtomValue, useAtom, useAtomValue} from "jotai/index";
 import {useEffect, useState} from "react";
-import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 import findsUser from "@/bonita/api/identity/user/definitions/finds-user";
 import {User} from "@/bonita/api/bpm/archived-process-instance/types";
+import {Input} from "@/components/ui/input";
+import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
 
 
-export default function EmployeeFragment(
-    {
-        selected
-    }: {
-        selected: any
-    }
-) {
-    const selectedItem = useAtomValue<Employee_Item>(selected);
+export default function EmployeeFragment() {
+    const [selectedItem, setSelectedItem] = useAtom(selectedEmployee);
     const [engineUser, setEngineUser] = useState<User>({})
 
     useEffect(() => {
@@ -37,7 +32,7 @@ export default function EmployeeFragment(
             "", "").then((user) => {
             setEngineUser(user[0])
         })
-    }, []);
+    }, [selectedItem.username]);
 
     function updateSelectedItem(user: any) {
         // copy object from selectedItem
@@ -77,9 +72,10 @@ export default function EmployeeFragment(
                                     First Name
                                     <span className="text-red-500">*</span>
                                 </label>
-                                <input className="border px-3 py-2 rounded-lg" id="firstName"
+                                <Input className="border px-3 py-2 rounded-lg" id="firstName"
+                                       disabled={selectedItem.id !== undefined}
                                        placeholder="First Name"
-                                       value={engineUser.firstname}
+                                       value={engineUser?.firstname}
                                        type="text"/>
                             </div>
                             <div className="flex flex-col">
@@ -109,13 +105,21 @@ export default function EmployeeFragment(
                                 <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="phone">
                                     Phone
                                 </label>
-                                <input
+                                <Input
+                                    disabled={selectedItem.id !== undefined}
                                     className="border px-3 py-2 rounded-lg"
                                     id="phone"
                                     pattern="&quot;&quot;d*&quot;&quot;"
                                     placeholder="Phone"
                                     value={selectedItem.phone}
                                     type="number"
+                                    onChange={(e) => {
+                                        if (e.target.value) {
+                                            setSelectedItem((draft) => {
+                                                draft.phone = e.target.value
+                                            })
+                                        }
+                                    }}
                                 />
                             </div>
                             <div className="flex flex-col">

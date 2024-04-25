@@ -69,6 +69,6 @@ export default function EmployeePage() {
             list={listItems}
             cardConfig={headerItem}
         />,
-        <EmployeeFragment selected={selectedEmployee}/>,
+        <EmployeeFragment/>,
     );
 }
