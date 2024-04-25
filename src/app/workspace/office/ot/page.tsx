@@ -48,10 +48,10 @@ export default function OTPage() {
     const [selected, setSelected] = useAtom(selectedOT);
 
     useEffect(() => {
-        setSelected(listItems[0)
+        setSelected(listItems[0])
     }, []);
 
-    let headerItem = [
+    const headerItem = [
         {
             "label": "Approver",
             "key": "approver"

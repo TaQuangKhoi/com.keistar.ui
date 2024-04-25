@@ -11,6 +11,8 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
+import {useAtom} from "jotai/index";
+import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
 
 export default function EmployeeFragment(
     {
@@ -19,6 +21,8 @@ export default function EmployeeFragment(
         selected: any
     }
 ) {
+    const [selectedItem, setSelectedItem] = useAtom<OT_Item>(selected);
+
     return (
         <div key="1" className="p-6">
             <Tabs className="w-full" defaultValue="details">

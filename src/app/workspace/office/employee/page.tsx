@@ -3,8 +3,9 @@
 import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
-import {useState} from "react";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
+import {useAtom} from "jotai/index";
+import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
 
 const listItems: any = [
     {
@@ -42,7 +43,7 @@ const listItems: any = [
 ]
 
 export default function EmployeePage() {
-    const [selected, setSelected] = useState<object>(listItems[0])
+    const [selected, setSelected] = useAtom(selectedEmployee);
 
     const headerItem = [
         {
@@ -67,19 +68,14 @@ export default function EmployeePage() {
         }
     ]
 
-    return <>
-        Null
-    </>
-
-    // return KeistarLayout(
-    //     "Employee",
-    //     <KeistarToolbar selected={}/>,
-    //     <KeistarLeftSidebar
-    //         selected={selected}
-    //         list={listItems}
-    //         cardConfig={headerItem}
-    //         onClick={(item: any) => setSelected(item)}
-    //     />,
-    //     <EmployeeFragment selected={selected}/>,
-    // );
+    return KeistarLayout(
+        "Employee",
+        <KeistarToolbar selected={selectedEmployee}/>,
+        <KeistarLeftSidebar
+            selected={selectedEmployee}
+            list={listItems}
+            cardConfig={headerItem}
+        />,
+        <EmployeeFragment selected={selectedEmployee}/>,
+    );
 }
