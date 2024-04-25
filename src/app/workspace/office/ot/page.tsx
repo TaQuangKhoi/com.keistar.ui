@@ -14,15 +14,15 @@ const listItems: any = [
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "1/4/2024",
-        "to": "2/4/2024",
+        "to": "1/4/2024",
         "total_hours": "8.00"
     },
     {
         ID: 2,
-        "approver": "Vu Hoang Lam Nhi",
+        "approver": "Nguyen Thach Son",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
-        "to": "3/4/2024",
+        "to": "2/4/2024",
         "total_hours": "4.00"
     },
     {
@@ -30,16 +30,16 @@ const listItems: any = [
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
         "from": "2/4/2024",
-        "to": "5/4/2024",
-        "total_hours": "9.00"
+        "to": "3/4/2024",
+        "total_hours": "16.00"
     },
     {
         ID: 4,
         "approver": "Vu Nguyen Quang Phap",
         "status": "OT waiting for approve",
-        "from": "2/4/2024",
+        "from": "5/4/2024",
         "to": "5/4/2024",
-        "total_hours": "9.00"
+        "total_hours": "8.00"
     },
 ]
 
