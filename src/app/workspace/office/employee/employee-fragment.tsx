@@ -13,9 +13,11 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
-import {useAtom} from "jotai/index";
-import {useEffect} from "react";
+import {useAtom, useAtomValue} from "jotai/index";
+import {useEffect, useState} from "react";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import findsUser from "@/bonita/api/identity/user/definitions/finds-user";
+import {User} from "@/bonita/api/bpm/archived-process-instance/types";
 
 
 export default function EmployeeFragment(
@@ -25,13 +27,26 @@ export default function EmployeeFragment(
         selected: any
     }
 ) {
-    const [selectedItem, setSelectedItem] = useAtom<Employee_Item>(selected);
+    const selectedItem = useAtomValue<Employee_Item>(selected);
+    const [engineUser, setEngineUser] = useState<User>({})
 
     useEffect(() => {
-        console.debug("EmployeeFragment: ", selectedItem)
         // Get user from Bonita Engine
+        findsUser(0, 10,
+            `userName=${selectedItem.username}`,
+            "", "").then((user) => {
+            setEngineUser(user[0])
+        })
+    }, []);
 
-    }, [selectedItem]);
+    function updateSelectedItem(user: any) {
+        // copy object from selectedItem
+        let newSelectedItem = {...selectedItem};
+        newSelectedItem.firstname = user.firstName;
+        newSelectedItem.lastname = user.lastName;
+        newSelectedItem.engine_id = user.id;
+        // setSelectedItem(newSelectedItem);
+    }
 
     return (
         <div key="1" className="p-6">
@@ -64,6 +79,7 @@ export default function EmployeeFragment(
                                 </label>
                                 <input className="border px-3 py-2 rounded-lg" id="firstName"
                                        placeholder="First Name"
+                                       value={engineUser.firstname}
                                        type="text"/>
                             </div>
                             <div className="flex flex-col">
@@ -73,6 +89,7 @@ export default function EmployeeFragment(
                                 </label>
                                 <input className="border px-3 py-2 rounded-lg" id="lastName"
                                        placeholder="Last Name"
+                                       value={selectedItem.lastname}
                                        type="text"/>
                             </div>
                             <div className="flex flex-col">

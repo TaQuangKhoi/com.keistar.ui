@@ -13,16 +13,22 @@ import {useEffect} from "react";
 let listItems: any = [
     {
         id: 1,
-        username: "taquangkhoi",
+        username: "toikhoi",
         status: "Onboarded",
         isActive: true,
         phone: "0935198419",
     },
     {
         id: 2,
-        username: "vuhoanglamnhi",
+        username: "tiencho",
         status: "Onboarded",
         phone: "0123456789",
+    },
+    {
+        id: 3,
+        username: "doquyen",
+        status: "Onboarded",
+        phone: "9812784985",
     },
 ]
 
@@ -30,15 +36,6 @@ export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
 
     useEffect(() => {
-        for (let i = 0; i < 4; i++) {
-            const phone: string = faker.phone.imei();
-            listItems.push({
-                id: i + 3,
-                username: faker.internet.userName(),
-                status: "Onboarded",
-                phone: phone,
-            })
-        }
         setSelected(listItems[0]);
     }, []);
 
