@@ -45,7 +45,6 @@ export default function OTPage() {
     let urlAction = {}
     const [selected, setSelected] = useState<object>(listItems[0])
 
-
     let headerItem = [
         {
             "label": "Approver",
