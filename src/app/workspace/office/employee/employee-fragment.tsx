@@ -12,7 +12,9 @@ import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
 import {useAtom} from "jotai/index";
-import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
+import {useEffect} from "react";
+import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+
 
 export default function EmployeeFragment(
     {
@@ -21,19 +23,28 @@ export default function EmployeeFragment(
         selected: any
     }
 ) {
-    const [selectedItem, setSelectedItem] = useAtom<OT_Item>(selected);
+    const [selectedItem, setSelectedItem] = useAtom<Employee_Item>(selected);
+
+    useEffect(() => {
+        console.debug("EmployeeFragment: ", selectedItem)
+    }, [selectedItem]);
 
     return (
         <div key="1" className="p-6">
-            <Tabs className="w-full" defaultValue="details">
+            <Tabs className="w-full" defaultValue="detailsAndNew">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="details">Details</TabsTrigger>
+                    <TabsTrigger value="detailsAndNew">
+                        {
+                            selectedItem.id !== undefined ? "Employee Details" : "New Employee"
+                        }
+                    </TabsTrigger>
                 </TabsList>
-                <TabsContent value="details">
+                <TabsContent value="detailsAndNew">
                     <div key="1" className="bg-white p-6 rounded-lg shadow-md">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="flex flex-col w-full">
-                                <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="directManager">
+                                <label className="mb-1 text-sm font-medium text-gray-700"
+                                       htmlFor="directManager">
                                     Direct Manager
                                 </label>
                                 <Select>
@@ -47,7 +58,8 @@ export default function EmployeeFragment(
                                     First Name
                                     <span className="text-red-500">*</span>
                                 </label>
-                                <input className="border px-3 py-2 rounded-lg" id="firstName" placeholder="First Name"
+                                <input className="border px-3 py-2 rounded-lg" id="firstName"
+                                       placeholder="First Name"
                                        type="text"/>
                             </div>
                             <div className="flex flex-col">
@@ -55,7 +67,8 @@ export default function EmployeeFragment(
                                     Last Name
                                     <span className="text-red-500">*</span>
                                 </label>
-                                <input className="border px-3 py-2 rounded-lg" id="lastName" placeholder="Last Name"
+                                <input className="border px-3 py-2 rounded-lg" id="lastName"
+                                       placeholder="Last Name"
                                        type="text"/>
                             </div>
                             <div className="flex flex-col">
@@ -80,6 +93,7 @@ export default function EmployeeFragment(
                                     id="phone"
                                     pattern="&quot;&quot;d*&quot;&quot;"
                                     placeholder="Phone"
+                                    value={selectedItem.phone}
                                     type="number"
                                 />
                             </div>
@@ -91,7 +105,8 @@ export default function EmployeeFragment(
                                        placeholder="Passport No." type="text"/>
                             </div>
                             <div className="flex flex-col">
-                                <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="passportExpiryDate">
+                                <label className="mb-1 text-sm font-medium text-gray-700"
+                                       htmlFor="passportExpiryDate">
                                     Passport Expiry Date
                                 </label>
                                 <div className="flex">
@@ -110,7 +125,8 @@ export default function EmployeeFragment(
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="officialEmail">
+                                <label className="mb-1 text-sm font-medium text-gray-700"
+                                       htmlFor="officialEmail">
                                     Official Email
                                     <span className="text-red-500">*</span>
                                 </label>
@@ -118,7 +134,8 @@ export default function EmployeeFragment(
                                        placeholder="Official Email" type="email"/>
                             </div>
                             <div className="flex flex-col">
-                                <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="personalEmail">
+                                <label className="mb-1 text-sm font-medium text-gray-700"
+                                       htmlFor="personalEmail">
                                     Personal Email
                                     <span className="text-red-500">*</span>
                                 </label>
@@ -144,7 +161,8 @@ export default function EmployeeFragment(
                                 <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="position">
                                     Position
                                 </label>
-                                <input className="border px-3 py-2 rounded-lg" id="position" placeholder="Position"
+                                <input className="border px-3 py-2 rounded-lg" id="position"
+                                       placeholder="Position"
                                        type="text"/>
                             </div>
                             <div className="flex flex-col col-span-full">

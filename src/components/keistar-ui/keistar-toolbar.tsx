@@ -9,8 +9,14 @@ import * as React from "react";
 import {useAtom} from "jotai/index";
 
 export default function KeistarToolbar(
-    {selected}:
-        { selected: any }
+    {
+        selected,
+        defaultValue,
+    }:
+        {
+            selected: any,
+            defaultValue?: any
+        }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
 
@@ -24,7 +30,8 @@ export default function KeistarToolbar(
             <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
                     onClick={() => {
-                        console.debug("New", selectedItem)
+                        console.debug(defaultValue)
+                        setSelectedItem(defaultValue)
                     }}
             >
                 <FileIcon className="h-5 w-5 hover:text-blue-500"/>
