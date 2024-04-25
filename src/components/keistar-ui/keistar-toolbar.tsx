@@ -6,10 +6,8 @@
  */
 import {Button} from "@/components/ui/button"
 import * as React from "react";
-import {useAtom, useAtomValue} from "jotai/index";
-import {userNameAtom} from "@/app/workspace/atoms";
-import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
-import {faker} from "@faker-js/faker";
+import {PrimitiveAtom, useAtom, useAtomValue} from "jotai/index";
+import KeistarItem from "@/components/keistar-ui/types/item-interface";
 
 export default function KeistarToolbar(
     {
@@ -17,7 +15,7 @@ export default function KeistarToolbar(
         defaultValue,
     }:
         {
-            selected: any,
+            selected: PrimitiveAtom<KeistarItem>,
             defaultValue?: any
         }
 ) {
@@ -36,7 +34,10 @@ export default function KeistarToolbar(
                         console.debug(selectedItem)
 
                         // if id is undefined, start process to create new item
+                        if (selectedItem.id === undefined) {
+                            // start process to create new item
 
+                        }
                     }}
             >
                 <HardDriveIcon className="h-5 w-5 hover:text-blue-500"/>
