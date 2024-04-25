@@ -6,7 +6,10 @@
 import {Button} from "@/components/ui/button"
 import * as React from "react";
 
-export default function KeistarToolbar() {
+export default function KeistarToolbar(
+    {selected}:
+        { selected: any }
+) {
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
@@ -14,7 +17,12 @@ export default function KeistarToolbar() {
                 <HardDriveIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Save</span>
             </Button>
-            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline">
+            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95"
+                    variant="outline"
+                    onClick={() => {
+                        console.debug("New", selected)
+                    }}
+            >
                 <FileIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>New</span>
             </Button>

@@ -70,7 +70,7 @@ export default function OTPage() {
 
     return KeistarLayout(
         "OT Registration",
-        <KeistarToolbar/>,
+        <KeistarToolbar selected={selected}/>,
         <KeistarLeftSidebar
             selected={selected}
             list={listItems}
