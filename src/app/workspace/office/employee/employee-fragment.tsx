@@ -34,15 +34,6 @@ export default function EmployeeFragment() {
         })
     }, [selectedItem.username]);
 
-    function updateSelectedItem(user: any) {
-        // copy object from selectedItem
-        let newSelectedItem = {...selectedItem};
-        newSelectedItem.firstname = user.firstName;
-        newSelectedItem.lastname = user.lastName;
-        newSelectedItem.engine_id = user.id;
-        // setSelectedItem(newSelectedItem);
-    }
-
     return (
         <Tabs className="w-full" defaultValue="detailsAndNew">
             <TabsList className="grid w-full grid-cols-2">
@@ -74,7 +65,14 @@ export default function EmployeeFragment() {
                             <Input className="border px-3 py-2 rounded-lg" id="firstName"
                                    disabled={selectedItem.id !== undefined}
                                    placeholder="First Name"
-                                   value={engineUser?.firstname}
+                                   value={engineUser.firstname}
+                                   onChange={(e) => {
+                                       if (e.target.value && e.target.value !== selectedItem.firstname) {
+                                           setSelectedItem((draft) => {
+                                               draft.firstname = e.target.value
+                                           })
+                                       }
+                                   }}
                                    type="text"/>
                         </div>
                         <div className="flex flex-col">
@@ -82,9 +80,17 @@ export default function EmployeeFragment() {
                                 Last Name
                                 <span className="text-red-500">*</span>
                             </label>
-                            <input className="border px-3 py-2 rounded-lg" id="lastName"
+                            <Input className="border px-3 py-2 rounded-lg" id="lastName"
+                                   disabled={selectedItem.id !== undefined}
                                    placeholder="Last Name"
-                                   value={selectedItem.lastname}
+                                   value={engineUser.lastname}
+                                   onChange={(e) => {
+                                       if (e.target.value) {
+                                           setSelectedItem((draft) => {
+                                               draft.lastname = e.target.value
+                                           })
+                                       }
+                                   }}
                                    type="text"/>
                         </div>
                         <div className="flex flex-col">
