@@ -11,11 +11,14 @@ import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
 
-
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
     const [employees, setEmployees] = useState<Employee_Item[]>()
     const [reloadEmployeesList, setReloadEmployeesList] = useAtom(reloadEmployeesListAtom);
+
+    useEffect(() => {
+        setReloadEmployeesList(true);
+    }, []);
 
     useEffect(() => {
         if (reloadEmployeesList) {

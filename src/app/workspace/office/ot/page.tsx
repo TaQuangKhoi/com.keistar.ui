@@ -6,7 +6,7 @@ import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import OTFragment from "@/app/workspace/office/ot/ot-fragment";
 import {useAtom} from "jotai/index";
 import {selectedOT} from "@/app/workspace/office/ot/ot-selected-atom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 const listItems: any = [
     {
@@ -45,8 +45,8 @@ const listItems: any = [
 ]
 
 export default function OTPage() {
-    let urlAction = {};
     const [selected, setSelected] = useAtom(selectedOT);
+    const [otList, setOtList] = useState()
 
     useEffect(() => {
         setSelected(listItems[0])

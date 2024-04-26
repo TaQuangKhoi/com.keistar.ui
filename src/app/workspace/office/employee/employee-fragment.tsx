@@ -23,19 +23,11 @@ import {selectedEmployee} from "@/app/workspace/office/employee/employee-selecte
 
 export default function EmployeeFragment() {
     const [selectedItem, setSelectedItem] = useAtom(selectedEmployee);
-    const [engineUser, setEngineUser] = useState<User>({})
 
     useEffect(() => {
         // Get user from Bonita Engine
-        findsUser(0, 10,
-            `userName=${selectedItem.username}`,
-            "", "").then((user) => {
-            setEngineUser(user[0])
-        })
         setSelectedItem((draft) => {
-            draft.email = 'taquangkhoi@onmail.com'
             draft.workplaceId = "0"
-            draft.positionName = 'New Position'
             draft.contractTypeId = "0"
             draft.workTypeId = "0"
             draft.probationStartDate = new Date('2022-01-01').toISOString();
@@ -57,7 +49,7 @@ export default function EmployeeFragment() {
             <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="detailsAndNew">
                     {
-                        selectedItem.id !== undefined ? "Employee Details" : "New Employee"
+                        selectedItem.persistenceId !== undefined ? "Employee Details" : "New Employee"
                     }
                 </TabsTrigger>
             </TabsList>
@@ -81,15 +73,12 @@ export default function EmployeeFragment() {
                                 <span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="firstName"
-                                   disabled={selectedItem.id !== undefined}
                                    placeholder="First Name"
                                    value={selectedItem.firstName}
                                    onChange={(e) => {
-                                       if (e.target.value && e.target.value !== selectedItem.firstName) {
-                                           setSelectedItem((draft) => {
-                                               draft.firstName = e.target.value
-                                           })
-                                       }
+                                       setSelectedItem((draft) => {
+                                           draft.firstName = e.target.value
+                                       })
                                    }}
                                    type="text"/>
                         </div>
@@ -99,15 +88,12 @@ export default function EmployeeFragment() {
                                 <span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="lastName"
-                                   disabled={selectedItem.id !== undefined}
                                    placeholder="Last Name"
                                    value={selectedItem.lastName}
                                    onChange={(e) => {
-                                       if (e.target.value) {
-                                           setSelectedItem((draft) => {
-                                               draft.lastName = e.target.value
-                                           })
-                                       }
+                                       setSelectedItem((draft) => {
+                                           draft.lastName = e.target.value
+                                       })
                                    }}
                                    type="text"/>
                         </div>
@@ -129,7 +115,6 @@ export default function EmployeeFragment() {
                                 Phone
                             </label>
                             <Input
-                                disabled={selectedItem.id !== undefined}
                                 className="border px-3 py-2 rounded-lg"
                                 id="phone"
                                 pattern="&quot;&quot;d*&quot;&quot;"
@@ -137,11 +122,9 @@ export default function EmployeeFragment() {
                                 value={selectedItem.phone}
                                 type="number"
                                 onChange={(e) => {
-                                    if (e.target.value) {
-                                        setSelectedItem((draft) => {
-                                            draft.phone = e.target.value
-                                        })
-                                    }
+                                    setSelectedItem((draft) => {
+                                        draft.phone = e.target.value
+                                    })
                                 }}
                             />
                         </div>
@@ -187,8 +170,16 @@ export default function EmployeeFragment() {
                                 Personal Email
                                 <span className="text-red-500">*</span>
                             </label>
-                            <input className="border px-3 py-2 rounded-lg" id="personalEmail"
-                                   placeholder="Personal Email" type="email"/>
+                            <Input className="border px-3 py-2 rounded-lg" id="personalEmail"
+                                   placeholder="Personal Email"
+                                   value={selectedItem.email}
+                                   type="email"
+                                   onChange={(e) => {
+                                       setSelectedItem((draft) => {
+                                           draft.email = e.target.value
+                                       })
+                                   }}
+                            />
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="workplace">
@@ -211,7 +202,14 @@ export default function EmployeeFragment() {
                             </label>
                             <input className="border px-3 py-2 rounded-lg" id="position"
                                    placeholder="Position"
-                                   type="text"/>
+                                   value={selectedItem.positionName}
+                                   type="text"
+                                   onChange={(e) => {
+                                       setSelectedItem((draft) => {
+                                           draft.positionName = e.target.value
+                                       })
+                                   }}
+                            />
                         </div>
                         <div className="flex flex-col col-span-full">
                             <label className="mb-1 text-sm font-medium text-gray-700">

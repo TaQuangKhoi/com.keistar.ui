@@ -12,6 +12,7 @@ import {instantiateProcess} from "@/bonita/api/bpm/process";
 import {toast} from "sonner";
 import getProcessContractById from "@/bonita/api/bpm/process/definitions/finds-process-contract-by-id";
 import {WritableAtom} from 'jotai'
+import {AxiosError} from "axios";
 
 export default function KeistarToolbar(
     {
@@ -52,22 +53,23 @@ export default function KeistarToolbar(
                             // start process to create new item
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processCreateName)
                             processId = processes[0].id;
+
                         } else {
                             // Start Process Update
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processUpdateName)
                             processId = processes[0].id;
-
-                            const contract = await getProcessContractById(processId);
-                            contractInputName = contract.inputs[0].name;
                         }
 
+                        const contract = await getProcessContractById(processId);
+                        contractInputName = contract.inputs[0].name;
+
                         try {
-                            const resutl = await instantiateProcess(processId, {
+                            const res = await instantiateProcess(processId, {
                                 [contractInputName]: selectedItem
                             });
                             toast("New e-leave has been created successfully",
                                 {
-                                    description: "Case ID: " + resutl.caseId,
+                                    description: "Case ID: " + res.caseId,
                                     action: {
                                         label: "View",
                                         onClick: () => console.log("View"),
@@ -75,15 +77,15 @@ export default function KeistarToolbar(
                                 })
                             setReload(!reload);
                         } catch (e) {
-                            console.error(e);
-                            // toast("Failed to create new e-leave. Please try again later",
-                            //     {
-                            //         description: "Failed to create new e-leave. Please try again later",
-                            //         action: {
-                            //             label: "Retry",
-                            //             onClick: () => console.log("Retry"),
-                            //         },
-                            //     })
+                            const error = e as AxiosError;
+                            toast(error.message,
+                                {
+                                    description: "Failed to create new e-leave. Please try again later",
+                                    action: {
+                                        label: "Retry",
+                                        onClick: () => console.log("Retry"),
+                                    },
+                                })
                         }
                     }}
             >
@@ -115,7 +117,13 @@ export default function KeistarToolbar(
                 <ChevronRightIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Next</span>
             </Button>
-            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline">
+            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
+                    onClick={() => {
+                        setSelectedItem((draft: { persistenceId: undefined; }) => {
+                            draft.persistenceId = undefined;
+                        })
+                    }}
+            >
                 <FilesIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Copy</span>
             </Button>
