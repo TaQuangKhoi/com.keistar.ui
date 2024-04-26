@@ -12,40 +12,12 @@ import {useEffect, useState} from "react";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 
-let listItems: any = [
-    {
-        id: 1,
-        username: "toikhoi",
-        lastName: "Ta",
-        firstName: "Khoi",
-        status: "Onboarded",
-        isActive: true,
-        phone: "0935198419",
-    },
-    {
-        id: 2,
-        username: "tiencho",
-        lastName: "Tran",
-        firstName: "Tien",
-        status: "Onboarded",
-        phone: "0123456789",
-    },
-    {
-        id: 3,
-        username: "doquyen",
-        lastName: "Do",
-        firstName: "Quyen",
-        status: "Onboarded",
-        phone: "9812784985",
-    },
-]
 
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
     const [employees, setEmployees] = useState<Employee_Item[]>()
 
     useEffect(() => {
-        setSelected(listItems[0]);
         const getEmployees = async () => {
             const employees = await findsBusinessData(
                 "com.keistar.model.office.Employee", "find", 0, 20
@@ -54,6 +26,12 @@ export default function EmployeePage() {
         };
         getEmployees();
     }, []);
+
+    useEffect(() => {
+        if (employees) {
+            setSelected(employees[0]);
+        }
+    }, [employees]);
 
     const titleKey = "username";
     const headerItem = [
@@ -67,7 +45,7 @@ export default function EmployeePage() {
         },
     ]
     const defaultSelected = {
-        id: undefined,
+        persistenceId: undefined,
         phone: "",
         username: "",
         firstName: "",
@@ -96,11 +74,12 @@ export default function EmployeePage() {
         "Employee",
         <KeistarToolbar selected={selectedEmployee}
                         defaultValue={defaultSelected}
-                        processName={"Create_Employee"}
+                        processCreateName={"Create_Employee"}
+                        processUpdateName={"Update_Employee"}
                         config={null}
         />,
         <KeistarLeftSidebar
-            idKey={"id"}
+            idKey={"persistenceId_string"}
             titleKey={titleKey}
             selected={selectedEmployee}
             list={employees}
