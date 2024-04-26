@@ -45,7 +45,6 @@ export default function EmployeeFragment(
             draft.directManagerComment = ''
             draft.isActive = true
             draft.employeeTypeId = "0";
-            draft.directManagerId = 0
             draft.dateOfBirth = new Date('1990-01-01').toISOString();
         })
 
@@ -54,6 +53,10 @@ export default function EmployeeFragment(
                 const directManagerLink = selectedItem.links.find((link) => link.rel === "directManager") || {href: ""}
                 const data = await callLink(directManagerLink.href)
                 setDirectManager(data);
+
+                setSelectedItem((draft) => {
+                    draft.directManager_persistenceId = directManager?.persistenceId_string || ""
+                })
             }
         }
         getDirectManager();

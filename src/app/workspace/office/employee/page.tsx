@@ -24,7 +24,7 @@ export default function EmployeePage() {
         if (reloadEmployeesList) {
             const getEmployees = async () => {
                 const employees = await findsBusinessData(
-                    "com.keistar.model.office.Employee", "find", 0, 20, {}, 'directManager'
+                    "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
                 )
                 setEmployees(employees);
             };
@@ -70,7 +70,7 @@ export default function EmployeePage() {
         directManagerComment: "",
         isActive: "",
         employeeTypeId: "",
-        directManagerId: "",
+        directManager_persistenceId: "",
         createdBy: "",
         createdDate: "",
         dateOfBirth: ""

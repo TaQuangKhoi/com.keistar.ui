@@ -53,7 +53,6 @@ export default function KeistarToolbar(
                             // start process to create new item
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processCreateName)
                             processId = processes[0].id;
-
                         } else {
                             // Start Process Update
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processUpdateName)

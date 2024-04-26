@@ -21,9 +21,8 @@ export default interface Employee_Item extends KeistarItem {
     directManagerComment?: string,
     isActive?: boolean,
     employeeTypeId?: string,
-    directManagerId?: number,
     createdBy?: string,
     createdDate?: string,
     dateOfBirth?: string,
-    directManager_persistenceId?: string,
+    directManager_persistenceId: string,
 }

@@ -4,4 +4,5 @@ import Employee_Item from "@/app/workspace/office/employee/types/employee-interf
 
 export const selectedEmployee = atomWithImmer<Employee_Item>({
     persistenceId: 0,
+    directManager_persistenceId: "0",
 })
