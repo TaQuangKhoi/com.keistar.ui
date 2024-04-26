@@ -4,8 +4,8 @@ import type {CalendarProps, BadgeProps} from "antd";
 import {Dayjs} from "dayjs";
 import {Calendar, Badge} from 'antd';
 import {useEffect, useState} from "react";
-import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
-import {getCurrentUserSession, useSession} from "@/bonita/api/system/get-the-current-user-session";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {isSameDay, eachDayOfInterval} from 'date-fns'
 import DateCellRender from "@/app/workspace/office/e-leave/date-cell-render";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
@@ -46,6 +46,9 @@ export default function E_leaveCalendar() {
         setProcessedE_leaves(processedData);
     }, [listOfE_leaves]);
 
+    /**
+     * Get all eleaves of current user
+     */
     useEffect(() => {
         const getE_leaves = async () => {
             const user_id = session.user_id as unknown as string;
@@ -54,18 +57,17 @@ export default function E_leaveCalendar() {
                 return;
             }
 
-            await findsBusinessData(
+            const eLeave = await findsBusinessData(
                 "com.keistar.model.office.Eleave", "findByCreatedBy", 0, 20,
                 {
                     "createdBy": user_id
                 }
-            ).then(function (response) {
-                console.debug('response', response)
-                if (response.data.length !== 0) {
-                    setListOfE_leaves(response.data);
-                }
-                setIsLoading(false);
-            })
+            )
+
+            if (eLeave.length !== 0) {
+                setListOfE_leaves(eLeave);
+            }
+            setIsLoading(false);
         }
 
         getE_leaves();
@@ -98,7 +100,7 @@ export default function E_leaveCalendar() {
             }
         })
 
-        if (processedData.length === 0 ) {
+        if (processedData.length === 0) {
             if (isLoading)
                 return <p>Loading...</p>;
             else

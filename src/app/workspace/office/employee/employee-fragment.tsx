@@ -33,7 +33,6 @@ export default function EmployeeFragment() {
             setEngineUser(user[0])
         })
         setSelectedItem((draft) => {
-            draft.username = 'taquangkhoi'
             draft.email = 'taquangkhoi@onmail.com'
             draft.workplaceId = "0"
             draft.positionName = 'New Position'
@@ -90,7 +89,6 @@ export default function EmployeeFragment() {
                                            setSelectedItem((draft) => {
                                                draft.firstName = e.target.value
                                            })
-                                           console.debug(selectedItem)
                                        }
                                    }}
                                    type="text"/>

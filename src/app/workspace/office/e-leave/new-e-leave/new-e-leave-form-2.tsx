@@ -24,7 +24,7 @@ import SelectFormField from "@/app/workspace/office/e-leave/new-e-leave/componen
 import DatePickerWithRangeFormField
     from "@/app/workspace/office/e-leave/new-e-leave/components/date-picker-with-range-form-field";
 import {useEffect, useState} from "react";
-import {findsBusinessData} from "@/bonita/api/bdm/business-data-query";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {Input} from "@/components/ui/input";
 import {differenceInBusinessDays} from 'date-fns';
 import {
@@ -131,15 +131,14 @@ export function NewE_leaveForm() {
      */
     useEffect(() => {
         const getLeaveType = async () => {
-            await findsBusinessData(
+            const eLeaveType = await findsBusinessData(
                 "com.keistar.model.office.LeaveType", "find", 0, 20
-            ).then(function (response) {
+            )
 
-                // set default value
-                form.setValue("leaveTypeId", response.data[0].persistenceId_string)
+            // set default value
+            form.setValue("leaveTypeId", eLeaveType[0].persistenceId_string)
 
-                setOptions(response.data)
-            })
+            setOptions(eLeaveType)
         };
 
         getLeaveType();
