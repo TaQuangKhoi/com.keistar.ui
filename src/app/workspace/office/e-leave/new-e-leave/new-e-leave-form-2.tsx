@@ -387,7 +387,7 @@ export function NewE_leaveForm() {
                                     <span className="font-bold">Leave Type:</span> {options[0]?.name}
                                 </li>
                                 <li>
-                                    <span className="font-bold">Date Range:</span> 
+                                    <span className="font-bold">Date Range:</span>
                                     {format(dateRange?.from, 'dd/MM/yyyy')} - {format(dateRange?.to, 'dd/MM/yyyy')}
                                 </li>
                                 <li>
