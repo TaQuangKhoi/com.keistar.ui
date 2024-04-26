@@ -62,6 +62,11 @@ export default function KeistarLeftSidebar(
                 >
                     <div className="p-4 space-y-4">
                         {
+                            list === undefined &&
+                            <p>Loading...</p>
+                        }
+                        {
+                            list !== undefined &&
                             list.map((item: any, index: number) => {
                                 return <>
                                     <Card className={clsx("bg-gray-100 transition-transform hover:scale-105",
