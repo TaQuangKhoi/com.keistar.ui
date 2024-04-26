@@ -88,6 +88,11 @@ export default function EmployeePage() {
                             }
                         }
                         reloadList={reloadEmployeesListAtom}
+                        processConfig={{
+                            processDeletedName: "Delete_Employee",
+                            processCreateName: "Create_Employee",
+                            processUpdateName: "Update_Employee",
+                        }}
         />,
         <KeistarLeftSidebar
             idKey={"persistenceId_string"}

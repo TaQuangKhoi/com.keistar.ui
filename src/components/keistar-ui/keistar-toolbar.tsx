@@ -24,6 +24,7 @@ export default function KeistarToolbar(
             businessDataType: "",
         },
         reloadList,
+        processConfig,
     }:
         {
             selected: PrimitiveAtom<any>,
@@ -34,6 +35,11 @@ export default function KeistarToolbar(
                 businessDataType: string,
             },
             reloadList: WritableAtom<boolean, [boolean?], void>,
+            processConfig: {
+                processCreateName: string,
+                processUpdateName: string,
+                processDeletedName: string,
+            }
         }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
@@ -104,7 +110,40 @@ export default function KeistarToolbar(
                 <XIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Cancel</span>
             </Button>
-            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline">
+            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
+                    onClick={async () => {
+                        const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processDeletedName)
+                        const processId = processes[0].id;
+
+                        const contract = await getProcessContractById(processId);
+                        const contractInputName = contract.inputs[0].name;
+
+                        try {
+                            const res = await instantiateProcess(processId, {
+                                [contractInputName]: selectedItem
+                            });
+                            toast("New e-leave has been created successfully",
+                                {
+                                    description: "Case ID: " + res.caseId,
+                                    action: {
+                                        label: "View",
+                                        onClick: () => console.log("View"),
+                                    },
+                                })
+                            setReload(!reload);
+                        } catch (e) {
+                            const error = e as AxiosError;
+                            toast(error.message,
+                                {
+                                    description: "Failed to create new e-leave. Please try again later",
+                                    action: {
+                                        label: "Retry",
+                                        onClick: () => console.log("Retry"),
+                                    },
+                                })
+                        }
+                    }}
+            >
                 <TrashIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Delete</span>
             </Button>
