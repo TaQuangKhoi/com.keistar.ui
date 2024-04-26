@@ -17,7 +17,7 @@ interface Filter {
  *               with the name/value pair as url encoded string.
  *               Example: f=firstName=John
  */
-async function findsBusinessData(
+export default async function findsBusinessData(
     // Path parameters
     businessDataType: string,
     // Query parameters
@@ -37,10 +37,9 @@ async function findsBusinessData(
         url += f.join('&f=')
     }
 
-
-    return await axios.get(url, {})
-}
-
-export {
-    findsBusinessData
+    return await axios.get(url, {
+        // withCredentials: true,
+    }).then((response) => {
+        return response.data;
+    });
 }
