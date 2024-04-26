@@ -119,7 +119,11 @@ export default function KeistarToolbar(
             </Button>
             <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
                     onClick={() => {
-                        setSelectedItem((draft: { persistenceId: undefined; }) => {
+                        setSelectedItem((draft: {
+                            persistenceId_string: string;
+                            persistenceId: number | undefined;
+                        }) => {
+                            draft.persistenceId_string = "";
                             draft.persistenceId = undefined;
                         })
                     }}

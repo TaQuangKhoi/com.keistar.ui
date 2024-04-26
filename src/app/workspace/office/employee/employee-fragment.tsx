@@ -13,10 +13,8 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
-import {ExtractAtomValue, useAtom, useAtomValue} from "jotai/index";
-import {useEffect, useState} from "react";
-import findsUser from "@/bonita/api/identity/user/definitions/finds-user";
-import {User} from "@/bonita/api/bpm/archived-process-instance/types";
+import { useAtom} from "jotai/index";
+import {useEffect} from "react";
 import {Input} from "@/components/ui/input";
 import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
 
@@ -49,14 +47,14 @@ export default function EmployeeFragment() {
             <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="detailsAndNew">
                     {
-                        selectedItem.persistenceId !== undefined ? "Employee Details" : "New Employee"
+                        selectedItem.persistenceId_string !== "" ? "Employee Details" : "New Employee"
                     }
                 </TabsTrigger>
             </TabsList>
             <TabsContent value="detailsAndNew">
                 <div key="1" className="bg-white p-6 rounded-lg shadow-md">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700"
                                    htmlFor="directManager">
                                 Direct Manager
@@ -66,6 +64,21 @@ export default function EmployeeFragment() {
                                     <SelectValue>Hanh Nguyen Hong</SelectValue>
                                 </SelectTrigger>
                             </Select>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
+                                Username
+                                <span className="text-red-500">*</span>
+                            </label>
+                            <Input className="border px-3 py-2 rounded-lg" id="username"
+                                   placeholder="Enter the username of new employee"
+                                   value={selectedItem.username}
+                                   onChange={(e) => {
+                                       setSelectedItem((draft) => {
+                                           draft.username = e.target.value
+                                       })
+                                   }}
+                                   type="text"/>
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">

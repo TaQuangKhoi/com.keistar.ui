@@ -95,7 +95,6 @@ export default function KeistarLeftSidebar(
                                 </>
                             })
                         }
-
                     </div>
                 </ScrollArea>
             </div>
