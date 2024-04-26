@@ -24,7 +24,7 @@ export default function EmployeePage() {
         if (reloadEmployeesList) {
             const getEmployees = async () => {
                 const employees = await findsBusinessData(
-                    "com.keistar.model.office.Employee", "find", 0, 20
+                    "com.keistar.model.office.Employee", "find", 0, 20, {}, 'directManager'
                 )
                 setEmployees(employees);
             };
@@ -96,6 +96,8 @@ export default function EmployeePage() {
             list={employees}
             cardConfig={headerItem}
         />,
-        <EmployeeFragment/>,
+        <EmployeeFragment
+            employees={employees || []}
+        />,
     );
 }

@@ -25,9 +25,10 @@ export default async function findsBusinessData(
     p: number,
     c: number,
     filter: Filter = {},
+    d: string = '',
 ) {
-    let url = getBaseUrl('/API/bdm/businessData/', window.location.hostname)
-        + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c
+    let url = getBaseUrl('/API/bdm/businessData/')
+        + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c + '&d=' + d;
 
     if (Object.keys(filter).length > 0) {
         url += '&f='

@@ -3,5 +3,5 @@ import { atomWithImmer } from 'jotai-immer'
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 
 export const selectedEmployee = atomWithImmer<Employee_Item>({
-    id: 0,
+    persistenceId: 0,
 })

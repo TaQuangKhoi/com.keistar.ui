@@ -11,16 +11,26 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
-import {CalendarDaysIcon} from "lucide-react";
+import {CalendarDaysIcon, Loader2} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
-import { useAtom} from "jotai/index";
-import {useEffect} from "react";
+import {useAtom} from "jotai/index";
+import {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input";
 import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
+import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import {motion} from "framer-motion";
+import callLink from "@/bonita/api/bdm/call-link";
 
 
-export default function EmployeeFragment() {
+export default function EmployeeFragment(
+    {
+        employees,
+    }: {
+        employees: Employee_Item[]
+    }
+) {
     const [selectedItem, setSelectedItem] = useAtom(selectedEmployee);
+    const [directManager, setDirectManager] = useState<Employee_Item>()
 
     useEffect(() => {
         // Get user from Bonita Engine
@@ -36,10 +46,17 @@ export default function EmployeeFragment() {
             draft.isActive = true
             draft.employeeTypeId = "0";
             draft.directManagerId = 0
-            draft.createdBy = 'admin'
-            draft.createdDate = new Date('2022-01-01').toISOString();
             draft.dateOfBirth = new Date('1990-01-01').toISOString();
         })
+
+        const getDirectManager = async () => {
+            if (selectedItem.links !== undefined) {
+                const directManagerLink = selectedItem.links.find((link) => link.rel === "directManager") || {href: ""}
+                const data = await callLink(directManagerLink.href)
+                setDirectManager(data);
+            }
+        }
+        getDirectManager();
     }, [selectedItem.username]);
 
     return (
@@ -59,11 +76,49 @@ export default function EmployeeFragment() {
                                    htmlFor="directManager">
                                 Direct Manager
                             </label>
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue>Hanh Nguyen Hong</SelectValue>
-                                </SelectTrigger>
-                            </Select>
+                            {
+                                employees === undefined && (
+                                    <Select>
+                                        <SelectTrigger>
+                                            <motion.div
+                                                animate={{rotate: 360}}
+                                                transition={{repeat: Infinity, duration: 1, ease: "linear"}}
+                                            >
+                                                <Loader2/>
+                                            </motion.div>
+                                        </SelectTrigger>
+                                    </Select>
+                                )
+                            }
+                            {
+                                employees !== undefined && (
+                                    <Select
+                                        value={directManager?.persistenceId_string || ""}
+                                        // defaultValue={directManager?.persistenceId_string || ""}
+                                        onValueChange={(value) => {
+                                            setSelectedItem((draft) => {
+                                                draft.directManager_persistenceId = value
+                                            })
+                                            setDirectManager(employees.find((employee) => employee.persistenceId_string === value))
+                                        }}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue
+                                                placeholder={
+                                                "Select a direct manager"
+                                            }/>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {
+                                                employees.filter(option => option.persistenceId_string !== selectedItem.persistenceId_string).map((option, index) => (
+                                                    <SelectItem key={index} value={option.persistenceId_string || ""}>
+                                                        {option.username}
+                                                    </SelectItem>
+                                                ))
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                )}
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
