@@ -11,14 +11,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {Checkbox} from "@/components/ui/checkbox";
 import {Button, buttonVariants} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
-
 import {instantiateProcess} from "@/bonita/api/bpm/process";
 import SelectFormField from "@/app/workspace/office/e-leave/new-e-leave/components/select-form-field";
 import DatePickerWithRangeFormField
@@ -26,7 +23,7 @@ import DatePickerWithRangeFormField
 import {useEffect, useState} from "react";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {Input} from "@/components/ui/input";
-import {differenceInBusinessDays} from 'date-fns';
+import {differenceInBusinessDays, format} from 'date-fns';
 import {
     defaultValues,
     newE_leaveFormSchema,
@@ -301,29 +298,29 @@ export function NewE_leaveForm() {
                             valueKey="persistenceId_string"
                             placeholder={"Select a leave type"}
                         />
-                        <FormField
-                            control={form.control}
-                            name="rememberMe"
-                            render={({field}) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <div className="space-y-1 leading-none">
-                                        <FormLabel>
-                                            Remember me
-                                        </FormLabel>
-                                        {/*<FormDescription>*/}
-                                        {/*    You can manage your mobile notifications in the{" "}*/}
-                                        {/*    <Link href="/examples/forms">mobile settings</Link> page.*/}
-                                        {/*</FormDescription>*/}
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="rememberMe"*/}
+                        {/*    render={({field}) => (*/}
+                        {/*        <FormItem className="flex flex-row items-start space-x-3 space-y-0">*/}
+                        {/*            <FormControl>*/}
+                        {/*                <Checkbox*/}
+                        {/*                    checked={field.value}*/}
+                        {/*                    onCheckedChange={field.onChange}*/}
+                        {/*                />*/}
+                        {/*            </FormControl>*/}
+                        {/*            <div className="space-y-1 leading-none">*/}
+                        {/*                <FormLabel>*/}
+                        {/*                    Remember me*/}
+                        {/*                </FormLabel>*/}
+                        {/*                /!*<FormDescription>*!/*/}
+                        {/*                /!*    You can manage your mobile notifications in the{" "}*!/*/}
+                        {/*                /!*    <Link href="/examples/forms">mobile settings</Link> page.*!/*/}
+                        {/*                /!*</FormDescription>*!/*/}
+                        {/*            </div>*/}
+                        {/*        </FormItem>*/}
+                        {/*    )}*/}
+                        {/*/>*/}
                     </div>
 
                     <FormField
@@ -348,23 +345,24 @@ export function NewE_leaveForm() {
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="attachments"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Attachments</FormLabel>
-                                <FormControl>
-                                    <UploadFiles/>
-                                </FormControl>
-                                {/*<FormDescription>*/}
-                                {/*    You can <span>@mention</span> other users and organizations to*/}
-                                {/*    link to them.*/}
-                                {/*</FormDescription>*/}
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
+                    {/*<FormField*/}
+                    {/*    control={form.control}*/}
+                    {/*    name="attachments"*/}
+                    {/*    render={({field}) => (*/}
+                    {/*        <FormItem>*/}
+                    {/*            <FormLabel>Attachments</FormLabel>*/}
+                    {/*            <FormControl>*/}
+                    {/*                <UploadFiles/>*/}
+                    {/*            </FormControl>*/}
+                    {/*            /!*<FormDescription>*!/*/}
+                    {/*            /!*    You can <span>@mention</span> other users and organizations to*!/*/}
+                    {/*            /!*    link to them.*!/*/}
+                    {/*            /!*</FormDescription>*!/*/}
+                    {/*            <FormMessage/>*/}
+                    {/*        </FormItem>*/}
+                    {/*    )}*/}
+                    {/*/>*/}
+
                     <Button type="submit" disabled={isLoading}>
                         {isLoading && (
                             <Icons.spinner className="mr-2 h-4 w-4 animate-spin"/>
@@ -378,10 +376,30 @@ export function NewE_leaveForm() {
                 <Card className="col-span-2">
                     <CardHeader>
                         <CardTitle>
-                            Your Request Includes
+                            Your E-leave Request Includes
                         </CardTitle>
                         <CardDescription>
-                            You made 265 sales this month.
+                            <ul className="space-y-2">
+                                <li>
+                                    <span className="font-bold">Requester:</span> {session.user_id}
+                                </li>
+                                <li>
+                                    <span className="font-bold">Leave Type:</span> {options[0]?.name}
+                                </li>
+                                <li>
+                                    <span className="font-bold">Date Range:</span> 
+                                    {format(dateRange?.from, 'dd/MM/yyyy')} - {format(dateRange?.to, 'dd/MM/yyyy')}
+                                </li>
+                                <li>
+                                    <span className="font-bold">Date Status:</span> {dateStatus}
+                                </li>
+                                <li>
+                                    <span className="font-bold">Total Days:</span> {totalDays}
+                                </li>
+                                <li>
+                                    <span className="font-bold">Reason:</span> {form.getValues("reason")}
+                                </li>
+                            </ul>
                         </CardDescription>
                     </CardHeader>
                     {/*<CardContent>*/}
