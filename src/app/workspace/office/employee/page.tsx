@@ -4,28 +4,31 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
-import {useAtom} from "jotai/index";
+import {useAtom, useAtomValue} from "jotai/index";
 import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
-import {faker} from "@faker-js/faker";
-import format from "date-fns/format";
 import {useEffect, useState} from "react";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
 
 
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
     const [employees, setEmployees] = useState<Employee_Item[]>()
+    const [reloadEmployeesList, setReloadEmployeesList] = useAtom(reloadEmployeesListAtom);
 
     useEffect(() => {
-        const getEmployees = async () => {
-            const employees = await findsBusinessData(
-                "com.keistar.model.office.Employee", "find", 0, 20
-            )
-            setEmployees(employees);
-        };
-        getEmployees();
-    }, []);
+        if (reloadEmployeesList) {
+            const getEmployees = async () => {
+                const employees = await findsBusinessData(
+                    "com.keistar.model.office.Employee", "find", 0, 20
+                )
+                setEmployees(employees);
+            };
+            getEmployees();
+            setReloadEmployeesList(false);
+        }
+    }, [reloadEmployeesList]);
 
     useEffect(() => {
         if (employees) {
@@ -76,7 +79,12 @@ export default function EmployeePage() {
                         defaultValue={defaultSelected}
                         processCreateName={"Create_Employee"}
                         processUpdateName={"Update_Employee"}
-                        config={null}
+                        config={
+                            {
+                                businessDataType: "com.keistar.model.office.Employee",
+                            }
+                        }
+                        reloadList={reloadEmployeesListAtom}
         />,
         <KeistarLeftSidebar
             idKey={"persistenceId_string"}

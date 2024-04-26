@@ -6,12 +6,12 @@
  */
 import {Button} from "@/components/ui/button"
 import * as React from "react";
-import {PrimitiveAtom, useAtom, useAtomValue} from "jotai/index";
-import KeistarItem from "@/components/keistar-ui/types/item-interface";
+import {PrimitiveAtom, useAtom} from "jotai/index";
 import {searchProcesses} from "@/bonita/api/bpm/process/definitions/finds-processes";
 import {instantiateProcess} from "@/bonita/api/bpm/process";
 import {toast} from "sonner";
 import getProcessContractById from "@/bonita/api/bpm/process/definitions/finds-process-contract-by-id";
+import {WritableAtom} from 'jotai'
 
 export default function KeistarToolbar(
     {
@@ -19,18 +19,24 @@ export default function KeistarToolbar(
         defaultValue,
         processCreateName,
         processUpdateName,
-        config = {},
+        config = {
+            businessDataType: "",
+        },
+        reloadList,
     }:
         {
             selected: PrimitiveAtom<any>,
             defaultValue?: any,
             processCreateName: string,
             processUpdateName: string,
-            config?: any,
+            config?: {
+                businessDataType: string,
+            },
+            reloadList: WritableAtom<boolean, [boolean?], void>,
         }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
-    // get origin object from jotai atom
+    const [reload, setReload] = useAtom(reloadList);
 
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
@@ -67,6 +73,7 @@ export default function KeistarToolbar(
                                         onClick: () => console.log("View"),
                                     },
                                 })
+                            setReload(!reload);
                         } catch (e) {
                             console.error(e);
                             // toast("Failed to create new e-leave. Please try again later",
