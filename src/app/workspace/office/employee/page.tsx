@@ -22,13 +22,13 @@ export default function EmployeePage() {
 
     useEffect(() => {
         if (reloadList) {
-            const getEmployees = async () => {
+            const getData = async () => {
                 const employees = await findsBusinessData(
                     "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
                 )
                 setList(employees);
             };
-            getEmployees();
+            getData();
             setReloadList(false);
         }
     }, [reloadList]);
