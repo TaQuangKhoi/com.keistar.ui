@@ -14,14 +14,14 @@ import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/rel
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
     const [employees, setEmployees] = useState<Employee_Item[]>()
-    const [reloadEmployeesList, setReloadEmployeesList] = useAtom(reloadEmployeesListAtom);
+    const [reloadList, setReloadList] = useAtom(reloadEmployeesListAtom);
 
     useEffect(() => {
-        setReloadEmployeesList(true);
+        setReloadList(true);
     }, []);
 
     useEffect(() => {
-        if (reloadEmployeesList) {
+        if (reloadList) {
             const getEmployees = async () => {
                 const employees = await findsBusinessData(
                     "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
@@ -29,9 +29,9 @@ export default function EmployeePage() {
                 setEmployees(employees);
             };
             getEmployees();
-            setReloadEmployeesList(false);
+            setReloadList(false);
         }
-    }, [reloadEmployeesList]);
+    }, [reloadList]);
 
     /**
      * Default selected employee
