@@ -4,7 +4,7 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
-import {useAtom, useAtomValue} from "jotai/index";
+import {useAtom} from "jotai/index";
 import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
 import {useEffect, useState} from "react";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
@@ -33,6 +33,9 @@ export default function EmployeePage() {
         }
     }, [reloadEmployeesList]);
 
+    /**
+     * Default selected employee
+     */
     useEffect(() => {
         if (employees) {
             setSelected(employees[0]);
