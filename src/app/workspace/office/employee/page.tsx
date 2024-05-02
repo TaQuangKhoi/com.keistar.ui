@@ -13,7 +13,7 @@ import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/rel
 
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployee);
-    const [employees, setEmployees] = useState<Employee_Item[]>()
+    const [list, setList] = useState<Employee_Item[]>()
     const [reloadList, setReloadList] = useAtom(reloadEmployeesListAtom);
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function EmployeePage() {
                 const employees = await findsBusinessData(
                     "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
                 )
-                setEmployees(employees);
+                setList(employees);
             };
             getEmployees();
             setReloadList(false);
@@ -37,10 +37,10 @@ export default function EmployeePage() {
      * Default selected employee
      */
     useEffect(() => {
-        if (employees) {
-            setSelected(employees[0]);
+        if (list) {
+            setSelected(list[0]);
         }
-    }, [employees]);
+    }, [list]);
 
     const titleKey = "username";
     const headerItem = [
@@ -101,11 +101,11 @@ export default function EmployeePage() {
             idKey={"persistenceId_string"}
             titleKey={titleKey}
             selected={selectedEmployee}
-            list={employees}
+            list={list}
             cardConfig={headerItem}
         />,
         <EmployeeFragment
-            employees={employees || []}
+            employees={list || []}
         />,
     );
 }
