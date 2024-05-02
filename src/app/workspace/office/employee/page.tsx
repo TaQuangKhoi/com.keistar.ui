@@ -42,12 +42,12 @@ export default function EmployeePage() {
     const titleKey = "username";
     const headerItem = [
         {
-            "label": "Username",
-            "key": "username"
-        },
-        {
             "label": "Status",
             "key": "status"
+        },
+        {
+            "label": "Phone",
+            "key": "phone"
         },
     ]
     const defaultSelected = {
