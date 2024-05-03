@@ -10,7 +10,6 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
-import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
 import defaultTravel from "@/app/workspace/office/travel/default-travel";
 import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import headerTravel from "@/app/workspace/office/travel/header-travel";
@@ -28,7 +27,7 @@ export default function TravelPage() {
         if (reloadList) {
             const getData = async () => {
                 const employees = await findsBusinessData(
-                    "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+                    "com.keistar.model.office.travel.TravelRequest", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
                 )
                 setList(employees);
             };
@@ -49,7 +48,7 @@ export default function TravelPage() {
     const titleKey = "username";
 
     return KeistarLayout(
-        "Employee",
+        "Travel",
         <KeistarToolbar selected={selectedTravelAtom}
                         defaultValue={defaultTravel}
                         processCreateName={"Create_Employee"}
