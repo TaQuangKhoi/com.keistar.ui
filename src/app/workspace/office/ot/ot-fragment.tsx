@@ -9,11 +9,59 @@ import {Input} from "@/components/ui/input"
 import {Textarea} from "@/components/ui/textarea"
 import {TableHead, TableRow, TableHeader, TableCell, TableBody, Table} from "@/components/ui/table"
 import {useAtom} from "jotai/index";
-import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
 import {selectedOtAtom} from "@/app/workspace/office/ot/atoms/ot-selected-atom";
+import {useEffect, useState} from "react";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import KeistarDatePickerWithRange from "@/app/components/keistar-date-picker-with-range";
+import {DateRange} from "react-day-picker";
+import {addDays} from "date-fns";
 
 export default function OTFragment() {
+    const currentDate = new Date();
     const [selectedItem, setSelectedItem] = useAtom(selectedOtAtom);
+    const [approvers, setApprovers] = useState<Employee_Item[]>([])
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+        from: currentDate,
+        to: addDays(currentDate, 20),
+    })
+
+    useEffect(() => {
+        const getData = async () => {
+            const employees = await findsBusinessData(
+                "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+            )
+            setApprovers(employees);
+        };
+        getData();
+    }, []);
+
+    useEffect(() => {
+        setSelectedItem((draft) => {
+            draft.startDate = dateRange?.from?.toISOString() || currentDate.toISOString();
+            draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
+        })
+    }, [dateRange]);
+
+    /**
+     * Calculate total hours
+     */
+    useEffect(() => {
+        const amFrom = new Date(`01/01/2000 ${selectedItem.amFromHours}`);
+        const amTo = new Date(`01/01/2000 ${selectedItem.amToHours}`);
+        const pmFrom = new Date(`01/01/2000 ${selectedItem.pmFromHours}`);
+        const pmTo = new Date(`01/01/2000 ${selectedItem.pmToHours}`);
+
+        const totalHour = (pmTo.getTime() - pmFrom.getTime() + amTo.getTime() - amFrom.getTime()) / 1000 / 60 / 60;
+        setSelectedItem((draft) => {
+            draft.totalHour = totalHour;
+        })
+    }, [
+        selectedItem.amFromHours,
+        selectedItem.amToHours,
+        selectedItem.pmFromHours,
+        selectedItem.pmToHours,
+    ]);
 
     return (
         <div key="1" className="p-6">
@@ -26,55 +74,101 @@ export default function OTFragment() {
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Approver</label>
-                                <Select>
+                                <Select
+                                    value={selectedItem?.approver.persistenceId_string || ""}
+                                    // defaultValue={directManager?.persistenceId_string || ""}
+                                    onValueChange={(value) => {
+                                        setSelectedItem((draft) => {
+                                            draft.approver.persistenceId_string = value
+                                        })
+                                    }}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a person"/>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="person1">Vu Nguyen Quang Phap</SelectItem>
-                                        <SelectItem value="person2">John Doe</SelectItem>
-                                        <SelectItem value="person3">Jane Smith</SelectItem>
+                                        {
+                                            approvers.map((option, index) => (
+                                                <SelectItem key={index} value={option.persistenceId_string || ""}>
+                                                    {option.username}
+                                                </SelectItem>
+                                            ))
+                                        }
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">From Date - To Date</label>
-                                <Input placeholder="02/04/2024 - 02/04/2024"/>
+                                <KeistarDatePickerWithRange
+                                    date={dateRange}
+                                    setDate={setDateRange}
+                                />
                             </div>
                         </div>
                         <div className="grid grid-cols-4 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">AM: From</label>
-                                <Input placeholder="07:30" type="time"/>
+                                <Input placeholder="08:00"
+                                       type="time"
+                                       value={selectedItem.amFromHours}
+                                       onChange={(e) => {
+                                           setSelectedItem((draft) => {
+                                               draft.amFromHours = e.target.value
+                                           })
+                                       }}
+                                />
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">To</label>
-                                <Input placeholder="11:30" type="time"/>
+                                <Input placeholder="11:30" type="time"
+                                       value={selectedItem.amToHours}
+                                       onChange={(e) => {
+                                           setSelectedItem((draft) => {
+                                               draft.amToHours = e.target.value
+                                           })
+                                       }}
+                                />
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">PM: From</label>
-                                <Input placeholder="13:00" type="time"/>
+                                <Input placeholder="13:00" type="time"
+                                       value={selectedItem.pmFromHours}
+                                       onChange={(e) => {
+                                           setSelectedItem((draft) => {
+                                               draft.pmFromHours = e.target.value
+                                           })
+                                       }}
+                                />
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">To</label>
-                                <Input placeholder="17:00" type="time"/>
+                                <Input placeholder="17:00" type="time"
+                                       value={selectedItem.pmToHours}
+                                       onChange={(e) => {
+                                           setSelectedItem((draft) => {
+                                               draft.pmToHours = e.target.value
+                                           })
+                                       }}
+                                />
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Total hours applied</label>
-                                <Input placeholder="Enter total hours" type="number"
-                                       value={selectedItem.totalHour}
-                                       onChange={(e) => {
-                                           setSelectedItem((draft) => {
-                                               draft.totalHour = Number(e.target.value)
-                                           })
-                                       }}/>
+                                <Input placeholder="Enter total hours" type="number" disabled={true}
+                                       value={selectedItem.totalHour}/>
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="block text-sm font-medium">Cancel Reasons</label>
-                            <Textarea placeholder="Đỗ Quyên"/>
+                            <Textarea placeholder="Enter reasons"
+                                      value={selectedItem.cancelReason}
+                                      onChange={(e) => {
+                                          setSelectedItem((draft) => {
+                                              draft.cancelReason = e.target.value
+                                          })
+                                      }}
+                            />
                         </div>
                         <div>
                             <h3 className="text-lg">Reasons</h3>
