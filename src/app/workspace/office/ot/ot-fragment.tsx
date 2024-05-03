@@ -10,15 +10,10 @@ import {Textarea} from "@/components/ui/textarea"
 import {TableHead, TableRow, TableHeader, TableCell, TableBody, Table} from "@/components/ui/table"
 import {useAtom} from "jotai/index";
 import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
+import {selectedOtAtom} from "@/app/workspace/office/ot/atoms/ot-selected-atom";
 
-export default function OTFragment(
-    {
-        selected
-    }: {
-        selected: any
-    }
-) {
-    const [selectedItem, setSelectedItem] = useAtom<OT_Item>(selected);
+export default function OTFragment() {
+    const [selectedItem, setSelectedItem] = useAtom(selectedOtAtom);
 
     return (
         <div key="1" className="p-6">
@@ -69,7 +64,12 @@ export default function OTFragment(
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Total hours applied</label>
                                 <Input placeholder="Enter total hours" type="number"
-                                       value={selectedItem.total_hours}/>
+                                       value={selectedItem.totalHour}
+                                       onChange={(e) => {
+                                           setSelectedItem((draft) => {
+                                               draft.totalHour = Number(e.target.value)
+                                           })
+                                       }}/>
                             </div>
                         </div>
                         <div className="space-y-2">
