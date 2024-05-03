@@ -63,7 +63,7 @@ export default function KeistarToolbar(
                             const res = await instantiateProcess(processId, {
                                 [contractInputName]: selectedItem
                             });
-                            toast("New e-leave has been created successfully",
+                            toast("New item has been created successfully",
                                 {
                                     description: "Case ID: " + res.caseId,
                                     action: {
@@ -76,7 +76,7 @@ export default function KeistarToolbar(
                             const error = e as AxiosError;
                             toast(error.message,
                                 {
-                                    description: "Failed to create new e-leave. Please try again later",
+                                    description: "Failed to create new item. Please try again later",
                                     action: {
                                         label: "Retry",
                                         onClick: () => console.log("Retry"),
