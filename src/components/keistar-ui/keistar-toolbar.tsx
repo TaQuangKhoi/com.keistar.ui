@@ -18,27 +18,18 @@ export default function KeistarToolbar(
     {
         selected,
         defaultValue,
-        processCreateName,
-        processUpdateName,
-        config = {
-            businessDataType: "",
-        },
         reloadList,
         processConfig,
     }:
         {
             selected: PrimitiveAtom<any>,
             defaultValue?: any,
-            processCreateName: string,
-            processUpdateName: string,
-            config?: {
-                businessDataType: string,
-            },
             reloadList: WritableAtom<boolean, [boolean?], void>,
             processConfig: {
                 processCreateName: string,
                 processUpdateName: string,
                 processDeletedName: string,
+                businessDataType?: string,
             }
         }
 ) {
@@ -57,11 +48,11 @@ export default function KeistarToolbar(
                         // Start Process Create
                         if (selectedItem.persistenceId === undefined) {
                             // start process to create new item
-                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processCreateName)
+                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processCreateName)
                             processId = processes[0].id;
                         } else {
                             // Start Process Update
-                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processUpdateName)
+                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processUpdateName)
                             processId = processes[0].id;
                         }
 
