@@ -25,7 +25,7 @@ export default function OTPage() {
         if (reloadList) {
             const getData = async () => {
                 const employees = await findsBusinessData(
-                    "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+                    "com.keistar.model.office.OT", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
                 )
                 setList(employees);
             };
