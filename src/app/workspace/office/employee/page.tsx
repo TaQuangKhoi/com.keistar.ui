@@ -5,14 +5,14 @@ import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
 import {useAtom} from "jotai/index";
-import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
+import {selectedEmployeeAtom} from "@/app/workspace/office/employee/employee-selected-atom";
 import {useEffect, useState} from "react";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
 
 export default function EmployeePage() {
-    const [selected, setSelected] = useAtom(selectedEmployee);
+    const [selected, setSelected] = useAtom(selectedEmployeeAtom);
     const [list, setList] = useState<Employee_Item[]>()
     const [reloadList, setReloadList] = useAtom(reloadEmployeesListAtom);
 
@@ -81,26 +81,20 @@ export default function EmployeePage() {
 
     return KeistarLayout(
         "Employee",
-        <KeistarToolbar selected={selectedEmployee}
+        <KeistarToolbar selected={selectedEmployeeAtom}
                         defaultValue={defaultSelected}
-                        processCreateName={"Create_Employee"}
-                        processUpdateName={"Update_Employee"}
-                        config={
-                            {
-                                businessDataType: "com.keistar.model.office.Employee",
-                            }
-                        }
                         reloadList={reloadEmployeesListAtom}
                         processConfig={{
                             processDeletedName: "Delete_Employee",
                             processCreateName: "Create_Employee",
                             processUpdateName: "Update_Employee",
+                            businessDataType: "com.keistar.model.office.Employee",
                         }}
         />,
         <KeistarLeftSidebar
             idKey={"persistenceId_string"}
             titleKey={titleKey}
-            selected={selectedEmployee}
+            selected={selectedEmployeeAtom}
             list={list}
             cardConfig={headerItem}
         />,
