@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 export default function NewE_leavePage() {
     return (
         <div className="container">
-            <h1>New E-Leave</h1>
+            <div className="flex justify-between mb-4 mt-4">
+                <h1 className="text-2xl font-bold">New E-Leave</h1>
+            </div>
             <NewE_leaveForm/>
         </div>
     )
