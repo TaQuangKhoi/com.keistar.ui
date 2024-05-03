@@ -72,10 +72,10 @@ export default function OTPage() {
                         defaultValue={defaultOT}
                         reloadList={reloadOtListAtom}
                         processConfig={{
-                            processDeletedName: "Delete_Employee",
-                            processCreateName: "Create_Employee",
-                            processUpdateName: "Update_Employee",
-                            businessDataType: "com.keistar.model.office.Employee",
+                            processDeletedName: "Delete_OT",
+                            processCreateName: "Create_OT",
+                            processUpdateName: "Update_OT",
+                            businessDataType: "com.keistar.model.office.OT",
                         }}
         />,
         <KeistarLeftSidebar
