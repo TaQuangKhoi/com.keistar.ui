@@ -16,6 +16,7 @@ import Employee_Item from "@/app/workspace/office/employee/types/employee-interf
 import KeistarDatePickerWithRange from "@/app/components/keistar-date-picker-with-range";
 import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 
 export default function OTFragment() {
     const currentDate = new Date();
@@ -25,6 +26,7 @@ export default function OTFragment() {
         from: currentDate,
         to: addDays(currentDate, 20),
     })
+    const [session]: [Session, boolean, any] = useSession()
 
     useEffect(() => {
         const getData = async () => {
@@ -42,6 +44,15 @@ export default function OTFragment() {
             draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
         })
     }, [dateRange]);
+
+    /**
+     * Update employee attribute for selected item
+     */
+    useEffect(() => {
+        setSelectedItem((draft) => {
+            draft.employee.persistenceId_string = session.user_id || "";
+        })
+    }, [session]);
 
     /**
      * Calculate total hours
