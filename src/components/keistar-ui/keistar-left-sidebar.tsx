@@ -72,12 +72,13 @@ export default function KeistarLeftSidebar(
                                     {
                                         list.map((item: any, index: number) => {
                                             return <>
-                                                <Card className={clsx("bg-gray-100 transition-transform hover:scale-105",
-                                                    selectedItem[idKey] === item[idKey]
-                                                        ? "ring-2 ring-blue-500" : "")}
-                                                      onClick={() => {
-                                                          setSelectedItem(item);
-                                                      }}
+                                                <Card
+                                                    className={clsx("bg-gray-100 transition-transform hover:scale-105",
+                                                        selectedItem[idKey] === item[idKey]
+                                                            ? "ring-2 ring-blue-500" : "")}
+                                                    onClick={() => {
+                                                        setSelectedItem(item);
+                                                    }}
                                                 >
                                                     <CardHeader>
                                                         <CardTitle>
@@ -87,10 +88,27 @@ export default function KeistarLeftSidebar(
                                                     <CardContent>
                                                         {
                                                             cardConfig.map((config: any) => {
-                                                                return <p key={config.key}>
-                                                                    <strong>{config.label}:</strong>
-                                                                    {item[config.key]}
-                                                                </p>
+                                                                if (config.key.includes(".")) {
+                                                                    const keys = config.key.split(".");
+                                                                    if (item[keys[0]] !== null && item[keys[0]] !== undefined) {
+                                                                        return <>
+                                                                            <p key={config.key}>
+                                                                                <strong>{config.label}: </strong>
+                                                                                {
+                                                                                    item[keys[0]][keys[1]]
+                                                                                }
+                                                                            </p>
+                                                                        </>
+                                                                    }
+                                                                }
+                                                                return <>
+                                                                    <p key={config.key}>
+                                                                        <strong>{config.label}: </strong>
+                                                                        {
+                                                                            item[config.key] !== null || item[config.key] !== undefined ? item[config.key] : "N/A"
+                                                                        }
+                                                                    </p>
+                                                                </>
                                                             })
                                                         }
                                                     </CardContent>

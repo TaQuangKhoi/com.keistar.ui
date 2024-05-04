@@ -7,7 +7,6 @@ import {TabsTrigger, TabsList, TabsContent, Tabs} from "@/components/ui/tabs"
 import {SelectValue, SelectTrigger, SelectItem, SelectContent, Select} from "@/components/ui/select"
 import {Input} from "@/components/ui/input"
 import {Textarea} from "@/components/ui/textarea"
-import {TableHead, TableRow, TableHeader, TableCell, TableBody, Table} from "@/components/ui/table"
 import {useAtom} from "jotai/index";
 import {selectedOtAtom} from "@/app/workspace/office/ot/atoms/ot-selected-atom";
 import {useEffect, useState} from "react";
@@ -17,8 +16,16 @@ import KeistarDatePickerWithRange from "@/app/components/keistar-date-picker-wit
 import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
+import KeistarEditableTable from "@/app/components/keistar-editable-table";
+import callLink from "@/bonita/api/bdm/call-link";
 
-export default function OTFragment() {
+export default function OTFragment(
+    {
+        isInForm = false
+    }: {
+        isInForm?: boolean
+    }
+) {
     const currentDate = new Date();
     const [selectedItem, setSelectedItem] = useAtom(selectedOtAtom);
     const [approvers, setApprovers] = useState<Employee_Item[]>([])
@@ -43,7 +50,10 @@ export default function OTFragment() {
             draft.startDate = dateRange?.from?.toISOString() || currentDate.toISOString();
             draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
         })
-    }, [dateRange]);
+    }, [
+        dateRange?.from,
+        dateRange?.to
+    ]);
 
     /**
      * Update employee attribute for selected item
@@ -52,7 +62,7 @@ export default function OTFragment() {
         setSelectedItem((draft) => {
             draft.employee.persistenceId_string = session.user_id || "";
         })
-    }, [session]);
+    }, [session.user_id]);
 
     /**
      * Calculate total hours
@@ -63,7 +73,14 @@ export default function OTFragment() {
         const pmFrom = new Date(`01/01/2000 ${selectedItem.pmFromHours}`);
         const pmTo = new Date(`01/01/2000 ${selectedItem.pmToHours}`);
 
-        const totalHour = (pmTo.getTime() - pmFrom.getTime() + amTo.getTime() - amFrom.getTime()) / 1000 / 60 / 60;
+        if (!dateRange?.from || !dateRange?.to) {
+            return;
+        }
+
+        const numberOfDays = Math.floor((dateRange?.to?.getTime() - dateRange?.from?.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+        const totalHour = (pmTo.getTime() - pmFrom.getTime() + amTo.getTime() - amFrom.getTime()) / 1000 / 60 / 60 * numberOfDays;
+
         setSelectedItem((draft) => {
             draft.totalHour = totalHour;
         })
@@ -72,6 +89,8 @@ export default function OTFragment() {
         selectedItem.amToHours,
         selectedItem.pmFromHours,
         selectedItem.pmToHours,
+        dateRange?.from,
+        dateRange?.to
     ]);
 
     return (
@@ -86,11 +105,15 @@ export default function OTFragment() {
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Approver</label>
                                 <Select
-                                    value={selectedItem?.approver.persistenceId_string || ""}
+                                    value={selectedItem?.approver?.persistenceId_string || ""}
                                     // defaultValue={directManager?.persistenceId_string || ""}
                                     onValueChange={(value) => {
+                                        console.debug("value", value)
+                                        console.debug("selectedItem", selectedItem)
                                         setSelectedItem((draft) => {
-                                            draft.approver.persistenceId_string = value
+                                            draft.approver = {
+                                                persistenceId_string: value
+                                            }
                                         })
                                     }}
                                 >
@@ -170,7 +193,11 @@ export default function OTFragment() {
                                        value={selectedItem.totalHour}/>
                             </div>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2"
+                             hidden={
+                                 selectedItem.status !== "CANCELLED"
+                             }
+                        >
                             <label className="block text-sm font-medium">Cancel Reasons</label>
                             <Textarea placeholder="Enter reasons"
                                       value={selectedItem.cancelReason}
@@ -182,58 +209,14 @@ export default function OTFragment() {
                             />
                         </div>
                         <div>
-                            <h3 className="text-lg">Reasons</h3>
-                            <Table className="border">
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[100px]">#</TableHead>
-                                        <TableHead>Type</TableHead>
-                                        <TableHead>Opportunity</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>
-                                            <div className="font-medium">1</div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Select>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select type"/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="type1">Type 1</SelectItem>
-                                                    <SelectItem value="type2">Type 2</SelectItem>
-                                                    <SelectItem value="type3">Type 3</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Input placeholder="Data 3"/>
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>
-                                            <div className="font-medium">2</div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Select>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select type"/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="type1">Type 1</SelectItem>
-                                                    <SelectItem value="type2">Type 2</SelectItem>
-                                                    <SelectItem value="type3">Type 3</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Input placeholder="Data 6"/>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
+                            <KeistarEditableTable
+                                title={"Reasons"}
+                                config={{
+                                    key: ["#", "type", "opportunity"],
+                                    head: ["#", "Type", "Opportunity"],
+                                    input: ["#", "select", "input"]
+                                }}
+                            />
                         </div>
                     </div>
                 </TabsContent>

@@ -46,23 +46,23 @@ export default function OTPage() {
     const headerItem = [
         {
             "label": "Approver",
-            "key": "approver"
+            "key": "approver.firstName"
         },
         {
             "label": "Status",
             "key": "status"
         },
         {
-            "label": "From",
-            "key": "from"
+            "label": "Start Date",
+            "key": "startDate"
         },
         {
-            "label": "To",
-            "key": "to"
+            "label": "End Date",
+            "key": "endDate"
         },
         {
             "label": "Total hours",
-            "key": "total_hours"
+            "key": "totalHour"
         }
     ]
 
@@ -79,12 +79,12 @@ export default function OTPage() {
                         }}
         />,
         <KeistarLeftSidebar
-            idKey={"id"}
-            titleKey="approver"
+            idKey={"persistenceId_string"}
+            titleKey="persistenceId_string"
             selected={selectedOtAtom}
             list={list}
             cardConfig={headerItem}
         />,
-        <OTFragment selected={selectedOtAtom}/>,
+        <OTFragment/>,
     );
 }

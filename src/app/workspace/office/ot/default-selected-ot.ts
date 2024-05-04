@@ -15,7 +15,7 @@ const defaultOT: OT_Item  = {
     amToHours: "",
     pmFromHours: "",
     pmToHours: "",
-    reason: "",
+    reason: [],
 };
 
 export default defaultOT;

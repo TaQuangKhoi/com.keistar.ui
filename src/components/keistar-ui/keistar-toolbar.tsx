@@ -46,7 +46,10 @@ export default function KeistarToolbar(
                         let contractInputName = "";
 
                         // Start Process Create
-                        if (selectedItem.persistenceId === undefined) {
+                        if (
+                            selectedItem.persistenceId === undefined ||
+                            selectedItem.persistenceId === 0
+                        ) {
                             // start process to create new item
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processCreateName)
                             processId = processes[0].id;
@@ -153,7 +156,7 @@ export default function KeistarToolbar(
                             persistenceId: number | undefined;
                         }) => {
                             draft.persistenceId_string = "";
-                            draft.persistenceId = undefined;
+                            draft.persistenceId = 0;
                         })
                     }}
             >
