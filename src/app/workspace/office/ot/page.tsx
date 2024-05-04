@@ -83,7 +83,10 @@ export default function OTPage() {
             titleKey="persistenceId_string"
             selected={selectedOtAtom}
             list={list}
-            cardConfig={headerItem}
+            cardConfig= {{
+                header: headerItem
+
+            }}
         />,
         <OTFragment/>,
     );

@@ -59,9 +59,11 @@ export default function OTFragment(
      * Update employee attribute for selected item
      */
     useEffect(() => {
-        setSelectedItem((draft) => {
-            draft.employee.persistenceId_string = session.user_id || "";
-        })
+        if (selectedItem.persistenceId_string === "") {
+            setSelectedItem((draft) => {
+                draft.employee.persistenceId_string = session.user_id || "";
+            })
+        }
     }, [session.user_id]);
 
     /**

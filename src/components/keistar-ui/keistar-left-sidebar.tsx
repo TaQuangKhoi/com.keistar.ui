@@ -25,7 +25,12 @@ export default function KeistarLeftSidebar(
         idKey: string,
         selected: PrimitiveAtom<any>
         list: any,
-        cardConfig: any,
+        cardConfig: {
+            header: {
+                label: string,
+                key: string,
+            }[],
+        },
         titleKey: string,
     }
 ) {
@@ -87,7 +92,7 @@ export default function KeistarLeftSidebar(
                                                     </CardHeader>
                                                     <CardContent>
                                                         {
-                                                            cardConfig.map((config: any) => {
+                                                            cardConfig.header.map((config: any) => {
                                                                 if (config.key.includes(".")) {
                                                                     const keys = config.key.split(".");
                                                                     if (item[keys[0]] !== null && item[keys[0]] !== undefined) {
