@@ -93,6 +93,23 @@ export default function KeistarLeftSidebar(
                                                     <CardContent>
                                                         {
                                                             cardConfig.header.map((config: any) => {
+                                                                if (config.key.includes("(")) {
+                                                                    const keys = config.key.split("(");
+                                                                    const type = keys[1].replace(")", "");
+                                                                    switch (type) {
+                                                                        case "Date":
+                                                                            if (item[keys[0]] !== null && item[keys[0]] !== undefined) {
+                                                                                return <>
+                                                                                    <p key={config.key}>
+                                                                                        <strong>{config.label}: </strong>
+                                                                                        {
+                                                                                            new Date(item[keys[0]]).toLocaleDateString()
+                                                                                        }
+                                                                                    </p>
+                                                                                </>
+                                                                            }
+                                                                    }
+                                                                }
                                                                 if (config.key.includes(".")) {
                                                                     const keys = config.key.split(".");
                                                                     if (item[keys[0]] !== null && item[keys[0]] !== undefined) {

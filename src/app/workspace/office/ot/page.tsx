@@ -54,11 +54,11 @@ export default function OTPage() {
         },
         {
             "label": "Start Date",
-            "key": "startDate"
+            "key": "startDate(Date)"
         },
         {
             "label": "End Date",
-            "key": "endDate"
+            "key": "endDate(Date)"
         },
         {
             "label": "Total hours",
@@ -85,7 +85,6 @@ export default function OTPage() {
             list={list}
             cardConfig= {{
                 header: headerItem
-
             }}
         />,
         <OTFragment/>,
