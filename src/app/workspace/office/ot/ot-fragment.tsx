@@ -214,17 +214,14 @@ export default function OTFragment(
                                 title={"Reasons"}
                                 data={[
                                     {
-                                        "#": 1,
                                         "type": "Sick",
                                         "opportunity": "1 day"
                                     },
                                     {
-                                        "#": 2,
                                         "type": "Annual",
                                         "opportunity": "1 day"
                                     },
                                     {
-                                        "#": 2,
                                         "type": "Annual",
                                         "opportunity": "1 day"
                                     }

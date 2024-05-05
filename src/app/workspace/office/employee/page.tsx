@@ -96,7 +96,9 @@ export default function EmployeePage() {
             titleKey={titleKey}
             selected={selectedEmployeeAtom}
             list={list}
-            cardConfig={headerItem}
+            cardConfig={{
+                header: headerItem
+            }}
         />,
         <EmployeeFragment
             employees={list || []}
