@@ -66,10 +66,20 @@ export default function KeistarEditableTable(
             data: dataState,
             columns: columnsDef,
             getCoreRowModel: getCoreRowModel(),
+            meta: {
+                addRow: () => {
+                    const newRow: any = {
+                        details: "New Row",
+                    };
+                    const setFunc = (old: any[]) => [...old, newRow];
+                    setDataState(setFunc);
+                    // setOriginalData(setFunc);
+                },
+            }
         })
 
     return <>
-        <TableToolbar title={title} table={table}/>
+        <TableToolbar title={title} table={table} data={data}/>
         <Table className="border">
             <TableHeader>
                 {

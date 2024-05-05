@@ -214,21 +214,18 @@ export default function OTFragment(
                                 title={"Reasons"}
                                 data={[
                                     {
-                                        "type": "Sick",
-                                        "opportunity": "1 day"
+                                        "detail": "Sick",
                                     },
                                     {
-                                        "type": "Annual",
-                                        "opportunity": "1 day"
+                                        "detail": "Annual",
                                     },
                                     {
-                                        "type": "Annual",
-                                        "opportunity": "1 day"
+                                        "detail": "Annual",
                                     }
                                 ]}
                                 config={{
-                                    key: ["#", "type", "opportunity"],
-                                    head: ["#", "Type", "Opportunity"],
+                                    key: ["#", "type", "detail"],
+                                    head: ["#", "Type", "Detail"],
                                     input: ["#", "select", "input"]
                                 }}
                             />
