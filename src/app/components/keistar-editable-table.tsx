@@ -36,13 +36,6 @@ export default function KeistarEditableTable(
                     {
                         config.key.map((item, index) => (
                             <>
-                                {
-                                    config.input[0] === "#" && (
-                                        <TableCell key={index}>
-                                            {index + 1}
-                                        </TableCell>
-                                    )
-                                }
                                 <TableCell key={index}>
                                     {
                                         config.input[index] === "select" && (
@@ -63,6 +56,11 @@ export default function KeistarEditableTable(
                                         (
                                             config.input[index] === "input" && (
                                                 <Input placeholder="Enter value"/>
+                                            )
+                                        ) ||
+                                        (
+                                            config.input[index] === "#" && (
+                                                index + 1
                                             )
                                         )
                                     }
