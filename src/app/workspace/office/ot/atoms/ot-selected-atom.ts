@@ -10,7 +10,7 @@ export const selectedOtAtom = atomWithImmer<OT_Item>({
     endDate: new Date().toISOString(),
     pmFromHours: "",
     pmToHours: "",
-    reason: [],
+    reasons: [],
     startDate: new Date().toISOString(),
     totalHour: 0
 })

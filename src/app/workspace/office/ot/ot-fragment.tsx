@@ -17,7 +17,6 @@ import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import KeistarEditableTable from "@/app/components/keistar-editable-table";
-import callLink from "@/bonita/api/bdm/call-link";
 
 export default function OTFragment(
     {
@@ -96,7 +95,7 @@ export default function OTFragment(
     ]);
 
     return (
-        <div key="1" className="p-6">
+        <div className="p-6">
             <Tabs className="w-full" defaultValue="register">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="register">Details</TabsTrigger>
@@ -213,6 +212,23 @@ export default function OTFragment(
                         <div>
                             <KeistarEditableTable
                                 title={"Reasons"}
+                                data={[
+                                    {
+                                        "#": 1,
+                                        "type": "Sick",
+                                        "opportunity": "1 day"
+                                    },
+                                    {
+                                        "#": 2,
+                                        "type": "Annual",
+                                        "opportunity": "1 day"
+                                    },
+                                    {
+                                        "#": 2,
+                                        "type": "Annual",
+                                        "opportunity": "1 day"
+                                    }
+                                ]}
                                 config={{
                                     key: ["#", "type", "opportunity"],
                                     head: ["#", "Type", "Opportunity"],

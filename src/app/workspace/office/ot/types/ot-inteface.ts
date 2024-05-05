@@ -15,7 +15,7 @@ export default interface OT_Item extends KeistarItem {
     pmToHours: string,
     totalHour: number,
     status?: string,
-    reason: any[],
+    reasons: any[],
     cancelReason?: string,
     approverComment?: string,
 }
