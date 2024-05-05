@@ -27,7 +27,13 @@ export default function KeistarEditableTable(
             accessorKey: config.key[index],
             header: config.head[index],
             cell: (props) => {
-                console.debug(props)
+
+                if (config.input[index] === "input") {
+                    return <Input placeholder="Enter value"
+                                  value={props.getValue()}
+                    />;
+                }
+
                 return <>
                     {
                         config.input[index] === "select" && (
@@ -44,11 +50,6 @@ export default function KeistarEditableTable(
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
-                        ) ||
-                        (
-                            config.input[index] === "input" && (
-                                <Input placeholder="Enter value"/>
-                            )
                         ) ||
                         (
                             config.input[index] === "#" && (
@@ -69,7 +70,7 @@ export default function KeistarEditableTable(
             meta: {
                 addRow: () => {
                     const newRow: any = {
-                        details: "New Row",
+                        detail: "",
                     };
                     const setFunc = (old: any[]) => [...old, newRow];
                     setDataState(setFunc);
