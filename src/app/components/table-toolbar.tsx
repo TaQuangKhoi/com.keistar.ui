@@ -42,7 +42,11 @@ export default function TableToolbar(
                     <PlusIcon className="mr-2 h-4 w-4"/>
                     New Row
                 </Button>
-                <Button size="sm" variant="outline">
+                <Button size="sm" variant="outline"
+                        onClick={() => {
+                            console.debug("removeRow", table.getSelectedRowModel())
+                        }}
+                >
                     <TrashIcon className="mr-2 h-4 w-4"/>
                     Remove Row
                 </Button>

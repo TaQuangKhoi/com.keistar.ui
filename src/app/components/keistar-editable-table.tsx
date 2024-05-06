@@ -3,9 +3,29 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Input} from "@/components/ui/input";
-import {ColumnDef, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {
+    ColumnDef, flexRender, getCoreRowModel, useReactTable
+} from "@tanstack/react-table";
 import {useState} from "react";
 import TableToolbar from "@/app/components/table-toolbar";
+
+import {
+    ContextMenu,
+    ContextMenuCheckboxItem,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuLabel,
+    ContextMenuRadioGroup,
+    ContextMenuRadioItem,
+    ContextMenuSeparator,
+    ContextMenuShortcut,
+    ContextMenuSub,
+    ContextMenuSubContent,
+    ContextMenuSubTrigger,
+    ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+import {Checkbox} from "@/components/ui/checkbox"
 
 export default function KeistarEditableTable(
     {
@@ -22,7 +42,22 @@ export default function KeistarEditableTable(
         },
     }
 ) {
-    const columnsDef: ColumnDef<unknown, any>[] = config.key.map((item, index) => {
+    const [rowSelection, setRowSelection] = useState({})
+
+    const checkBoxColDef: ColumnDef<unknown, any> = {
+        id: "checkbox",
+        accessorKey: "checkbox",
+        header: "test",
+        cell: ({row}) => {
+            return <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        }
+    }
+
+    const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key.map((item, index) => {
         return {
             accessorKey: config.key[index],
             header: config.head[index],
@@ -34,33 +69,31 @@ export default function KeistarEditableTable(
                     />;
                 }
 
-                return <>
-                    {
-                        config.input[index] === "select" && (
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a person"/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">
-                                        John Doe
-                                    </SelectItem>
-                                    <SelectItem value="2">
-                                        Jane Doe
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        ) ||
-                        (
-                            config.input[index] === "#" && (
-                                Number(props.row.id) + 1
-                            )
-                        )
-                    }
-                </>
+                if (config.input[index] === "select") {
+                    return <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a person"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="1">
+                                John Doe
+                            </SelectItem>
+                            <SelectItem value="2">
+                                Jane Doe
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>;
+                }
+
+                if (config.input[index] === "#") {
+                    return Number(props.row.id) + 1;
+                }
             }
         }
     })
+
+    const columnsDef: ColumnDef<unknown, any>[] = [checkBoxColDef, ...dynamicColumnsDef]
+
     const [dataState, setDataState] = useState<any[]>(data)
     const table = useReactTable(
         {
@@ -82,6 +115,12 @@ export default function KeistarEditableTable(
                 removeRow: (rowIndex: number) => {
                     console.debug("removeRow", rowIndex);
                 },
+            },
+            enableRowSelection: true,
+            debugTable: true,
+            onRowSelectionChange: setRowSelection,
+            state: {
+                rowSelection,
             }
         })
 
