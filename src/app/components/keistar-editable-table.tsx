@@ -8,8 +8,8 @@ import {
 } from "@tanstack/react-table";
 import {useState} from "react";
 import TableToolbar from "@/app/components/table-toolbar";
-import { Button } from "@/components/ui/button"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import {Button} from "@/components/ui/button"
+import {ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react"
 import {
     ContextMenu,
     ContextMenuCheckboxItem,
@@ -109,8 +109,6 @@ export default function KeistarEditableTable(
             header: "",
             enableHiding: false,
             cell: ({row}) => {
-                const payment = row.original
-
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -122,13 +120,17 @@ export default function KeistarEditableTable(
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(payment.id)}
+                                onClick={() => navigator.clipboard.writeText(row.id)}
                             >
-                                Copy payment ID
+                                Copy row ID
                             </DropdownMenuItem>
                             <DropdownMenuSeparator/>
-                            <DropdownMenuItem>View customer</DropdownMenuItem>
-                            <DropdownMenuItem>View payment details</DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Clone
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Delete
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )
@@ -147,15 +149,20 @@ export default function KeistarEditableTable(
 
                 },
                 addRow: () => {
-                    const newRow: any = {
-                        detail: "",
-                    };
+                    const newRow: any = config.key.reduce((acc: any, key) => {
+                        acc[key] = "";
+                        return acc;
+                    }, {})
                     const setFunc = (old: any[]) => [...old, newRow];
                     setDataState(setFunc);
                     // setOriginalData(setFunc);
                 },
-                removeRow: (rowIndex: number) => {
-                    console.debug("removeRow", rowIndex);
+                removeRow: (rowsIndex: number[]) => {
+                    const removeFunc = (old: any[]) => {
+                        return old.filter((_, index) => !rowsIndex.includes(index));
+                    };
+                    setRowSelection({});
+                    setDataState(removeFunc);
                 },
             },
             enableRowSelection: true,

@@ -14,7 +14,7 @@ declare module '@tanstack/react-table' {
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: unknown) => void,
         addRow: () => void
-        removeRow: (rowIndex: number) => void
+        removeRow: (rowsIndex: number[]) => void
     }
 }
 
@@ -44,7 +44,9 @@ export default function TableToolbar(
                 </Button>
                 <Button size="sm" variant="outline"
                         onClick={() => {
-                            console.debug("removeRow", table.getSelectedRowModel())
+                            const selectedRowModel = table.getSelectedRowModel()
+                            const rowsIndex = Object.keys(selectedRowModel.rowsById).map(Number)
+                            meta?.removeRow(rowsIndex)
                         }}
                 >
                     <TrashIcon className="mr-2 h-4 w-4"/>
