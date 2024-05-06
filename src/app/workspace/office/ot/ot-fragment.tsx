@@ -223,17 +223,7 @@ export default function OTFragment(
                         <div>
                             <KeistarEditableTable
                                 title={"Reasons"}
-                                data={[
-                                    {
-                                        "detail": "Sick",
-                                    },
-                                    {
-                                        "detail": "Annual",
-                                    },
-                                    {
-                                        "detail": "Annual",
-                                    }
-                                ]}
+                                data={selectedItem.reasons || []}
                                 config={{
                                     key: ["#", "type", "detail", "percentage"],
                                     head: ["#", "Type", "Detail", "Percentage"],
