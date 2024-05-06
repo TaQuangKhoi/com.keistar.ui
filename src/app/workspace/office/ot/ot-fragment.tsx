@@ -33,6 +33,7 @@ export default function OTFragment(
         to: addDays(currentDate, 20),
     })
     const [session]: [Session, boolean, any] = useSession()
+    const [otReasonTypes, setOtReasonTypes] = useState([])
 
     useEffect(() => {
         const getData = async () => {
@@ -40,6 +41,16 @@ export default function OTFragment(
                 "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
             )
             setApprovers(employees);
+        };
+        getData();
+    }, []);
+
+    useEffect(() => {
+        const getData = async () => {
+            const _otReasonTypes = await findsBusinessData(
+                "com.keistar.model.library.OTReasonType", "find", 0, 20, {},
+            )
+            setOtReasonTypes(_otReasonTypes);
         };
         getData();
     }, []);
@@ -224,9 +235,12 @@ export default function OTFragment(
                                     }
                                 ]}
                                 config={{
-                                    key: ["#", "type", "detail"],
-                                    head: ["#", "Type", "Detail"],
-                                    input: ["#", "select", "input"]
+                                    key: ["#", "type", "detail", "percentage"],
+                                    head: ["#", "Type", "Detail", "Percentage"],
+                                    input: ["#", "select", "input", "input"],
+                                    selectOptions: [
+                                        null, otReasonTypes, null, null
+                                    ]
                                 }}
                             />
                         </div>

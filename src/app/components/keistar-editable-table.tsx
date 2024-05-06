@@ -50,6 +50,7 @@ export default function KeistarEditableTable(
             key: string[],
             head: string[],
             input: string[],
+            selectOptions?: any[]
         },
     }
 ) {
@@ -86,12 +87,14 @@ export default function KeistarEditableTable(
                             <SelectValue placeholder="Select a person"/>
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="1">
-                                John Doe
-                            </SelectItem>
-                            <SelectItem value="2">
-                                Jane Doe
-                            </SelectItem>
+                            {
+                                config.selectOptions !== undefined && config.selectOptions[index].map((option: any) => {
+                                    return <SelectItem key={option.persistenceId}
+                                        value={option}>
+                                        {option.description}
+                                    </SelectItem>
+                                })
+                            }
                         </SelectContent>
                     </Select>;
                 }
