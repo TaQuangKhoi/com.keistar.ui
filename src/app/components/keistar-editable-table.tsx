@@ -68,6 +68,9 @@ export default function KeistarEditableTable(
             columns: columnsDef,
             getCoreRowModel: getCoreRowModel(),
             meta: {
+                updateData: (rowIndex: number, columnId: string, value: unknown) => {
+
+                },
                 addRow: () => {
                     const newRow: any = {
                         detail: "",
@@ -75,6 +78,9 @@ export default function KeistarEditableTable(
                     const setFunc = (old: any[]) => [...old, newRow];
                     setDataState(setFunc);
                     // setOriginalData(setFunc);
+                },
+                removeRow: (rowIndex: number) => {
+                    console.debug("removeRow", rowIndex);
                 },
             }
         })
