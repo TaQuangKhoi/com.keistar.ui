@@ -8,7 +8,8 @@ import {
 } from "@tanstack/react-table";
 import {useState} from "react";
 import TableToolbar from "@/app/components/table-toolbar";
-
+import { Button } from "@/components/ui/button"
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 import {
     ContextMenu,
     ContextMenuCheckboxItem,
@@ -24,6 +25,16 @@ import {
     ContextMenuSubTrigger,
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import {Checkbox} from "@/components/ui/checkbox"
 
@@ -92,7 +103,38 @@ export default function KeistarEditableTable(
         }
     })
 
-    const columnsDef: ColumnDef<unknown, any>[] = [checkBoxColDef, ...dynamicColumnsDef]
+    const columnsDef: ColumnDef<unknown, any>[] = [checkBoxColDef, ...dynamicColumnsDef,
+        {
+            id: "actions",
+            header: "",
+            enableHiding: false,
+            cell: ({row}) => {
+                const payment = row.original
+
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4"/>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => navigator.clipboard.writeText(payment.id)}
+                            >
+                                Copy payment ID
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator/>
+                            <DropdownMenuItem>View customer</DropdownMenuItem>
+                            <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )
+            },
+        },
+    ]
 
     const [dataState, setDataState] = useState<any[]>(data)
     const table = useReactTable(
@@ -148,7 +190,9 @@ export default function KeistarEditableTable(
             <TableBody>
                 {
                     table.getRowModel().rows?.map((row) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.id}
+                                  data-state={row.getIsSelected() && "selected"}
+                        >
                             {
                                 row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
