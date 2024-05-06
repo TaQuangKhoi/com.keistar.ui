@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input";
 import {
     ColumnDef, flexRender, getCoreRowModel, useReactTable
 } from "@tanstack/react-table";
-import {useState} from "react";
+import React, {useState} from "react";
 import TableToolbar from "@/app/components/table-toolbar";
 import {Button} from "@/components/ui/button"
 import {ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react"
@@ -59,7 +59,7 @@ export default function KeistarEditableTable(
     const checkBoxColDef: ColumnDef<unknown, any> = {
         id: "checkbox",
         accessorKey: "checkbox",
-        header: "test",
+        header: "Checkbox",
         cell: ({row}) => {
             return <Checkbox
                 checked={row.getIsSelected()}
@@ -73,7 +73,17 @@ export default function KeistarEditableTable(
         return {
             accessorKey: config.key[index],
             header: config.head[index],
-            cell: (props) => {
+            cell: ({ getValue, row: { index }, column: { id }, table }) => {
+
+                const initialValue = getValue();
+
+                // We need to keep and update the state of the cell normally
+                const [value, setValue] = useState(initialValue)
+
+                // When the input is blurred, we'll call our table meta's updateData function
+                const onBlur = () => {
+                    table.options.meta?.updateData(index, id, value)
+                }
 
                 if (config.input[index] === "input") {
                     return <Input placeholder="Enter value"
@@ -84,7 +94,7 @@ export default function KeistarEditableTable(
                 if (config.input[index] === "select") {
                     return <Select>
                         <SelectTrigger>
-                            <SelectValue placeholder="Select a person"/>
+                            <SelectValue placeholder="Select an item"/>
                         </SelectTrigger>
                         <SelectContent>
                             {

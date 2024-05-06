@@ -198,7 +198,6 @@ export function NewE_leaveForm() {
 
     }
 
-
     function getTotalDays() {
         let diffInDays = differenceInBusinessDays(
             form.getValues("dateRange")?.to,
@@ -241,6 +240,10 @@ export function NewE_leaveForm() {
         let _totalDays = getTotalDays();
         updateTotalDays(_totalDays)
     }, [dateRange, dateStatus]);
+
+    useEffect(() => {
+        console.debug("dateRange", dateRange)
+    }, [dateRange]);
 
 
     return (
@@ -388,7 +391,13 @@ export function NewE_leaveForm() {
                                 </li>
                                 <li>
                                     <span className="font-bold">Date Range:</span>
-                                    {format(dateRange?.from, 'dd/MM/yyyy')} - {format(dateRange?.to, 'dd/MM/yyyy')}
+                                    {
+                                        dateRange?.from !== undefined && format(dateRange?.from, 'dd/MM/yyyy')
+                                    }
+                                    -
+                                    {
+                                        dateRange?.to !== undefined && format(dateRange?.to, 'dd/MM/yyyy')
+                                    }
                                 </li>
                                 <li>
                                     <span className="font-bold">Date Status:</span> {dateStatus}
