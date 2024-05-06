@@ -4,10 +4,18 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import {Button} from "@/components/ui/button"
-import {Table, TableMeta} from "@tanstack/react-table";
+import {Table, TableMeta, RowData} from "@tanstack/react-table";
 
 interface KeistarEditableTableMeta extends TableMeta<unknown> {
     addRow: () => void
+}
+
+declare module '@tanstack/react-table' {
+    interface TableMeta<TData extends RowData> {
+        updateData: (rowIndex: number, columnId: string, value: unknown) => void,
+        addRow: () => void
+        removeRow: (rowIndex: number) => void
+    }
 }
 
 export default function TableToolbar(
@@ -21,7 +29,7 @@ export default function TableToolbar(
         data: any[],
     }
 ) {
-    const meta: KeistarEditableTableMeta | undefined = table.options.meta as KeistarEditableTableMeta | undefined
+    const meta = table.options.meta
     return (
         <div key="1" className="flex items-center justify-between gap-4 p-4 border-b">
             <h2 className="text-lg font-semibold">
