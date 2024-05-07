@@ -4,6 +4,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Input} from "@/components/ui/input";
 import {
+    CellContext,
     ColumnDef, flexRender, getCoreRowModel, useReactTable
 } from "@tanstack/react-table";
 import React, {useState} from "react";
@@ -37,6 +38,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import {Checkbox} from "@/components/ui/checkbox"
+import InputCell from "@/app/components/editable-table/input-cell";
+import SelectCell from "@/app/components/editable-table/select-cell";
 
 export default function KeistarEditableTable(
     {
@@ -73,46 +76,7 @@ export default function KeistarEditableTable(
         return {
             accessorKey: config.key[index],
             header: config.head[index],
-            cell: ({ getValue, row: { index }, column: { id }, table }) => {
-
-                const initialValue = getValue();
-
-                // We need to keep and update the state of the cell normally
-                const [value, setValue] = useState(initialValue)
-
-                // When the input is blurred, we'll call our table meta's updateData function
-                const onBlur = () => {
-                    table.options.meta?.updateData(index, id, value)
-                }
-
-                if (config.input[index] === "input") {
-                    return <Input placeholder="Enter value"
-                                  value={props.getValue()}
-                    />;
-                }
-
-                if (config.input[index] === "select") {
-                    return <Select>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select an item"/>
-                        </SelectTrigger>
-                        <SelectContent>
-                            {
-                                config.selectOptions !== undefined && config.selectOptions[index].map((option: any) => {
-                                    return <SelectItem key={option.persistenceId}
-                                        value={option}>
-                                        {option.description}
-                                    </SelectItem>
-                                })
-                            }
-                        </SelectContent>
-                    </Select>;
-                }
-
-                if (config.input[index] === "#") {
-                    return Number(props.row.id) + 1;
-                }
-            }
+            cell: InputCell,
         }
     })
 
