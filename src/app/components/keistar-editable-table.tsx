@@ -72,13 +72,15 @@ export default function KeistarEditableTable(
         }
     }
 
-    const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key.map((item, index) => {
-        return {
-            accessorKey: config.key[index],
-            header: config.head[index],
-            cell: InputCell,
-        }
-    })
+    const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key
+        .map((item, index) => {
+            const type = config.input[index];
+            return {
+                accessorKey: config.key[index],
+                header: config.head[index],
+                cell: InputCell,
+            } as ColumnDef<unknown, any>
+        })
 
     const columnsDef: ColumnDef<unknown, any>[] = [checkBoxColDef, ...dynamicColumnsDef,
         {
