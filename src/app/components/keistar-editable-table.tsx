@@ -40,6 +40,7 @@ import {
 import {Checkbox} from "@/components/ui/checkbox"
 import InputCell from "@/app/components/editable-table/input-cell";
 import SelectCell from "@/app/components/editable-table/select-cell";
+import OrderNumberCell from "@/app/components/editable-table/order-number-input";
 
 export default function KeistarEditableTable(
     {
@@ -75,6 +76,20 @@ export default function KeistarEditableTable(
     const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key
         .map((item, index) => {
             const type = config.input[index];
+            if (type === "#") {
+                return {
+                    accessorKey: config.key[index],
+                    header: config.head[index],
+                    cell: OrderNumberCell,
+                } as ColumnDef<unknown, any>
+            }
+            if (type === "select") {
+                return {
+                    accessorKey: config.key[index],
+                    header: config.head[index],
+                    cell: SelectCell,
+                } as ColumnDef<unknown, any>
+            }
             return {
                 accessorKey: config.key[index],
                 header: config.head[index],
