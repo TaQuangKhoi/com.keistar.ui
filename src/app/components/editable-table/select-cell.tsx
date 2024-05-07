@@ -1,4 +1,4 @@
-import {CellContext} from "@tanstack/react-table";
+import {CellContext, ColumnDef} from "@tanstack/react-table";
 import React, {useState} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
@@ -15,6 +15,14 @@ export default function SelectCell(
     // console.debug("column columns", columns)
     const initialValue = getValue();
 
+    const columns: ColumnDef<unknown, any>[] = table.options.columns
+    const indexOfColumn = columns.findIndex((column) => {
+        if (column.hasOwnProperty("accessorKey")) {
+            return column.accessorKey === id
+        }
+    })
+    const selectOption = table.options.meta?.selectOptions[indexOfColumn-1]
+
     // We need to keep and update the state of the cell normally
     const [value, setValue] = useState(initialValue)
 
@@ -28,14 +36,14 @@ export default function SelectCell(
             <SelectValue placeholder="Select an item"/>
         </SelectTrigger>
         <SelectContent>
-            {/*{*/}
-            {/*    config.selectOptions !== undefined && config.selectOptions[index].map((option: any) => {*/}
-            {/*        return <SelectItem key={option.persistenceId}*/}
-            {/*                           value={option}>*/}
-            {/*            {option.description}*/}
-            {/*        </SelectItem>*/}
-            {/*    })*/}
-            {/*}*/}
+            {
+                selectOption.map((option: any) => {
+                    return <SelectItem key={option.persistenceId}
+                                       value={option}>
+                        {option.description}
+                    </SelectItem>
+                })
+            }
         </SelectContent>
     </Select>;
 }

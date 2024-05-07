@@ -4,19 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import {Button} from "@/components/ui/button"
-import {Table, TableMeta, RowData} from "@tanstack/react-table";
-
-interface KeistarEditableTableMeta extends TableMeta<unknown> {
-    addRow: () => void
-}
-
-declare module '@tanstack/react-table' {
-    interface TableMeta<TData extends RowData> {
-        updateData: (rowIndex: number, columnId: string, value: unknown) => void,
-        addRow: () => void
-        removeRow: (rowsIndex: number[]) => void
-    }
-}
+import {Table} from "@tanstack/react-table";
 
 export default function TableToolbar(
     {

@@ -158,6 +158,7 @@ export default function KeistarEditableTable(
                     setRowSelection({});
                     setDataState(removeFunc);
                 },
+                selectOptions: config.selectOptions || [],
             },
             enableRowSelection: true,
             debugTable: true,
