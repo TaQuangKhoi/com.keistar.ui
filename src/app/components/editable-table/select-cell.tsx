@@ -42,13 +42,13 @@ export default function SelectCell(
     >
         <SelectTrigger>
             <SelectValue
-                placeholder={selectOption.filter((option: any) => option.persistenceId_string === value)[0]?.description}
+                placeholder={selectOption?.filter((option: any) => option.persistenceId_string === value)[0]?.description}
                 defaultValue={value}
             />
         </SelectTrigger>
         <SelectContent>
             {
-                selectOption.map((option: any) =>
+                selectOption?.map((option: any) =>
                     <SelectItem key={option.persistenceId_string}
                                 value={option.persistenceId_string}
                     >

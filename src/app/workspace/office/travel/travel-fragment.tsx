@@ -10,9 +10,16 @@ import {TabsTrigger, TabsList, TabsContent, Tabs} from "@/components/ui/tabs"
 import {Label} from "@/components/ui/label"
 import {Input} from "@/components/ui/input"
 import {SelectValue, SelectTrigger, SelectItem, SelectContent, Select} from "@/components/ui/select"
-import {TableHead, TableRow, TableHeader, TableCell, TableBody, Table} from "@/components/ui/table"
 import {useAtom} from "jotai/index";
 import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
+import KeistarDatePickerWithRange from "@/app/components/keistar-date-picker-with-range";
+import {useEffect, useState} from "react";
+import {DateRange} from "react-day-picker";
+import {addDays} from "date-fns";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import Country_BDM from "@/app/types/country-bdm-interface";
+import KeistarEditableTable from "@/app/components/keistar-editable-table";
+import {travelReasonsAtom} from "@/app/workspace/office/travel/atoms/travel-reasons-atom";
 
 export default function TravelFragment(
     {
@@ -23,6 +30,39 @@ export default function TravelFragment(
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedTravelAtom);
 
+    const currentDate = new Date();
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+        from: currentDate,
+        to: addDays(currentDate, 2),
+    })
+    useEffect(() => {
+        const _dateRangeFromTime = dateRange?.from?.getTime();
+        const _dateRangeToTime = dateRange?.to?.getTime();
+        if (_dateRangeFromTime && _dateRangeToTime) {
+            const total = dateRange?.to ? Math.ceil((_dateRangeToTime - _dateRangeFromTime) / (1000 * 60 * 60 * 24)) : 0;
+            setSelectedItem((draft) => {
+                draft.totalDays = total + 1;
+            })
+        }
+    }, [
+        dateRange?.from,
+        dateRange?.to
+    ]);
+
+    const [countries, setCountries] = useState<Country_BDM[]>([])
+    useEffect(() => {
+        // fetch countries
+        const getData = async () => {
+            const _countries = await findsBusinessData(
+                "com.keistar.model.library.Country", "find", 0, 20, {}, 'directManager'
+            )
+            setCountries(_countries);
+        };
+        getData();
+    }, []);
+
+    const [travelReasonTypes, setTravelReasonTypes] = useState()
+
     return (
         <div className="">
             <Tabs className="w-full" defaultValue="details">
@@ -32,69 +72,70 @@ export default function TravelFragment(
                 <TabsContent className="" value="details">
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <Label htmlFor="travelRequestId">Travel Request ID</Label>
-                            <Input id="travelRequestId" placeholder="testCode"/>
-                        </div>
-                        <div>
-                            <Label htmlFor="requestor">Requestor</Label>
-                            <Input id="requestor" placeholder="admintest_1"/>
-                        </div>
-                        <div>
                             <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
-                            <Input id="startDateEndDate" placeholder="15/01/2024 - 15/01/2024"/>
+                            <KeistarDatePickerWithRange
+                                date={dateRange}
+                                setDate={setDateRange}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="totals">Totals</Label>
-                            <Input id="totals" placeholder="1"/>
+                            <Input id="totals"
+                                   type="number"
+                                   value={selectedItem.totalDays}
+                                   disabled={true}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="country">Country</Label>
-                            <Select>
-                                <SelectTrigger id="country">
-                                    <SelectValue placeholder="Select Country"/>
+                            <Select
+                                value={selectedItem?.country?.persistenceId_string || ""}
+                                // defaultValue={directManager?.persistenceId_string || ""}
+                                onValueChange={(value) => {
+                                    setSelectedItem((draft) => {
+                                        draft.country = {
+                                            persistenceId_string: value
+                                        }
+                                    })
+                                }}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a country"/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="country1">Country 1</SelectItem>
-                                    <SelectItem value="country2">Country 2</SelectItem>
+                                    {
+                                        countries.map((option, index) => (
+                                            <SelectItem key={index} value={option.persistenceId_string || ""}>
+                                                {option.name}
+                                            </SelectItem>
+                                        ))
+                                    }
                                 </SelectContent>
                             </Select>
                         </div>
                         <div>
                             <Label htmlFor="location">Location</Label>
-                            <Select>
-                                <SelectTrigger id="location">
-                                    <SelectValue placeholder="Location"/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="location1">Location 1</SelectItem>
-                                    <SelectItem value="location2">Location 2</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Input id="location"
+                                   type="text"
+                                   value={selectedItem?.location}
+                            />
                         </div>
                     </div>
                     <hr className="mb-4"/>
-                    <div className="mb-4 font-bold">
-                        <h2>Travel Reasons</h2>
+                    <div className="mb-4">
+                        <KeistarEditableTable
+                            title={"Reasons"}
+                            data={travelReasonsAtom}
+                            config={{
+                                key: ["#", "reasonType", "details", "percentage"],
+                                head: ["#", "Type", "Detail", "Percentage"],
+                                input: ["#", "select", "input", "input"],
+                                selectOptions: [
+                                    null, travelReasonTypes, null, null
+                                ]
+                            }}
+                        />
                     </div>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Contract/Opportunity Code</TableHead>
-                                <TableHead>Percent (%)</TableHead>
-                                <TableHead>Reason</TableHead>
-                                <TableHead>General Expense</TableHead>
-                                <TableHead>Special Expense</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell className="text-center col-span-6">
-                                    No Rows To Show
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
                 </TabsContent>
             </Tabs>
         </div>

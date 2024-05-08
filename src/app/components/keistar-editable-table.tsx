@@ -42,7 +42,7 @@ import SelectCell from "@/app/components/editable-table/select-cell";
 import OrderNumberCell from "@/app/components/editable-table/order-number-input";
 import {PrimitiveAtom, useAtom, WritableAtom} from "jotai/index";
 
-export default function KeistarEditableTable(
+export default function  KeistarEditableTable(
     {
         title,
         data,

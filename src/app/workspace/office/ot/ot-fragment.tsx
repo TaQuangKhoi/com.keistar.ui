@@ -30,25 +30,27 @@ export default function OTFragment(
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedOtAtom);
 
-    const currentDate = new Date();
     const [session]: [Session, boolean, any] = useSession()
     const [approvers, setApprovers] = useState<Employee_Item[]>([])
+
+    const currentDate = new Date();
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
         from: currentDate,
-        to: addDays(currentDate, 20),
+        to: addDays(currentDate, 1),
     })
     const [otReasonTypes, setOtReasonTypes] = useState([])
-    const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
 
+
+    const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
     useEffect(() => {
         setSelectedItem((draft) => {
             draft.reasons = otReasons;
         })
     }, [otReasons]);
-
     useEffect(() => {
         setOtReasons(selectedItem.reasons);
     }, [selectedItem.persistenceId_string]);
+
 
     useEffect(() => {
         const getData = async () => {
@@ -214,7 +216,7 @@ export default function OTFragment(
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Total hours applied</label>
-                                <Input placeholder="Enter total hours" type="number" disabled={true}
+                                <Input type="number" disabled={true}
                                        value={selectedItem.totalHour}/>
                             </div>
                         </div>
