@@ -10,11 +10,9 @@ export default function TableToolbar(
     {
         title,
         table,
-        data,
     }: {
         title: string
         table: Table<unknown>,
-        data: any[],
     }
 ) {
     const meta = table.options.meta

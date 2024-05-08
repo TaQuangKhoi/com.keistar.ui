@@ -41,7 +41,6 @@ export default function KeistarToolbar(
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
                     onClick={async () => {
-                        console.debug(selectedItem)
                         let processId = "";
                         let contractInputName = "";
 

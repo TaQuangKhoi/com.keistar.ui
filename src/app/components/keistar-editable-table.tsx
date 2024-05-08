@@ -41,6 +41,7 @@ import {Checkbox} from "@/components/ui/checkbox"
 import InputCell from "@/app/components/editable-table/input-cell";
 import SelectCell from "@/app/components/editable-table/select-cell";
 import OrderNumberCell from "@/app/components/editable-table/order-number-input";
+import {PrimitiveAtom, useAtom, WritableAtom} from "jotai/index";
 
 export default function KeistarEditableTable(
     {
@@ -49,7 +50,7 @@ export default function KeistarEditableTable(
         config,
     }: {
         title: string,
-        data: any[]
+        data: PrimitiveAtom<any>,
         config: {
             key: string[],
             head: string[],
@@ -132,7 +133,8 @@ export default function KeistarEditableTable(
         },
     ]
 
-    const [dataState, setDataState] = useState<any[]>(data)
+    const [dataState, setDataState] = useAtom(data)
+
     const table = useReactTable(
         {
             data: dataState,
@@ -140,7 +142,17 @@ export default function KeistarEditableTable(
             getCoreRowModel: getCoreRowModel(),
             meta: {
                 updateData: (rowIndex: number, columnId: string, value: unknown) => {
-
+                    setDataState((old: any[]) =>
+                        old.map((row, index) => {
+                            if (index === rowIndex) {
+                                return {
+                                    ...old[rowIndex]!,
+                                    [columnId]: value,
+                                }
+                            }
+                            return row
+                        })
+                    )
                 },
                 addRow: () => {
                     const newRow: any = config.key.reduce((acc: any, key) => {
@@ -169,7 +181,7 @@ export default function KeistarEditableTable(
         })
 
     return <>
-        <TableToolbar title={title} table={table} data={data}/>
+        <TableToolbar title={title} table={table}/>
         <Table className="border">
             <TableHeader>
                 {

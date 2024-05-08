@@ -241,11 +241,6 @@ export function NewE_leaveForm() {
         updateTotalDays(_totalDays)
     }, [dateRange, dateStatus]);
 
-    useEffect(() => {
-        console.debug("dateRange", dateRange)
-    }, [dateRange]);
-
-
     return (
         <Form {...form}>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

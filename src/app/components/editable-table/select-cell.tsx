@@ -12,7 +12,6 @@ export default function SelectCell(
         table,
     }: CellContext<unknown, any>
 ) {
-    // console.debug("column columns", columns)
     const initialValue = getValue();
 
     const columns: ColumnDef<unknown, any>[] = table.options.columns
@@ -32,7 +31,12 @@ export default function SelectCell(
         table.options.meta?.updateData(index, id, value)
     }
 
-    return <Select>
+    return <Select
+        onValueChange={(value) => {
+            setValue(value)
+            table.options.meta?.updateData(index, id, value)
+        }}
+    >
         <SelectTrigger>
             <SelectValue placeholder="Select an item"/>
         </SelectTrigger>

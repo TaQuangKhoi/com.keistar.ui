@@ -17,6 +17,7 @@ import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import KeistarEditableTable from "@/app/components/keistar-editable-table";
+import {otReasonsAtom} from "@/app/workspace/office/ot/atoms/ot-reasons-atom";
 
 export default function OTFragment(
     {
@@ -34,6 +35,11 @@ export default function OTFragment(
     })
     const [session]: [Session, boolean, any] = useSession()
     const [otReasonTypes, setOtReasonTypes] = useState([])
+    const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
+
+    useEffect(() => {
+        console.debug("otReasons", otReasons)
+    }, [otReasons]);
 
     useEffect(() => {
         const getData = async () => {
@@ -223,7 +229,7 @@ export default function OTFragment(
                         <div>
                             <KeistarEditableTable
                                 title={"Reasons"}
-                                data={selectedItem.reasons || []}
+                                data={otReasonsAtom}
                                 config={{
                                     key: ["#", "type", "detail", "percentage"],
                                     head: ["#", "Type", "Detail", "Percentage"],

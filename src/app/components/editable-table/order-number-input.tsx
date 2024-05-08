@@ -11,7 +11,6 @@ export default function OrderNumberCell(
         table
     }: CellContext<unknown, any>
 ) {
-    // console.debug("column columns", columns)
     const initialValue = getValue();
 
     // We need to keep and update the state of the cell normally

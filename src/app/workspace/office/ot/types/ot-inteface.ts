@@ -1,4 +1,5 @@
 import KeistarItem from "@/components/keistar-ui/types/item-interface";
+import OT_Reason from "@/app/workspace/office/ot/types/ot-reason-interface";
 
 export default interface OT_Item extends KeistarItem {
     employee: {
@@ -15,10 +16,7 @@ export default interface OT_Item extends KeistarItem {
     pmToHours: string,
     totalHour: number,
     status?: string,
-    reasons: {
-        persistenceId_string?: string,
-        detail?: string,
-    }[],
+    reasons: OT_Reason[],
     cancelReason?: string,
     approverComment?: string,
 }
