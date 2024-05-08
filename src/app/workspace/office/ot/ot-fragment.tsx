@@ -44,7 +44,13 @@ export default function OTFragment(
             from: selectedItem.startDate ? new Date(selectedItem.startDate) : currentDate,
             to: selectedItem.endDate ? new Date(selectedItem.endDate) : addDays(currentDate, 1),
         })
-    }, [selectedItem]);
+    }, []);
+    useEffect(() => {
+        setDateRange({
+            from: selectedItem.startDate ? new Date(selectedItem.startDate) : currentDate,
+            to: selectedItem.endDate ? new Date(selectedItem.endDate) : addDays(currentDate, 1),
+        })
+    }, [selectedItem.persistenceId_string]);
 
 
     const [otReasonTypes, setOtReasonTypes] = useState([])
