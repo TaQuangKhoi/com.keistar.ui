@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/X2OytZX4ynZ
@@ -26,14 +28,15 @@ export default function OTFragment(
         isInForm?: boolean
     }
 ) {
-    const currentDate = new Date();
     const [selectedItem, setSelectedItem] = useAtom(selectedOtAtom);
+
+    const currentDate = new Date();
+    const [session]: [Session, boolean, any] = useSession()
     const [approvers, setApprovers] = useState<Employee_Item[]>([])
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
         from: currentDate,
         to: addDays(currentDate, 20),
     })
-    const [session]: [Session, boolean, any] = useSession()
     const [otReasonTypes, setOtReasonTypes] = useState([])
     const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
 
@@ -118,7 +121,7 @@ export default function OTFragment(
     ]);
 
     return (
-        <div className="p-6">
+        <div className="">
             <Tabs className="w-full" defaultValue="register">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="register">Details</TabsTrigger>

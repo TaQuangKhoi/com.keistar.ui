@@ -36,7 +36,6 @@ export default function SelectCell(
         onValueChange={(value) => {
             setValue(value)
             const newOption = selectOption.filter((option: any) => option.persistenceId_string === value)[0]
-            console.debug("newOption", newOption)
             table.options.meta?.updateData(index, id, newOption)
         }}
         value={value}
