@@ -29,7 +29,6 @@ import {
 
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
@@ -176,7 +175,7 @@ export default function KeistarEditableTable(
             debugTable: true,
             onRowSelectionChange: setRowSelection,
             state: {
-                rowSelection,
+                rowSelection: rowSelection,
             }
         })
 
