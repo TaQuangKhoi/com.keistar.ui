@@ -51,8 +51,6 @@ export default function TravelPage() {
         "Travel",
         <KeistarToolbar selected={selectedTravelAtom}
                         defaultValue={defaultTravel}
-                        processCreateName={"Create_Employee"}
-                        processUpdateName={"Update_Employee"}
                         config={
                             {
                                 businessDataType: "com.keistar.model.office.Employee",
@@ -60,9 +58,9 @@ export default function TravelPage() {
                         }
                         reloadList={reloadEmployeesListAtom}
                         processConfig={{
-                            processDeletedName: "Delete_Employee",
-                            processCreateName: "Create_Employee",
-                            processUpdateName: "Update_Employee",
+                            processDeletedName: "Delete_Travel",
+                            processCreateName: "Create_Travel",
+                            processUpdateName: "Update_Travel",
                         }}
         />,
         <KeistarLeftSidebar
