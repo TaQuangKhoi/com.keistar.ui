@@ -7,7 +7,7 @@ import {
     CellContext,
     ColumnDef, flexRender, getCoreRowModel, useReactTable
 } from "@tanstack/react-table";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TableToolbar from "@/app/components/table-toolbar";
 import {Button} from "@/components/ui/button"
 import {ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react"
@@ -170,6 +170,10 @@ export default function KeistarEditableTable(
                     setDataState(removeFunc);
                 },
                 selectOptions: config.selectOptions || [],
+                reloadData: () => {
+                    const reloadFunc = (old: any[]) => dataState;
+                    setDataState(reloadFunc);
+                },
             },
             enableRowSelection: true,
             debugTable: true,
@@ -178,6 +182,10 @@ export default function KeistarEditableTable(
                 rowSelection: rowSelection,
             }
         })
+
+    useEffect(() => {
+        table.options.meta?.reloadData();
+    }, [dataState]);
 
     return <>
         <TableToolbar title={title} table={table}/>

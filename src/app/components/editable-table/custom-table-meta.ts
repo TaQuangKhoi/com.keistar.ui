@@ -6,5 +6,6 @@ declare module '@tanstack/react-table' {
         addRow: () => void
         removeRow: (rowsIndex: number[]) => void,
         selectOptions: any[],
+        reloadData: () => void
     }
 }

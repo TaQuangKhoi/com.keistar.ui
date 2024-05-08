@@ -1,5 +1,5 @@
 import {CellContext, ColumnDef} from "@tanstack/react-table";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export default function SelectCell(
@@ -31,6 +31,11 @@ export default function SelectCell(
         table.options.meta?.updateData(index, id, value)
     }
 
+    useEffect(() => {
+        console.debug("initialValue", initialValue)
+        setValue(initialValue);
+    }, [initialValue]);
+
     return <Select
         onValueChange={(value) => {
             setValue(value)
@@ -38,16 +43,17 @@ export default function SelectCell(
         }}
     >
         <SelectTrigger>
-            <SelectValue placeholder="Select an item"/>
+            <SelectValue placeholder={initialValue.description || "Select an option"}
+                         defaultValue={initialValue}
+            />
         </SelectTrigger>
         <SelectContent>
             {
-                selectOption.map((option: any) => {
-                    return <SelectItem key={option.persistenceId}
-                                       value={option}>
+                selectOption.map((option: any) =>
+                    <SelectItem key={option.persistenceId}
+                                value={option}>
                         {option.description}
-                    </SelectItem>
-                })
+                    </SelectItem>)
             }
         </SelectContent>
     </Select>;

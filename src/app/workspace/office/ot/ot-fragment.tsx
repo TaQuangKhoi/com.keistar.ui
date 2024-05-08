@@ -38,8 +38,8 @@ export default function OTFragment(
     const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
 
     useEffect(() => {
-        console.debug("otReasons", otReasons)
-    }, [otReasons]);
+        setOtReasons(selectedItem.reasons);
+    }, [selectedItem.persistenceId_string]);
 
     useEffect(() => {
         const getData = async () => {
@@ -126,8 +126,6 @@ export default function OTFragment(
                                     value={selectedItem?.approver?.persistenceId_string || ""}
                                     // defaultValue={directManager?.persistenceId_string || ""}
                                     onValueChange={(value) => {
-                                        console.debug("value", value)
-                                        console.debug("selectedItem", selectedItem)
                                         setSelectedItem((draft) => {
                                             draft.approver = {
                                                 persistenceId_string: value
@@ -231,7 +229,7 @@ export default function OTFragment(
                                 title={"Reasons"}
                                 data={otReasonsAtom}
                                 config={{
-                                    key: ["#", "type", "detail", "percentage"],
+                                    key: ["#", "reasonType", "details", "percentage"],
                                     head: ["#", "Type", "Detail", "Percentage"],
                                     input: ["#", "select", "input", "input"],
                                     selectOptions: [
