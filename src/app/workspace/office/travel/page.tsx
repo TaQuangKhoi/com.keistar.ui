@@ -51,13 +51,9 @@ export default function TravelPage() {
         "Travel",
         <KeistarToolbar selected={selectedTravelAtom}
                         defaultValue={defaultTravel}
-                        config={
-                            {
-                                businessDataType: "com.keistar.model.office.Employee",
-                            }
-                        }
                         reloadList={reloadEmployeesListAtom}
                         processConfig={{
+                            businessDataType: "com.keistar.model.office.travel.TravelRequest",
                             processDeletedName: "Delete_Travel",
                             processCreateName: "Create_Travel",
                             processUpdateName: "Update_Travel",
@@ -68,7 +64,9 @@ export default function TravelPage() {
             titleKey={titleKey}
             selected={selectedTravelAtom}
             list={list}
-            cardConfig={headerTravel}
+            cardConfig={{
+                header: headerTravel,
+            }}
         />,
         <TravelFragment
             list={list || []}
