@@ -9,7 +9,7 @@ export default function SelectCell(
         column: {
             id,
         },
-        table
+        table,
     }: CellContext<unknown, any>
 ) {
     // console.debug("column columns", columns)
@@ -18,10 +18,11 @@ export default function SelectCell(
     const columns: ColumnDef<unknown, any>[] = table.options.columns
     const indexOfColumn = columns.findIndex((column) => {
         if (column.hasOwnProperty("accessorKey")) {
+            // @ts-ignore
             return column.accessorKey === id
         }
     })
-    const selectOption = table.options.meta?.selectOptions[indexOfColumn-1]
+    const selectOption = table.options.meta?.selectOptions[indexOfColumn - 1]
 
     // We need to keep and update the state of the cell normally
     const [value, setValue] = useState(initialValue)
