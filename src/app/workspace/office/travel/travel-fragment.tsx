@@ -61,7 +61,18 @@ export default function TravelFragment(
         getData();
     }, []);
 
-    const [travelReasonTypes, setTravelReasonTypes] = useState()
+
+    const [travelReasonTypes, setTravelReasonTypes] = useState([])
+    useEffect(() => {
+        const getData = async () => {
+            const _travelReasonTypes = await findsBusinessData(
+                "com.keistar.model.library.TravelReasonType", "find", 0, 20, {},
+            )
+            setTravelReasonTypes(_travelReasonTypes);
+        };
+        getData();
+    }, []);
+
 
     return (
         <div className="">
@@ -118,13 +129,18 @@ export default function TravelFragment(
                             <Input id="location"
                                    type="text"
                                    value={selectedItem?.location}
+                                   onChange={(e) => {
+                                       setSelectedItem((draft) => {
+                                           draft.location = e.target.value
+                                       })
+                                   }}
                             />
                         </div>
                     </div>
                     <hr className="mb-4"/>
                     <div className="mb-4">
                         <KeistarEditableTable
-                            title={"Reasons"}
+                            title={"Travel Reasons"}
                             data={travelReasonsAtom}
                             config={{
                                 key: ["#", "reasonType", "details", "percentage"],

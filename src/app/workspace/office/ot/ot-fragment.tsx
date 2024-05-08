@@ -54,6 +54,15 @@ export default function OTFragment(
 
 
     const [otReasonTypes, setOtReasonTypes] = useState([])
+    useEffect(() => {
+        const getData = async () => {
+            const _otReasonTypes = await findsBusinessData(
+                "com.keistar.model.library.OTReasonType", "find", 0, 20, {},
+            )
+            setOtReasonTypes(_otReasonTypes);
+        };
+        getData();
+    }, []);
 
 
     const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
@@ -73,16 +82,6 @@ export default function OTFragment(
                 "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
             )
             setApprovers(employees);
-        };
-        getData();
-    }, []);
-
-    useEffect(() => {
-        const getData = async () => {
-            const _otReasonTypes = await findsBusinessData(
-                "com.keistar.model.library.OTReasonType", "find", 0, 20, {},
-            )
-            setOtReasonTypes(_otReasonTypes);
         };
         getData();
     }, []);
