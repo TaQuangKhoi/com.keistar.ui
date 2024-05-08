@@ -1,3 +1,5 @@
+'use client'
+
 import {CellContext, ColumnDef} from "@tanstack/react-table";
 import React, {useEffect, useState} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
@@ -14,6 +16,9 @@ export default function SelectCell(
 ) {
     const initialValue = getValue();
 
+    // We need to keep and update the state of the cell normally
+    const [value, setValue] = useState(initialValue)
+
     const columns: ColumnDef<unknown, any>[] = table.options.columns
     const indexOfColumn = columns.findIndex((column) => {
         if (column.hasOwnProperty("accessorKey")) {
@@ -23,35 +28,31 @@ export default function SelectCell(
     })
     const selectOption = table.options.meta?.selectOptions[indexOfColumn - 1]
 
-    // We need to keep and update the state of the cell normally
-    const [value, setValue] = useState(initialValue)
-
-    // When the input is blurred, we'll call our table meta's updateData function
-    const onBlur = () => {
-        table.options.meta?.updateData(index, id, value)
-    }
-
     useEffect(() => {
-        console.debug("initialValue", initialValue)
-        setValue(initialValue);
+        setValue(initialValue.persistenceId_string);
     }, [initialValue]);
 
     return <Select
         onValueChange={(value) => {
             setValue(value)
-            table.options.meta?.updateData(index, id, value)
+            const newOption = selectOption.filter((option: any) => option.persistenceId_string === value)[0]
+            console.debug("newOption", newOption)
+            table.options.meta?.updateData(index, id, newOption)
         }}
+        value={value}
     >
         <SelectTrigger>
-            <SelectValue placeholder={initialValue.description || "Select an option"}
-                         defaultValue={initialValue}
+            <SelectValue
+                placeholder={selectOption.filter((option: any) => option.persistenceId_string === value)[0]?.description}
+                defaultValue={value}
             />
         </SelectTrigger>
         <SelectContent>
             {
                 selectOption.map((option: any) =>
-                    <SelectItem key={option.persistenceId}
-                                value={option}>
+                    <SelectItem key={option.persistenceId_string}
+                                value={option.persistenceId_string}
+                    >
                         {option.description}
                     </SelectItem>)
             }

@@ -38,6 +38,12 @@ export default function OTFragment(
     const [otReasons, setOtReasons] = useAtom(otReasonsAtom);
 
     useEffect(() => {
+        setSelectedItem((draft) => {
+            draft.reasons = otReasons;
+        })
+    }, [otReasons]);
+
+    useEffect(() => {
         setOtReasons(selectedItem.reasons);
     }, [selectedItem.persistenceId_string]);
 
