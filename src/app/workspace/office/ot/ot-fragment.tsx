@@ -30,14 +30,23 @@ export default function OTFragment(
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedOtAtom);
 
-    const [session]: [Session, boolean, any] = useSession()
+
     const [approvers, setApprovers] = useState<Employee_Item[]>([])
+
 
     const currentDate = new Date();
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
         from: currentDate,
         to: addDays(currentDate, 1),
     })
+    useEffect(() => {
+        setDateRange({
+            from: selectedItem.startDate ? new Date(selectedItem.startDate) : currentDate,
+            to: selectedItem.endDate ? new Date(selectedItem.endDate) : addDays(currentDate, 1),
+        })
+    }, [selectedItem]);
+
+
     const [otReasonTypes, setOtReasonTypes] = useState([])
 
 
@@ -78,20 +87,38 @@ export default function OTFragment(
             draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
         })
     }, [
+        dateRange,
         dateRange?.from,
         dateRange?.to
     ]);
 
+    const [session]: [Session, boolean, any] = useSession()
     /**
      * Update employee attribute for selected item
      */
     useEffect(() => {
-        if (selectedItem.persistenceId_string === "") {
+        if (selectedItem.employee == null) {
+            setSelectedItem((draft) => {
+                draft.employee = {
+                    persistenceId_string: session.user_id || ""
+                }
+            })
+            return;
+        }
+
+        if (
+            selectedItem.persistenceId_string === "" || selectedItem.persistenceId_string === undefined
+            || selectedItem.employee.persistenceId_string === undefined || selectedItem.employee.persistenceId_string === ""
+        ) {
             setSelectedItem((draft) => {
                 draft.employee.persistenceId_string = session.user_id || "";
             })
         }
-    }, [session.user_id]);
+    }, [
+        session,
+        session.user_id,
+        selectedItem.persistenceId_string,
+    ]);
 
     /**
      * Calculate total hours
@@ -121,6 +148,10 @@ export default function OTFragment(
         dateRange?.from,
         dateRange?.to
     ]);
+
+    // useEffect(() => {
+    //     console.debug("data ", selectedItem.totalHour)
+    // }, [selectedItem]);
 
     return (
         <div className="">
