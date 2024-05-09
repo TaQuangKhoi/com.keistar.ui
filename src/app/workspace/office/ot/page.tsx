@@ -18,9 +18,9 @@ export default function OTPage() {
     const [list, setList] = useState<OT_Item[]>();
     const [reloadList, setReloadList] = useAtom(reloadOtListAtom);
 
-    useEffect(() => {
-        setReloadList(true);
-    }, []);
+    // useEffect(() => {
+    //     setReloadList(true);
+    // }, []);
 
     const headerItem = [
         {

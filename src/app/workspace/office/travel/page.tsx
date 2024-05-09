@@ -18,20 +18,15 @@ import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-at
 export default function TravelPage() {
     const [selected, setSelected] = useAtom(selectedTravelAtom);
     const [list, setList] = useState<Travel_Item[]>()
-    const [reloadList, setReloadList] = useAtom(reloadTravelListAtom);
-
-    useEffect(() => {
-        setReloadList(true);
-    }, []);
+    const [, setReloadList] = useAtom(reloadTravelListAtom);
 
     const titleKey = "persistenceId";
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 
     return KeistarLayout(
         "Travel",
-        <KeistarToolbar selected={selectedTravelAtom}
+        <KeistarToolbar reloadListAtom={reloadTravelListAtom} selected={selectedTravelAtom}
                         defaultValue={defaultTravel}
-                        reloadListAtom={reloadTravelListAtom}
                         processConfig={{
                             businessDataType,
                             processDeletedName: "Delete_Travel",

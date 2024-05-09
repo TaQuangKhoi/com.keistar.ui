@@ -13,6 +13,7 @@ import {toast} from "sonner";
 import getProcessContractById from "@/bonita/api/bpm/process/definitions/finds-process-contract-by-id";
 import {WritableAtom} from 'jotai'
 import {AxiosError} from "axios";
+import {useEffect} from "react";
 
 export default function KeistarToolbar(
     {
@@ -34,7 +35,7 @@ export default function KeistarToolbar(
         }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
-    const [, setReload] = useAtom(reloadListAtom);
+    const [, toggle] = useAtom(reloadListAtom);
 
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
@@ -51,11 +52,35 @@ export default function KeistarToolbar(
                         ) {
                             // start process to create new item
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processCreateName)
-                            processId = processes[0].id;
+                            if (processes.length > 0) {
+                                processId = processes[0].id;
+                            } else {
+                                toast("No process found to create new item",
+                                    {
+                                        description: "Please contact your administrator",
+                                        action: {
+                                            label: "Contact",
+                                            onClick: () => console.log("Contact"),
+                                        },
+                                    })
+                                return;
+                            }
                         } else {
                             // Start Process Update
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processUpdateName)
-                            processId = processes[0].id;
+                            if (processes.length > 0) {
+                                processId = processes[0].id;
+                            } else {
+                                toast("No process found to update item",
+                                    {
+                                        description: "Please contact your administrator",
+                                        action: {
+                                            label: "Contact",
+                                            onClick: () => console.log("Contact"),
+                                        },
+                                    })
+                                return;
+                            }
                         }
 
                         const contract = await getProcessContractById(processId);
@@ -65,6 +90,7 @@ export default function KeistarToolbar(
                             const res = await instantiateProcess(processId, {
                                 [contractInputName]: selectedItem
                             });
+                            toggle(true);
                             toast("New item has been created successfully",
                                 {
                                     description: "Case ID: " + res.caseId,
@@ -73,7 +99,6 @@ export default function KeistarToolbar(
                                         onClick: () => console.log("View"),
                                     },
                                 })
-                            setReload(true);
                         } catch (e) {
                             const error = e as AxiosError;
                             toast(error.message,
@@ -115,6 +140,7 @@ export default function KeistarToolbar(
                             const res = await instantiateProcess(processId, {
                                 [contractInputName]: selectedItem
                             });
+                            toggle(true);
                             toast("New e-leave has been created successfully",
                                 {
                                     description: "Case ID: " + res.caseId,
@@ -123,7 +149,6 @@ export default function KeistarToolbar(
                                         onClick: () => console.log("View"),
                                     },
                                 })
-                            setReload(true);
                         } catch (e) {
                             const error = e as AxiosError;
                             toast(error.message,

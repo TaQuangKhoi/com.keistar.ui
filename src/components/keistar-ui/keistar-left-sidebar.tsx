@@ -56,19 +56,22 @@ export default function KeistarLeftSidebar(
     const [selectedItem, setSelectedItem] = useAtom(selected);
 
 
-    const [reloadList, setReloadList] = useAtom(reloadListAtom);
-    const [listState, setListState] = useAtom(listAtom);
+    const [reloadList, toggle] = useAtom(reloadListAtom);
     useEffect(() => {
-        if (reloadList) {
-            console.debug("reloadList")
-            const getData = async () => {
-                const _list = await findsBusinessData(
-                    cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
-                )
-                setListState(_list);
-            };
+        toggle()
+    }, []);
+    const [listState, setListState] = useAtom(listAtom);
+    const getData = async () => {
+        const _list = await findsBusinessData(
+            cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+        )
+        setListState(_list);
+    };
+    useEffect(() => {
+        console.debug("reloadList", reloadList);
+        if (reloadList == true) {
+            toggle();
             getData();
-            setReloadList(false);
         }
     }, [reloadList]);
     /**

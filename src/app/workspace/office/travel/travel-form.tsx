@@ -17,17 +17,17 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
+    const getData = async () => {
+        const data = await callLink(context.newTravelRequest_ref.link)
+        setTravelRequest(data)
+    }
+
     useEffect(() => {
         if (context != undefined) {
-            const getData = async () => {
-                const data = await callLink(context.newTravelRequest_ref.link)
-                setTravelRequest(data)
-            }
             getData()
         }
     }, [context]);
 
-    // console.debug("TravelForm", task)
     let data: ProcessForInput[] = [
         {
             key: "Start Date",
