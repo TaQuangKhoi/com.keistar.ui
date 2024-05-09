@@ -19,14 +19,14 @@ import {WritableAtom} from "jotai";
 export default function KeistarLeftSidebar(
     {
         idKey,
-        selected,
+        selectedAtom,
         listAtom,
         reloadListAtom,
         cardConfig,
         titleKey,
     }: {
         idKey: string,
-        selected: PrimitiveAtom<any>,
+        selectedAtom: PrimitiveAtom<any>,
         listAtom: PrimitiveAtom<any[]>,
         reloadListAtom: WritableAtom<boolean, [boolean?], void>,
         cardConfig: {
@@ -53,7 +53,7 @@ export default function KeistarLeftSidebar(
     }, [windowsSize]);
 
 
-    const [selectedItem, setSelectedItem] = useAtom(selected);
+    const [selectedItem, setSelectedItem] = useAtom(selectedAtom);
 
 
     const [reloadList, toggle] = useAtom(reloadListAtom);

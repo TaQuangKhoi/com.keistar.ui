@@ -54,7 +54,7 @@ export default function OTPage() {
         <KeistarLeftSidebar listAtom={otListAtom} reloadListAtom={reloadOtListAtom}
                             idKey={"persistenceId_string"}
                             titleKey="persistenceId_string"
-                            selected={selectedOtAtom}
+                            selectedAtom={selectedOtAtom}
                             cardConfig={{
                                 businessDataType,
                                 header: headerItem

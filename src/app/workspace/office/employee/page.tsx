@@ -26,7 +26,7 @@ export default function EmployeePage() {
         <KeistarLeftSidebar listAtom={employeeListAtom} reloadListAtom={reloadEmployeesListAtom}
                             idKey={"persistenceId_string"}
                             titleKey={"username"}
-                            selected={selectedEmployeeAtom}
+                            selectedAtom={selectedEmployeeAtom}
                             cardConfig={{
                                 businessDataType: "com.keistar.model.office.Employee",
                                 header: headerEmployee,

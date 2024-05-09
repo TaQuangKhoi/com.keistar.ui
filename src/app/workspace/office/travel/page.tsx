@@ -32,7 +32,7 @@ export default function TravelPage() {
         <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
                             idKey={"persistenceId_string"}
                             titleKey={"persistenceId"}
-                            selected={selectedTravelAtom}
+                            selectedAtom={selectedTravelAtom}
                             cardConfig={{
                                 businessDataType,
                                 header: headerTravel,
