@@ -100,13 +100,13 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                         onChange={(e) => setComment(e.target.value)}
                     />
                     <div className="flex items-center">
-                        <Label
-                            htmlFor="mute"
-                            className="flex items-center gap-2 text-xs font-normal"
-                        >
-                            <Switch id="mute" aria-label="Mute thread"/> Mute this
-                            thread
-                        </Label>
+                        {/*<Label*/}
+                        {/*    htmlFor="mute"*/}
+                        {/*    className="flex items-center gap-2 text-xs font-normal"*/}
+                        {/*>*/}
+                        {/*    <Switch id="mute" aria-label="Mute thread"/>*/}
+                        {/*    Mute this thread*/}
+                        {/*</Label>*/}
                         <div className="flex ml-auto space-x-2">
                             <Button
                                 onClick={(e) => {
@@ -124,7 +124,11 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                                 {duration: 3000})
                                         }
                                     }).catch(e => {
-                                        toast.error("Error: " + e)
+                                        toast.error("Error: " + e,
+                                            {
+                                                position: "top-right"
+                                            }
+                                        )
                                     }).finally(() => {
                                         setTasksLoadingAtomValue(true);
                                     });
@@ -146,11 +150,20 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                         }
                                     }).then(response => {
                                         if (response.status === 204) {
-                                            toast.success("E-leave has been approved",
-                                                {duration: 3000})
+                                            toast.success(
+                                                "E-leave has been approved",
+                                                {
+                                                    duration: 3000,
+                                                    position: "top-right"
+                                                },
+                                            )
                                         }
                                     }).catch(e => {
-                                        toast.error("Error: " + e)
+                                        toast.error("Error: " + e,
+                                            {
+                                                position: "top-right"
+                                            }
+                                        )
                                     }).finally(() => {
                                         setTasksLoadingAtomValue(true);
                                     });
