@@ -1,3 +1,5 @@
+'use client'
+
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import {Button} from "@/components/ui/button";
 import {Archive, ArchiveX, Clock, Forward, MoreVertical, Reply, ReplyAll, Trash2} from "lucide-react";
@@ -12,6 +14,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {toast} from "sonner"
 import ReviewEleaveForm from "@/app/workspace/office/e-leave/review-eleave-form";
+import {useEffect} from "react";
 
 
 interface TaskDisplayProps {
@@ -26,9 +29,19 @@ export default function TaskDisplay(
     const formComponents = [
         {
             id: "review-eleave-form",
+            taskName: "Review E-leave",
             component: <ReviewEleaveForm task={task as FullHumanTask}/>
+        },
+        {
+            id: "review-travel-form",
+            taskName: "Review Travel",
+            component: <p>Working on it</p>
         }
     ]
+
+    useEffect(() => {
+        console.debug("Task", task);
+    }, [task]);
 
     return (
         <div className="flex h-full flex-col">
@@ -173,7 +186,7 @@ export default function TaskDisplay(
             </div>
             <Separator/>
             {task ? (
-                formComponents.find(form => form.id === currentForm)?.component
+                formComponents.find(form => form.taskName === task.name)?.component
             ) : (
                 <div className="p-8 text-center text-muted-foreground">
                     No task selected

@@ -22,10 +22,6 @@ import {useRouter} from "next/navigation";
 import {useAtom} from "jotai";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 
-type eleave_Context = {
-    e_leave: E_leave
-}
-
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [context, loadingContext, errorContext] = useGetContextByUserTaskId(task.id);
     const [e_leave, setE_leave] = useState<E_leave>({})
