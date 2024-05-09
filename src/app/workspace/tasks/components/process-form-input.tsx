@@ -4,14 +4,14 @@ import {Input} from "@/components/ui/input";
 import {useEffect, useState} from "react";
 import {useWindowSize} from "@uidotdev/usehooks";
 
-export interface ProcessForInput {
+export interface ProcessFormInput {
     key: string,
     value: string | number | null | undefined,
     type?: string
 }
 
 interface ProcessFormInputProps {
-    data: ProcessForInput[]
+    data: ProcessFormInput[]
 }
 
 export default function ProcessFormInput(
@@ -46,7 +46,7 @@ export default function ProcessFormInput(
              }
         >
             {
-                data.map((item: ProcessForInput) => {
+                data.map((item: ProcessFormInput) => {
                     return (
                         <div className="my-2"
                              key={item.key}>
@@ -57,12 +57,12 @@ export default function ProcessFormInput(
                                 item.type === "textarea" ? (
                                     <Textarea
                                         className="mt-1"
-                                        value={item.value}
+                                        value={item?.value as string}
                                         readOnly
                                     />
                                 ) : (
                                     <Input className="mt-1"
-                                           value={item.value}
+                                           value={item.value as string}
                                            readOnly
                                     />
                                 )

@@ -1,5 +1,5 @@
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
-import ProcessFormInput, {ProcessForInput} from "@/app/workspace/tasks/components/process-form-input";
+import ProcessFormInput, {ProcessFormInput} from "@/app/workspace/tasks/components/process-form-input";
 import {useGetContextByUserTaskId} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
 import callLink from "@/bonita/api/bdm/call-link";
@@ -28,7 +28,7 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
         }
     }, [context]);
 
-    let data: ProcessForInput[] = [
+    let data: ProcessFormInput[] = [
         {
             key: "Start Date",
             value: travelRequest?.startDate,
