@@ -41,7 +41,7 @@ export default function OTPage() {
 
     return KeistarLayout(
         "OT Registration",
-        <KeistarToolbar selected={selectedOtAtom}
+        <KeistarToolbar selectedAtom={selectedOtAtom}
                         defaultValue={defaultOT}
                         reloadListAtom={reloadOtListAtom}
                         processConfig={{

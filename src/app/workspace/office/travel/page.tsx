@@ -20,7 +20,7 @@ export default function TravelPage() {
 
     return KeistarLayout(
         "Travel",
-        <KeistarToolbar reloadListAtom={reloadTravelListAtom} selected={selectedTravelAtom}
+        <KeistarToolbar reloadListAtom={reloadTravelListAtom} selectedAtom={selectedTravelAtom}
                         defaultValue={defaultTravel}
                         processConfig={{
                             businessDataType,

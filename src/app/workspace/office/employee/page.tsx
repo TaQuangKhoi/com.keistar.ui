@@ -13,7 +13,7 @@ import defaultEmployee from "@/app/workspace/office/employee/default-employee";
 export default function EmployeePage() {
     return KeistarLayout(
         "Employee",
-        <KeistarToolbar selected={selectedEmployeeAtom}
+        <KeistarToolbar selectedAtom={selectedEmployeeAtom}
                         defaultValue={defaultEmployee}
                         reloadListAtom={reloadEmployeesListAtom}
                         processConfig={{

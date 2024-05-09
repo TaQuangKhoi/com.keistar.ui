@@ -13,17 +13,16 @@ import {toast} from "sonner";
 import getProcessContractById from "@/bonita/api/bpm/process/definitions/finds-process-contract-by-id";
 import {WritableAtom} from 'jotai'
 import {AxiosError} from "axios";
-import {useEffect} from "react";
 
 export default function KeistarToolbar(
     {
-        selected,
+        selectedAtom,
         defaultValue,
         reloadListAtom,
         processConfig,
     }:
         {
-            selected: PrimitiveAtom<any>,
+            selectedAtom: PrimitiveAtom<any>,
             defaultValue?: any,
             reloadListAtom: WritableAtom<boolean, [boolean?], void>,
             processConfig: {
@@ -34,7 +33,7 @@ export default function KeistarToolbar(
             }
         }
 ) {
-    const [selectedItem, setSelectedItem] = useAtom(selected);
+    const [selectedItem, setSelectedItem] = useAtom(selectedAtom);
     const [, toggle] = useAtom(reloadListAtom);
 
     return (
