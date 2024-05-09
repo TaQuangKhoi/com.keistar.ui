@@ -16,10 +16,6 @@ import headerTravel from "@/app/workspace/office/travel/header-travel";
 import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
 
 export default function TravelPage() {
-    const [selected, setSelected] = useAtom(selectedTravelAtom);
-    const [list, setList] = useState<Travel_Item[]>()
-    const [, setReloadList] = useAtom(reloadTravelListAtom);
-
     const titleKey = "persistenceId";
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 

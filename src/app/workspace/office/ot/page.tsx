@@ -14,13 +14,7 @@ import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
 
 export default function OTPage() {
-    const [selected, setSelected] = useAtom(selectedOtAtom);
-    const [list, setList] = useState<OT_Item[]>();
-    const [reloadList, setReloadList] = useAtom(reloadOtListAtom);
-
-    // useEffect(() => {
-    //     setReloadList(true);
-    // }, []);
+    const businessDataType = "com.keistar.model.office.OT";
 
     const headerItem = [
         {
@@ -54,17 +48,17 @@ export default function OTPage() {
                             processDeletedName: "Delete_OT",
                             processCreateName: "Create_OT",
                             processUpdateName: "Update_OT",
-                            businessDataType: "com.keistar.model.office.OT",
+                            businessDataType,
                         }}
         />,
         <KeistarLeftSidebar listAtom={otListAtom} reloadListAtom={reloadOtListAtom}
                             idKey={"persistenceId_string"}
                             titleKey="persistenceId_string"
                             selected={selectedOtAtom}
-                            cardConfig= {{
-                businessDataType: "com.keistar.model.office.OT",
-                header: headerItem
-            }}
+                            cardConfig={{
+                                businessDataType,
+                                header: headerItem
+                            }}
         />,
         <OTFragment/>,
     );
