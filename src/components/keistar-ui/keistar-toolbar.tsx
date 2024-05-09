@@ -18,13 +18,13 @@ export default function KeistarToolbar(
     {
         selected,
         defaultValue,
-        reloadList,
+        reloadListAtom,
         processConfig,
     }:
         {
             selected: PrimitiveAtom<any>,
             defaultValue?: any,
-            reloadList: WritableAtom<boolean, [boolean?], void>,
+            reloadListAtom: WritableAtom<boolean, [boolean?], void>,
             processConfig: {
                 processCreateName: string,
                 processUpdateName: string,
@@ -34,7 +34,7 @@ export default function KeistarToolbar(
         }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selected);
-    const [reload, setReload] = useAtom(reloadList);
+    const [, setReload] = useAtom(reloadListAtom);
 
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
@@ -73,7 +73,7 @@ export default function KeistarToolbar(
                                         onClick: () => console.log("View"),
                                     },
                                 })
-                            setReload(!reload);
+                            setReload(true);
                         } catch (e) {
                             const error = e as AxiosError;
                             toast(error.message,
@@ -123,7 +123,7 @@ export default function KeistarToolbar(
                                         onClick: () => console.log("View"),
                                     },
                                 })
-                            setReload(!reload);
+                            setReload(true);
                         } catch (e) {
                             const error = e as AxiosError;
                             toast(error.message,

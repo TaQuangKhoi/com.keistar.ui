@@ -3,7 +3,7 @@ export default interface Country_BDM {
     persistenceId_string?: string,
     name?: string,
     description?: string,
-    "persistenceVersion": number,
-    "persistenceVersion_string": string,
-    "isActive": boolean
+    persistenceVersion?: number,
+    persistenceVersion_string?: string,
+    isActive?: boolean,
 }

@@ -20,15 +20,15 @@ export default function KeistarLeftSidebar(
     {
         idKey,
         selected,
-        list,
+        listAtom,
         reloadListAtom,
         cardConfig,
         titleKey,
     }: {
         idKey: string,
         selected: PrimitiveAtom<any>,
-        list: PrimitiveAtom<any[]>,
-        reloadListAtom:  WritableAtom<boolean, [boolean | undefined], void>,
+        listAtom: PrimitiveAtom<any[]>,
+        reloadListAtom: WritableAtom<boolean, [boolean?], void>,
         cardConfig: {
             businessDataType: string,
             header: {
@@ -57,11 +57,10 @@ export default function KeistarLeftSidebar(
 
 
     const [reloadList, setReloadList] = useAtom(reloadListAtom);
-
-
-    const [listState, setListState] = useAtom(list);
+    const [listState, setListState] = useAtom(listAtom);
     useEffect(() => {
         if (reloadList) {
+            console.debug("reloadList")
             const getData = async () => {
                 const _list = await findsBusinessData(
                     cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'

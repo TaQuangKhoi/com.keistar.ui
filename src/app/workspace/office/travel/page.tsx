@@ -25,25 +25,26 @@ export default function TravelPage() {
     }, []);
 
     const titleKey = "persistenceId";
+    const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 
     return KeistarLayout(
         "Travel",
         <KeistarToolbar selected={selectedTravelAtom}
                         defaultValue={defaultTravel}
-                        reloadList={reloadEmployeesListAtom}
+                        reloadListAtom={reloadTravelListAtom}
                         processConfig={{
-                            businessDataType: "com.keistar.model.office.travel.TravelRequest",
+                            businessDataType,
                             processDeletedName: "Delete_Travel",
                             processCreateName: "Create_TravelRequest",
                             processUpdateName: "Update_Travel",
                         }}
         />,
-        <KeistarLeftSidebar list={travelListAtom} reloadListAtom={reloadTravelListAtom}
+        <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
                             idKey={"persistenceId_string"}
                             titleKey={titleKey}
                             selected={selectedTravelAtom}
                             cardConfig={{
-                                businessDataType: "com.keistar.model.office.travel.TravelRequest",
+                                businessDataType,
                                 header: headerTravel,
                             }}
         />,

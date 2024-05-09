@@ -60,7 +60,7 @@ export default function EmployeePage() {
         "Employee",
         <KeistarToolbar selected={selectedEmployeeAtom}
                         defaultValue={defaultSelected}
-                        reloadList={reloadEmployeesListAtom}
+                        reloadListAtom={reloadEmployeesListAtom}
                         processConfig={{
                             processDeletedName: "Delete_Employee",
                             processCreateName: "Create_Employee",
@@ -68,7 +68,7 @@ export default function EmployeePage() {
                             businessDataType: "com.keistar.model.office.Employee",
                         }}
         />,
-        <KeistarLeftSidebar list={employeeListAtom} reloadListAtom={reloadEmployeesListAtom}
+        <KeistarLeftSidebar listAtom={employeeListAtom} reloadListAtom={reloadEmployeesListAtom}
                             idKey={"persistenceId_string"}
                             titleKey={titleKey}
                             selected={selectedEmployeeAtom}

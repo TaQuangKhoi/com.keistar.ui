@@ -49,7 +49,7 @@ export default function OTPage() {
         "OT Registration",
         <KeistarToolbar selected={selectedOtAtom}
                         defaultValue={defaultOT}
-                        reloadList={reloadOtListAtom}
+                        reloadListAtom={reloadOtListAtom}
                         processConfig={{
                             processDeletedName: "Delete_OT",
                             processCreateName: "Create_OT",
@@ -57,11 +57,11 @@ export default function OTPage() {
                             businessDataType: "com.keistar.model.office.OT",
                         }}
         />,
-        <KeistarLeftSidebar list={otListAtom} reloadListAtom={reloadOtListAtom}
-            idKey={"persistenceId_string"}
-            titleKey="persistenceId_string"
-            selected={selectedOtAtom}
-            cardConfig= {{
+        <KeistarLeftSidebar listAtom={otListAtom} reloadListAtom={reloadOtListAtom}
+                            idKey={"persistenceId_string"}
+                            titleKey="persistenceId_string"
+                            selected={selectedOtAtom}
+                            cardConfig= {{
                 businessDataType: "com.keistar.model.office.OT",
                 header: headerItem
             }}
