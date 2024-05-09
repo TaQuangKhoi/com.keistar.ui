@@ -4,14 +4,14 @@ import {Input} from "@/components/ui/input";
 import {useEffect, useState} from "react";
 import {useWindowSize} from "@uidotdev/usehooks";
 
-export interface ProcessFormInput {
+export interface ProcessFormInputType {
     key: string,
     value: string | number | null | undefined,
     type?: string
 }
 
 interface ProcessFormInputProps {
-    data: ProcessFormInput[]
+    data: ProcessFormInputType[]
 }
 
 export default function ProcessFormInput(
@@ -46,7 +46,7 @@ export default function ProcessFormInput(
              }
         >
             {
-                data.map((item: ProcessFormInput) => {
+                data.map((item: ProcessFormInputType) => {
                     return (
                         <div className="my-2"
                              key={item.key}>
