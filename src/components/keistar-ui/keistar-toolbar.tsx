@@ -44,6 +44,7 @@ export default function KeistarToolbar(
                     onClick={async () => {
                         let processId = "";
                         let contractInputName = "";
+                        let mode = "create";
 
                         // Start Process Create
                         if (
@@ -70,6 +71,7 @@ export default function KeistarToolbar(
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processUpdateName)
                             if (processes.length > 0) {
                                 processId = processes[0].id;
+                                mode = "update";
                             } else {
                                 toast("No process found to update item",
                                     {
@@ -91,7 +93,7 @@ export default function KeistarToolbar(
                                 [contractInputName]: selectedItem
                             });
                             toggle(true);
-                            toast("New item has been created successfully",
+                            toast(mode === "create" ? "New item has been created successfully" : "Item has been updated successfully",
                                 {
                                     description: "Case ID: " + res.caseId,
                                     action: {

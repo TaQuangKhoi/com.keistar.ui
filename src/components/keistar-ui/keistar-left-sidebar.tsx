@@ -57,9 +57,7 @@ export default function KeistarLeftSidebar(
 
 
     const [reloadList, toggle] = useAtom(reloadListAtom);
-    useEffect(() => {
-        toggle()
-    }, []);
+
     const [listState, setListState] = useAtom(listAtom);
     const getData = async () => {
         const _list = await findsBusinessData(
@@ -69,8 +67,8 @@ export default function KeistarLeftSidebar(
     };
     useEffect(() => {
         console.debug("reloadList", reloadList);
-        if (reloadList == true) {
-            toggle();
+        if (reloadList) {
+            toggle(false);
             getData();
         }
     }, [reloadList]);
