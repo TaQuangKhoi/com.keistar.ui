@@ -16,7 +16,6 @@ import headerTravel from "@/app/workspace/office/travel/header-travel";
 import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
 
 export default function TravelPage() {
-    const titleKey = "persistenceId";
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 
     return KeistarLayout(
@@ -32,7 +31,7 @@ export default function TravelPage() {
         />,
         <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
                             idKey={"persistenceId_string"}
-                            titleKey={titleKey}
+                            titleKey={"persistenceId"}
                             selected={selectedTravelAtom}
                             cardConfig={{
                                 businessDataType,

@@ -64,8 +64,8 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                     executeUserTask(task.id, {
                         newTravelRequestInput: {
                             managerApproved: true,
-                            approveComment: "",
-                            rejectComment: comment
+                            approveComment: comment,
+                            rejectComment: "",
                         }
                     }).then(response => {
                         if (response.status === 204) {
@@ -85,9 +85,28 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
             },
             {
                 label: "Reject",
-                onClick: (e) => {
+                onClick: (e, comment) => {
                     e.preventDefault()
-                    console.log("Reject")
+                    executeUserTask(task.id, {
+                        newTravelRequestInput: {
+                            managerApproved: false,
+                            approveComment: "",
+                            rejectComment: comment
+                        }
+                    }).then(response => {
+                        if (response.status === 204) {
+                            toast.success("Travel has been approved",
+                                {duration: 3000})
+                        }
+                    }).catch(e => {
+                        toast.error("Error: " + e,
+                            {
+                                position: "top-right"
+                            }
+                        )
+                    }).finally(() => {
+                        setTasksLoadingAtomValue(true);
+                    });
                 }
             },
         ]}/>

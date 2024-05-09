@@ -66,7 +66,6 @@ export default function KeistarLeftSidebar(
         setListState(_list);
     };
     useEffect(() => {
-        console.debug("reloadList", reloadList);
         if (reloadList) {
             toggle(false);
             getData();
@@ -78,6 +77,7 @@ export default function KeistarLeftSidebar(
     useEffect(() => {
         if (listState) {
             setSelectedItem(listState[0]);
+            scrollTo({left: 0, top: 0, behavior: "smooth"})
         }
     }, [listState]);
 
