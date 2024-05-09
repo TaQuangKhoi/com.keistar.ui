@@ -1,7 +1,6 @@
 'use client'
 
 import {Button} from "@/components/ui/button";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
@@ -18,21 +17,18 @@ import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 import {useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-the-user-task";
 import {toast} from "sonner";
-import {useRouter} from "next/navigation";
 import {useAtom} from "jotai";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
-    const [context, loadingContext, errorContext] = useGetContextByUserTaskId(task.id);
+    const [context, ,] = useGetContextByUserTaskId(task.id);
     const [e_leave, setE_leave] = useState<E_leave>({})
-    const [userById, loadingUserById, errorUserById] = useUserById(e_leave.requestor)
-    const [baseUrl, endPoint, setBaseUrl] = useBaseUrl("");
+    const [userById, ,] = useUserById(e_leave.requestor)
+    const [baseUrl, , setBaseUrl] = useBaseUrl("");
 
     const [comment, setComment] = useState<string>();
 
-    const [tasksLoadingAtomValue, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
-
-    const router = useRouter();
+    const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
     /**
      * Display the e-leave in the form by input tags
@@ -45,7 +41,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     useEffect(() => {
         if (context) {
             setBaseUrl('/' + context.eleave_ref.link)
-            if (typeof baseUrl === "string") {
+            if (baseUrl !== undefined) {
                 axios.get(baseUrl, {
                     withCredentials: true,
                 }).then((response) => {
@@ -89,34 +85,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         ])
     }, [userById, e_leave]);
 
-    return <div className="flex flex-1 flex-col">
-        <div className="flex items-start p-4">
-            <div className="flex items-start gap-4 text-sm">
-                <Avatar>
-                    <AvatarImage alt={task.name}/>
-                    <AvatarFallback>
-                        {task.name
-                            .split(" ")
-                            .map((chunk) => chunk[0])
-                            .join("")}
-                    </AvatarFallback>
-                </Avatar>
-                <div className="grid gap-1">
-                    <div className="font-semibold">{task.name}</div>
-                    <div className="line-clamp-1 text-xs">{task.displayName}</div>
-                    <div className="line-clamp-1 text-xs">
-                        <span className="font-medium">Reply-To:</span> {task.rootContainerId.id}
-                    </div>
-                </div>
-            </div>
-            {task.assigned_date && (
-                <div className="ml-auto text-xs text-muted-foreground">
-                    {format(new Date(task.assigned_date), "PPpp")}
-                </div>
-            )}
-        </div>
-        <Separator/>
-
+    return <>
         <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto max-h-[55vh]">
             {
                 e_leaveDisplay.map((item: {
@@ -224,5 +193,5 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 </div>
             </form>
         </div>
-    </div>
+    </>
 }

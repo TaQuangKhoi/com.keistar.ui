@@ -14,7 +14,9 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {toast} from "sonner"
 import ReviewEleaveForm from "@/app/workspace/office/e-leave/review-eleave-form";
-import {useEffect} from "react";
+import {ReactElement, useEffect, useState} from "react";
+import {processDefRoute} from "@/app/workspace/tasks/process-definitions/process-def-route";
+import {KeistarTaskDefinition} from "@/app/workspace/tasks/process-definitions/eleave-process";
 
 
 interface TaskDisplayProps {
@@ -30,17 +32,21 @@ export default function TaskDisplay(
         {
             id: "review-eleave-form",
             taskName: "Review E-leave",
-            component: <ReviewEleaveForm task={task as FullHumanTask}/>
+            component: (task: FullHumanTask) => <ReviewEleaveForm task={task}/>
         },
         {
             id: "review-travel-form",
             taskName: "Review Travel",
-            component: <p>Working on it</p>
+            component: () => <p>Working on it</p>
         }
     ]
 
+    const [taskForm, setTaskForm] = useState<ReactElement>()
+
     useEffect(() => {
-        console.debug("Task", task);
+        const process = processDefRoute.find(process => process.processName === task?.rootContainerId.name)
+        const __task = process?.taskDefinitions.find((_task: KeistarTaskDefinition) => _task.taskName === task?.name)
+        setTaskForm(__task?.component(task as FullHumanTask))
     }, [task]);
 
     return (
@@ -185,8 +191,39 @@ export default function TaskDisplay(
                 </DropdownMenu>
             </div>
             <Separator/>
+
             {task ? (
-                formComponents.find(form => form.taskName === task.name)?.component
+                <>
+                    <div className="flex flex-1 flex-col">
+                        <div className="flex items-start p-4">
+                            <div className="flex items-start gap-4 text-sm">
+                                {/*<Avatar>*/}
+                                {/*    <AvatarImage alt={task.name}/>*/}
+                                {/*    <AvatarFallback>*/}
+                                {/*        {task.name*/}
+                                {/*            .split(" ")*/}
+                                {/*            .map((chunk) => chunk[0])*/}
+                                {/*            .join("")}*/}
+                                {/*    </AvatarFallback>*/}
+                                {/*</Avatar>*/}
+                                <div className="grid gap-1">
+                                    <div className="font-semibold">{task.name}</div>
+                                    <div className="line-clamp-1 text-xs">{task.displayName}</div>
+                                    <div className="line-clamp-1 text-xs">
+                                        <span className="font-medium">Reply-To:</span> {task.rootContainerId.id}
+                                    </div>
+                                </div>
+                            </div>
+                            {task.assigned_date && (
+                                <div className="ml-auto text-xs text-muted-foreground">
+                                    {format(new Date(task.assigned_date), "PPpp")}
+                                </div>
+                            )}
+                        </div>
+                        <Separator/>
+                        {taskForm}
+                    </div>
+                </>
             ) : (
                 <div className="p-8 text-center text-muted-foreground">
                     No task selected
