@@ -1,7 +1,6 @@
 import KeistarItem from "@/components/keistar-ui/types/item-interface";
 import Country_BDM from "@/app/types/country-bdm-interface";
 import Travel_Reason from "@/app/workspace/office/travel/types/travel-reason-interface";
-import LinkInterface from "@/bonita/api/types/link-interface";
 
 export default interface Travel_Item extends KeistarItem {
     totalDays?: number;
@@ -13,10 +12,6 @@ export default interface Travel_Item extends KeistarItem {
     perDiemOthers?: number;
     perDiemTotal?: number;
     reasons?: Travel_Reason[];
-    persistenceId?: number,
-    persistenceId_string?: string,
-    persistenceVersion?: number,
-    persistenceVersion_string?: string,
     status?: string,
     totalDays_string?: string,
     perDiemAdvance_string?: string,
@@ -39,5 +34,4 @@ export default interface Travel_Item extends KeistarItem {
     ceoRejectComment?: string,
     ceoApproveComment?: string,
     alreadySubmitClaim?: boolean,
-    links?: LinkInterface[],
 }
