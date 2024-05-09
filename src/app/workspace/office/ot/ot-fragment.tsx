@@ -154,10 +154,6 @@ export default function OTFragment(
         dateRange?.to
     ]);
 
-    // useEffect(() => {
-    //     console.debug("data ", selectedItem.totalHour)
-    // }, [selectedItem]);
-
     return (
         <div className="">
             <Tabs className="w-full" defaultValue="register">

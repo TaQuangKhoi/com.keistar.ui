@@ -4,17 +4,20 @@ import {Input} from "@/components/ui/input";
 import {useEffect, useState} from "react";
 import {useWindowSize} from "@uidotdev/usehooks";
 
+export interface ProcessForInput {
+    key: string,
+    value: string | number | null | undefined,
+    type?: string
+}
+
+interface ProcessFormInputProps {
+    data: ProcessForInput[]
+}
+
 export default function ProcessFormInput(
     {
         data
-    }:
-        {
-            data:
-                {
-                    key: string, value: string,
-                    type?: string
-                }[]
-        }
+    }: ProcessFormInputProps
 ) {
     const [height, setHeight] = useState<number>(0);
     const windowsSize = useWindowSize();
@@ -25,7 +28,6 @@ export default function ProcessFormInput(
         if (windowsSize.height === null) {
             return;
         }
-        console.debug(windowsSize.height)
         let newHeight = 0;
         if (windowsSize.height >= 774) {
             newHeight = windowsSize.height - 390;
@@ -44,9 +46,7 @@ export default function ProcessFormInput(
              }
         >
             {
-                data.map((item: {
-                    key: string, value: string, type?: string
-                }) => {
+                data.map((item: ProcessForInput) => {
                     return (
                         <div className="my-2"
                              key={item.key}>
