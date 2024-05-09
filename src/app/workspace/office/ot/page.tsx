@@ -5,86 +5,67 @@ import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import OTFragment from "@/app/workspace/office/ot/ot-fragment";
 import {useAtom} from "jotai/index";
-import {selectedOT} from "@/app/workspace/office/ot/ot-selected-atom";
+import {selectedOtAtom} from "@/app/workspace/office/ot/atoms/ot-selected-atom";
 import {useEffect, useState} from "react";
-
-const listItems: any = [
-    {
-        id: 1,
-        code: "TT-VT-OT-0001109",
-        "approver": "Vu Nguyen Quang Phap",
-        "status": "OT waiting for approve",
-        "from": "1/4/2024",
-        "to": "1/4/2024",
-        "total_hours": "8.00"
-    },
-    {
-        id: 2,
-        "approver": "Nguyen Thach Son",
-        "status": "OT waiting for approve",
-        "from": "2/4/2024",
-        "to": "2/4/2024",
-        "total_hours": "4.00"
-    },
-    {
-        id: 3,
-        "approver": "Vu Nguyen Quang Phap",
-        "status": "OT waiting for approve",
-        "from": "2/4/2024",
-        "to": "3/4/2024",
-        "total_hours": "16.00"
-    },
-    {
-        id: 4,
-        "approver": "Vu Nguyen Quang Phap",
-        "status": "OT waiting for approve",
-        "from": "5/4/2024",
-        "to": "5/4/2024",
-        "total_hours": "8.00"
-    },
-]
+import {reloadOtListAtom} from "@/app/workspace/office/ot/atoms/reload-ot-list-atom";
+import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
+import defaultOT from "@/app/workspace/office/ot/default-selected-ot";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
 
 export default function OTPage() {
-    const [selected, setSelected] = useAtom(selectedOT);
-    const [otList, setOtList] = useState()
+    const [selected, setSelected] = useAtom(selectedOtAtom);
+    const [list, setList] = useState<OT_Item[]>();
+    const [reloadList, setReloadList] = useAtom(reloadOtListAtom);
 
     useEffect(() => {
-        setSelected(listItems[0])
+        setReloadList(true);
     }, []);
 
     const headerItem = [
         {
             "label": "Approver",
-            "key": "approver"
+            "key": "approver.firstName"
         },
         {
             "label": "Status",
             "key": "status"
         },
         {
-            "label": "From",
-            "key": "from"
+            "label": "Start Date",
+            "key": "startDate(Date)"
         },
         {
-            "label": "To",
-            "key": "to"
+            "label": "End Date",
+            "key": "endDate(Date)"
         },
         {
             "label": "Total hours",
-            "key": "total_hours"
+            "key": "totalHour"
         }
     ]
 
     return KeistarLayout(
         "OT Registration",
-        <KeistarToolbar selected={selectedOT}/>,
-        <KeistarLeftSidebar
-            idKey={"id"}
-            titleKey="approver"
-            selected={selectedOT}
-            list={listItems}
-            cardConfig={headerItem}
+        <KeistarToolbar selected={selectedOtAtom}
+                        defaultValue={defaultOT}
+                        reloadList={reloadOtListAtom}
+                        processConfig={{
+                            processDeletedName: "Delete_OT",
+                            processCreateName: "Create_OT",
+                            processUpdateName: "Update_OT",
+                            businessDataType: "com.keistar.model.office.OT",
+                        }}
         />,
-        <OTFragment selected={selectedOT}/>,
+        <KeistarLeftSidebar list={otListAtom} reloadListAtom={reloadOtListAtom}
+            idKey={"persistenceId_string"}
+            titleKey="persistenceId_string"
+            selected={selectedOtAtom}
+            cardConfig= {{
+                businessDataType: "com.keistar.model.office.OT",
+                header: headerItem
+            }}
+        />,
+        <OTFragment/>,
     );
 }

@@ -12,19 +12,30 @@ import {useWindowSize} from "@uidotdev/usehooks";
 import {clsx} from "clsx";
 import React, {useEffect, useState} from "react";
 import {PrimitiveAtom, useAtom} from "jotai/index";
+import {Icons} from "@/components/icons";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import {WritableAtom} from "jotai";
 
 export default function KeistarLeftSidebar(
     {
         idKey,
         selected,
         list,
+        reloadListAtom,
         cardConfig,
         titleKey,
     }: {
         idKey: string,
-        selected: PrimitiveAtom<any>
-        list: any,
-        cardConfig: any,
+        selected: PrimitiveAtom<any>,
+        list: PrimitiveAtom<any[]>,
+        reloadListAtom:  WritableAtom<boolean, [boolean | undefined], void>,
+        cardConfig: {
+            businessDataType: string,
+            header: {
+                label: string,
+                key: string,
+            }[],
+        },
         titleKey: string,
     }
 ) {
@@ -32,19 +43,36 @@ export default function KeistarLeftSidebar(
     const [height, setHeight] = useState<number>()
     const [selectedItem, setSelectedItem] = useAtom(selected);
 
-    // let maxH: number = 0;
-    // if (windowsSize.width !== null && windowsSize.height !== null) {
-    //     maxH = windowsSize.height - 200;
-    // }
-    //
-    // let style = clsx(
-    //     "border",
-    //     "rounded-md",
-    //     "max-h-screen",
-    //     "overflow-auto",
-    //     maxH > 0 ? `max-h-${maxH}` : ""
-    // )
 
+    const [reloadList, setReloadList] = useAtom(reloadListAtom);
+
+
+    const [listState, setListState] = useAtom(list);
+    useEffect(() => {
+        if (reloadList) {
+            const getData = async () => {
+                const _list = await findsBusinessData(
+                    cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+                )
+                setListState(_list);
+            };
+            getData();
+            setReloadList(false);
+        }
+    }, [reloadList]);
+    /**
+     * Default selected item
+     */
+    useEffect(() => {
+        if (listState) {
+            setSelectedItem(listState[0]);
+        }
+    }, [listState]);
+
+
+    /**
+     * Dynamic height
+     */
     useEffect(() => {
         if (windowsSize.height === null) {
             return;
@@ -57,46 +85,96 @@ export default function KeistarLeftSidebar(
         <div className="grid grid-cols-1 gap-4">
             <div>
                 <Input className="flex items-center mb-4" placeholder="Search..."/>
-                <ScrollArea className="border rounded-md max-h-screen overflow-auto"
-                            style={{maxHeight: height}}
-                >
-                    <div className="p-4 space-y-4">
-                        {
-                            list === undefined &&
-                            <p>Loading...</p>
-                        }
-                        {
-                            list !== undefined &&
-                            list.map((item: any, index: number) => {
-                                return <>
-                                    <Card className={clsx("bg-gray-100 transition-transform hover:scale-105",
-                                        selectedItem[idKey] === item[idKey]
-                                            ? "ring-2 ring-blue-500" : "")}
-                                          onClick={() => {
-                                              setSelectedItem(item);
-                                          }}
-                                    >
-                                        <CardHeader>
-                                            <CardTitle>
-                                                {item[titleKey]}
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            {
-                                                cardConfig.map((config: any) => {
-                                                    return <p key={config.key}>
-                                                        <strong>{config.label}:</strong>
-                                                        {item[config.key]}
-                                                    </p>
-                                                })
-                                            }
-                                        </CardContent>
-                                    </Card>
-                                </>
-                            })
-                        }
-                    </div>
-                </ScrollArea>
+                <div className="border rounded-md" style={{height: height}}>
+                    {
+                        (
+                            listState === undefined &&
+                            <div className="flex items-center justify-center h-full">
+                                <p>
+                                    <Icons.spinner className="mr-2 h-14 w-14 animate-spin"/>
+                                </p>
+                            </div>
+                        ) ||
+                        (
+                            listState !== undefined && listState.length === 0 &&
+                            <div className="flex items-center justify-center h-full">
+                                <p>No data found</p>
+                            </div>
+                        ) ||
+                        (
+                            listState !== undefined && listState.length > 0 &&
+                            <ScrollArea className="overflow-auto" style={{height: height}}
+                            >
+                                <div className="p-4 space-y-4">
+                                    {
+                                        listState.map((item: any, index: number) => {
+                                            return <>
+                                                <Card
+                                                    className={clsx("bg-gray-100 transition-transform hover:scale-105",
+                                                        selectedItem[idKey] === item[idKey]
+                                                            ? "ring-2 ring-blue-500" : "")}
+                                                    onClick={() => {
+                                                        setSelectedItem(item);
+                                                    }}
+                                                >
+                                                    <CardHeader>
+                                                        <CardTitle>
+                                                            {item[titleKey]}
+                                                        </CardTitle>
+                                                    </CardHeader>
+                                                    <CardContent>
+                                                        {
+                                                            cardConfig.header.map((config: any) => {
+                                                                if (config.key.includes("(")) {
+                                                                    const keys = config.key.split("(");
+                                                                    const type = keys[1].replace(")", "");
+                                                                    switch (type) {
+                                                                        case "Date":
+                                                                            if (item[keys[0]] !== null && item[keys[0]] !== undefined) {
+                                                                                return <>
+                                                                                    <p key={config.key}>
+                                                                                        <strong>{config.label}: </strong>
+                                                                                        {
+                                                                                            new Date(item[keys[0]]).toLocaleDateString()
+                                                                                        }
+                                                                                    </p>
+                                                                                </>
+                                                                            }
+                                                                    }
+                                                                }
+                                                                if (config.key.includes(".")) {
+                                                                    const keys = config.key.split(".");
+                                                                    if (item[keys[0]] !== null && item[keys[0]] !== undefined) {
+                                                                        return <>
+                                                                            <p key={config.key}>
+                                                                                <strong>{config.label}: </strong>
+                                                                                {
+                                                                                    item[keys[0]][keys[1]]
+                                                                                }
+                                                                            </p>
+                                                                        </>
+                                                                    }
+                                                                }
+                                                                return <>
+                                                                    <p key={config.key}>
+                                                                        <strong>{config.label}: </strong>
+                                                                        {
+                                                                            item[config.key] !== null || item[config.key] !== undefined ? item[config.key] : "N/A"
+                                                                        }
+                                                                    </p>
+                                                                </>
+                                                            })
+                                                        }
+                                                    </CardContent>
+                                                </Card>
+                                            </>
+                                        })
+                                    }
+                                </div>
+                            </ScrollArea>
+                        )
+                    }
+                </div>
             </div>
         </div>
     )

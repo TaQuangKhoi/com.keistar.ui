@@ -8,6 +8,8 @@ import {
     AlertCircle,
     Archive,
     ArchiveX,
+    ListTodo,
+    CheckSquare2,
     File,
     Inbox,
     MessagesSquare,
@@ -22,7 +24,6 @@ import {Input} from "@/components/ui/input";
 import {useEffect, useState} from "react";
 import TaskList from "@/app/workspace/tasks/components/task-list";
 import TaskDisplay from "@/app/workspace/tasks/components/task-display";
-import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import {useTask} from "@/app/workspace/tasks/use-task";
 import {findsHumanTasks} from "@/bonita/api/bpm/human-task/finds-human-tasks";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
@@ -53,7 +54,7 @@ export default function Task() {
             setTasks(data)
             setTasksLoadingAtomValue(false)
         })
-    }, [session, tasksLoadingAtomValue])
+    }, [session.user_id])
 
     const getData = async () => {
         return await findsHumanTasks(
@@ -104,85 +105,85 @@ export default function Task() {
                     isCollapsed={isCollapsed}
                     links={[
                         {
-                            title: "Inbox",
-                            label: "128",
-                            icon: Inbox,
+                            title: "To do",
+                            label: tasks.length.toString(),
+                            icon: ListTodo,
                             variant: "default",
                         },
                         {
-                            title: "Drafts",
-                            label: "9",
-                            icon: File,
+                            title: "Done tasks",
+                            label: "0",
+                            icon: CheckSquare2,
                             variant: "ghost",
                         },
-                        {
-                            title: "Sent",
-                            label: "",
-                            icon: Send,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Junk",
-                            label: "23",
-                            icon: ArchiveX,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Trash",
-                            label: "",
-                            icon: Trash2,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Archive",
-                            label: "",
-                            icon: Archive,
-                            variant: "ghost",
-                        },
+                        // {
+                        //     title: "Sent",
+                        //     label: "",
+                        //     icon: Send,
+                        //     variant: "ghost",
+                        // },
+                        // {
+                        //     title: "Junk",
+                        //     label: "23",
+                        //     icon: ArchiveX,
+                        //     variant: "ghost",
+                        // },
+                        // {
+                        //     title: "Trash",
+                        //     label: "",
+                        //     icon: Trash2,
+                        //     variant: "ghost",
+                        // },
+                        // {
+                        //     title: "Archive",
+                        //     label: "",
+                        //     icon: Archive,
+                        //     variant: "ghost",
+                        // },
                     ]}
                 />
-                <Separator/>
-                <Nav
-                    isCollapsed={isCollapsed}
-                    links={[
-                        {
-                            title: "Social",
-                            label: "972",
-                            icon: Users2,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Updates",
-                            label: "342",
-                            icon: AlertCircle,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Forums",
-                            label: "128",
-                            icon: MessagesSquare,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Shopping",
-                            label: "8",
-                            icon: ShoppingCart,
-                            variant: "ghost",
-                        },
-                        {
-                            title: "Promotions",
-                            label: "21",
-                            icon: Archive,
-                            variant: "ghost",
-                        },
-                    ]}
-                />
+                {/*<Separator/>*/}
+                {/*<Nav*/}
+                {/*    isCollapsed={isCollapsed}*/}
+                {/*    links={[*/}
+                {/*        {*/}
+                {/*            title: "Social",*/}
+                {/*            label: "972",*/}
+                {/*            icon: Users2,*/}
+                {/*            variant: "ghost",*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            title: "Updates",*/}
+                {/*            label: "342",*/}
+                {/*            icon: AlertCircle,*/}
+                {/*            variant: "ghost",*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            title: "Forums",*/}
+                {/*            label: "128",*/}
+                {/*            icon: MessagesSquare,*/}
+                {/*            variant: "ghost",*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            title: "Shopping",*/}
+                {/*            label: "8",*/}
+                {/*            icon: ShoppingCart,*/}
+                {/*            variant: "ghost",*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            title: "Promotions",*/}
+                {/*            label: "21",*/}
+                {/*            icon: Archive,*/}
+                {/*            variant: "ghost",*/}
+                {/*        },*/}
+                {/*    ]}*/}
+                {/*/>*/}
             </ResizablePanel>
             <ResizableHandle withHandle/>
             <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
                 <Tabs defaultValue="all">
                     <div className="flex items-center px-4 py-2">
-                        <h1 className="text-xl font-bold">Inbox</h1>
+                        <h1 className="text-xl font-bold">Task List</h1>
                         <TabsList className="ml-auto">
                             <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">
                                 All tasks

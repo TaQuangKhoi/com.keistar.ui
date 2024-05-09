@@ -4,50 +4,30 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
-import {useAtom, useAtomValue} from "jotai/index";
-import {selectedEmployee} from "@/app/workspace/office/employee/employee-selected-atom";
-import {useEffect, useState} from "react";
-import findsBusinessData from "@/bonita/api/bdm/business-data-query";
-import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import {useAtom} from "jotai/index";
+import {selectedEmployeeAtom} from "@/app/workspace/office/employee/employee-selected-atom";
+import {useEffect} from "react";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
+import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
 
 export default function EmployeePage() {
-    const [selected, setSelected] = useAtom(selectedEmployee);
-    const [employees, setEmployees] = useState<Employee_Item[]>()
-    const [reloadEmployeesList, setReloadEmployeesList] = useAtom(reloadEmployeesListAtom);
+    const [selected, setSelected] = useAtom(selectedEmployeeAtom);
+    const [list, setList] = useAtom(employeeListAtom);
+    const [reloadList, setReloadList] = useAtom(reloadEmployeesListAtom);
 
     useEffect(() => {
-        setReloadEmployeesList(true);
+        setReloadList(true);
     }, []);
-
-    useEffect(() => {
-        if (reloadEmployeesList) {
-            const getEmployees = async () => {
-                const employees = await findsBusinessData(
-                    "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
-                )
-                setEmployees(employees);
-            };
-            getEmployees();
-            setReloadEmployeesList(false);
-        }
-    }, [reloadEmployeesList]);
-
-    useEffect(() => {
-        if (employees) {
-            setSelected(employees[0]);
-        }
-    }, [employees]);
 
     const titleKey = "username";
     const headerItem = [
         {
-            "label": "Username",
-            "key": "username"
-        },
-        {
             "label": "Status",
             "key": "status"
+        },
+        {
+            "label": "Phone",
+            "key": "phone"
         },
     ]
     const defaultSelected = {
@@ -78,31 +58,25 @@ export default function EmployeePage() {
 
     return KeistarLayout(
         "Employee",
-        <KeistarToolbar selected={selectedEmployee}
+        <KeistarToolbar selected={selectedEmployeeAtom}
                         defaultValue={defaultSelected}
-                        processCreateName={"Create_Employee"}
-                        processUpdateName={"Update_Employee"}
-                        config={
-                            {
-                                businessDataType: "com.keistar.model.office.Employee",
-                            }
-                        }
                         reloadList={reloadEmployeesListAtom}
                         processConfig={{
                             processDeletedName: "Delete_Employee",
                             processCreateName: "Create_Employee",
                             processUpdateName: "Update_Employee",
+                            businessDataType: "com.keistar.model.office.Employee",
                         }}
         />,
-        <KeistarLeftSidebar
-            idKey={"persistenceId_string"}
-            titleKey={titleKey}
-            selected={selectedEmployee}
-            list={employees}
-            cardConfig={headerItem}
+        <KeistarLeftSidebar list={employeeListAtom} reloadListAtom={reloadEmployeesListAtom}
+                            idKey={"persistenceId_string"}
+                            titleKey={titleKey}
+                            selected={selectedEmployeeAtom}
+                            cardConfig={{
+                                businessDataType: "com.keistar.model.office.Employee",
+                                header: headerItem
+                            }}
         />,
-        <EmployeeFragment
-            employees={employees || []}
-        />,
+        <EmployeeFragment employees={list || []}/>,
     );
 }

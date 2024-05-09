@@ -18,27 +18,18 @@ export default function KeistarToolbar(
     {
         selected,
         defaultValue,
-        processCreateName,
-        processUpdateName,
-        config = {
-            businessDataType: "",
-        },
         reloadList,
         processConfig,
     }:
         {
             selected: PrimitiveAtom<any>,
             defaultValue?: any,
-            processCreateName: string,
-            processUpdateName: string,
-            config?: {
-                businessDataType: string,
-            },
             reloadList: WritableAtom<boolean, [boolean?], void>,
             processConfig: {
                 processCreateName: string,
                 processUpdateName: string,
                 processDeletedName: string,
+                businessDataType?: string,
             }
         }
 ) {
@@ -50,18 +41,20 @@ export default function KeistarToolbar(
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
                     onClick={async () => {
-                        console.debug(selectedItem)
                         let processId = "";
                         let contractInputName = "";
 
                         // Start Process Create
-                        if (selectedItem.persistenceId === undefined) {
+                        if (
+                            selectedItem.persistenceId === undefined ||
+                            selectedItem.persistenceId === 0
+                        ) {
                             // start process to create new item
-                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processCreateName)
+                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processCreateName)
                             processId = processes[0].id;
                         } else {
                             // Start Process Update
-                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processUpdateName)
+                            const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processUpdateName)
                             processId = processes[0].id;
                         }
 
@@ -72,7 +65,7 @@ export default function KeistarToolbar(
                             const res = await instantiateProcess(processId, {
                                 [contractInputName]: selectedItem
                             });
-                            toast("New e-leave has been created successfully",
+                            toast("New item has been created successfully",
                                 {
                                     description: "Case ID: " + res.caseId,
                                     action: {
@@ -85,7 +78,7 @@ export default function KeistarToolbar(
                             const error = e as AxiosError;
                             toast(error.message,
                                 {
-                                    description: "Failed to create new e-leave. Please try again later",
+                                    description: "Failed to create new item. Please try again later",
                                     action: {
                                         label: "Retry",
                                         onClick: () => console.log("Retry"),
@@ -162,7 +155,7 @@ export default function KeistarToolbar(
                             persistenceId: number | undefined;
                         }) => {
                             draft.persistenceId_string = "";
-                            draft.persistenceId = undefined;
+                            draft.persistenceId = 0;
                         })
                     }}
             >

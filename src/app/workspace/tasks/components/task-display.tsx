@@ -22,6 +22,13 @@ export default function TaskDisplay(
     {task}: TaskDisplayProps
 ) {
     const today = new Date()
+    const currentForm = "review-eleave-form"
+    const formComponents = [
+        {
+            id: "review-eleave-form",
+            component: <ReviewEleaveForm task={task as FullHumanTask}/>
+        }
+    ]
 
     return (
         <div className="flex h-full flex-col">
@@ -166,7 +173,7 @@ export default function TaskDisplay(
             </div>
             <Separator/>
             {task ? (
-                <ReviewEleaveForm task={task}/>
+                formComponents.find(form => form.id === currentForm)?.component
             ) : (
                 <div className="p-8 text-center text-muted-foreground">
                     No task selected
