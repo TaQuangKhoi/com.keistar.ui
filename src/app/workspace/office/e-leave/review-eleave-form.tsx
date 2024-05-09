@@ -2,14 +2,10 @@
 
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
-import {Label} from "@/components/ui/label";
-import {Switch} from "@/components/ui/switch";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
-import {
-    useGetContextByUserTaskId,
-} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
+import {useGetContextByUserTaskId} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
 import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
@@ -26,7 +22,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [userById, ,] = useUserById(e_leave.requestor)
     const [baseUrl, , setBaseUrl] = useBaseUrl("");
 
-    const [comment, setComment] = useState<string>();
+    const [comment, setComment] = useState<string>("");
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
@@ -50,7 +46,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 });
             }
         }
-    }, [task, context, baseUrl]);
+    }, [task, context, baseUrl, setBaseUrl]);
 
     useEffect(() => {
         setE_leaveDisplay([
@@ -148,7 +144,8 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                             approveComment: comment,
                                             rejectComment: ""
                                         }
-                                    }).then(response => {
+                                    },true
+                                    ).then(response => {
                                         if (response.status === 204) {
                                             toast.success(
                                                 "E-leave has been approved",
@@ -170,8 +167,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                 }}
                                 size="sm"
                                 className=""
-                            >
-                                Approve
+                            >Approve
                             </Button>
                         </div>
                     </div>

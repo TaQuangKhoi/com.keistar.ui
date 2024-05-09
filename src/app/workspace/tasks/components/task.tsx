@@ -36,27 +36,38 @@ export default function Task() {
     let defaultLayout = [265, 440, 655];
     let defaultCollapsed = false;
 
+    const [session, loadingSession, errorSession] = useSession();
+
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
     const [task, setTask] = useTask()
 
+
     const [tasks, setTasks] = useAtom(tasksAtom);
-    const [tasksLoadingAtomValue, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
-
-    const [session, loadingSession, errorSession] = useSession();
-
     useEffect(() => {
         if (session.user_id === undefined) {
             return
         }
-        setTasksLoadingAtomValue(true)
+        setTasksLoading(true)
 
-        getData().then((data) => {
+        getTaslListData().then((data) => {
             setTasks(data)
-            setTasksLoadingAtomValue(false)
+            setTasksLoading(false)
         })
     }, [session.user_id])
 
-    const getData = async () => {
+
+    const [tasksLoading, setTasksLoading] = useAtom(tasksLoadingAtom);
+    useEffect(() => {
+        if (!tasksLoading) {
+            return
+        }
+        getTaslListData().then((data) => {
+            setTasks(data)
+            setTasksLoading(false)
+        })
+    }, [tasksLoading]);
+
+    const getTaslListData = async () => {
         return await findsHumanTasks(
             0,
             50,
