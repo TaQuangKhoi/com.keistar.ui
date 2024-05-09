@@ -210,7 +210,7 @@ export default function TaskDisplay(
                                     <div className="font-semibold">{task.name}</div>
                                     <div className="line-clamp-1 text-xs">{task.displayName}</div>
                                     <div className="line-clamp-1 text-xs">
-                                        <span className="font-medium">Reply-To:</span> {task.rootContainerId.id}
+                                        <span className="font-medium">Process:</span> {task.rootContainerId.name}
                                     </div>
                                 </div>
                             </div>

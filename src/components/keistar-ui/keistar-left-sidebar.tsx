@@ -39,8 +39,20 @@ export default function KeistarLeftSidebar(
         titleKey: string,
     }
 ) {
-    const windowsSize = useWindowSize();
     const [height, setHeight] = useState<number>()
+    const windowsSize = useWindowSize();
+    /**
+     * Dynamic height
+     */
+    useEffect(() => {
+        if (windowsSize.height === null) {
+            return;
+        }
+        const newHeight = windowsSize.height - 300;
+        setHeight(newHeight);
+    }, [windowsSize]);
+
+
     const [selectedItem, setSelectedItem] = useAtom(selected);
 
 
@@ -69,17 +81,6 @@ export default function KeistarLeftSidebar(
         }
     }, [listState]);
 
-
-    /**
-     * Dynamic height
-     */
-    useEffect(() => {
-        if (windowsSize.height === null) {
-            return;
-        }
-        const newHeight = windowsSize.height - 300;
-        setHeight(newHeight);
-    }, [windowsSize]);
 
     return (
         <div className="grid grid-cols-1 gap-4">

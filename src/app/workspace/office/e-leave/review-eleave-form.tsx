@@ -19,6 +19,7 @@ import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-th
 import {toast} from "sonner";
 import {useAtom} from "jotai";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
+import {useWindowSize} from "@uidotdev/usehooks";
 
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [context, ,] = useGetContextByUserTaskId(task.id);
@@ -29,6 +30,29 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [comment, setComment] = useState<string>();
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
+
+
+    const [height, setHeight] = useState<number>(0);
+    const windowsSize = useWindowSize();
+    /**
+     * Dynamic height
+     */
+    useEffect(() => {
+        if (windowsSize.height === null) {
+            return;
+        }
+        console.debug(windowsSize.height)
+        let newHeight = 0;
+        if (windowsSize.height >= 774) {
+            newHeight = windowsSize.height - 390;
+            setHeight(newHeight);
+        }
+        if (windowsSize.height < 774) {
+            newHeight = windowsSize.height - 400;
+        }
+        setHeight(newHeight);
+    }, [windowsSize]);
+
 
     /**
      * Display the e-leave in the form by input tags
@@ -86,7 +110,11 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     }, [userById, e_leave]);
 
     return <>
-        <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto max-h-[55vh]">
+        <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto"
+             style={
+                 {maxHeight: height}
+             }
+        >
             {
                 e_leaveDisplay.map((item: {
                     key: string, value: string, type?: string
