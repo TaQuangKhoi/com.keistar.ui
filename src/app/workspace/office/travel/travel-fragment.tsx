@@ -30,6 +30,27 @@ export default function TravelFragment(
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedTravelAtom);
 
+
+    useEffect(() => {
+        setSelectedItem((draft) => {
+            draft.perDiemAdvance = 0;
+            draft.perDiemOthers = 0;
+            draft.perDiemTotal = 0;
+        })
+    }, []);
+
+
+    const [travelReasons, setTravelReasons] = useAtom(travelReasonsAtom);
+    useEffect(() => {
+        setSelectedItem((draft) => {
+            draft.reasons = travelReasons;
+        })
+    }, [travelReasons]);
+    useEffect(() => {
+        setTravelReasons(selectedItem.reasons || []);
+    }, [selectedItem.persistenceId_string]);
+
+
     const currentDate = new Date();
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
         from: currentDate,
@@ -72,6 +93,16 @@ export default function TravelFragment(
         };
         getData();
     }, []);
+    useEffect(() => {
+        setSelectedItem((draft) => {
+            draft.startDate = dateRange?.from?.toISOString() || currentDate.toISOString();
+            draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
+        })
+    }, [
+        dateRange,
+        dateRange?.from,
+        dateRange?.to
+    ]);
 
 
     return (

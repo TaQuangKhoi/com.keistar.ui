@@ -13,6 +13,7 @@ import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import defaultTravel from "@/app/workspace/office/travel/default-travel";
 import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import headerTravel from "@/app/workspace/office/travel/header-travel";
+import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
 
 export default function TravelPage() {
     const [selected, setSelected] = useAtom(selectedTravelAtom);
@@ -23,29 +24,7 @@ export default function TravelPage() {
         setReloadList(true);
     }, []);
 
-    useEffect(() => {
-        if (reloadList) {
-            const getData = async () => {
-                const employees = await findsBusinessData(
-                    "com.keistar.model.office.travel.TravelRequest", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
-                )
-                setList(employees);
-            };
-            getData();
-            setReloadList(false);
-        }
-    }, [reloadList]);
-
-    /**
-     * Default selected employee
-     */
-    useEffect(() => {
-        if (list) {
-            setSelected(list[0]);
-        }
-    }, [list]);
-
-    const titleKey = "username";
+    const titleKey = "persistenceId";
 
     return KeistarLayout(
         "Travel",
@@ -55,21 +34,19 @@ export default function TravelPage() {
                         processConfig={{
                             businessDataType: "com.keistar.model.office.travel.TravelRequest",
                             processDeletedName: "Delete_Travel",
-                            processCreateName: "Create_Travel",
+                            processCreateName: "Create_TravelRequest",
                             processUpdateName: "Update_Travel",
                         }}
         />,
-        <KeistarLeftSidebar
-            idKey={"persistenceId_string"}
-            titleKey={titleKey}
-            selected={selectedTravelAtom}
-            list={list}
-            cardConfig={{
-                header: headerTravel,
-            }}
+        <KeistarLeftSidebar list={travelListAtom} reloadListAtom={reloadTravelListAtom}
+                            idKey={"persistenceId_string"}
+                            titleKey={titleKey}
+                            selected={selectedTravelAtom}
+                            cardConfig={{
+                                businessDataType: "com.keistar.model.office.travel.TravelRequest",
+                                header: headerTravel,
+                            }}
         />,
-        <TravelFragment
-            list={list || []}
-        />,
+        <TravelFragment/>,
     );
 }

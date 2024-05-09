@@ -11,6 +11,7 @@ import {reloadOtListAtom} from "@/app/workspace/office/ot/atoms/reload-ot-list-a
 import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
 import defaultOT from "@/app/workspace/office/ot/default-selected-ot";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
 
 export default function OTPage() {
     const [selected, setSelected] = useAtom(selectedOtAtom);
@@ -20,28 +21,6 @@ export default function OTPage() {
     useEffect(() => {
         setReloadList(true);
     }, []);
-
-    useEffect(() => {
-        if (reloadList) {
-            const getData = async () => {
-                const employees = await findsBusinessData(
-                    "com.keistar.model.office.OT", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
-                )
-                setList(employees);
-            };
-            getData();
-            setReloadList(false);
-        }
-    }, [reloadList]);
-
-    /**
-     * Default selected employee
-     */
-    useEffect(() => {
-        if (list) {
-            setSelected(list[0]);
-        }
-    }, [list]);
 
     const headerItem = [
         {
@@ -78,12 +57,12 @@ export default function OTPage() {
                             businessDataType: "com.keistar.model.office.OT",
                         }}
         />,
-        <KeistarLeftSidebar
+        <KeistarLeftSidebar list={otListAtom} reloadListAtom={reloadOtListAtom}
             idKey={"persistenceId_string"}
             titleKey="persistenceId_string"
             selected={selectedOtAtom}
-            list={list}
             cardConfig= {{
+                businessDataType: "com.keistar.model.office.OT",
                 header: headerItem
             }}
         />,

@@ -4,8 +4,16 @@ const headerTravel = [
         "key": "status"
     },
     {
-        "label": "Phone",
-        "key": "phone"
+        "label": "Country",
+        "key": "country.name"
+    },
+    {
+        "label": "Start Date",
+        "key": "startDate"
+    },
+    {
+        "label": "End Date",
+        "key": "endDate"
     },
 ]
 

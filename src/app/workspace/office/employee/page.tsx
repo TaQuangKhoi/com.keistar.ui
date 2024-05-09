@@ -6,41 +6,18 @@ import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
 import {useAtom} from "jotai/index";
 import {selectedEmployeeAtom} from "@/app/workspace/office/employee/employee-selected-atom";
-import {useEffect, useState} from "react";
-import findsBusinessData from "@/bonita/api/bdm/business-data-query";
-import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
+import {useEffect} from "react";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
+import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
 
 export default function EmployeePage() {
     const [selected, setSelected] = useAtom(selectedEmployeeAtom);
-    const [list, setList] = useState<Employee_Item[]>()
+    const [list, setList] = useAtom(employeeListAtom);
     const [reloadList, setReloadList] = useAtom(reloadEmployeesListAtom);
 
     useEffect(() => {
         setReloadList(true);
     }, []);
-
-    useEffect(() => {
-        if (reloadList) {
-            const getData = async () => {
-                const employees = await findsBusinessData(
-                    "com.keistar.model.office.Employee", "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
-                )
-                setList(employees);
-            };
-            getData();
-            setReloadList(false);
-        }
-    }, [reloadList]);
-
-    /**
-     * Default selected employee
-     */
-    useEffect(() => {
-        if (list) {
-            setSelected(list[0]);
-        }
-    }, [list]);
 
     const titleKey = "username";
     const headerItem = [
@@ -91,17 +68,15 @@ export default function EmployeePage() {
                             businessDataType: "com.keistar.model.office.Employee",
                         }}
         />,
-        <KeistarLeftSidebar
-            idKey={"persistenceId_string"}
-            titleKey={titleKey}
-            selected={selectedEmployeeAtom}
-            list={list}
-            cardConfig={{
-                header: headerItem
-            }}
+        <KeistarLeftSidebar list={employeeListAtom} reloadListAtom={reloadEmployeesListAtom}
+                            idKey={"persistenceId_string"}
+                            titleKey={titleKey}
+                            selected={selectedEmployeeAtom}
+                            cardConfig={{
+                                businessDataType: "com.keistar.model.office.Employee",
+                                header: headerItem
+                            }}
         />,
-        <EmployeeFragment
-            employees={list || []}
-        />,
+        <EmployeeFragment employees={list || []}/>,
     );
 }

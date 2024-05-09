@@ -13,19 +13,24 @@ import {clsx} from "clsx";
 import React, {useEffect, useState} from "react";
 import {PrimitiveAtom, useAtom} from "jotai/index";
 import {Icons} from "@/components/icons";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+import {WritableAtom} from "jotai";
 
 export default function KeistarLeftSidebar(
     {
         idKey,
         selected,
         list,
+        reloadListAtom,
         cardConfig,
         titleKey,
     }: {
         idKey: string,
-        selected: PrimitiveAtom<any>
-        list: any,
+        selected: PrimitiveAtom<any>,
+        list: PrimitiveAtom<any[]>,
+        reloadListAtom:  WritableAtom<boolean, [boolean | undefined], void>,
         cardConfig: {
+            businessDataType: string,
             header: {
                 label: string,
                 key: string,
@@ -37,6 +42,33 @@ export default function KeistarLeftSidebar(
     const windowsSize = useWindowSize();
     const [height, setHeight] = useState<number>()
     const [selectedItem, setSelectedItem] = useAtom(selected);
+
+
+    const [reloadList, setReloadList] = useAtom(reloadListAtom);
+
+
+    const [listState, setListState] = useAtom(list);
+    useEffect(() => {
+        if (reloadList) {
+            const getData = async () => {
+                const _list = await findsBusinessData(
+                    cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+                )
+                setListState(_list);
+            };
+            getData();
+            setReloadList(false);
+        }
+    }, [reloadList]);
+    /**
+     * Default selected item
+     */
+    useEffect(() => {
+        if (listState) {
+            setSelectedItem(listState[0]);
+        }
+    }, [listState]);
+
 
     /**
      * Dynamic height
@@ -56,7 +88,7 @@ export default function KeistarLeftSidebar(
                 <div className="border rounded-md" style={{height: height}}>
                     {
                         (
-                            list === undefined &&
+                            listState === undefined &&
                             <div className="flex items-center justify-center h-full">
                                 <p>
                                     <Icons.spinner className="mr-2 h-14 w-14 animate-spin"/>
@@ -64,18 +96,18 @@ export default function KeistarLeftSidebar(
                             </div>
                         ) ||
                         (
-                            list !== undefined && list.length === 0 &&
+                            listState !== undefined && listState.length === 0 &&
                             <div className="flex items-center justify-center h-full">
                                 <p>No data found</p>
                             </div>
                         ) ||
                         (
-                            list !== undefined && list.length > 0 &&
+                            listState !== undefined && listState.length > 0 &&
                             <ScrollArea className="overflow-auto" style={{height: height}}
                             >
                                 <div className="p-4 space-y-4">
                                     {
-                                        list.map((item: any, index: number) => {
+                                        listState.map((item: any, index: number) => {
                                             return <>
                                                 <Card
                                                     className={clsx("bg-gray-100 transition-transform hover:scale-105",
