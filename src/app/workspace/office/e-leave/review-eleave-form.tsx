@@ -4,7 +4,6 @@ import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-import {Input} from "@/components/ui/input";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
@@ -19,7 +18,7 @@ import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-th
 import {toast} from "sonner";
 import {useAtom} from "jotai";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
-import {useWindowSize} from "@uidotdev/usehooks";
+import ProcessFormInput from "@/app/workspace/tasks/components/process-form-input";
 
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [context, ,] = useGetContextByUserTaskId(task.id);
@@ -30,28 +29,6 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     const [comment, setComment] = useState<string>();
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
-
-
-    const [height, setHeight] = useState<number>(0);
-    const windowsSize = useWindowSize();
-    /**
-     * Dynamic height
-     */
-    useEffect(() => {
-        if (windowsSize.height === null) {
-            return;
-        }
-        console.debug(windowsSize.height)
-        let newHeight = 0;
-        if (windowsSize.height >= 774) {
-            newHeight = windowsSize.height - 390;
-            setHeight(newHeight);
-        }
-        if (windowsSize.height < 774) {
-            newHeight = windowsSize.height - 400;
-        }
-        setHeight(newHeight);
-    }, [windowsSize]);
 
 
     /**
@@ -110,40 +87,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     }, [userById, e_leave]);
 
     return <>
-        <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto"
-             style={
-                 {maxHeight: height}
-             }
-        >
-            {
-                e_leaveDisplay.map((item: {
-                    key: string, value: string, type?: string
-                }) => {
-                    return (
-                        <div className="my-2"
-                             key={item.key}>
-                            <Label>
-                                {item.key}
-                            </Label>
-                            {
-                                item.type === "textarea" ? (
-                                    <Textarea
-                                        className="mt-1"
-                                        value={item.value}
-                                        readOnly
-                                    />
-                                ) : (
-                                    <Input className="mt-1"
-                                           value={item.value}
-                                           readOnly
-                                    />
-                                )
-                            }
-                        </div>
-                    )
-                })
-            }
-        </div>
+        <ProcessFormInput data={e_leaveDisplay}/>
 
         <Separator className="mt-auto"/>
         <div className="p-4">
