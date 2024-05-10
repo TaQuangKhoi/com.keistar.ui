@@ -12,32 +12,10 @@ import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
 import defaultOT from "@/app/workspace/office/ot/config/default-selected-ot";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
+import headerOT from "@/app/workspace/office/ot/config/header-ot";
 
 export default function OTPage() {
     const businessDataType = "com.keistar.model.office.OT";
-
-    const headerItem = [
-        {
-            "label": "Approver",
-            "key": "approver.firstName"
-        },
-        {
-            "label": "Status",
-            "key": "status"
-        },
-        {
-            "label": "Start Date",
-            "key": "startDate(Date)"
-        },
-        {
-            "label": "End Date",
-            "key": "endDate(Date)"
-        },
-        {
-            "label": "Total hours",
-            "key": "totalHour"
-        }
-    ]
 
     return KeistarLayout(
         "OT Registration",
@@ -57,7 +35,7 @@ export default function OTPage() {
                             selectedAtom={selectedOtAtom}
                             cardConfig={{
                                 businessDataType,
-                                header: headerItem
+                                header: headerOT,
                             }}
         />,
         <OTFragment/>,
