@@ -31,6 +31,10 @@ export default function KeistarLeftSidebar(
         reloadListAtom: WritableAtom<boolean, [boolean?], void>,
         cardConfig: {
             businessDataType: string,
+            businessData: {
+                query: string,
+                params: any,
+            },
             header: {
                 label: string,
                 key: string,
@@ -61,7 +65,10 @@ export default function KeistarLeftSidebar(
     const [listState, setListState] = useAtom(listAtom);
     const getData = async () => {
         const _list = await findsBusinessData(
-            cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+            cardConfig.businessDataType,
+            cardConfig.businessData.query ? cardConfig.businessData.query : "findsOrderByUpdatedDate",
+            0, 20, {}, 'directManager',
+            cardConfig.businessData.params
         )
         setListState(_list);
     };
