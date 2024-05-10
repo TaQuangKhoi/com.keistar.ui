@@ -14,17 +14,27 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
+export type DateRangeString = {
+    from: string | undefined;
+    to?: string | undefined;
+}
+
 export default function KeistarDatePickerWithRange(
     {
         className,
         date,
         setDate,
         disabled = false,
+
+        dateOnly = false,
+        setDateOnlyString,
     }: {
         className?: string,
         date: DateRange | undefined,
         setDate: (date: DateRange | undefined) => void,
         disabled?: boolean,
+        dateOnly?: boolean,
+        setDateOnlyString?: (date: DateRangeString | undefined) => void,
     }
 ) {
     // const [date, setDate] = React.useState<DateRange | undefined>({
@@ -65,7 +75,19 @@ export default function KeistarDatePickerWithRange(
                         mode="range"
                         defaultMonth={date?.from}
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={(date) => {
+                            if (dateOnly && date && date.to && date.from) {
+                                // format DD/MM/YYYY
+                                const dateFrom = format(date.from, "yyyy-MM-dd")
+
+                                const dateTo = format(date.to, "yyyy-MM-dd")
+                                setDateOnlyString({
+                                    from: dateFrom,
+                                    to: dateTo,
+                                })
+                            }
+                            setDate(date)
+                        }}
                         numberOfMonths={2}
                     />
                 </PopoverContent>

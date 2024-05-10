@@ -73,6 +73,16 @@ export default function TravelFragment(
         dateRange?.to
     ]);
 
+
+    const [dateOnlyRange, setDateOnlyRange] = useState({
+        from: currentDate.toLocaleDateString(),
+        to: addDays(currentDate, 2).toLocaleDateString(),
+    })
+    useEffect(() => {
+        console.debug("dateOnlyRange", dateOnlyRange);
+    }, [dateOnlyRange]);
+
+
     const [countries, setCountries] = useState<Country_BDM[]>([])
     useEffect(() => {
         // fetch countries
@@ -98,8 +108,10 @@ export default function TravelFragment(
     }, []);
     useEffect(() => {
         setSelectedItem((draft) => {
-            draft.startDate = dateRange?.from?.toISOString() || currentDate.toISOString();
-            draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
+            // draft.startDate = dateRange?.from?.toISOString() || currentDate.toISOString();
+            // draft.endDate = dateRange?.to?.toISOString() || addDays(currentDate, 20).toISOString();
+            draft.startDate = dateOnlyRange?.from;
+            draft.endDate = dateOnlyRange?.to;
         })
     }, [
         dateRange,
@@ -131,9 +143,12 @@ export default function TravelFragment(
                         <div>
                             <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
                             <KeistarDatePickerWithRange
+                                dateOnly={true}
                                 disabled={isInForm}
                                 date={dateRange}
                                 setDate={setDateRange}
+
+                                setDateOnlyString={setDateOnlyRange}
                             />
                         </div>
                         <div>
