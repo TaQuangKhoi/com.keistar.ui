@@ -10,9 +10,13 @@ export default function TableToolbar(
     {
         title,
         table,
+        allowAdd = true,
+        allowDelete = true,
     }: {
-        title: string
+        title: string,
         table: Table<unknown>,
+        allowAdd?: boolean,
+        allowDelete?: boolean,
     }
 ) {
     const meta = table.options.meta
@@ -24,6 +28,7 @@ export default function TableToolbar(
             <div className="flex items-center gap-2">
                 <Button size="sm"
                         onClick={meta?.addRow}
+                        disabled={!allowAdd}
                 >
                     <PlusIcon className="mr-2 h-4 w-4"/>
                     New Row
@@ -34,6 +39,7 @@ export default function TableToolbar(
                             const rowsIndex = Object.keys(selectedRowModel.rowsById).map(Number)
                             meta?.removeRow(rowsIndex)
                         }}
+                        disabled={!allowDelete}
                 >
                     <TrashIcon className="mr-2 h-4 w-4"/>
                     Remove Row

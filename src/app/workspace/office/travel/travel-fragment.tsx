@@ -131,6 +131,7 @@ export default function TravelFragment(
                         <div>
                             <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
                             <KeistarDatePickerWithRange
+                                disabled={isInForm}
                                 date={dateRange}
                                 setDate={setDateRange}
                             />
@@ -156,7 +157,7 @@ export default function TravelFragment(
                                     })
                                 }}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger disabled={isInForm}>
                                     <SelectValue placeholder="Select a country"/>
                                 </SelectTrigger>
                                 <SelectContent>
@@ -180,6 +181,7 @@ export default function TravelFragment(
                                            draft.location = e.target.value
                                        })
                                    }}
+                                   disabled={isInForm}
                             />
                         </div>
                     </div>
@@ -200,6 +202,7 @@ export default function TravelFragment(
                                            draft.perDiemAdvance = Number(e.target.value)
                                        })
                                    }}
+                                   disabled={isInForm}
                             />
                         </div>
                         <div>
@@ -212,6 +215,7 @@ export default function TravelFragment(
                                            draft.perDiemOthers = Number(e.target.value)
                                        })
                                    }}
+                                   disabled={isInForm}
                             />
                         </div>
                         <div>
@@ -236,7 +240,10 @@ export default function TravelFragment(
                                 input: ["#", "select", "input", "input"],
                                 selectOptions: [
                                     null, travelReasonTypes, null, null
-                                ]
+                                ],
+                                editable: [!isInForm, !isInForm, !isInForm, !isInForm],
+                                allowAdd: !isInForm,
+                                allowDelete: !isInForm,
                             }}
                         />
                     </div>

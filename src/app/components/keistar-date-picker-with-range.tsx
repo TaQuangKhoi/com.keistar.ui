@@ -19,10 +19,12 @@ export default function KeistarDatePickerWithRange(
         className,
         date,
         setDate,
+        disabled = false,
     }: {
-        className?: string
-        date: DateRange | undefined
-        setDate: (date: DateRange | undefined) => void
+        className?: string,
+        date: DateRange | undefined,
+        setDate: (date: DateRange | undefined) => void,
+        disabled?: boolean,
     }
 ) {
     // const [date, setDate] = React.useState<DateRange | undefined>({
@@ -33,7 +35,7 @@ export default function KeistarDatePickerWithRange(
     return (
         <div className={cn("grid gap-2", className)}>
             <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild disabled={disabled}>
                     <Button
                         id="date"
                         variant={"outline"}

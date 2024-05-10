@@ -42,7 +42,7 @@ import SelectCell from "@/app/components/editable-table/select-cell";
 import OrderNumberCell from "@/app/components/editable-table/order-number-input";
 import {PrimitiveAtom, useAtom, WritableAtom} from "jotai/index";
 
-export default function  KeistarEditableTable(
+export default function KeistarEditableTable(
     {
         title,
         data,
@@ -54,7 +54,10 @@ export default function  KeistarEditableTable(
             key: string[],
             head: string[],
             input: string[],
-            selectOptions?: any[]
+            selectOptions?: any[],
+            editable?: boolean[],
+            allowAdd?: boolean,
+            allowDelete?: boolean,
         },
     }
 ) {
@@ -174,6 +177,7 @@ export default function  KeistarEditableTable(
                     const reloadFunc = (old: any[]) => dataState;
                     setDataState(reloadFunc);
                 },
+                editable: config.editable || [],
             },
             enableRowSelection: true,
             debugTable: true,
@@ -188,7 +192,10 @@ export default function  KeistarEditableTable(
     }, [dataState]);
 
     return <>
-        <TableToolbar title={title} table={table}/>
+        <TableToolbar title={title} table={table}
+                      allowAdd={config.allowAdd}
+                      allowDelete={config.allowDelete}
+        />
         <Table className="border">
             <TableHeader>
                 {

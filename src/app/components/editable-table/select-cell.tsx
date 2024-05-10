@@ -27,6 +27,7 @@ export default function SelectCell(
         }
     })
     const selectOption = table.options.meta?.selectOptions[indexOfColumn - 1]
+    const editable: boolean = table.options.meta?.editable[indexOfColumn - 1]
 
     useEffect(() => {
         if (initialValue === undefined) {
@@ -42,8 +43,9 @@ export default function SelectCell(
             table.options.meta?.updateData(index, id, newOption)
         }}
         value={value}
+        disabled={!editable}
     >
-        <SelectTrigger>
+        <SelectTrigger disabled={!editable}>
             <SelectValue
                 placeholder={selectOption?.filter((option: any) => option.persistenceId_string === value)[0]?.description}
                 defaultValue={value}

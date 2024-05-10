@@ -16,55 +16,25 @@ import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shel
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
     const [context, ,] = useGetContextByUserTaskId(task.id);
-    const [travelRequest, setTravelRequest] = useState<Travel_Item>()
+    const [, setTravelRequest] = useState<Travel_Item>()
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
-    const [selectedItem, setSelectedItem] = useAtom(selectedTravelAtom);
+
+    const [, setSelectedItem] = useAtom(selectedTravelAtom);
     const getData = async () => {
         const data = await callLink(context.newTravelRequest_ref.link)
         setTravelRequest(data)
         setSelectedItem(data)
     }
-
     useEffect(() => {
         if (context != undefined) {
             getData()
         }
     }, [context]);
 
-    console.debug("TravelForm", task)
-
-    let data: ProcessFormInputType[] = [
-        {
-            key: "Status",
-            value: travelRequest?.status,
-        },
-        {
-            key: "Start Date",
-            value: travelRequest?.startDate,
-        },
-        {
-            key: "End Date",
-            value: travelRequest?.endDate,
-        },
-        {
-            key: "Total Days",
-            value: travelRequest?.totalDays,
-        },
-        {
-            key: "Country",
-            value: travelRequest?.country?.name,
-        },
-        {
-            key: "Location",
-            value: travelRequest?.location,
-        },
-
-    ]
 
     return <>
-        {/*<ProcessFormInput data={data}/>*/}
         <ProcessFormShell>
             <TravelFragment isInForm={true}
                 // task={task}

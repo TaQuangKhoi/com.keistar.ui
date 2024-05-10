@@ -1,6 +1,6 @@
 'use client'
 
-import {CellContext} from "@tanstack/react-table";
+import {CellContext, ColumnDef} from "@tanstack/react-table";
 import React, {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input";
 
@@ -28,9 +28,21 @@ export default function InputCell(
         setValue(initialValue);
     }, [initialValue]);
 
+
+    const columns: ColumnDef<unknown, any>[] = table.options.columns
+    const indexOfColumn = columns.findIndex((column) => {
+        if (column.hasOwnProperty("accessorKey")) {
+            // @ts-ignore
+            return column.accessorKey === id
+        }
+    })
+    const editable: boolean = table.options.meta?.editable[indexOfColumn - 1]
+
+
     return <Input placeholder="Enter value"
                   value={value as string}
                   onChange={e => setValue(e.target.value)}
                   onBlur={onBlur}
+                  disabled={!editable}
     />;
 }
