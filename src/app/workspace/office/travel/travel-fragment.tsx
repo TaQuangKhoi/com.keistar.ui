@@ -20,6 +20,7 @@ import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import Country_BDM from "@/app/types/country-bdm-interface";
 import KeistarEditableTable from "@/app/components/keistar-editable-table";
 import {travelReasonsAtom} from "@/app/workspace/office/travel/atoms/travel-reasons-atom";
+import {Separator} from "@/components/ui/separator";
 
 export default function TravelFragment(
     {
@@ -33,11 +34,9 @@ export default function TravelFragment(
 
     useEffect(() => {
         setSelectedItem((draft) => {
-            draft.perDiemAdvance = 0;
-            draft.perDiemOthers = 0;
-            draft.perDiemTotal = 0;
+            draft.perDiemTotal = draft.perDiemAdvance + draft.perDiemOthers;
         })
-    }, []);
+    }, [selectedItem.perDiemAdvance, selectedItem.perDiemOthers]);
 
 
     const [travelReasons, setTravelReasons] = useAtom(travelReasonsAtom);
@@ -184,7 +183,49 @@ export default function TravelFragment(
                             />
                         </div>
                     </div>
-                    <hr className="mb-4"/>
+
+                    <Separator className="mb-4"/>
+
+                    <h2>
+                        Request for Advance
+                    </h2>
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <Label htmlFor="per-diem-request">Per diem Request</Label>
+                            <Input id="status"
+                                   type="number"
+                                   value={selectedItem.perDiemAdvance}
+                                   onChange={(e) => {
+                                       setSelectedItem((draft) => {
+                                           draft.perDiemAdvance = Number(e.target.value)
+                                       })
+                                   }}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="others-request">Others Request</Label>
+                            <Input id="status"
+                                   type="number"
+                                   value={selectedItem.perDiemOthers}
+                                   onChange={(e) => {
+                                       setSelectedItem((draft) => {
+                                           draft.perDiemOthers = Number(e.target.value)
+                                       })
+                                   }}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="total-request">Total Request</Label>
+                            <Input id="status"
+                                   type="number"
+                                   value={selectedItem.perDiemTotal}
+                                   disabled={true}
+                            />
+                        </div>
+                    </div>
+
+                    <Separator className="mb-4"/>
+
                     <div className="mb-4">
                         <KeistarEditableTable
                             title={"Travel Reasons"}
