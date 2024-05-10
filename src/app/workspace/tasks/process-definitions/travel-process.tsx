@@ -5,5 +5,9 @@ export const travelProcessTaskDefinitions = [
     {
         taskName: "Review Travel",
         component: (task: FullHumanTask) => <TravelForm task={task}/>,
-    }
+    },
+    {
+        taskName: "CEO Review Travel",
+        component: (task: FullHumanTask) => <TravelForm task={task}/>,
+    },
 ];
