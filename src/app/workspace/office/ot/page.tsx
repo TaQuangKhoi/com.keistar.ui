@@ -13,6 +13,7 @@ import defaultOT from "@/app/workspace/office/ot/config/default-selected-ot";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
 import headerOT from "@/app/workspace/office/ot/config/header-ot";
+import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
 
 export default function OTPage() {
     const businessDataType = "com.keistar.model.office.OT";
@@ -28,6 +29,7 @@ export default function OTPage() {
                             processUpdateName: "Update_OT",
                             businessDataType,
                         }}
+                        listAtom={employeeListAtom}
         />,
         <KeistarLeftSidebar listAtom={otListAtom} reloadListAtom={reloadOtListAtom}
                             idKey={"persistenceId_string"}
