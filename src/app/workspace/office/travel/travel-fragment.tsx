@@ -50,6 +50,12 @@ export default function TravelFragment(
         //     setTravelReasons([]);
         //     return;
         // }
+        
+        // Update date when selected item changes
+        setDateRange({
+            from: new Date(selectedItem.startDate),
+            to: new Date(selectedItem.endDate),
+        })
         setTravelReasons(selectedItem.reasons || []);
     }, [selectedItem.persistenceId_string]);
 
