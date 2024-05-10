@@ -9,6 +9,8 @@ import defaultTravel from "@/app/workspace/office/travel/config/default-travel";
 import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import headerTravel from "@/app/workspace/office/travel/config/header-travel";
 import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
+import {useSession} from "@/bonita/api/system/get-the-current-user-session";
+import {useEffect, useState} from "react";
 
 export default function TravelPage() {
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
