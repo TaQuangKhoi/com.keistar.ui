@@ -50,12 +50,15 @@ export default function TravelFragment(
         //     setTravelReasons([]);
         //     return;
         // }
-        
+
+        if (selectedItem.startDate) {
+            setDateRange({
+                from: new Date(selectedItem.startDate),
+                to: new Date(selectedItem.endDate),
+            })
+        }
         // Update date when selected item changes
-        setDateRange({
-            from: new Date(selectedItem.startDate),
-            to: new Date(selectedItem.endDate),
-        })
+
         setTravelReasons(selectedItem.reasons || []);
     }, [selectedItem.persistenceId_string]);
 
@@ -83,10 +86,7 @@ export default function TravelFragment(
     const [dateOnlyRange, setDateOnlyRange] = useState({
         from: currentDate.toLocaleDateString(),
         to: addDays(currentDate, 2).toLocaleDateString(),
-    })
-    useEffect(() => {
-        console.debug("dateOnlyRange", dateOnlyRange);
-    }, [dateOnlyRange]);
+    });
 
 
     const [countries, setCountries] = useState<Country_BDM[]>([])
