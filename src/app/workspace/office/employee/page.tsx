@@ -22,6 +22,7 @@ export default function EmployeePage() {
                             processUpdateName: "Update_Employee",
                             businessDataType: "com.keistar.model.office.Employee",
                         }}
+                        listAtom={employeeListAtom}
         />,
         <KeistarLeftSidebar listAtom={employeeListAtom} reloadListAtom={reloadEmployeesListAtom}
                             idKey={"persistenceId_string"}
