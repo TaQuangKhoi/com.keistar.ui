@@ -1,7 +1,7 @@
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import E_leaveCalendar from "@/app/workspace/office/e-leave/e-leave-calendar";
+import E_leaveCalendar from "@/app/workspace/office/e-leave/components/e-leave-calendar";
 
 
 export default function E_leavePage() {

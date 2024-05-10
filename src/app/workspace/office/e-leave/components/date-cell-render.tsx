@@ -9,7 +9,7 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import ProcessHoverCardContent from "@/app/workspace/office/e-leave/process-hover-card-content";
+import ProcessHoverCardContent from "@/app/workspace/office/e-leave/components/process-hover-card-content";
 
 interface LiType {
     persistenceId_string: string,

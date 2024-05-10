@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {isSameDay, eachDayOfInterval} from 'date-fns'
-import DateCellRender from "@/app/workspace/office/e-leave/date-cell-render";
+import DateCellRender from "@/app/workspace/office/e-leave/components/date-cell-render";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 
 // type extends E_leave
