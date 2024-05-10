@@ -20,15 +20,11 @@ import {selectedEmployeeAtom} from "@/app/workspace/office/employee/employee-sel
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 import {motion} from "framer-motion";
 import callLink from "@/bonita/api/bdm/call-link";
+import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
 
 
-export default function EmployeeFragment(
-    {
-        employees,
-    }: {
-        employees: Employee_Item[]
-    }
-) {
+export default function EmployeeFragment() {
+    const [employees,] = useAtom(employeeListAtom);
     const [selectedItem, setSelectedItem] = useAtom(selectedEmployeeAtom);
     const [directManager, setDirectManager] = useState<Employee_Item>()
 
@@ -108,8 +104,8 @@ export default function EmployeeFragment(
                                         <SelectTrigger>
                                             <SelectValue
                                                 placeholder={
-                                                "Select a direct manager"
-                                            }/>
+                                                    "Select a direct manager"
+                                                }/>
                                         </SelectTrigger>
                                         <SelectContent>
                                             {

@@ -1,42 +1,31 @@
 'use client'
 
 import {Button} from "@/components/ui/button";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Textarea} from "@/components/ui/textarea";
-import {Label} from "@/components/ui/label";
-import {Switch} from "@/components/ui/switch";
-import {Input} from "@/components/ui/input";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 import format from "date-fns/format";
 import {Separator} from "@/components/ui/separator";
-import {
-    useGetContextByUserTaskId,
-} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
+import {useGetContextByUserTaskId} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
 import {useEffect, useState} from "react";
 import {default as axios, useBaseUrl} from "@/lib/axios-instance";
 import E_leave from "@/app/workspace/office/e-leave/e_leave_type";
 import {useUserById} from "@/bonita/api/identity/user/definitions/finds-the-user-by-id";
 import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-the-user-task";
 import {toast} from "sonner";
-import {useRouter} from "next/navigation";
 import {useAtom} from "jotai";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
-
-type eleave_Context = {
-    e_leave: E_leave
-}
+import ProcessFormInput from "@/app/workspace/tasks/components/process-form-input";
 
 export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
-    const [context, loadingContext, errorContext] = useGetContextByUserTaskId(task.id);
+    const [context, ,] = useGetContextByUserTaskId(task.id);
     const [e_leave, setE_leave] = useState<E_leave>({})
-    const [userById, loadingUserById, errorUserById] = useUserById(e_leave.requestor)
-    const [baseUrl, endPoint, setBaseUrl] = useBaseUrl("");
+    const [userById, ,] = useUserById(e_leave.requestor)
+    const [baseUrl, , setBaseUrl] = useBaseUrl("");
 
-    const [comment, setComment] = useState<string>();
+    const [comment, setComment] = useState<string>("");
 
-    const [tasksLoadingAtomValue, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
+    const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
-    const router = useRouter();
 
     /**
      * Display the e-leave in the form by input tags
@@ -49,7 +38,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
     useEffect(() => {
         if (context) {
             setBaseUrl('/' + context.eleave_ref.link)
-            if (typeof baseUrl === "string") {
+            if (baseUrl !== undefined) {
                 axios.get(baseUrl, {
                     withCredentials: true,
                 }).then((response) => {
@@ -57,7 +46,7 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                 });
             }
         }
-    }, [task, context, baseUrl]);
+    }, [task, context, baseUrl, setBaseUrl]);
 
     useEffect(() => {
         setE_leaveDisplay([
@@ -93,64 +82,8 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
         ])
     }, [userById, e_leave]);
 
-    return <div className="flex flex-1 flex-col">
-        <div className="flex items-start p-4">
-            <div className="flex items-start gap-4 text-sm">
-                <Avatar>
-                    <AvatarImage alt={task.name}/>
-                    <AvatarFallback>
-                        {task.name
-                            .split(" ")
-                            .map((chunk) => chunk[0])
-                            .join("")}
-                    </AvatarFallback>
-                </Avatar>
-                <div className="grid gap-1">
-                    <div className="font-semibold">{task.name}</div>
-                    <div className="line-clamp-1 text-xs">{task.displayName}</div>
-                    <div className="line-clamp-1 text-xs">
-                        <span className="font-medium">Reply-To:</span> {task.rootContainerId.id}
-                    </div>
-                </div>
-            </div>
-            {task.assigned_date && (
-                <div className="ml-auto text-xs text-muted-foreground">
-                    {format(new Date(task.assigned_date), "PPpp")}
-                </div>
-            )}
-        </div>
-        <Separator/>
-
-        <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto max-h-[55vh]">
-            {
-                e_leaveDisplay.map((item: {
-                    key: string, value: string, type?: string
-                }) => {
-                    return (
-                        <div className="my-2"
-                             key={item.key}>
-                            <Label>
-                                {item.key}
-                            </Label>
-                            {
-                                item.type === "textarea" ? (
-                                    <Textarea
-                                        className="mt-1"
-                                        value={item.value}
-                                        readOnly
-                                    />
-                                ) : (
-                                    <Input className="mt-1"
-                                           value={item.value}
-                                           readOnly
-                                    />
-                                )
-                            }
-                        </div>
-                    )
-                })
-            }
-        </div>
+    return <>
+        <ProcessFormInput data={e_leaveDisplay}/>
 
         <Separator className="mt-auto"/>
         <div className="p-4">
@@ -163,13 +96,13 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                         onChange={(e) => setComment(e.target.value)}
                     />
                     <div className="flex items-center">
-                        <Label
-                            htmlFor="mute"
-                            className="flex items-center gap-2 text-xs font-normal"
-                        >
-                            <Switch id="mute" aria-label="Mute thread"/> Mute this
-                            thread
-                        </Label>
+                        {/*<Label*/}
+                        {/*    htmlFor="mute"*/}
+                        {/*    className="flex items-center gap-2 text-xs font-normal"*/}
+                        {/*>*/}
+                        {/*    <Switch id="mute" aria-label="Mute thread"/>*/}
+                        {/*    Mute this thread*/}
+                        {/*</Label>*/}
                         <div className="flex ml-auto space-x-2">
                             <Button
                                 onClick={(e) => {
@@ -187,7 +120,11 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                                 {duration: 3000})
                                         }
                                     }).catch(e => {
-                                        toast.error("Error: " + e)
+                                        toast.error("Error: " + e,
+                                            {
+                                                position: "top-right"
+                                            }
+                                        )
                                     }).finally(() => {
                                         setTasksLoadingAtomValue(true);
                                     });
@@ -207,26 +144,35 @@ export default function ReviewEleaveForm({task}: { task: FullHumanTask }) {
                                             approveComment: comment,
                                             rejectComment: ""
                                         }
-                                    }).then(response => {
+                                    },true
+                                    ).then(response => {
                                         if (response.status === 204) {
-                                            toast.success("E-leave has been approved",
-                                                {duration: 3000})
+                                            toast.success(
+                                                "E-leave has been approved",
+                                                {
+                                                    duration: 3000,
+                                                    position: "top-right"
+                                                },
+                                            )
                                         }
                                     }).catch(e => {
-                                        toast.error("Error: " + e)
+                                        toast.error("Error: " + e,
+                                            {
+                                                position: "top-right"
+                                            }
+                                        )
                                     }).finally(() => {
                                         setTasksLoadingAtomValue(true);
                                     });
                                 }}
                                 size="sm"
                                 className=""
-                            >
-                                Approve
+                            >Approve
                             </Button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-    </div>
+    </>
 }

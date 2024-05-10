@@ -19,16 +19,16 @@ import {WritableAtom} from "jotai";
 export default function KeistarLeftSidebar(
     {
         idKey,
-        selected,
-        list,
+        selectedAtom,
+        listAtom,
         reloadListAtom,
         cardConfig,
         titleKey,
     }: {
         idKey: string,
-        selected: PrimitiveAtom<any>,
-        list: PrimitiveAtom<any[]>,
-        reloadListAtom:  WritableAtom<boolean, [boolean | undefined], void>,
+        selectedAtom: PrimitiveAtom<any>,
+        listAtom: PrimitiveAtom<any[]>,
+        reloadListAtom: WritableAtom<boolean, [boolean?], void>,
         cardConfig: {
             businessDataType: string,
             header: {
@@ -39,37 +39,8 @@ export default function KeistarLeftSidebar(
         titleKey: string,
     }
 ) {
-    const windowsSize = useWindowSize();
     const [height, setHeight] = useState<number>()
-    const [selectedItem, setSelectedItem] = useAtom(selected);
-
-
-    const [reloadList, setReloadList] = useAtom(reloadListAtom);
-
-
-    const [listState, setListState] = useAtom(list);
-    useEffect(() => {
-        if (reloadList) {
-            const getData = async () => {
-                const _list = await findsBusinessData(
-                    cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
-                )
-                setListState(_list);
-            };
-            getData();
-            setReloadList(false);
-        }
-    }, [reloadList]);
-    /**
-     * Default selected item
-     */
-    useEffect(() => {
-        if (listState) {
-            setSelectedItem(listState[0]);
-        }
-    }, [listState]);
-
-
+    const windowsSize = useWindowSize();
     /**
      * Dynamic height
      */
@@ -80,6 +51,36 @@ export default function KeistarLeftSidebar(
         const newHeight = windowsSize.height - 300;
         setHeight(newHeight);
     }, [windowsSize]);
+
+
+    const [selectedItem, setSelectedItem] = useAtom(selectedAtom);
+
+
+    const [reloadList, toggle] = useAtom(reloadListAtom);
+
+    const [listState, setListState] = useAtom(listAtom);
+    const getData = async () => {
+        const _list = await findsBusinessData(
+            cardConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+        )
+        setListState(_list);
+    };
+    useEffect(() => {
+        if (reloadList) {
+            toggle(false);
+            getData();
+        }
+    }, [reloadList]);
+    /**
+     * Default selected item
+     */
+    useEffect(() => {
+        if (listState) {
+            setSelectedItem(listState[0]);
+            scrollTo({left: 0, top: 0, behavior: "smooth"})
+        }
+    }, [listState]);
+
 
     return (
         <div className="grid grid-cols-1 gap-4">

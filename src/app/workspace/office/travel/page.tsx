@@ -16,34 +16,25 @@ import headerTravel from "@/app/workspace/office/travel/header-travel";
 import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
 
 export default function TravelPage() {
-    const [selected, setSelected] = useAtom(selectedTravelAtom);
-    const [list, setList] = useState<Travel_Item[]>()
-    const [reloadList, setReloadList] = useAtom(reloadTravelListAtom);
-
-    useEffect(() => {
-        setReloadList(true);
-    }, []);
-
-    const titleKey = "persistenceId";
+    const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 
     return KeistarLayout(
         "Travel",
-        <KeistarToolbar selected={selectedTravelAtom}
+        <KeistarToolbar reloadListAtom={reloadTravelListAtom} selectedAtom={selectedTravelAtom}
                         defaultValue={defaultTravel}
-                        reloadList={reloadEmployeesListAtom}
                         processConfig={{
-                            businessDataType: "com.keistar.model.office.travel.TravelRequest",
+                            businessDataType,
                             processDeletedName: "Delete_Travel",
                             processCreateName: "Create_TravelRequest",
                             processUpdateName: "Update_Travel",
                         }}
         />,
-        <KeistarLeftSidebar list={travelListAtom} reloadListAtom={reloadTravelListAtom}
+        <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
                             idKey={"persistenceId_string"}
-                            titleKey={titleKey}
-                            selected={selectedTravelAtom}
+                            titleKey={"persistenceId"}
+                            selectedAtom={selectedTravelAtom}
                             cardConfig={{
-                                businessDataType: "com.keistar.model.office.travel.TravelRequest",
+                                businessDataType,
                                 header: headerTravel,
                             }}
         />,

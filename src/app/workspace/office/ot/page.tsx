@@ -14,13 +14,7 @@ import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
 
 export default function OTPage() {
-    const [selected, setSelected] = useAtom(selectedOtAtom);
-    const [list, setList] = useState<OT_Item[]>();
-    const [reloadList, setReloadList] = useAtom(reloadOtListAtom);
-
-    useEffect(() => {
-        setReloadList(true);
-    }, []);
+    const businessDataType = "com.keistar.model.office.OT";
 
     const headerItem = [
         {
@@ -47,24 +41,24 @@ export default function OTPage() {
 
     return KeistarLayout(
         "OT Registration",
-        <KeistarToolbar selected={selectedOtAtom}
+        <KeistarToolbar selectedAtom={selectedOtAtom}
                         defaultValue={defaultOT}
-                        reloadList={reloadOtListAtom}
+                        reloadListAtom={reloadOtListAtom}
                         processConfig={{
                             processDeletedName: "Delete_OT",
                             processCreateName: "Create_OT",
                             processUpdateName: "Update_OT",
-                            businessDataType: "com.keistar.model.office.OT",
+                            businessDataType,
                         }}
         />,
-        <KeistarLeftSidebar list={otListAtom} reloadListAtom={reloadOtListAtom}
-            idKey={"persistenceId_string"}
-            titleKey="persistenceId_string"
-            selected={selectedOtAtom}
-            cardConfig= {{
-                businessDataType: "com.keistar.model.office.OT",
-                header: headerItem
-            }}
+        <KeistarLeftSidebar listAtom={otListAtom} reloadListAtom={reloadOtListAtom}
+                            idKey={"persistenceId_string"}
+                            titleKey="persistenceId_string"
+                            selectedAtom={selectedOtAtom}
+                            cardConfig={{
+                                businessDataType,
+                                header: headerItem
+                            }}
         />,
         <OTFragment/>,
     );

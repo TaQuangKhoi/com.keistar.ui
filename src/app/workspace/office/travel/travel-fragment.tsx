@@ -47,6 +47,10 @@ export default function TravelFragment(
         })
     }, [travelReasons]);
     useEffect(() => {
+        // if (selectedItem.persistenceId_string === undefined) {
+        //     setTravelReasons([]);
+        //     return;
+        // }
         setTravelReasons(selectedItem.reasons || []);
     }, [selectedItem.persistenceId_string]);
 

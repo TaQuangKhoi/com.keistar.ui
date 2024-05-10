@@ -1,11 +1,9 @@
+import LinkInterface from "@/bonita/api/types/link-interface";
+
 export default interface KeistarItem {
     persistenceId?: number,
     persistenceId_string?: string,
-    id?: number,
-    links?: [
-        {
-            rel: string,
-            href: string,
-        }
-    ],
+    persistenceVersion?: number,
+    persistenceVersion_string?: string,
+    links?: LinkInterface[],
 }

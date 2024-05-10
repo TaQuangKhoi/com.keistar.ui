@@ -29,6 +29,9 @@ export default function SelectCell(
     const selectOption = table.options.meta?.selectOptions[indexOfColumn - 1]
 
     useEffect(() => {
+        if (initialValue === undefined) {
+            return;
+        }
         setValue(initialValue.persistenceId_string);
     }, [initialValue]);
 
