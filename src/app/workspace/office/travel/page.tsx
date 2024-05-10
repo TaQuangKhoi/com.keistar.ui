@@ -10,9 +10,9 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
-import defaultTravel from "@/app/workspace/office/travel/default-travel";
+import defaultTravel from "@/app/workspace/office/travel/config/default-travel";
 import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
-import headerTravel from "@/app/workspace/office/travel/header-travel";
+import headerTravel from "@/app/workspace/office/travel/config/header-travel";
 import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
 
 export default function TravelPage() {

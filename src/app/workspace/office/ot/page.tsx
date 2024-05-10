@@ -9,7 +9,7 @@ import {selectedOtAtom} from "@/app/workspace/office/ot/atoms/ot-selected-atom";
 import {useEffect, useState} from "react";
 import {reloadOtListAtom} from "@/app/workspace/office/ot/atoms/reload-ot-list-atom";
 import OT_Item from "@/app/workspace/office/ot/types/ot-inteface";
-import defaultOT from "@/app/workspace/office/ot/default-selected-ot";
+import defaultOT from "@/app/workspace/office/ot/config/default-selected-ot";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {otListAtom} from "@/app/workspace/office/ot/atoms/ot-list-atom";
 
