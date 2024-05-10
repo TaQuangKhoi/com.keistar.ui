@@ -5,20 +5,12 @@ import {cn} from "@/lib/utils";
 import {Separator} from "@/components/ui/separator";
 import {Nav} from "@/app/examples/mail/components/nav";
 import {
-    AlertCircle,
-    Archive,
-    ArchiveX,
     ListTodo,
     CheckSquare2,
-    File,
-    Inbox,
-    MessagesSquare,
     Search,
-    Send,
-    ShoppingCart,
-    Trash2,
-    Users2
+    RefreshCw,
 } from "lucide-react";
+
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Input} from "@/components/ui/input";
 import {useEffect, useState} from "react";
@@ -30,6 +22,8 @@ import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {useAtom} from "jotai";
 import {tasksAtom} from "@/app/workspace/tasks/atoms/tasks-atom";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
+import {toast} from "sonner";
+import {useAnimate} from "framer-motion";
 
 export default function Task() {
     let navCollapsedSize = 4;
@@ -66,7 +60,6 @@ export default function Task() {
             setTasksLoading(false)
         })
     }, [tasksLoading]);
-
     const getTaslListData = async () => {
         return await findsHumanTasks(
             0,
@@ -77,6 +70,10 @@ export default function Task() {
             ["rootContainerId"]
         )
     }
+
+
+    const [scope, animate] = useAnimate();
+
 
     return <div className="">
         <ResizablePanelGroup
@@ -195,6 +192,27 @@ export default function Task() {
                 <Tabs defaultValue="all">
                     <div className="flex items-center px-4 py-2">
                         <h1 className="text-xl font-bold">Task List</h1>
+                        <div ref={scope}>
+                            <RefreshCw
+                                className="w-5 h-5 ml-2 cursor-pointer text-muted-foreground dark:text-muted-foreground"
+                                onClick={() => {
+                                    animate(
+                                        [
+                                            ["svg", {rotate: [0,360],}, {duration: 0.3, },]
+                                        ]
+                                    )
+
+                                    // Infinite loop
+                                    // animate(
+                                    //     "svg", {rotate: [0, 360],}, {duration: 0.3, repeat: Infinity}
+                                    // )
+
+                                    toast("Refreshing tasks")
+
+                                }}
+                            />
+                        </div>
+
                         <TabsList className="ml-auto">
                             <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">
                                 All tasks

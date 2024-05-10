@@ -1,8 +1,7 @@
 import {Label} from "@/components/ui/label";
 import {Textarea} from "@/components/ui/textarea";
 import {Input} from "@/components/ui/input";
-import {useEffect, useState} from "react";
-import {useWindowSize} from "@uidotdev/usehooks";
+import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
 
 export interface ProcessFormInputType {
     key: string,
@@ -19,32 +18,9 @@ export default function ProcessFormInput(
         data
     }: ProcessFormInputProps
 ) {
-    const [height, setHeight] = useState<number>(0);
-    const windowsSize = useWindowSize();
-    /**
-     * Dynamic height
-     */
-    useEffect(() => {
-        if (windowsSize.height === null) {
-            return;
-        }
-        let newHeight = 0;
-        if (windowsSize.height >= 774) {
-            newHeight = windowsSize.height - 390;
-            setHeight(newHeight);
-        }
-        if (windowsSize.height < 774) {
-            newHeight = windowsSize.height - 400;
-        }
-        setHeight(newHeight);
-    }, [windowsSize]);
 
     return (
-        <div className="flex-1 whitespace-pre-wrap p-4 text-sm overflow-auto"
-             style={
-                 {maxHeight: height}
-             }
-        >
+        <ProcessFormShell>
             {
                 data.map((item: ProcessFormInputType) => {
                     return (
@@ -71,6 +47,6 @@ export default function ProcessFormInput(
                     )
                 })
             }
-        </div>
+        </ProcessFormShell>
     )
 }

@@ -10,6 +10,9 @@ import {toast} from "sonner";
 import {useAtom} from "jotai/index";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 import ProcessFormInput, {ProcessFormInputType} from "@/app/workspace/tasks/components/process-form-input";
+import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
+import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
+import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
     const [context, ,] = useGetContextByUserTaskId(task.id);
@@ -17,9 +20,11 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
+    const [selectedItem, setSelectedItem] = useAtom(selectedTravelAtom);
     const getData = async () => {
         const data = await callLink(context.newTravelRequest_ref.link)
         setTravelRequest(data)
+        setSelectedItem(data)
     }
 
     useEffect(() => {
@@ -59,8 +64,16 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
     ]
 
     return <>
-        <ProcessFormInput data={data}/>
+        {/*<ProcessFormInput data={data}/>*/}
+        <ProcessFormShell>
+            <TravelFragment isInForm={true}
+                // task={task}
+            />
+        </ProcessFormShell>
+
+
         <Separator className="mt-auto"/>
+
         {
             task.name === "Review Travel" && (
                 <TaskSubmitFooter task={task} buttons={[
