@@ -23,6 +23,7 @@ export default function TravelPage() {
                             processCreateName: "Create_TravelRequest",
                             processUpdateName: "Update_Travel",
                         }}
+                        listAtom={travelListAtom}
         />,
         <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
                             idKey={"persistenceId_string"}

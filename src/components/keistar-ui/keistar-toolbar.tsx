@@ -14,17 +14,22 @@ import getProcessContractById from "@/bonita/api/bpm/process/definitions/finds-p
 import {WritableAtom} from 'jotai'
 import {AxiosError} from "axios";
 
+import {RefreshCw} from "lucide-react"
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+
 export default function KeistarToolbar(
     {
         selectedAtom,
         defaultValue,
         reloadListAtom,
+        listAtom,
         processConfig,
     }:
         {
             selectedAtom: PrimitiveAtom<any>,
             defaultValue?: any,
             reloadListAtom: WritableAtom<boolean, [boolean?], void>,
+            listAtom?: PrimitiveAtom<any[]>,
             processConfig: {
                 processCreateName: string,
                 processUpdateName: string,
@@ -35,6 +40,19 @@ export default function KeistarToolbar(
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedAtom);
     const [, toggle] = useAtom(reloadListAtom);
+
+
+    const [listState, setListState] = useAtom(listAtom as PrimitiveAtom<any[]>);
+    const getData = async () => {
+        if (processConfig.businessDataType === undefined) {
+            return;
+        }
+        const _list = await findsBusinessData(
+            processConfig.businessDataType, "findsOrderByUpdatedDate", 0, 20, {}, 'directManager'
+        )
+        setListState(_list);
+    };
+
 
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
@@ -188,8 +206,21 @@ export default function KeistarToolbar(
                 <FilesIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Copy</span>
             </Button>
-            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline">
-                <ArrowLeftCircleIcon className="h-5 w-5 hover:text-blue-500"/>
+            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
+                    onClick={() => {
+                        getData().then(r => {
+                            toast("Data has been refreshed successfully",
+                                {
+                                    description: "Total data: " + listState.length,
+                                    action: {
+                                        label: "View",
+                                        onClick: () => console.log("View"),
+                                    },
+                                })
+                        });
+                    }}
+            >
+                <RefreshCw className="h-5 w-5 hover:text-blue-500"/>
                 <span>Refresh</span>
             </Button>
             <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline">
@@ -201,27 +232,6 @@ export default function KeistarToolbar(
                 <span>Split</span>
             </Button>
         </div>
-    )
-}
-
-function ArrowLeftCircleIcon(props: React.HTMLAttributes<any>) {
-    return (
-        <svg
-            {...props}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M16 12H8"/>
-            <path d="m12 8-4 4 4 4"/>
-        </svg>
     )
 }
 

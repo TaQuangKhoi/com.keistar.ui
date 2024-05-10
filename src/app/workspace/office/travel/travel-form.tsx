@@ -28,7 +28,13 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
         }
     }, [context]);
 
+    console.debug("TravelForm", task)
+
     let data: ProcessFormInputType[] = [
+        {
+            key: "Status",
+            value: travelRequest?.status,
+        },
         {
             key: "Start Date",
             value: travelRequest?.startDate,
@@ -55,61 +61,125 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
     return <>
         <ProcessFormInput data={data}/>
         <Separator className="mt-auto"/>
-        <TaskSubmitFooter task={task} buttons={[
-            {
-                label: "Approve",
-                onClick: (e, comment) => {
-                    e.preventDefault()
+        {
+            task.name === "Review Travel" && (
+                <TaskSubmitFooter task={task} buttons={[
+                    {
+                        label: "Approve",
+                        onClick: (e, comment) => {
+                            e.preventDefault()
 
-                    executeUserTask(task.id, {
-                            newTravelRequestInput: {
-                                managerApproved: true,
-                                approveComment: comment,
-                                rejectComment: "",
-                            }
-                        }, true
-                    ).then(response => {
-                        if (response.status === 204) {
-                            toast.success("Travel has been approved",
-                                {duration: 3000})
+                            executeUserTask(task.id, {
+                                    newTravelRequestInput: {
+                                        managerApproved: true,
+                                        approveComment: comment,
+                                        rejectComment: "",
+                                    }
+                                }, true
+                            ).then(response => {
+                                if (response.status === 204) {
+                                    toast.success("Travel has been approved",
+                                        {duration: 3000})
+                                }
+                            }).catch(e => {
+                                toast.error("Error: " + e,
+                                    {
+                                        position: "top-right"
+                                    }
+                                )
+                            }).finally(() => {
+                                setTasksLoadingAtomValue(true);
+                            });
                         }
-                    }).catch(e => {
-                        toast.error("Error: " + e,
-                            {
-                                position: "top-right"
-                            }
-                        )
-                    }).finally(() => {
-                        setTasksLoadingAtomValue(true);
-                    });
-                }
-            },
-            {
-                label: "Reject",
-                onClick: (e, comment) => {
-                    e.preventDefault()
-                    executeUserTask(task.id, {
-                        newTravelRequestInput: {
-                            managerApproved: false,
-                            approveComment: "",
-                            rejectComment: comment
+                    },
+                    {
+                        label: "Reject",
+                        onClick: (e, comment) => {
+                            e.preventDefault()
+                            executeUserTask(task.id, {
+                                newTravelRequestInput: {
+                                    managerApproved: false,
+                                    approveComment: "",
+                                    rejectComment: comment
+                                }
+                            }, true).then(response => {
+                                if (response.status === 204) {
+                                    toast.success("Travel has been rejected",
+                                        {duration: 3000})
+                                }
+                            }).catch(e => {
+                                toast.error("Error: " + e,
+                                    {
+                                        position: "top-right"
+                                    }
+                                )
+                            }).finally(() => {
+                                setTasksLoadingAtomValue(true);
+                            });
                         }
-                    }, true).then(response => {
-                        if (response.status === 204) {
-                            toast.success("Travel has been rejected",
-                                {duration: 3000})
+                    },
+                ]}/>
+            )
+        }
+        {
+            task.name === "CEO Review Travel" && (
+                <TaskSubmitFooter task={task} buttons={[
+                    {
+                        label: "Approve",
+                        onClick: (e, comment) => {
+                            e.preventDefault()
+
+                            executeUserTask(task.id, {
+                                    newTravelRequestInput: {
+                                        ceoApproved: true,
+                                        ceoApproveComment: comment,
+                                        ceoRejectComment: "",
+                                    }
+                                }, true
+                            ).then(response => {
+                                if (response.status === 204) {
+                                    toast.success("Travel has been approved",
+                                        {duration: 3000})
+                                }
+                            }).catch(e => {
+                                toast.error("Error: " + e,
+                                    {
+                                        position: "top-right"
+                                    }
+                                )
+                            }).finally(() => {
+                                setTasksLoadingAtomValue(true);
+                            });
                         }
-                    }).catch(e => {
-                        toast.error("Error: " + e,
-                            {
-                                position: "top-right"
-                            }
-                        )
-                    }).finally(() => {
-                        setTasksLoadingAtomValue(true);
-                    });
-                }
-            },
-        ]}/>
+                    },
+                    {
+                        label: "Reject",
+                        onClick: (e, comment) => {
+                            e.preventDefault()
+                            executeUserTask(task.id, {
+                                newTravelRequestInput: {
+                                    ceoApproved: false,
+                                    ceoApproveComment: "",
+                                    ceoRejectComment: comment
+                                }
+                            }, true).then(response => {
+                                if (response.status === 204) {
+                                    toast.success("Travel has been rejected",
+                                        {duration: 3000})
+                                }
+                            }).catch(e => {
+                                toast.error("Error: " + e,
+                                    {
+                                        position: "top-right"
+                                    }
+                                )
+                            }).finally(() => {
+                                setTasksLoadingAtomValue(true);
+                            });
+                        }
+                    },
+                ]}/>
+            )
+        }
     </>
 }
