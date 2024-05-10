@@ -14,6 +14,15 @@ import {useEffect, useState} from "react";
 
 export default function TravelPage() {
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
+    const [session]: [Session, boolean, any] = useSession()
+    const [username, setUsername] = useState('')
+
+    useEffect(() => {
+        console.debug(session.user_name)
+        if (session.user_name) {
+            setUsername(session.user_name)
+        }
+    }, [session]);
 
     return KeistarLayout(
         "Travel",
@@ -21,6 +30,12 @@ export default function TravelPage() {
                         defaultValue={defaultTravel}
                         processConfig={{
                             businessDataType,
+                            businessData: {
+                                params: {
+                                    'username': username
+                                },
+                                query: "findsOrderByUpdatedDate",
+                            },
                             processDeletedName: "Delete_Travel",
                             processCreateName: "Create_TravelRequest",
                             processUpdateName: "Update_Travel",
@@ -33,6 +48,12 @@ export default function TravelPage() {
                             selectedAtom={selectedTravelAtom}
                             cardConfig={{
                                 businessDataType,
+                                businessData: {
+                                    params: {
+                                        'username': username
+                                    },
+                                    query: "findsOrderByUpdatedDate",
+                                },
                                 header: headerTravel,
                             }}
         />,
