@@ -62,12 +62,13 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                     e.preventDefault()
 
                     executeUserTask(task.id, {
-                        newTravelRequestInput: {
-                            managerApproved: true,
-                            approveComment: comment,
-                            rejectComment: "",
-                        }
-                    }).then(response => {
+                            newTravelRequestInput: {
+                                managerApproved: true,
+                                approveComment: comment,
+                                rejectComment: "",
+                            }
+                        }, true
+                    ).then(response => {
                         if (response.status === 204) {
                             toast.success("Travel has been approved",
                                 {duration: 3000})
@@ -93,9 +94,9 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                             approveComment: "",
                             rejectComment: comment
                         }
-                    }).then(response => {
+                    }, true).then(response => {
                         if (response.status === 204) {
-                            toast.success("Travel has been approved",
+                            toast.success("Travel has been rejected",
                                 {duration: 3000})
                         }
                     }).catch(e => {
