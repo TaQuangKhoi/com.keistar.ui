@@ -16,6 +16,8 @@ interface Filter {
  * @param filter can filter on attributes with the format f={filter_name}={filter_value}
  *               with the name/value pair as url encoded string.
  *               Example: f=firstName=John
+ * @param d
+ * @param params
  */
 export default async function findsBusinessData(
     // Path parameters
@@ -26,6 +28,7 @@ export default async function findsBusinessData(
     c: number,
     filter: Filter = {},
     d: string = '',
+    params: any = {},
 ) {
     let url = getBaseUrl('/API/bdm/businessData/')
         + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c + '&d=' + d;
@@ -36,6 +39,11 @@ export default async function findsBusinessData(
             return key + '=' + filter[key];
         })
         url += f.join('&f=')
+    }
+
+    // Handle additional query parameters
+    if (Object.keys(params).length > 0) {
+        url += '&' + new URLSearchParams(params).toString();
     }
 
     return await axios.get(url, {
