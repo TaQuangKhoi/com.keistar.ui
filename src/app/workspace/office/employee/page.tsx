@@ -4,11 +4,11 @@ import KeistarLayout from "@/components/keistar-ui/keistar-layout";
 import KeistarToolbar from "@/components/keistar-ui/keistar-toolbar";
 import KeistarLeftSidebar from "@/components/keistar-ui/keistar-left-sidebar";
 import EmployeeFragment from "@/app/workspace/office/employee/employee-fragment";
-import {selectedEmployeeAtom} from "@/app/workspace/office/employee/employee-selected-atom";
+import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employee-selected-atom";
 import {reloadEmployeesListAtom} from "@/app/workspace/office/employee/atoms/reload-employees-list-atom";
 import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
-import headerEmployee from "@/app/workspace/office/employee/header-employee";
-import defaultEmployee from "@/app/workspace/office/employee/default-employee";
+import headerEmployee from "@/app/workspace/office/employee/config/header-employee";
+import defaultEmployee from "@/app/workspace/office/employee/config/default-employee";
 
 export default function EmployeePage() {
     return KeistarLayout(

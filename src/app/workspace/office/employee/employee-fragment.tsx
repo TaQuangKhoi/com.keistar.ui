@@ -16,7 +16,7 @@ import {Calendar} from "@/components/ui/calendar";
 import {useAtom} from "jotai/index";
 import {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input";
-import {selectedEmployeeAtom} from "@/app/workspace/office/employee/employee-selected-atom";
+import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employee-selected-atom";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 import {motion} from "framer-motion";
 import callLink from "@/bonita/api/bdm/call-link";
