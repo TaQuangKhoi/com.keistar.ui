@@ -4,13 +4,13 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 
-import { ReactNode, PromiseLikeOfReactNode, JSX } from "react";
+import {ReactNode} from "react";
 
 export default function KeistarLayout(
     title: string,
-    toolbar: React.ReactNode,
-    left_sidebar: Iterable<ReactNode> | PromiseLikeOfReactNode | JSX.Element | null | undefined,
-    fragment: React.ReactNode
+    toolbar: ReactNode,
+    left_sidebar: ReactNode,
+    fragment: ReactNode
 ) {
     return (
         <div key="1" className="bg-white p-4">
