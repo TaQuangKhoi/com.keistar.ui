@@ -77,9 +77,19 @@ export default function KeistarLeftSidebar(
     useEffect(() => {
         if (listState) {
             setSelectedItem(listState[0]);
-            scrollTo({left: 0, top: 0, behavior: "smooth"})
         }
     }, [listState]);
+
+
+    /**
+     * Sync Data
+     */
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // getData();
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
 
 
     return (

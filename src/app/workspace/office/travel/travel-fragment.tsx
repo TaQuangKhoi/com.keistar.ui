@@ -117,6 +117,18 @@ export default function TravelFragment(
                 </TabsList>
                 <TabsContent className="" value="details">
                     <div className="grid grid-cols-2 gap-4 mb-4">
+                        {
+                            selectedItem?.persistenceId_string && (
+                                <div>
+                                    <Label htmlFor="totals">Status</Label>
+                                    <Input id="status"
+                                           type="text"
+                                           value={selectedItem.status}
+                                           disabled={true}
+                                    />
+                                </div>
+                            )
+                        }
                         <div>
                             <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
                             <KeistarDatePickerWithRange

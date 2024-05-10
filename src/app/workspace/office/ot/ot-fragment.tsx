@@ -116,6 +116,12 @@ export default function OTFragment(
             || selectedItem.employee.persistenceId_string === undefined || selectedItem.employee.persistenceId_string === ""
         ) {
             setSelectedItem((draft) => {
+                if (draft.employee == null) {
+                    draft.employee = {
+                        persistenceId_string: session.user_id || ""
+                    }
+                    return;
+                }
                 draft.employee.persistenceId_string = session.user_id || "";
             })
         }
