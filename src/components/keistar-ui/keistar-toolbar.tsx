@@ -35,7 +35,7 @@ export default function KeistarToolbar(
                 processUpdateName: string,
                 processDeletedName: string,
                 businessDataType?: string,
-                businessData: {
+                businessData?: {
                     query: string,
                     params: any,
                 },
@@ -53,9 +53,9 @@ export default function KeistarToolbar(
         }
         const _list = await findsBusinessData(
             processConfig.businessDataType,
-            processConfig.businessData.query ? processConfig.businessData.query : "findsOrderByUpdatedDate",
-            0, 20, {}, 'directManager',
-            processConfig.businessData.params
+            processConfig.businessData?.query ? processConfig.businessData?.query : "findsOrderByUpdatedDate",
+            0, 20, processConfig.businessData?.params, 'directManager',
+
         )
         setListState(_list);
     };
