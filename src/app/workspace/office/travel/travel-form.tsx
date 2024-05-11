@@ -14,11 +14,9 @@ import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-sel
 import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
-    const [context, ,] = useGetContextByUserTaskId(task.id);
-
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
-
+    const [context, ,] = useGetContextByUserTaskId(task.id);
     const [, setSelectedItem] = useAtom(selectedTravelAtom);
     const getData = async () => {
         const data = await callLink(context.newTravelRequest_ref.link)
