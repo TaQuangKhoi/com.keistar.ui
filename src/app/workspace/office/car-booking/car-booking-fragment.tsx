@@ -130,6 +130,18 @@ export default function CarBookingFragment(
                               disabled={isInForm}
                     />
                 </div>
+                {
+                    selectedItem?.beforeKm && (
+                        <div>
+                            <Label htmlFor="beforeKm">Before KM</Label>
+                            <Input id="beforeKm"
+                                   type="text"
+                                   value={selectedItem?.beforeKm}
+                                   disabled={true}
+                            />
+                        </div>
+                    )
+                }
             </TabsContent>
         </Tabs>
     </div>
