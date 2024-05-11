@@ -1,10 +1,10 @@
 interface Session {
     user_id?: string,
     user_name?: string,
-    session_id?: string, //"501670672784361704",
-    conf?: string, // "[\"F2A1B8E895F82077F59E4F11D001FC5823BC629E\",\"CEEE6B727AB3EA8834DB0A732A1D8E8B230EE368\",\"53A5CA40F466070283D58B8069C98F36A6D4142C\",\"CA34A74DEF742742DAF395904D87FB1CC5EEF78B\",\"1E49E265B8708F2B474226C9F6211A427E2ADC02\",\"691A18FC27888346B838C65BF73858673D85DF4A\",\"835E3A67C0516F6F5178468E3A9CCC7FE8F3AF52\",\"74CD60A3CD84EEE4E13C17197508DAFEA2927F9A\",\"98B3E3369C0724F4CCD784EF257EA7E0AE7BDCB2\"]",
+    session_id?: string,
+    conf?: [],
     is_technical_user?: boolean,
     is_guest_user?: boolean,
-    version?: string, // "7.11.1",
-    copyright?: string, //"Bonitasoft © 2020"
+    version?: string,
+    copyright?: string,
 }
