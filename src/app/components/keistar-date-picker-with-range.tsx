@@ -13,6 +13,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import {Dispatch, SetStateAction} from "react";
 
 export type DateRangeString = {
     from: string | undefined;
@@ -34,7 +35,7 @@ export default function KeistarDatePickerWithRange(
         setDate: (date: DateRange | undefined) => void,
         disabled?: boolean,
         dateOnly?: boolean,
-        setDateOnlyString?: (date: DateRangeString | undefined) => void,
+        setDateOnlyString?: Dispatch<SetStateAction<DateRangeString>>,
     }
 ) {
 
@@ -77,10 +78,12 @@ export default function KeistarDatePickerWithRange(
                                 const dateFrom = format(date.from, "yyyy-MM-dd")
 
                                 const dateTo = format(date.to, "yyyy-MM-dd")
-                                setDateOnlyString({
-                                    from: dateFrom,
-                                    to: dateTo,
-                                })
+                                if (setDateOnlyString) {
+                                    setDateOnlyString({
+                                        from: dateFrom,
+                                        to: dateTo,
+                                    })
+                                }
                             }
                             setDate(date)
                         }}
