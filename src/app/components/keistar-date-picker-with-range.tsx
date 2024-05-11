@@ -14,6 +14,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import {Dispatch, SetStateAction} from "react";
+import {Input} from "@/components/ui/input";
 
 export type DateRangeString = {
     from: string | undefined;
@@ -29,6 +30,8 @@ export default function KeistarDatePickerWithRange(
 
         dateOnly = false,
         setDateOnlyString,
+
+        hasTime = false,
     }: {
         className?: string,
         date: DateRange | undefined,
@@ -36,6 +39,8 @@ export default function KeistarDatePickerWithRange(
         disabled?: boolean,
         dateOnly?: boolean,
         setDateOnlyString?: Dispatch<SetStateAction<DateRangeString>>,
+
+        hasTime?: boolean,
     }
 ) {
 
@@ -89,6 +94,44 @@ export default function KeistarDatePickerWithRange(
                         }}
                         numberOfMonths={2}
                     />
+                    {
+                        hasTime && (
+                            <div className="grid grid-cols-2 gap-4 mb-4 mx-4">
+                                <Input placeholder="08:00"
+                                       type="time"
+                                       value={date && date.from ? format(date.from, "HH:mm") : ""}
+                                       onChange={(e) => {
+                                           if (date && date.from) {
+                                               const time = e.target.value
+                                               const dateFrom = new Date(date.from)
+                                               dateFrom.setHours(parseInt(time.split(":")[0]))
+                                               dateFrom.setMinutes(parseInt(time.split(":")[1]))
+                                               setDate({
+                                                   from: dateFrom,
+                                                   to: date.to
+                                               })
+                                           }
+                                       }}
+                                />
+                                <Input placeholder="08:00"
+                                       type="time"
+                                        value={date && date.to ? format(date.to, "HH:mm") : ""}
+                                       onChange={(e) => {
+                                           if (date && date.to) {
+                                               const time = e.target.value
+                                               const dateTo = new Date(date.to)
+                                               dateTo.setHours(parseInt(time.split(":")[0]))
+                                               dateTo.setMinutes(parseInt(time.split(":")[1]))
+                                               setDate({
+                                                   from: date.from,
+                                                   to: dateTo
+                                               })
+                                           }
+                                       }}
+                                />
+                            </div>
+                        )
+                    }
                 </PopoverContent>
             </Popover>
         </div>
