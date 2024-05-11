@@ -6,11 +6,11 @@ export interface AssetInterface extends KeistarItem {
 }
 
 export default interface CarBookingInterface extends KeistarItem {
-    status: string;
-    fromDate: string;
-    toDate: string;
-    purpose: string;
-    asset: AssetInterface;
+    status?: string;
+    fromDate?: string;
+    toDate?: string;
+    purpose?: string;
+    asset?: AssetInterface;
 
     // Attributes for the form only
     fromTime?: string;
