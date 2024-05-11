@@ -17,7 +17,7 @@ export default function TravelPage() {
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 
     const [session]: [Session, boolean, any] = useSession()
-    const [username, setUsername] = useState('')
+    const [username, setUsername] = useState<string>()
 
     useEffect(() => {
         if (session.user_name) {
@@ -25,39 +25,47 @@ export default function TravelPage() {
         }
     }, [session]);
 
-    return KeistarLayout(
-        "Travel",
-        <KeistarToolbar reloadListAtom={reloadTravelListAtom} selectedAtom={selectedTravelAtom}
-                        defaultValue={defaultTravel}
-                        processConfig={{
-                            businessDataType,
-                            businessData: {
-                                params: {
-                                    'username': username
-                                },
-                                query: "findsOrderByUpdatedDateOfUser",
-                            },
-                            processDeletedName: "Delete_Travel",
-                            processCreateName: "Create_TravelRequest",
-                            processUpdateName: "Update_Travel",
-                        }}
-                        listAtom={travelListAtom}
-        />,
-        <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
-                            idKey={"persistenceId_string"}
-                            titleKey={"persistenceId"}
-                            selectedAtom={selectedTravelAtom}
-                            cardConfig={{
-                                businessDataType,
-                                businessData: {
-                                    params: {
-                                        'username': username
+    useEffect(() => {
+        console.debug('TravelPage', username)
+    }, [username]);
+
+    return <>
+        {
+            username && KeistarLayout(
+                "Travel",
+                <KeistarToolbar reloadListAtom={reloadTravelListAtom} selectedAtom={selectedTravelAtom}
+                                defaultValue={defaultTravel}
+                                processConfig={{
+                                    businessDataType,
+                                    businessData: {
+                                        params: {
+                                            'username': username
+                                        },
+                                        query: "findsOrderByUpdatedDateOfUser",
                                     },
-                                    query: "findsOrderByUpdatedDateOfUser",
-                                },
-                                header: headerTravel,
-                            }}
-        />,
-        <TravelFragment/>,
-    );
+                                    processDeletedName: "Delete_Travel",
+                                    processCreateName: "Create_TravelRequest",
+                                    processUpdateName: "Update_Travel",
+                                }}
+                                listAtom={travelListAtom}
+                />,
+                <KeistarLeftSidebar listAtom={travelListAtom} reloadListAtom={reloadTravelListAtom}
+                                    idKey={"persistenceId_string"}
+                                    titleKey={"persistenceId"}
+                                    selectedAtom={selectedTravelAtom}
+                                    cardConfig={{
+                                        businessDataType,
+                                        businessData: {
+                                            params: {
+                                                'username': username
+                                            },
+                                            query: "findsOrderByUpdatedDateOfUser", //
+                                        },
+                                        header: headerTravel,
+                                    }}
+                />,
+                <TravelFragment/>,
+            )
+        }
+    </>;
 }
