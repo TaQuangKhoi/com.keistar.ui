@@ -54,6 +54,13 @@ export default function KeistarDateTimePicker(
                         {date ? (
                             <>
                                 {format(date, "LLL dd, y")}
+                                {
+                                    hasTime && (
+                                        <>
+                                            &nbsp;<span>{format(date, "hh:mm a")}</span>
+                                        </>
+                                    )
+                                }
                             </>
                         ) : (
                             <span>Pick a date</span>
