@@ -15,7 +15,6 @@ import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shel
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
     const [context, ,] = useGetContextByUserTaskId(task.id);
-    const [, setTravelRequest] = useState<Travel_Item>()
 
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
@@ -23,7 +22,6 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
     const [, setSelectedItem] = useAtom(selectedTravelAtom);
     const getData = async () => {
         const data = await callLink(context.newTravelRequest_ref.link)
-        setTravelRequest(data)
         setSelectedItem(data)
     }
     useEffect(() => {
