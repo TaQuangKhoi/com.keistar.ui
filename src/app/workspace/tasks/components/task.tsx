@@ -198,7 +198,7 @@ export default function Task() {
                                 onClick={() => {
                                     animate(
                                         [
-                                            ["svg", {rotate: [0,360],}, {duration: 0.3, },]
+                                            ["svg", {rotate: [0, 360],}, {duration: 0.3,},]
                                         ]
                                     )
 
@@ -206,9 +206,14 @@ export default function Task() {
                                     // animate(
                                     //     "svg", {rotate: [0, 360],}, {duration: 0.3, repeat: Infinity}
                                     // )
+                                    setTasksLoading(true)
 
-                                    toast("Refreshing tasks")
-
+                                    toast(
+                                        "Refreshing tasks",
+                                        {
+                                            position: "top-right",
+                                        }
+                                    )
                                 }}
                             />
                         </div>
