@@ -12,7 +12,7 @@ import {Input} from "@/components/ui/input"
 import {SelectValue, SelectTrigger, SelectItem, SelectContent, Select} from "@/components/ui/select"
 import {useAtom} from "jotai/index";
 import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
-import KeistarDatePickerWithRange from "@/app/components/keistar-date-picker-with-range";
+import KeistarDatePickerWithRange, {DateRangeString} from "@/app/components/keistar-date-picker-with-range";
 import {useEffect, useState} from "react";
 import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
@@ -34,6 +34,12 @@ export default function TravelFragment(
 
     useEffect(() => {
         setSelectedItem((draft) => {
+            if (draft.perDiemAdvance === undefined) {
+                draft.perDiemAdvance = 0;
+            }
+            if (draft.perDiemOthers === undefined) {
+                draft.perDiemOthers = 0;
+            }
             draft.perDiemTotal = draft.perDiemAdvance + draft.perDiemOthers;
         })
     }, [selectedItem.perDiemAdvance, selectedItem.perDiemOthers]);
@@ -52,9 +58,10 @@ export default function TravelFragment(
         // }
 
         if (selectedItem.startDate) {
+            const to = selectedItem.endDate ? new Date(selectedItem.endDate) : addDays(new Date(selectedItem.startDate), 2);
             setDateRange({
                 from: new Date(selectedItem.startDate),
-                to: new Date(selectedItem.endDate),
+                to: to,
             })
         }
         // Update date when selected item changes
@@ -84,9 +91,10 @@ export default function TravelFragment(
 
 
     const [dateOnlyRange, setDateOnlyRange] = useState({
-        from: currentDate.toLocaleDateString(),
-        to: addDays(currentDate, 2).toLocaleDateString(),
-    });
+            from: currentDate.toLocaleDateString(),
+            to: addDays(currentDate, 2).toLocaleDateString(),
+        } as DateRangeString
+    );
 
 
     const [countries, setCountries] = useState<Country_BDM[]>([])
