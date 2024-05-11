@@ -36,7 +36,7 @@ export default function InputCell(
             return column.accessorKey === id
         }
     })
-    const editable: boolean = table.options.meta?.editable[indexOfColumn - 1]
+    const editable: boolean = table.options.meta?.editable[indexOfColumn - 1] ?? false
 
 
     return <Input placeholder="Enter value"
