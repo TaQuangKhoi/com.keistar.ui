@@ -8,10 +8,8 @@ import TaskSubmitFooter from "@/app/workspace/tasks/components/task-submit-foote
 import {useAtom} from "jotai/index";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 import submitReviewCarBooking from "@/app/workspace/office/car-booking/functions/submit-review-car-booking";
-import KeistarDateTimePicker from "@/app/components/keistar-date-time-picker";
-import {useState} from "react";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
+import ReceiveCarInputSubmitTask from "@/app/workspace/office/car-booking/components/receive-car-input-submit-task";
+import submitReceiveCarBooking from "@/app/workspace/office/car-booking/functions/submit-received-car-booking";
 
 export default function CarBookingForm({task}: { task: FullHumanTask }) {
     useFormItem({
@@ -20,9 +18,7 @@ export default function CarBookingForm({task}: { task: FullHumanTask }) {
         refName: "newCarBooking_ref",
     })
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
-
-
-    const [date, setDate] = useState<Date | undefined>()
+    const [selectedItem,] = useAtom(selectedCarBookingAtom);
 
 
     return <>
@@ -59,23 +55,16 @@ export default function CarBookingForm({task}: { task: FullHumanTask }) {
                                   buttons={[
                                       {
                                           label: "Receive Car",
-                                          onClick: async (e, comment) => {
+                                          onClick: async (e,) => {
                                               e.preventDefault()
-                                              // submitReviewCarBooking(task.id, comment, true)
+                                              submitReceiveCarBooking(task.id, selectedItem)
                                               setTasksLoadingAtomValue(true);
                                           }
                                       },
                                   ]}
                                   isCommentRequired={false}
                 >
-                    <Label htmlFor="startDateEndDate">Receive Date</Label>
-                    <KeistarDateTimePicker
-                        date={date}
-                        setDate={setDate}
-                        hasTime={true}
-                    />
-                    <Label htmlFor="startDateEndDate">Before KM</Label>
-                    <Input type="number" className="input" placeholder="Enter KM"/>
+                    <ReceiveCarInputSubmitTask/>
                 </TaskSubmitFooter>
             )
         }

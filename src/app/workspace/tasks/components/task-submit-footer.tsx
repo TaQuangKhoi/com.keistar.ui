@@ -50,7 +50,7 @@ export default function TaskSubmitFooter(
                                 buttons.map((button, index) => (
                                     <Button
                                         key={index}
-                                        onClick={(e) => button.onClick(e, "Chờ Em Tan Học")}
+                                        onClick={(e) => button.onClick(e, comment)}
                                         size="sm"
                                     >
                                         {button.label}

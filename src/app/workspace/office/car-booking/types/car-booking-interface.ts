@@ -12,6 +12,12 @@ export default interface CarBookingInterface extends KeistarItem {
     purpose?: string;
     asset?: AssetInterface;
 
+    receivedDate?: string;
+    beforeKm?: number;
+
+    returnedDate?: string;
+    afterKm?: number;
+
     // Attributes for the form only
     fromTime?: string;
     toTime?: string;
