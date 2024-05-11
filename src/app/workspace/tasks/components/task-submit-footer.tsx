@@ -11,10 +11,14 @@ interface ButtonConfig {
 interface TaskSubmitFooterProps {
     task: FullHumanTask,
     buttons: ButtonConfig[],
+    children?: React.ReactNode,
+    isCommentRequired?: boolean,
 }
 
 export default function TaskSubmitFooter(
-    {task, buttons}: TaskSubmitFooterProps
+    {
+        task, buttons, children, isCommentRequired = true
+    }: TaskSubmitFooterProps
 ) {
     const [comment, setComment] = useState<string>("");
 
@@ -22,12 +26,17 @@ export default function TaskSubmitFooter(
         <div className="p-4">
             <form>
                 <div className="grid gap-4">
-                    <Textarea
-                        className="p-4"
-                        placeholder={`Comment for ${task.name}...`}
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
+                    {children}
+                    {
+                        isCommentRequired && (
+                            <Textarea
+                                className="p-4"
+                                placeholder={`Comment for ${task.name}...`}
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                            />
+                        )
+                    }
                     <div className="flex items-center">
                         {/*<Label*/}
                         {/*    htmlFor="mute"*/}
