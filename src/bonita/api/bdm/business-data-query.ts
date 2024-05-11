@@ -28,7 +28,6 @@ export default async function findsBusinessData(
     c: number,
     filter: Filter = {},
     d: string = '',
-    params: any = {},
 ) {
     let url = getBaseUrl('/API/bdm/businessData/')
         + businessDataType + '?q=' + q + '&p=' + p + '&c=' + c + '&d=' + d;
@@ -39,11 +38,6 @@ export default async function findsBusinessData(
             return key + '=' + filter[key];
         })
         url += f.join('&f=')
-    }
-
-    // Handle additional query parameters
-    if (Object.keys(params).length > 0) {
-        url += '&' + new URLSearchParams(params).toString();
     }
 
     return await axios.get(url, {
