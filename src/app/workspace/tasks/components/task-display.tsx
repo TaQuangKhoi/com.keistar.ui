@@ -16,7 +16,7 @@ import {toast} from "sonner"
 import ReviewEleaveForm from "@/app/workspace/office/e-leave/review-eleave-form";
 import {ReactElement, useEffect, useState} from "react";
 import {processDefRoute} from "@/app/workspace/tasks/process-definitions/process-def-route";
-import {KeistarTaskDefinition} from "@/app/workspace/tasks/process-definitions/eleave-process";
+import {KeistarTaskDefinition} from "@/app/workspace/tasks/process-definitions/keistar-task-definition-interface";
 
 
 interface TaskDisplayProps {
