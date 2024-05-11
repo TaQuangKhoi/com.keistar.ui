@@ -11,19 +11,13 @@ import headerTravel from "@/app/workspace/office/travel/config/header-travel";
 import {travelListAtom} from "@/app/workspace/office/travel/atoms/travel-list-atom";
 import {useSession} from "@/bonita/api/system/get-the-current-user-session";
 import {useEffect, useState} from "react";
+import {useUsername} from "@/app/workspace/hooks/use-username";
 
 
 export default function TravelPage() {
     const businessDataType = "com.keistar.model.office.travel.TravelRequest";
 
-    const [session]: [Session, boolean, any] = useSession()
-    const [username, setUsername] = useState<string>()
-
-    useEffect(() => {
-        if (session.user_name) {
-            setUsername(session.user_name)
-        }
-    }, [session]);
+    const [username] = useUsername();
 
     useEffect(() => {
         console.debug('TravelPage', username)

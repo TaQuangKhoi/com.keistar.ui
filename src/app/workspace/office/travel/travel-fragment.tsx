@@ -135,7 +135,7 @@ export default function TravelFragment(
 
 
     return (
-        <div className="">
+        <div>
             <Tabs className="w-full" defaultValue="details">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="details">Details</TabsTrigger>

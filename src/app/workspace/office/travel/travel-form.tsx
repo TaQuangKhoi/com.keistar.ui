@@ -9,7 +9,6 @@ import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-th
 import {toast} from "sonner";
 import {useAtom} from "jotai/index";
 import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
-import ProcessFormInput, {ProcessFormInputType} from "@/app/workspace/tasks/components/process-form-input";
 import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
 import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
