@@ -12,21 +12,16 @@ import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
 import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
+import useFormItem from "@/app/workspace/hooks/use-form-item";
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
 
-    const [context, ,] = useGetContextByUserTaskId(task.id);
-    const [, setSelectedItem] = useAtom(selectedTravelAtom);
-    const getData = async () => {
-        const data = await callLink(context.newTravelRequest_ref.link)
-        setSelectedItem(data)
-    }
-    useEffect(() => {
-        if (context != undefined) {
-            getData()
-        }
-    }, [context]);
+    useFormItem({
+        taskId: task.id,
+        selectedItemAtom: selectedTravelAtom,
+        refName: "newTravelRequest_ref",
+    })
 
 
     return <>
