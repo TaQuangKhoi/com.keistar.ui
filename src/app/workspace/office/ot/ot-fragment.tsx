@@ -283,7 +283,8 @@ export default function OTFragment(
                                     input: ["#", "select", "input", "input"],
                                     selectOptions: [
                                         null, otReasonTypes, null, null
-                                    ]
+                                    ],
+                                    editable: [false, true, true, true],
                                 }}
                             />
                         </div>
