@@ -27,7 +27,7 @@ export default function SelectCell(
         }
     })
     const selectOption = table.options.meta?.selectOptions[indexOfColumn - 1]
-    const editable: boolean = table.options.meta?.editable[indexOfColumn - 1]
+    const editable: boolean = table.options.meta?.editable[indexOfColumn - 1] ?? true
 
     useEffect(() => {
         if (initialValue === undefined) {
