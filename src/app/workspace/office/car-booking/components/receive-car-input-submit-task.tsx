@@ -19,10 +19,7 @@ export default function ReceiveCarInputSubmitTask() {
 
     return <>
         <Label htmlFor="startDateEndDate">Receive Date</Label>
-        <KeistarDateTimePicker
-            date={date}
-            setDate={setDate}
-            hasTime={true}/>
+        <KeistarDateTimePicker date={date} setDate={setDate} hasTime={true}/>
         <Label htmlFor="startDateEndDate">Before KM</Label>
         <Input type="number" className="input" placeholder="Enter KM"
                value={selectedItem.beforeKm}
