@@ -3,7 +3,15 @@
 import {useEffect, useState} from "react";
 import {useWindowSize} from "@uidotdev/usehooks";
 
-export default function ProcessFormShell({children}: { children: React.ReactNode }) {
+export default function ProcessFormShell(
+    {
+        children,
+        extraHeight = 0
+    }: {
+        children: React.ReactNode,
+        extraHeight?: number
+    }
+) {
     const [height, setHeight] = useState<number>(0);
     const windowsSize = useWindowSize();
 
@@ -22,7 +30,7 @@ export default function ProcessFormShell({children}: { children: React.ReactNode
         if (windowsSize.height < 774) {
             newHeight = windowsSize.height - 400;
         }
-        setHeight(newHeight);
+        setHeight(newHeight + extraHeight);
     }, [windowsSize]);
 
     return (
