@@ -170,6 +170,10 @@ export default function KeistarEditableTable(
                             acc[key] = format(new Date(), "yyyy-MM-dd");
                             return acc;
                         }
+                        if (type === "persistenceId_string") {
+                            acc[key] = null;
+                            return acc;
+                        }
                         acc[key] = "";
                         return acc;
                     }, {})

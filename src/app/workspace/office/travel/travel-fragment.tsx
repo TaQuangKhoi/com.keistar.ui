@@ -21,12 +21,15 @@ import KeistarEditableTable from "@/app/components/keistar-editable-table";
 import {travelReasonsAtom} from "@/app/workspace/office/travel/atoms/travel-reasons-atom";
 import {Separator} from "@/components/ui/separator";
 import {travelAdvancePaymentAtom} from "@/app/workspace/office/travel/atoms/travel-advance-payment-atom";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 export default function TravelFragment(
     {
-        isInForm = false
+        isInForm = false,
+        task,
     }: {
-        isInForm?: boolean
+        isInForm?: boolean,
+        task?: FullHumanTask
     }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedTravelAtom);
@@ -137,11 +140,15 @@ export default function TravelFragment(
     return (
         <div>
             <Tabs className="w-full" defaultValue={
-                !isInForm ? "details" : "advancePayemnt"
+                task?.name === "Advance Payment" ? "advancePayemnt" : "details"
             }>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="details">Details</TabsTrigger>
-                    <TabsTrigger value="advancePayemnt">Advance Payment</TabsTrigger>
+                    {
+                        task?.name !== "Review Travel" && (
+                            <TabsTrigger value="advancePayemnt">Advance Payment</TabsTrigger>
+                        )
+                    }
                 </TabsList>
                 <TabsContent className="" value="details">
                     <div className="grid grid-cols-2 gap-4 mb-4">
@@ -275,6 +282,7 @@ export default function TravelFragment(
                                 editable: [!isInForm, !isInForm, !isInForm, !isInForm],
                                 allowAdd: !isInForm,
                                 allowDelete: !isInForm,
+                                hidden: [false, false, false, false],
                             }}
                         />
                     </div>
@@ -284,7 +292,7 @@ export default function TravelFragment(
                         title={"Advance Payment"}
                         data={travelAdvancePaymentAtom}
                         config={{
-                            key: ["#", "persistenceId_string", "ap_date", "Amount", "Purpose"],
+                            key: ["#", "persistenceId_string", "ap_date", "amount", "purpose"],
                             head: ["#", "", "Date", "amount", "purpose"],
                             input: ["#", "persistenceId_string", "date", "input", "input"],
                             selectOptions: [

@@ -1,8 +1,4 @@
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
-import {useGetContextByUserTaskId} from "@/bonita/api/bpm/user-task/definitions/finds-context-by-user-task-id";
-import {useEffect, useState} from "react";
-import callLink from "@/bonita/api/bdm/call-link";
-import Travel_Item from "@/app/workspace/office/travel/types/travel-interface";
 import {Separator} from "@/components/ui/separator";
 import TaskSubmitFooter from "@/app/workspace/tasks/components/task-submit-footer";
 import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-the-user-task";
@@ -13,7 +9,6 @@ import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
 import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
 import useFormItem from "@/app/workspace/hooks/use-form-item";
-import KeistarEditableTable from "@/app/components/keistar-editable-table";
 import {travelAdvancePaymentAtom} from "@/app/workspace/office/travel/atoms/travel-advance-payment-atom";
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
@@ -31,7 +26,7 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
 
     return <>
         <ProcessFormShell>
-            <TravelFragment isInForm={true}/>
+            <TravelFragment isInForm={true} task={task}/>
         </ProcessFormShell>
 
 
