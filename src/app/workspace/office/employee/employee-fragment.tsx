@@ -13,21 +13,17 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon, Loader2} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
-import {useAtom} from "jotai/index";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Input} from "@/components/ui/input";
 import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employee-selected-atom";
-import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
-import {motion} from "framer-motion";
-import callLink from "@/bonita/api/bdm/call-link";
-import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
+import {useImmerAtom} from 'jotai-immer'
 import Employee_DateOfBirthComponent from "@/app/workspace/office/employee/components/date-of-birth-component";
+import Employee_DirectManagerComponent from "@/app/workspace/office/employee/components/direct-manager-component";
 
 
 export default function EmployeeFragment() {
-    const [employees,] = useAtom(employeeListAtom);
-    const [selectedItem, setSelectedItem] = useAtom(selectedEmployeeAtom);
-    const [directManager, setDirectManager] = useState<Employee_Item>()
+    const [selectedItem, setSelectedItem] = useImmerAtom(selectedEmployeeAtom);
+
 
     useEffect(() => {
         setSelectedItem((draft) => {
@@ -39,25 +35,9 @@ export default function EmployeeFragment() {
             draft.hrManagerAcceptance = false
             draft.hrManagerComment = ''
             draft.directManagerComment = ''
-            draft.employeeTypeId = "0";
         })
     }, []);
 
-    useEffect(() => {
-        // Get user from Bonita Engine
-        const getDirectManager = async () => {
-            if (selectedItem.links !== undefined) {
-                const directManagerLink = selectedItem.links.find((link) => link.rel === "directManager") || {href: ""}
-                const data = await callLink(directManagerLink.href)
-                setDirectManager(data);
-
-                setSelectedItem((draft) => {
-                    draft.directManager_persistenceId = directManager?.persistenceId_string || ""
-                })
-            }
-        }
-        getDirectManager();
-    }, [selectedItem.username]);
 
     return (
         <Tabs className="w-full" defaultValue="detailsAndNew">
@@ -71,55 +51,7 @@ export default function EmployeeFragment() {
             <TabsContent value="detailsAndNew">
                 <div key="1" className="bg-white p-6 rounded-lg shadow-md">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="directManager">
-                                Direct Manager
-                            </label>
-                            {
-                                employees === undefined && (
-                                    <Select>
-                                        <SelectTrigger>
-                                            <motion.div
-                                                animate={{rotate: 360}}
-                                                transition={{repeat: Infinity, duration: 1, ease: "linear"}}
-                                            >
-                                                <Loader2/>
-                                            </motion.div>
-                                        </SelectTrigger>
-                                    </Select>
-                                )
-                            }
-                            {
-                                employees !== undefined && (
-                                    <Select
-                                        value={directManager?.persistenceId_string || ""}
-                                        // defaultValue={directManager?.persistenceId_string || ""}
-                                        onValueChange={(value) => {
-                                            setSelectedItem((draft) => {
-                                                draft.directManager_persistenceId = value
-                                            })
-                                            setDirectManager(employees.find((employee) => employee.persistenceId_string === value))
-                                        }}
-                                    >
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={
-                                                    "Select a direct manager"
-                                                }/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {
-                                                employees.filter(option => option.persistenceId_string !== selectedItem.persistenceId_string).map((option, index) => (
-                                                    <SelectItem key={index} value={option.persistenceId_string || ""}>
-                                                        {option.username}
-                                                    </SelectItem>
-                                                ))
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                        </div>
+                        <Employee_DirectManagerComponent/>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
                                 Username
