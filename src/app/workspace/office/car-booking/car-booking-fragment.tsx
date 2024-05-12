@@ -90,7 +90,7 @@ export default function CarBookingFragment(
                             }}
                         >
                             <SelectTrigger disabled={isInForm}>
-                                <SelectValue placeholder="Select a country"/>
+                                <SelectValue placeholder="Select a car"/>
                             </SelectTrigger>
                             <SelectContent>
                                 {
@@ -132,11 +132,47 @@ export default function CarBookingFragment(
                 </div>
                 {
                     selectedItem?.beforeKm && (
-                        <div>
+                        <div className={"mt-4"}>
                             <Label htmlFor="beforeKm">Before KM</Label>
                             <Input id="beforeKm"
                                    type="text"
                                    value={selectedItem?.beforeKm}
+                                   disabled={true}
+                            />
+                        </div>
+                    )
+                }
+                {
+                    selectedItem?.receivedDate && (
+                        <div className={"mt-4"}>
+                            <Label htmlFor="receivedDate">Received Date</Label>
+                            <Input id="receivedDate"
+                                   type="text"
+                                   value={format(new Date(selectedItem?.receivedDate), "dd/MM/yyyy HH:mm")}
+                                   disabled={true}
+                            />
+                        </div>
+                    )
+                }
+                {
+                    selectedItem?.afterKm && (
+                        <div className={"mt-4"}>
+                            <Label htmlFor="afterKm">After KM</Label>
+                            <Input id="afterKm"
+                                   type="text"
+                                   value={selectedItem?.afterKm}
+                                   disabled={true}
+                            />
+                        </div>
+                    )
+                }
+                {
+                    selectedItem?.returnedDate && (
+                        <div className={"mt-4"}>
+                            <Label htmlFor="returnedDate">Returned Date</Label>
+                            <Input id="returnedDate"
+                                   type="text"
+                                   value={format(new Date(selectedItem?.returnedDate), "dd/MM/yyyy HH:mm")}
                                    disabled={true}
                             />
                         </div>

@@ -215,7 +215,7 @@ export default function KeistarToolbar(
             </Button>
             <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
                     onClick={() => {
-                        getData().then(r => {
+                        getData().then(() => {
                             toast("Data has been refreshed successfully",
                                 {
                                     description: "Total data: " + listState.length,
