@@ -19,6 +19,7 @@ import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employ
 import {useImmerAtom} from 'jotai-immer'
 import Employee_DateOfBirthComponent from "@/app/workspace/office/employee/components/date-of-birth-component";
 import Employee_DirectManagerComponent from "@/app/workspace/office/employee/components/direct-manager-component";
+import Employee_WorkTypeComponent from "@/app/workspace/office/employee/components/work-type-component";
 
 
 export default function EmployeeFragment() {
@@ -54,63 +55,52 @@ export default function EmployeeFragment() {
                         <Employee_DirectManagerComponent/>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
-                                Username
-                                <span className="text-red-500">*</span>
+                                Username<span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="username"
                                    placeholder="Enter the username of new employee"
-                                   value={selectedItem.username}
+                                   value={selectedItem.username} type="text"
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.username = e.target.value
                                        })
-                                   }}
-                                   type="text"/>
+                                   }}/>
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
-                                First Name
-                                <span className="text-red-500">*</span>
+                                First Name<span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="firstName"
-                                   placeholder="First Name"
+                                   placeholder="First Name" type="text"
                                    value={selectedItem.firstName}
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.firstName = e.target.value
                                        })
-                                   }}
-                                   type="text"/>
+                                   }}/>
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="lastName">
-                                Last Name
-                                <span className="text-red-500">*</span>
+                                Last Name<span className="text-red-500">*</span>
                             </label>
-                            <Input className="border px-3 py-2 rounded-lg" id="lastName"
-                                   placeholder="Last Name"
-                                   value={selectedItem.lastName}
+                            <Input className="border px-3 py-2 rounded-lg" id="lastName" type="text"
+                                   placeholder="Last Name" value={selectedItem.lastName}
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.lastName = e.target.value
                                        })
-                                   }}
-                                   type="text"/>
+                                   }}/>
                         </div>
 
                         <Employee_DateOfBirthComponent/>
 
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="phone">
-                                Phone
-                            </label>
+                                Phone</label>
                             <Input
-                                className="border px-3 py-2 rounded-lg"
-                                id="phone"
-                                pattern="&quot;&quot;d*&quot;&quot;"
-                                placeholder="Phone"
-                                value={selectedItem.phone || ""}
-                                type="number"
+                                className="border px-3 py-2 rounded-lg" id="phone"
+                                pattern="&quot;&quot;d*&quot;&quot;" placeholder="Phone"
+                                value={selectedItem.phone || ""} type="number"
                                 onChange={(e) => {
                                     setSelectedItem((draft) => {
                                         draft.phone = e.target.value
@@ -145,15 +135,12 @@ export default function EmployeeFragment() {
                                 </Popover>
                             </div>
                         </div>
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="officialEmail">
-                                Official Email
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <input className="border px-3 py-2 rounded-lg" id="officialEmail"
-                                   placeholder="Official Email" type="email"/>
-                        </div>
+                        {/*<div className="flex flex-col">*/}
+                        {/*    <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="officialEmail"> Official*/}
+                        {/*        Email<span className="text-red-500">*</span></label>*/}
+                        {/*    <input className="border px-3 py-2 rounded-lg" id="officialEmail" type="email"*/}
+                        {/*           placeholder="Official Email"/>*/}
+                        {/*</div>*/}
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700"
                                    htmlFor="personalEmail">
@@ -173,27 +160,20 @@ export default function EmployeeFragment() {
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="workplace">
-                                Workplace
-                                <span className="text-red-500">*</span>
+                                Workplace<span className="text-red-500">*</span>
                             </label>
                             <Select>
-                                <SelectTrigger id="workplace">
-                                    <SelectValue placeholder="Select"/>
-                                </SelectTrigger>
+                                <SelectTrigger id="workplace"><SelectValue placeholder="Select"/></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="Hanoi-CharmvitBuilding">Ha Noi - Charmvit
-                                        Building</SelectItem>
+                                    <SelectItem value="Hanoi-CharmvitBuilding">Ha Noi - Charmvit Building</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="position">
-                                Position
-                            </label>
-                            <input className="border px-3 py-2 rounded-lg" id="position"
-                                   placeholder="Position"
-                                   value={selectedItem.positionName}
-                                   type="text"
+                            <label className="mb-1 text-sm font-medium text-gray-700"
+                                   htmlFor="position">Position</label>
+                            <input className="border px-3 py-2 rounded-lg" id="position" placeholder="Position"
+                                   value={selectedItem.positionName} type="text"
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.positionName = e.target.value
@@ -201,26 +181,7 @@ export default function EmployeeFragment() {
                                    }}
                             />
                         </div>
-                        <div className="flex flex-col col-span-full">
-                            <label className="mb-1 text-sm font-medium text-gray-700">
-                                Work Type
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <RadioGroup className="flex items-center space-x-4">
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem id="fullRemote" value="FullRemote"/>
-                                    <Label htmlFor="fullRemote">Full Remote</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem id="hybrid" value="Hybrid"/>
-                                    <Label htmlFor="hybrid">Hybrid</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem id="officeBase" value="OfficeBase"/>
-                                    <Label htmlFor="officeBase">Office-base</Label>
-                                </div>
-                            </RadioGroup>
-                        </div>
+                        <Employee_WorkTypeComponent/>
                     </div>
                 </div>
             </TabsContent>
