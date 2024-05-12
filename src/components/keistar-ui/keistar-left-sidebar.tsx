@@ -89,17 +89,6 @@ export default function KeistarLeftSidebar(
     }, [listState]);
 
 
-    /**
-     * Sync Data
-     */
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // getData();
-        }, 2000);
-        return () => clearInterval(interval);
-    }, []);
-
-
     return (
         <div className="grid grid-cols-1 gap-4">
             <div>

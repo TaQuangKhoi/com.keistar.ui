@@ -25,7 +25,7 @@ export default function CarBookingForm({task}: { task: FullHumanTask }) {
 
     return <>
         <ProcessFormShell>
-            <CarBookingFragment isInForm={true}/>
+            <CarBookingFragment isInForm={true} task={task}/>
         </ProcessFormShell>
         <Separator className="mt-auto"/>
 

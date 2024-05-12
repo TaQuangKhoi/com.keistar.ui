@@ -13,12 +13,15 @@ import {selectedCarBookingAtom} from "@/app/workspace/office/car-booking/atoms/c
 
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import {addDays, format} from "date-fns";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 export default function CarBookingFragment(
     {
-        isInForm = false
+        isInForm = false,
+        task,
     }: {
-        isInForm?: boolean
+        isInForm?: boolean,
+        task?: FullHumanTask
     }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedCarBookingAtom);
@@ -132,7 +135,7 @@ export default function CarBookingFragment(
                     />
                 </div>
                 {
-                    selectedItem?.beforeKm && (
+                    selectedItem?.beforeKm && task?.name != "Receive Car" && (
                         <div className={"mt-4"}>
                             <Label htmlFor="beforeKm">Before KM</Label>
                             <Input id="beforeKm"
@@ -144,7 +147,7 @@ export default function CarBookingFragment(
                     )
                 }
                 {
-                    selectedItem?.receivedDate && (
+                    selectedItem?.receivedDate && task?.name != "Receive Car" && (
                         <div className={"mt-4"}>
                             <Label htmlFor="receivedDate">Received Date</Label>
                             <Input id="receivedDate"
@@ -156,7 +159,7 @@ export default function CarBookingFragment(
                     )
                 }
                 {
-                    selectedItem?.afterKm && (
+                    selectedItem?.afterKm && task?.name != "Return Car" && (
                         <div className={"mt-4"}>
                             <Label htmlFor="afterKm">After KM</Label>
                             <Input id="afterKm"
@@ -168,7 +171,7 @@ export default function CarBookingFragment(
                     )
                 }
                 {
-                    selectedItem?.returnedDate && (
+                    selectedItem?.returnedDate && task?.name != "Return Car" && (
                         <div className={"mt-4"}>
                             <Label htmlFor="returnedDate">Returned Date</Label>
                             <Input id="returnedDate"
