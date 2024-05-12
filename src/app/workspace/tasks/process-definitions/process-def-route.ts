@@ -1,6 +1,7 @@
 import {e_leaveProcessTaskDefinitions} from "@/app/workspace/tasks/process-definitions/eleave-process";
 import {travelProcessTaskDefinitions} from "@/app/workspace/tasks/process-definitions/travel-process";
 import {carBookingProcessTaskDefinitions} from "@/app/workspace/tasks/process-definitions/car-booking-process";
+import {otProcessTaskDefinitions} from "@/app/workspace/tasks/process-definitions/ot-process";
 
 export const processDefRoute = [
     {
@@ -14,5 +15,9 @@ export const processDefRoute = [
     {
         processName: "Create_Car_Booking",
         taskDefinitions: carBookingProcessTaskDefinitions,
+    },
+    {
+        processName: "Create_OT",
+        taskDefinitions: otProcessTaskDefinitions,
     },
 ]
