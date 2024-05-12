@@ -283,26 +283,20 @@ export default function EmployeeFragment() {
                                 Work Type
                                 <span className="text-red-500">*</span>
                             </label>
-                            <div className="flex items-center space-x-4">
+                            <RadioGroup className="flex items-center space-x-4">
                                 <div className="flex items-center space-x-2">
-                                    <RadioGroup>
-                                        <RadioGroupItem id="fullRemote" value="FullRemote"/>
-                                        <Label htmlFor="fullRemote">Full Remote</Label>
-                                    </RadioGroup>
+                                    <RadioGroupItem id="fullRemote" value="FullRemote"/>
+                                    <Label htmlFor="fullRemote">Full Remote</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <RadioGroup>
-                                        <RadioGroupItem id="hybrid" value="Hybrid"/>
-                                        <Label htmlFor="hybrid">Hybrid</Label>
-                                    </RadioGroup>
+                                    <RadioGroupItem id="hybrid" value="Hybrid"/>
+                                    <Label htmlFor="hybrid">Hybrid</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <RadioGroup>
-                                        <RadioGroupItem id="officeBase" value="OfficeBase"/>
-                                        <Label htmlFor="officeBase">Office-base</Label>
-                                    </RadioGroup>
+                                    <RadioGroupItem id="officeBase" value="OfficeBase"/>
+                                    <Label htmlFor="officeBase">Office-base</Label>
                                 </div>
-                            </div>
+                            </RadioGroup>
                         </div>
                     </div>
                 </div>
