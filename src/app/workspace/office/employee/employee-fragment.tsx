@@ -20,6 +20,7 @@ import {useImmerAtom} from 'jotai-immer'
 import Employee_DateOfBirthComponent from "@/app/workspace/office/employee/components/date-of-birth-component";
 import Employee_DirectManagerComponent from "@/app/workspace/office/employee/components/direct-manager-component";
 import Employee_WorkTypeComponent from "@/app/workspace/office/employee/components/work-type-component";
+import Employee_WorkPlaceComponent from "@/app/workspace/office/employee/components/work-place-component";
 
 
 export default function EmployeeFragment() {
@@ -110,16 +111,13 @@ export default function EmployeeFragment() {
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="passportNo">
-                                Passport No.
-                            </label>
+                                Passport No.</label>
                             <input className="border px-3 py-2 rounded-lg" id="passportNo"
                                    placeholder="Passport No." type="text"/>
                         </div>
                         <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="passportExpiryDate">
-                                Passport Expiry Date
-                            </label>
+                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="passportExpiryDate">
+                                Passport Expiry Date</label>
                             <div className="flex">
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -143,32 +141,17 @@ export default function EmployeeFragment() {
                         {/*</div>*/}
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="personalEmail">
-                                Personal Email
-                                <span className="text-red-500">*</span>
+                                   htmlFor="personalEmail">Personal Email<span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="personalEmail"
-                                   placeholder="Personal Email"
-                                   value={selectedItem.email}
-                                   type="email"
+                                   placeholder="Personal Email" value={selectedItem.email} type="email"
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.email = e.target.value
                                        })
-                                   }}
-                            />
+                                   }}/>
                         </div>
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="workplace">
-                                Workplace<span className="text-red-500">*</span>
-                            </label>
-                            <Select>
-                                <SelectTrigger id="workplace"><SelectValue placeholder="Select"/></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Hanoi-CharmvitBuilding">Ha Noi - Charmvit Building</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <Employee_WorkPlaceComponent/>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700"
                                    htmlFor="position">Position</label>
