@@ -10,6 +10,8 @@ import {tasksLoadingAtom} from "@/app/workspace/tasks/atoms/tasks-loading-atom";
 import submitReviewCarBooking from "@/app/workspace/office/car-booking/functions/submit-review-car-booking";
 import ReceiveCarInputSubmitTask from "@/app/workspace/office/car-booking/components/receive-car-input-submit-task";
 import submitReceiveCarBooking from "@/app/workspace/office/car-booking/functions/submit-received-car-booking";
+import ReturnCarInputSubmitTask from "@/app/workspace/office/car-booking/components/return-car-input-submit-task";
+import submitReturnCarBooking from "@/app/workspace/office/car-booking/functions/submit-return-car-booking";
 
 export default function CarBookingForm({task}: { task: FullHumanTask }) {
     useFormItem({
@@ -70,7 +72,21 @@ export default function CarBookingForm({task}: { task: FullHumanTask }) {
         }
         {
             task.name === "Return Car" && (
-                <>Test</>
+                <TaskSubmitFooter task={task}
+                                  buttons={[
+                                      {
+                                          label: "Return Car",
+                                          onClick: async (e,) => {
+                                              e.preventDefault()
+                                              submitReturnCarBooking(task.id, selectedItem)
+                                              setTasksLoadingAtomValue(true);
+                                          }
+                                      },
+                                  ]}
+                                  isCommentRequired={false}
+                >
+                    <ReturnCarInputSubmitTask/>
+                </TaskSubmitFooter>
             )
         }
     </>
