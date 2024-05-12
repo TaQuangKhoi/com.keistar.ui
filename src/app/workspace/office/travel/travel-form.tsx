@@ -26,6 +26,9 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
     })
 
 
+    const [travelAdvancePayment,] = useAtom(travelAdvancePaymentAtom);
+
+
     return <>
         <ProcessFormShell>
             <TravelFragment isInForm={true}/>
@@ -161,10 +164,9 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                         label: "Save",
                         onClick: (e, comment) => {
                             e.preventDefault()
-
                             executeUserTask(task.id, {
                                     newTravelRequestInput: {
-                                        advancedPayment: {},
+                                        advancedPayment: travelAdvancePayment,
                                     }
                                 }, true
                             ).then(response => {

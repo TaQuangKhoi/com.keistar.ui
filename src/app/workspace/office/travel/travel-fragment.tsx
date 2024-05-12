@@ -284,15 +284,16 @@ export default function TravelFragment(
                         title={"Advance Payment"}
                         data={travelAdvancePaymentAtom}
                         config={{
-                            key: ["#", "ap_date", "Amount", "Purpose"],
-                            head: ["#", "Date", "amount", "purpose"],
-                            input: ["#", "input", "input", "input"],
+                            key: ["#", "persistenceId_string", "ap_date", "Amount", "Purpose"],
+                            head: ["#", "", "Date", "amount", "purpose"],
+                            input: ["#", "persistenceId_string", "date", "input", "input"],
                             selectOptions: [
                                 null, null, null, null
                             ],
                             editable: [true, true, true, true],
                             allowAdd: true,
                             allowDelete: true,
+                            hidden: [false, true, false, false, false],
                         }}
                     />
                 </TabsContent>

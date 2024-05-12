@@ -60,6 +60,7 @@ export default function KeistarEditableTable(
             editable?: boolean[],
             allowAdd?: boolean,
             allowDelete?: boolean,
+            hidden?: boolean[],
         },
     }
 ) {
@@ -78,36 +79,29 @@ export default function KeistarEditableTable(
         }
     }
 
-    const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key
+
+    const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key.filter((item, index) => config.hidden?.[index] === false)
         .map((item, index) => {
-            const type = config.input[index];
-            if (type === "#") {
-                return {
-                    accessorKey: config.key[index],
-                    header: config.head[index],
-                    cell: OrderNumberCell,
-                } as ColumnDef<unknown, any>
-            }
-            if (type === "select") {
-                return {
-                    accessorKey: config.key[index],
-                    header: config.head[index],
-                    cell: SelectCell,
-                } as ColumnDef<unknown, any>
-            }
-            if (type === "date") {
-                return {
-                    accessorKey: config.key[index],
-                    header: config.head[index],
-                    cell: DateCell,
-                } as ColumnDef<unknown, any>
-            }
-            return {
-                accessorKey: config.key[index],
-                header: config.head[index],
+            const indexOfItem = config.key.indexOf(item)
+            const type = config.input[indexOfItem];
+            const accessorKey = config.key[indexOfItem];
+            let def = {
+                accessorKey: config.key[indexOfItem],
+                header: config.head[indexOfItem],
                 cell: InputCell,
             } as ColumnDef<unknown, any>
+            if (type === "#") {
+                def.cell = OrderNumberCell;
+            }
+            if (type === "select") {
+                def.cell = SelectCell;
+            }
+            if (type === "date") {
+                def.cell = DateCell;
+            }
+            return def
         })
+
 
     const columnsDef: ColumnDef<unknown, any>[] = [checkBoxColDef, ...dynamicColumnsDef,
         {
