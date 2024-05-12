@@ -21,6 +21,7 @@ import Employee_Item from "@/app/workspace/office/employee/types/employee-interf
 import {motion} from "framer-motion";
 import callLink from "@/bonita/api/bdm/call-link";
 import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
+import Employee_DateOfBirthComponent from "@/app/workspace/office/employee/components/date-of-birth-component";
 
 
 export default function EmployeeFragment() {
@@ -29,7 +30,6 @@ export default function EmployeeFragment() {
     const [directManager, setDirectManager] = useState<Employee_Item>()
 
     useEffect(() => {
-        // Get user from Bonita Engine
         setSelectedItem((draft) => {
             draft.workplaceId = "0"
             draft.contractTypeId = "0"
@@ -39,11 +39,12 @@ export default function EmployeeFragment() {
             draft.hrManagerAcceptance = false
             draft.hrManagerComment = ''
             draft.directManagerComment = ''
-            draft.isActive = true
             draft.employeeTypeId = "0";
-            draft.dateOfBirth = new Date('1990-01-01').toISOString();
         })
+    }, []);
 
+    useEffect(() => {
+        // Get user from Bonita Engine
         const getDirectManager = async () => {
             if (selectedItem.links !== undefined) {
                 const directManagerLink = selectedItem.links.find((link) => link.rel === "directManager") || {href: ""}
@@ -164,19 +165,9 @@ export default function EmployeeFragment() {
                                    }}
                                    type="text"/>
                         </div>
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="dateOfBirth">
-                                Date Of Birth
-                            </label>
-                            <div className="flex">
-                                <input
-                                    className="border px-3 py-2 rounded-l-lg flex-1"
-                                    id="dateOfBirth"
-                                    placeholder="Enter a date (dd/MM/yyyy)"
-                                    type="text"
-                                />
-                            </div>
-                        </div>
+
+                        <Employee_DateOfBirthComponent/>
+
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="phone">
                                 Phone
@@ -186,7 +177,7 @@ export default function EmployeeFragment() {
                                 id="phone"
                                 pattern="&quot;&quot;d*&quot;&quot;"
                                 placeholder="Phone"
-                                value={selectedItem.phone}
+                                value={selectedItem.phone || ""}
                                 type="number"
                                 onChange={(e) => {
                                     setSelectedItem((draft) => {

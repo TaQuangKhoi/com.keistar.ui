@@ -18,10 +18,6 @@ export default function TravelPage() {
 
     const [username] = useUsername();
 
-    useEffect(() => {
-        console.debug('TravelPage', username)
-    }, [username]);
-
     return <>
         {
             username && KeistarLayout(

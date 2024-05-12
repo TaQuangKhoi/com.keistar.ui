@@ -97,7 +97,7 @@ export default function KeistarDateTimePicker(
                                                const _date: Date = new Date(date)
                                                _date.setHours(parseInt(time.split(":")[0]))
                                                _date.setMinutes(parseInt(time.split(":")[1]))
-                                               setDate(_date)
+                                               setDate && setDate(_date)
                                            }
                                        }}
                                 />
