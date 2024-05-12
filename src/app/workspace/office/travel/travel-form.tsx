@@ -154,5 +154,39 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                 ]}/>
             )
         }
+        {
+            task.name === "Advance Payment" && (
+                <TaskSubmitFooter task={task} isCommentRequired={false} buttons={[
+                    {
+                        label: "Save",
+                        onClick: (e, comment) => {
+                            e.preventDefault()
+
+                            executeUserTask(task.id, {
+                                    // newTravelRequestInput: {
+                                    //     ceoApproved: true,
+                                    //     ceoApproveComment: comment,
+                                    //     ceoRejectComment: "",
+                                    // }
+                                }, true
+                            ).then(response => {
+                                if (response.status === 204) {
+                                    toast.success("Payment has been saved",
+                                        {duration: 3000})
+                                }
+                            }).catch(e => {
+                                toast.error("Error: " + e,
+                                    {
+                                        position: "top-right"
+                                    }
+                                )
+                            }).finally(() => {
+                                setTasksLoadingAtomValue(true);
+                            });
+                        }
+                    },
+                ]}/>
+            )
+        }
     </>
 }

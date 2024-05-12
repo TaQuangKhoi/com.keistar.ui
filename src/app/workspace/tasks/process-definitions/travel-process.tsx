@@ -11,4 +11,8 @@ export const travelProcessTaskDefinitions: KeistarTaskDefinition[] = [
         taskName: "CEO Review Travel",
         component: (task: FullHumanTask) => <TravelForm task={task}/>,
     },
+    {
+        taskName: "Advance Payment",
+        component: (task: FullHumanTask) => <TravelForm task={task}/>,
+    },
 ];

@@ -1,5 +1,4 @@
 'use client'
-import Travel_Item from "@/app/workspace/office/travel/types/travel-interface";
 
 /**
  * v0 by Vercel.
@@ -15,7 +14,7 @@ import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-sel
 import KeistarDatePickerWithRange, {DateRangeString} from "@/app/components/keistar-date-picker-with-range";
 import {useEffect, useState} from "react";
 import {DateRange} from "react-day-picker";
-import {addDays} from "date-fns";
+import {addDays, format} from "date-fns";
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 import Country_BDM from "@/app/types/country-bdm-interface";
 import KeistarEditableTable from "@/app/components/keistar-editable-table";
@@ -91,8 +90,8 @@ export default function TravelFragment(
 
 
     const [dateOnlyRange, setDateOnlyRange] = useState({
-            from: currentDate.toLocaleDateString(),
-            to: addDays(currentDate, 2).toLocaleDateString(),
+            from: format(currentDate, "yyyy-MM-dd"),
+            to: format(addDays(currentDate, 2), "yyyy-MM-dd"),
         } as DateRangeString
     );
 
@@ -156,13 +155,12 @@ export default function TravelFragment(
                         }
                         <div>
                             <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
-                            <KeistarDatePickerWithRange
-                                dateOnly={true}
-                                disabled={isInForm}
-                                date={dateRange}
-                                setDate={setDateRange}
+                            <KeistarDatePickerWithRange dateOnly={true}
+                                                        disabled={isInForm}
+                                                        date={dateRange}
+                                                        setDate={setDateRange}
 
-                                setDateOnlyString={setDateOnlyRange}
+                                                        setDateOnlyString={setDateOnlyRange}
                             />
                         </div>
                         <div>

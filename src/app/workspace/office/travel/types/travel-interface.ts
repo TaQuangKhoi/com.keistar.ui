@@ -1,6 +1,7 @@
 import KeistarItem from "@/components/keistar-ui/types/item-interface";
 import Country_BDM from "@/app/types/country-bdm-interface";
 import Travel_Reason from "@/app/workspace/office/travel/types/travel-reason-interface";
+import Travel_Advance_Payment from "@/app/workspace/office/travel/types/trave-advance-payment-interface";
 
 export default interface Travel_Item extends KeistarItem {
     totalDays?: number;
@@ -19,7 +20,7 @@ export default interface Travel_Item extends KeistarItem {
     perDiemTotal_string?: string,
     additionalPerDiem?: number,
     additionalPerDiem_string?: string,
-    advancedPayment?: number,
+    advancedPayment?: Travel_Advance_Payment[],
     advancedPayment_string?: string,
     createdDate?: string,
     updatedDate?: string,
