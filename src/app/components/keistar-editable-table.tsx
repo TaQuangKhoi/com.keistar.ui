@@ -41,6 +41,8 @@ import InputCell from "@/app/components/editable-table/input-cell";
 import SelectCell from "@/app/components/editable-table/select-cell";
 import OrderNumberCell from "@/app/components/editable-table/order-number-input";
 import {PrimitiveAtom, useAtom, WritableAtom} from "jotai/index";
+import DateCell from "@/app/components/editable-table/date-cell";
+import format from "date-fns/format";
 
 export default function KeistarEditableTable(
     {
@@ -91,6 +93,13 @@ export default function KeistarEditableTable(
                     accessorKey: config.key[index],
                     header: config.head[index],
                     cell: SelectCell,
+                } as ColumnDef<unknown, any>
+            }
+            if (type === "date") {
+                return {
+                    accessorKey: config.key[index],
+                    header: config.head[index],
+                    cell: DateCell,
                 } as ColumnDef<unknown, any>
             }
             return {
@@ -158,6 +167,15 @@ export default function KeistarEditableTable(
                 },
                 addRow: () => {
                     const newRow: any = config.key.reduce((acc: any, key) => {
+                        const type = config.input[config.key.indexOf(key)];
+                        if (type === "select") {
+                            acc[key] = config.selectOptions?.[0] || "";
+                            return acc;
+                        }
+                        if (type === "date") {
+                            acc[key] = format(new Date(), "yyyy-MM-dd");
+                            return acc;
+                        }
                         acc[key] = "";
                         return acc;
                     }, {})
