@@ -20,6 +20,7 @@ import Country_BDM from "@/app/types/country-bdm-interface";
 import KeistarEditableTable from "@/app/components/keistar-editable-table";
 import {travelReasonsAtom} from "@/app/workspace/office/travel/atoms/travel-reasons-atom";
 import {Separator} from "@/components/ui/separator";
+import {travelAdvancePaymentAtom} from "@/app/workspace/office/travel/atoms/travel-advance-payment-atom";
 
 export default function TravelFragment(
     {
@@ -135,9 +136,12 @@ export default function TravelFragment(
 
     return (
         <div>
-            <Tabs className="w-full" defaultValue="details">
+            <Tabs className="w-full" defaultValue={
+                !isInForm ? "details" : "advancePayemnt"
+            }>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="details">Details</TabsTrigger>
+                    <TabsTrigger value="advancePayemnt">Advance Payment</TabsTrigger>
                 </TabsList>
                 <TabsContent className="" value="details">
                     <div className="grid grid-cols-2 gap-4 mb-4">
@@ -274,6 +278,23 @@ export default function TravelFragment(
                             }}
                         />
                     </div>
+                </TabsContent>
+                <TabsContent className="" value="advancePayemnt">
+                    <KeistarEditableTable
+                        title={"Advance Payment"}
+                        data={travelAdvancePaymentAtom}
+                        config={{
+                            key: ["#", "ap_date", "Amount", "Purpose"],
+                            head: ["#", "Date", "amount", "purpose"],
+                            input: ["#", "input", "input", "input"],
+                            selectOptions: [
+                                null, null, null, null
+                            ],
+                            editable: [true, true, true, true],
+                            allowAdd: true,
+                            allowDelete: true,
+                        }}
+                    />
                 </TabsContent>
             </Tabs>
         </div>

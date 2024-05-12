@@ -13,6 +13,8 @@ import TravelFragment from "@/app/workspace/office/travel/travel-fragment";
 import {selectedTravelAtom} from "@/app/workspace/office/travel/atoms/travel-selected-atom";
 import ProcessFormShell from "@/app/workspace/tasks/components/process-form-shell";
 import useFormItem from "@/app/workspace/hooks/use-form-item";
+import KeistarEditableTable from "@/app/components/keistar-editable-table";
+import {travelAdvancePaymentAtom} from "@/app/workspace/office/travel/atoms/travel-advance-payment-atom";
 
 export default function TravelForm({task}: { task: FullHumanTask }) {
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
@@ -26,9 +28,7 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
 
     return <>
         <ProcessFormShell>
-            <TravelFragment isInForm={true}
-                // task={task}
-            />
+            <TravelFragment isInForm={true}/>
         </ProcessFormShell>
 
 
@@ -163,11 +163,9 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                             e.preventDefault()
 
                             executeUserTask(task.id, {
-                                    // newTravelRequestInput: {
-                                    //     ceoApproved: true,
-                                    //     ceoApproveComment: comment,
-                                    //     ceoRejectComment: "",
-                                    // }
+                                    newTravelRequestInput: {
+                                        advancedPayment: {},
+                                    }
                                 }, true
                             ).then(response => {
                                 if (response.status === 204) {
@@ -185,7 +183,9 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                             });
                         }
                     },
-                ]}/>
+                ]}>
+
+                </TaskSubmitFooter>
             )
         }
     </>
