@@ -198,10 +198,7 @@ export default function OTFragment(
                             </div>
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">From Date - To Date</label>
-                                <KeistarDatePickerWithRange
-                                    date={dateRange}
-                                    setDate={setDateRange}
-                                />
+                                <KeistarDatePickerWithRange date={dateRange} setDate={setDateRange}/>
                             </div>
                         </div>
                         <div className="grid grid-cols-4 gap-4">

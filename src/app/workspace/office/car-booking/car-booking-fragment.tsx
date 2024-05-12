@@ -106,16 +106,16 @@ export default function CarBookingFragment(
                     </div>
                     <div>
                         <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
-                        <KeistarDatePickerWithRange
-                            disabled={disabled}
+                        <KeistarDatePickerWithRange dateOnly={false}
+                                                    disabled={disabled}
 
-                            date={dateRange}
-                            setDate={setDateRange}
+                                                    date={dateRange}
+                                                    setDate={setDateRange}
 
-                            dateOnly={false}
-                            setDateOnlyString={setDateOnlyRange}
 
-                            hasTime={true}
+                                                    setDateOnlyString={setDateOnlyRange}
+
+                                                    hasTime={true}
                         />
                     </div>
                 </div>
