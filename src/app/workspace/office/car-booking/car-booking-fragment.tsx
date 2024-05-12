@@ -22,7 +22,8 @@ export default function CarBookingFragment(
     }
 ) {
     const [selectedItem, setSelectedItem] = useAtom(selectedCarBookingAtom);
-
+    const disabled = isInForm || selectedItem?.status === "Returned Car" || selectedItem?.status === "Cancelled"
+        || selectedItem?.status === "Received Car";
 
     const currentDate = new Date();
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -89,7 +90,7 @@ export default function CarBookingFragment(
                                 })
                             }}
                         >
-                            <SelectTrigger disabled={isInForm}>
+                            <SelectTrigger disabled={disabled}>
                                 <SelectValue placeholder="Select a car"/>
                             </SelectTrigger>
                             <SelectContent>
@@ -106,7 +107,7 @@ export default function CarBookingFragment(
                     <div>
                         <Label htmlFor="startDateEndDate">Start Date - End Date</Label>
                         <KeistarDatePickerWithRange
-                            disabled={isInForm}
+                            disabled={disabled}
 
                             date={dateRange}
                             setDate={setDateRange}
@@ -127,7 +128,7 @@ export default function CarBookingFragment(
                                       draft.purpose = e.target.value
                                   })
                               }}
-                              disabled={isInForm}
+                              disabled={disabled}
                     />
                 </div>
                 {
