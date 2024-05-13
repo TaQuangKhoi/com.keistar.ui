@@ -83,7 +83,7 @@ export default function Task() {
                     sizes
                 )}`
             }}
-            className="max-h-[91vh]"
+            style={{height: "calc(100vh - 65px)"}}
         >
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
