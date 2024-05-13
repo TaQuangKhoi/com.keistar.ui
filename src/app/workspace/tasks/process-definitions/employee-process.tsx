@@ -6,5 +6,9 @@ export const employeeProcessTaskDefinitions: KeistarTaskDefinition[] = [
     {
         taskName: "Review CV's",
         component: (task: FullHumanTask) => <EmployeeForm task={task}/>,
-    }
+    },
+    {
+        taskName: "Set Appointment R1",
+        component: (task: FullHumanTask) => <EmployeeForm task={task}/>,
+    },
 ];

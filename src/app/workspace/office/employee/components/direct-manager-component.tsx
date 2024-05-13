@@ -14,6 +14,9 @@ import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 
 export default function Employee_DirectManagerComponent() {
     const [employees, setEmployees] = useAtom(employeeListAtom);
+
+
+
     useEffect(() => {
         if (employees.length === 0) {
             const getData = async () => {
@@ -32,6 +35,13 @@ export default function Employee_DirectManagerComponent() {
 
 
     const [selectedItem, setSelectedItem] = useImmerAtom(selectedEmployeeAtom);
+    useEffect(() => {
+        if (!selectedItem.directManager_persistenceId) {
+            setSelectedItem((draft) => {
+                draft.directManager_persistenceId = ""
+            })
+        }
+    }, [selectedItem.directManager_persistenceId]);
 
 
     const [directManager, setDirectManager] = useState<Employee_Item>()

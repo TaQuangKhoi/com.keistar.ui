@@ -9,6 +9,8 @@ import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employ
 import TaskSubmitFooter from "@/app/workspace/tasks/components/task-submit-footer";
 import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-the-user-task";
 import {toast} from "sonner";
+import SetAppointmentR1SubmitTask from "@/app/workspace/office/employee/components/set-appointment-r1-submit-task";
+import {useImmerAtom} from "jotai-immer";
 
 export default function EmployeeForm({task}: { task: FullHumanTask }) {
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
@@ -18,6 +20,8 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
         selectedItemAtom: selectedEmployeeAtom,
         refName: "newEmployee_ref",
     })
+
+    const [selectedItem,] = useImmerAtom(selectedEmployeeAtom);
 
     return <>
         <ProcessFormShell>
@@ -70,6 +74,37 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
                         }
                     },
                 ]}/>
+            )
+        }
+        {
+            task.name === "Set Appointment R1" && (
+                <TaskSubmitFooter task={task} isCommentRequired={false} buttons={[
+                    {
+                        label: "Save",
+                        onClick: (e, comment) => {
+                            e.preventDefault()
+                            executeUserTask(task.id, {
+                                    r1Date: selectedItem.r1Date,
+                                }, true
+                            ).then(response => {
+                                if (response.status === 204) {
+                                    toast.success("Appointment has been saved",
+                                        {duration: 3000})
+                                }
+                            }).catch(e => {
+                                toast.error("Error: " + e,
+                                    {
+                                        position: "top-right"
+                                    }
+                                )
+                            }).finally(() => {
+                                setTasksLoadingAtomValue(true);
+                            });
+                        }
+                    },
+                ]}>
+                    <SetAppointmentR1SubmitTask/>
+                </TaskSubmitFooter>
             )
         }
     </>

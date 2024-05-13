@@ -24,4 +24,5 @@ export default interface Employee_Item extends KeistarItem {
     createdDate?: string,
     dateOfBirth?: string,
     directManager_persistenceId: string,
+    r1Date?: string,
 }
