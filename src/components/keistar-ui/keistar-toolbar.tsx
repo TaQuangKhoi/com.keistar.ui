@@ -14,8 +14,28 @@ import getProcessContractById from "@/bonita/api/bpm/process/definitions/finds-p
 import {WritableAtom} from 'jotai'
 import {AxiosError} from "axios";
 
-import {RefreshCw} from "lucide-react"
+import {RefreshCw, Play, LucideIcon} from "lucide-react"
 import findsBusinessData from "@/bonita/api/bdm/business-data-query";
+
+
+function _Button(
+    {
+        children,
+        onClick,
+        TheIcon,
+    }: {
+        children?: React.ReactNode,
+        onClick: () => void,
+        TheIcon: LucideIcon,
+    }
+) {
+    return <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
+                   onClick={onClick}
+    >
+        <TheIcon className="h-5 w-5 hover:text-blue-500"/>
+        {children}
+    </Button>
+}
 
 export default function KeistarToolbar(
     {
@@ -55,7 +75,6 @@ export default function KeistarToolbar(
             processConfig.businessDataType,
             processConfig.businessData?.query ? processConfig.businessData?.query : "findsOrderByUpdatedDate",
             0, 20, processConfig.businessData?.params, 'directManager',
-
         )
         setListState(_list);
     };
@@ -63,6 +82,59 @@ export default function KeistarToolbar(
 
     return (
         <div key="1" className="flex flex-wrap gap-2 bg-white p-4 shadow">
+            <_Button TheIcon={Play}
+                     onClick={async () => {
+                         let processId = "";
+
+                         let mode = "create";
+
+                         // Get process ID
+                         const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processCreateName)
+                         if (processes.length > 0) {
+                             processId = processes[0].id;
+                         } else {
+                             toast("No process found to create new item",
+                                 {
+                                     description: "Please contact your administrator",
+                                     action: {
+                                         label: "Contact",
+                                         onClick: () => console.log("Contact"),
+                                     },
+                                 })
+                             return;
+                         }
+
+                         const contract = await getProcessContractById(processId);
+                         let contractInputName = contract.inputs[0].name;
+
+                         try {
+                             const res = await instantiateProcess(processId, {
+                                 [contractInputName]: selectedItem
+                             });
+                             toggle(true);
+                             toast(mode === "create" ? "New item has been created successfully" : "Item has been updated successfully",
+                                 {
+                                     description: "Case ID: " + res.caseId,
+                                     action: {
+                                         label: "View",
+                                         onClick: () => console.log("View"),
+                                     },
+                                 })
+                         } catch (e) {
+                             const error = e as AxiosError;
+                             toast(error.message,
+                                 {
+                                     description: "Failed to create new item. Please try again later",
+                                     action: {
+                                         label: "Retry",
+                                         onClick: () => console.log("Retry"),
+                                     },
+                                 })
+                         }
+                     }}
+            >
+                <span>Init</span>
+            </_Button>
             <Button className="space-x-1.5 border hover:text-blue-500 transition-transform active:scale-95"
                     variant="outline"
                     onClick={async () => {
@@ -75,7 +147,7 @@ export default function KeistarToolbar(
                             selectedItem.persistenceId === undefined ||
                             selectedItem.persistenceId === 0
                         ) {
-                            // start process to create new item
+                            // Get process ID
                             const processes = await searchProcesses(0, 1, "activationState=ENABLED", "version DESC", processConfig.processCreateName)
                             if (processes.length > 0) {
                                 processId = processes[0].id;
