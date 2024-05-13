@@ -11,6 +11,8 @@ import {executeUserTask} from "@/bonita/api/bpm/user-task/definitions/execute-th
 import {toast} from "sonner";
 import SetAppointmentR1SubmitTask from "@/app/workspace/office/employee/components/set-appointment-r1-submit-task";
 import {useImmerAtom} from "jotai-immer";
+import ReviewCandidateForR1FormFooter
+    from "@/app/workspace/office/employee/components/review-candidate-for-r1-form-footer";
 
 export default function EmployeeForm({task}: { task: FullHumanTask }) {
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
@@ -105,6 +107,11 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
                 ]}>
                     <SetAppointmentR1SubmitTask/>
                 </TaskSubmitFooter>
+            )
+        }
+        {
+            task.name === "Review Candidate for R1" && (
+                <ReviewCandidateForR1FormFooter task={task}/>
             )
         }
     </>
