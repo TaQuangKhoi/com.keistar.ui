@@ -7,7 +7,7 @@ export default function Employee_WorkTypeComponent() {
             Work Type
             <span className="text-red-500">*</span>
         </label>
-        <RadioGroup className="flex items-center space-x-4">
+        <RadioGroup defaultValue={"FullRemote"} className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
                 <RadioGroupItem id="fullRemote" value="FullRemote"/>
                 <Label htmlFor="fullRemote">Full Remote</Label>

@@ -13,6 +13,7 @@ import SetAppointmentR1SubmitTask from "@/app/workspace/office/employee/componen
 import {useImmerAtom} from "jotai-immer";
 import ReviewCandidateForR1FormFooter
     from "@/app/workspace/office/employee/components/review-candidate-for-r1-form-footer";
+import SetAppointmentR2 from "@/app/workspace/office/employee/components/form-footer/set-appointment-r2";
 
 export default function EmployeeForm({task}: { task: FullHumanTask }) {
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
@@ -112,6 +113,11 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
         {
             task.name === "Review Candidate for R1" && (
                 <ReviewCandidateForR1FormFooter task={task}/>
+            )
+        }
+        {
+            task.name === "Set Appointment R2" && (
+                <SetAppointmentR2 task={task}/>
             )
         }
     </>
