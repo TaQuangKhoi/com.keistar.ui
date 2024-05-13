@@ -10,9 +10,27 @@ import {useEffect, useState} from "react";
 import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
 import callLink from "@/bonita/api/bdm/call-link";
 import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employee-selected-atom";
+import findsBusinessData from "@/bonita/api/bdm/business-data-query";
 
 export default function Employee_DirectManagerComponent() {
-    const [employees,] = useAtom(employeeListAtom);
+    const [employees, setEmployees] = useAtom(employeeListAtom);
+    useEffect(() => {
+        if (employees.length === 0) {
+            const getData = async () => {
+                const _list = await findsBusinessData(
+                    "com.keistar.model.office.Employee",
+                    "findsOrderByUpdatedDate",
+                    0, 20,
+                    {},
+                )
+                setEmployees(_list);
+            };
+            getData();
+            return;
+        }
+    }, [employees]);
+
+
     const [selectedItem, setSelectedItem] = useImmerAtom(selectedEmployeeAtom);
 
 
