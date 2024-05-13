@@ -21,9 +21,18 @@ import Employee_DateOfBirthComponent from "@/app/workspace/office/employee/compo
 import Employee_DirectManagerComponent from "@/app/workspace/office/employee/components/direct-manager-component";
 import Employee_WorkTypeComponent from "@/app/workspace/office/employee/components/work-type-component";
 import Employee_WorkPlaceComponent from "@/app/workspace/office/employee/components/work-place-component";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
 
 
-export default function EmployeeFragment() {
+export default function EmployeeFragment(
+    {
+        isInForm = false,
+        task,
+    }: {
+        isInForm?: boolean,
+        task?: FullHumanTask
+    }
+) {
     const [selectedItem, setSelectedItem] = useImmerAtom(selectedEmployeeAtom);
 
 
