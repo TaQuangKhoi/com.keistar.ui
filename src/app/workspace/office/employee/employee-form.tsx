@@ -32,13 +32,7 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
                         onClick: (e, comment) => {
                             e.preventDefault()
 
-                            executeUserTask(task.id, {
-                                    newTravelRequestInput: {
-                                        managerApproved: true,
-                                        approveComment: comment,
-                                        rejectComment: "",
-                                    }
-                                }, true
+                            executeUserTask(task.id, {isApproveCV: true,}, true
                             ).then(response => {
                                 if (response.status === 204) {
                                     toast.success("CV has been approved",
@@ -59,13 +53,7 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
                         label: "Reject",
                         onClick: (e, comment) => {
                             e.preventDefault()
-                            executeUserTask(task.id, {
-                                newTravelRequestInput: {
-                                    managerApproved: false,
-                                    approveComment: "",
-                                    rejectComment: comment
-                                }
-                            }, true).then(response => {
+                            executeUserTask(task.id, {isApproveCV: false,}, true).then(response => {
                                 if (response.status === 204) {
                                     toast.success("CV has been rejected",
                                         {duration: 3000})
