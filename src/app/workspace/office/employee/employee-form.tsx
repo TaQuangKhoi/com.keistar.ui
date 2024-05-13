@@ -14,6 +14,10 @@ import {useImmerAtom} from "jotai-immer";
 import ReviewCandidateForR1FormFooter
     from "@/app/workspace/office/employee/components/review-candidate-for-r1-form-footer";
 import SetAppointmentR2 from "@/app/workspace/office/employee/components/form-footer/set-appointment-r2";
+import ReviewCandidateForR2FormFooter
+    from "@/app/workspace/office/employee/components/form-footer/review-candidate-for-r2";
+import CandidateFeedback from "@/app/workspace/office/employee/components/form-footer/candidate-feedback";
+import SetProbationDates from "@/app/workspace/office/employee/components/form-footer/set-probation-dates";
 
 export default function EmployeeForm({task}: { task: FullHumanTask }) {
     const [, setTasksLoadingAtomValue] = useAtom(tasksLoadingAtom);
@@ -118,6 +122,21 @@ export default function EmployeeForm({task}: { task: FullHumanTask }) {
         {
             task.name === "Set Appointment R2" && (
                 <SetAppointmentR2 task={task}/>
+            )
+        }
+        {
+            task.name === "Review Candidate for R2" && (
+                <ReviewCandidateForR2FormFooter task={task}/>
+            )
+        }
+        {
+            task.name === "Candidate Feedback" && (
+                <CandidateFeedback task={task}/>
+            )
+        }
+        {
+            task.name === "Set Probation Dates" && (
+                <SetProbationDates task={task}/>
             )
         }
     </>
