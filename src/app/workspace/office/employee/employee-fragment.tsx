@@ -22,6 +22,7 @@ import Employee_DirectManagerComponent from "@/app/workspace/office/employee/com
 import Employee_WorkTypeComponent from "@/app/workspace/office/employee/components/work-type-component";
 import Employee_WorkPlaceComponent from "@/app/workspace/office/employee/components/work-place-component";
 import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
+import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
 
 export default function EmployeeFragment(
@@ -58,6 +59,13 @@ export default function EmployeeFragment(
                         selectedItem.persistenceId_string !== "" ? "Employee Details" : "New Employee"
                     }
                 </TabsTrigger>
+                {
+                    isInForm && (
+                        <TabsTrigger value="cvFiles">
+                            CV Files
+                        </TabsTrigger>
+                    )
+                }
             </TabsList>
             <TabsContent value="detailsAndNew">
                 <div key="1" className="bg-white p-6 rounded-lg shadow-md">
@@ -176,6 +184,9 @@ export default function EmployeeFragment(
                         <Employee_WorkTypeComponent/>
                     </div>
                 </div>
+            </TabsContent>
+            <TabsContent value="cvFiles">
+                <UploadFiles/>
             </TabsContent>
         </Tabs>
     )
