@@ -107,7 +107,7 @@ function getGroup(userFullName: string) {
 
 export default function TeamSwitcher({className}: TeamSwitcherProps) {
     const router = useRouter();
-    const [userName, setUserName] = useAtom(userNameAtom)
+    const [, setUserName] = useAtom(userNameAtom)
 
     const [session, loadingSession, errorSession] = useSession()
 
