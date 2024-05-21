@@ -18,7 +18,7 @@ export default function ReturnCarInputSubmitTask() {
 
 
     return <>
-        <Label htmlFor="startDateEndDate">Receive Date</Label>
+        <Label htmlFor="startDateEndDate">Return Date</Label>
         <KeistarDateTimePicker date={date} setDate={setDate} hasTime={true}/>
         <Label htmlFor="startDateEndDate">Before KM</Label>
         <Input type="number" className="input" placeholder="Enter KM"

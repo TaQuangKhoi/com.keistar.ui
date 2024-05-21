@@ -64,6 +64,12 @@ export default function KeistarEditableTable(
         },
     }
 ) {
+    /**
+     * Config validation
+     */
+    //
+
+
     const [rowSelection, setRowSelection] = useState({})
 
     const checkBoxColDef: ColumnDef<unknown, any> = {
@@ -82,9 +88,9 @@ export default function KeistarEditableTable(
 
     const dynamicColumnsDef: ColumnDef<unknown, any>[] = config.key.filter((item, index) => config.hidden?.[index] === false)
         .map((item, index) => {
+            console.debug("Test")
             const indexOfItem = config.key.indexOf(item)
             const type = config.input[indexOfItem];
-            const accessorKey = config.key[indexOfItem];
             let def = {
                 accessorKey: config.key[indexOfItem],
                 header: config.head[indexOfItem],
@@ -99,6 +105,7 @@ export default function KeistarEditableTable(
             if (type === "date") {
                 def.cell = DateCell;
             }
+            console.debug("def: ", def);
             return def
         })
 

@@ -222,7 +222,10 @@ export default function KeistarToolbar(
                 <FileIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>New</span>
             </Button>
-            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline">
+            <Button className="space-x-1.5 hover:text-blue-500 transition-transform active:scale-95" variant="outline"
+            onClick={() => {
+
+            }}>
                 <XIcon className="h-5 w-5 hover:text-blue-500"/>
                 <span>Cancel</span>
             </Button>
