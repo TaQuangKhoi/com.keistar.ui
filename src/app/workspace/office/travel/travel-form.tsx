@@ -180,9 +180,7 @@ export default function TravelForm({task}: { task: FullHumanTask }) {
                             });
                         }
                     },
-                ]}>
-
-                </TaskSubmitFooter>
+                ]}/>
             )
         }
     </>

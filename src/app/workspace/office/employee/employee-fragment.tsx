@@ -13,23 +13,31 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {CalendarDaysIcon, Loader2} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar";
-import {useAtom} from "jotai/index";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Input} from "@/components/ui/input";
 import {selectedEmployeeAtom} from "@/app/workspace/office/employee/atoms/employee-selected-atom";
-import Employee_Item from "@/app/workspace/office/employee/types/employee-interface";
-import {motion} from "framer-motion";
-import callLink from "@/bonita/api/bdm/call-link";
-import {employeeListAtom} from "@/app/workspace/office/employee/atoms/employee-list-atom";
+import {useImmerAtom} from 'jotai-immer'
+import Employee_DateOfBirthComponent from "@/app/workspace/office/employee/components/date-of-birth-component";
+import Employee_DirectManagerComponent from "@/app/workspace/office/employee/components/direct-manager-component";
+import Employee_WorkTypeComponent from "@/app/workspace/office/employee/components/work-type-component";
+import Employee_WorkPlaceComponent from "@/app/workspace/office/employee/components/work-place-component";
+import {FullHumanTask} from "@/bonita/api/bpm/human-task/types";
+import UploadFiles from "@/app/workspace/office/e-leave/new-e-leave/components/upload-files";
 
 
-export default function EmployeeFragment() {
-    const [employees,] = useAtom(employeeListAtom);
-    const [selectedItem, setSelectedItem] = useAtom(selectedEmployeeAtom);
-    const [directManager, setDirectManager] = useState<Employee_Item>()
+export default function EmployeeFragment(
+    {
+        isInForm = false,
+        task,
+    }: {
+        isInForm?: boolean,
+        task?: FullHumanTask
+    }
+) {
+    const [selectedItem, setSelectedItem] = useImmerAtom(selectedEmployeeAtom);
+
 
     useEffect(() => {
-        // Get user from Bonita Engine
         setSelectedItem((draft) => {
             draft.workplaceId = "0"
             draft.contractTypeId = "0"
@@ -39,24 +47,9 @@ export default function EmployeeFragment() {
             draft.hrManagerAcceptance = false
             draft.hrManagerComment = ''
             draft.directManagerComment = ''
-            draft.isActive = true
-            draft.employeeTypeId = "0";
-            draft.dateOfBirth = new Date('1990-01-01').toISOString();
         })
+    }, []);
 
-        const getDirectManager = async () => {
-            if (selectedItem.links !== undefined) {
-                const directManagerLink = selectedItem.links.find((link) => link.rel === "directManager") || {href: ""}
-                const data = await callLink(directManagerLink.href)
-                setDirectManager(data);
-
-                setSelectedItem((draft) => {
-                    draft.directManager_persistenceId = directManager?.persistenceId_string || ""
-                })
-            }
-        }
-        getDirectManager();
-    }, [selectedItem.username]);
 
     return (
         <Tabs className="w-full" defaultValue="detailsAndNew">
@@ -66,128 +59,66 @@ export default function EmployeeFragment() {
                         selectedItem.persistenceId_string !== "" ? "Employee Details" : "New Employee"
                     }
                 </TabsTrigger>
+                {
+                    isInForm && (
+                        <TabsTrigger value="cvFiles">
+                            CV Files
+                        </TabsTrigger>
+                    )
+                }
             </TabsList>
             <TabsContent value="detailsAndNew">
                 <div key="1" className="bg-white p-6 rounded-lg shadow-md">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="directManager">
-                                Direct Manager
-                            </label>
-                            {
-                                employees === undefined && (
-                                    <Select>
-                                        <SelectTrigger>
-                                            <motion.div
-                                                animate={{rotate: 360}}
-                                                transition={{repeat: Infinity, duration: 1, ease: "linear"}}
-                                            >
-                                                <Loader2/>
-                                            </motion.div>
-                                        </SelectTrigger>
-                                    </Select>
-                                )
-                            }
-                            {
-                                employees !== undefined && (
-                                    <Select
-                                        value={directManager?.persistenceId_string || ""}
-                                        // defaultValue={directManager?.persistenceId_string || ""}
-                                        onValueChange={(value) => {
-                                            setSelectedItem((draft) => {
-                                                draft.directManager_persistenceId = value
-                                            })
-                                            setDirectManager(employees.find((employee) => employee.persistenceId_string === value))
-                                        }}
-                                    >
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={
-                                                    "Select a direct manager"
-                                                }/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {
-                                                employees.filter(option => option.persistenceId_string !== selectedItem.persistenceId_string).map((option, index) => (
-                                                    <SelectItem key={index} value={option.persistenceId_string || ""}>
-                                                        {option.username}
-                                                    </SelectItem>
-                                                ))
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                        </div>
+                        <Employee_DirectManagerComponent/>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
-                                Username
-                                <span className="text-red-500">*</span>
+                                Username<span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="username"
                                    placeholder="Enter the username of new employee"
-                                   value={selectedItem.username}
+                                   value={selectedItem.username} type="text"
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.username = e.target.value
                                        })
-                                   }}
-                                   type="text"/>
+                                   }}/>
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="firstName">
-                                First Name
-                                <span className="text-red-500">*</span>
+                                First Name<span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="firstName"
-                                   placeholder="First Name"
+                                   placeholder="First Name" type="text"
                                    value={selectedItem.firstName}
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.firstName = e.target.value
                                        })
-                                   }}
-                                   type="text"/>
+                                   }}/>
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="lastName">
-                                Last Name
-                                <span className="text-red-500">*</span>
+                                Last Name<span className="text-red-500">*</span>
                             </label>
-                            <Input className="border px-3 py-2 rounded-lg" id="lastName"
-                                   placeholder="Last Name"
-                                   value={selectedItem.lastName}
+                            <Input className="border px-3 py-2 rounded-lg" id="lastName" type="text"
+                                   placeholder="Last Name" value={selectedItem.lastName}
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.lastName = e.target.value
                                        })
-                                   }}
-                                   type="text"/>
+                                   }}/>
                         </div>
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="dateOfBirth">
-                                Date Of Birth
-                            </label>
-                            <div className="flex">
-                                <input
-                                    className="border px-3 py-2 rounded-l-lg flex-1"
-                                    id="dateOfBirth"
-                                    placeholder="Enter a date (dd/MM/yyyy)"
-                                    type="text"
-                                />
-                            </div>
-                        </div>
+
+                        <Employee_DateOfBirthComponent/>
+
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="phone">
-                                Phone
-                            </label>
+                                Phone</label>
                             <Input
-                                className="border px-3 py-2 rounded-lg"
-                                id="phone"
-                                pattern="&quot;&quot;d*&quot;&quot;"
-                                placeholder="Phone"
-                                value={selectedItem.phone}
-                                type="number"
+                                className="border px-3 py-2 rounded-lg" id="phone"
+                                pattern="&quot;&quot;d*&quot;&quot;" placeholder="Phone"
+                                value={selectedItem.phone || ""} type="number"
                                 onChange={(e) => {
                                     setSelectedItem((draft) => {
                                         draft.phone = e.target.value
@@ -197,16 +128,13 @@ export default function EmployeeFragment() {
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="passportNo">
-                                Passport No.
-                            </label>
+                                Passport No.</label>
                             <input className="border px-3 py-2 rounded-lg" id="passportNo"
                                    placeholder="Passport No." type="text"/>
                         </div>
                         <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="passportExpiryDate">
-                                Passport Expiry Date
-                            </label>
+                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="passportExpiryDate">
+                                Passport Expiry Date</label>
                             <div className="flex">
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -222,55 +150,30 @@ export default function EmployeeFragment() {
                                 </Popover>
                             </div>
                         </div>
+                        {/*<div className="flex flex-col">*/}
+                        {/*    <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="officialEmail"> Official*/}
+                        {/*        Email<span className="text-red-500">*</span></label>*/}
+                        {/*    <input className="border px-3 py-2 rounded-lg" id="officialEmail" type="email"*/}
+                        {/*           placeholder="Official Email"/>*/}
+                        {/*</div>*/}
                         <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="officialEmail">
-                                Official Email
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <input className="border px-3 py-2 rounded-lg" id="officialEmail"
-                                   placeholder="Official Email" type="email"/>
-                        </div>
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700"
-                                   htmlFor="personalEmail">
-                                Personal Email
-                                <span className="text-red-500">*</span>
+                                   htmlFor="personalEmail">Personal Email<span className="text-red-500">*</span>
                             </label>
                             <Input className="border px-3 py-2 rounded-lg" id="personalEmail"
-                                   placeholder="Personal Email"
-                                   value={selectedItem.email}
-                                   type="email"
+                                   placeholder="Personal Email" value={selectedItem.email} type="email"
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.email = e.target.value
                                        })
-                                   }}
-                            />
+                                   }}/>
                         </div>
+                        <Employee_WorkPlaceComponent/>
                         <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="workplace">
-                                Workplace
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <Select>
-                                <SelectTrigger id="workplace">
-                                    <SelectValue placeholder="Select"/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Hanoi-CharmvitBuilding">Ha Noi - Charmvit
-                                        Building</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="flex flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700" htmlFor="position">
-                                Position
-                            </label>
-                            <input className="border px-3 py-2 rounded-lg" id="position"
-                                   placeholder="Position"
-                                   value={selectedItem.positionName}
-                                   type="text"
+                            <label className="mb-1 text-sm font-medium text-gray-700"
+                                   htmlFor="position">Position</label>
+                            <input className="border px-3 py-2 rounded-lg" id="position" placeholder="Position"
+                                   value={selectedItem.positionName} type="text"
                                    onChange={(e) => {
                                        setSelectedItem((draft) => {
                                            draft.positionName = e.target.value
@@ -278,34 +181,12 @@ export default function EmployeeFragment() {
                                    }}
                             />
                         </div>
-                        <div className="flex flex-col col-span-full">
-                            <label className="mb-1 text-sm font-medium text-gray-700">
-                                Work Type
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <div className="flex items-center space-x-4">
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroup>
-                                        <RadioGroupItem id="fullRemote" value="FullRemote"/>
-                                        <Label htmlFor="fullRemote">Full Remote</Label>
-                                    </RadioGroup>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroup>
-                                        <RadioGroupItem id="hybrid" value="Hybrid"/>
-                                        <Label htmlFor="hybrid">Hybrid</Label>
-                                    </RadioGroup>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroup>
-                                        <RadioGroupItem id="officeBase" value="OfficeBase"/>
-                                        <Label htmlFor="officeBase">Office-base</Label>
-                                    </RadioGroup>
-                                </div>
-                            </div>
-                        </div>
+                        <Employee_WorkTypeComponent/>
                     </div>
                 </div>
+            </TabsContent>
+            <TabsContent value="cvFiles">
+                <UploadFiles/>
             </TabsContent>
         </Tabs>
     )

@@ -9,9 +9,9 @@ export default function SubmitReviewOt(taskId: string, comment: string, isApprov
             },
         }, true
     ).then(response => {
+        let message = isApproved ? "approved" : "rejected";
         if (response.status === 204) {
-            toast.success("Car booking has been received successfully",
-                {duration: 3000})
+            toast.success("OT Review " + message, {duration: 3000})
         }
     }).catch(e => {
         toast.error("Error: " + e,

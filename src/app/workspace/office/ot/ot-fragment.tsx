@@ -282,6 +282,7 @@ export default function OTFragment(
                                         null, otReasonTypes, null, null
                                     ],
                                     editable: [false, true, true, true],
+                                    hidden: [false,false,false,false,],
                                 }}
                             />
                         </div>

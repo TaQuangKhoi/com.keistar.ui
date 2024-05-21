@@ -1,11 +1,31 @@
-// Source: https://uiverse.io/Yaya12085/tender-moose-95
+// UI Source: https://uiverse.io/Yaya12085/tender-moose-95
+// Logic by Toi Khoi
+
+import {ChangeEvent, useEffect, useState} from "react";
+import {Trash2} from "lucide-react";
 
 export default function UploadFiles() {
-    return (
-        <label className="dark:bg-[--background] h-[200px] w-auto flex flex-col gap-5 cursor-pointer items-center justify-center bg-white shadow-[0px_48px_35px_-48px_rgba(0,0,0,0.1)] p-6 rounded-[10px] border-2 border-dashed border-[#cacaca]" htmlFor="file">
+    const [files, setFiles] = useState<File[]>([])
+
+
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFiles([...files, ...Array.from(e.target.files)]);
+        }
+    };
+
+    useEffect(() => {
+        console.debug(files)
+    }, [files]);
+
+
+    return <>
+        <label
+            className="dark:bg-[--background] min-h-[200px] w-auto flex flex-col gap-5 cursor-pointer items-center justify-center bg-white shadow-[0px_48px_35px_-48px_rgba(0,0,0,0.1)] p-6 rounded-[10px] border-2 border-dashed border-[#cacaca]"
+            htmlFor="file">
             <div className="flex items-center justify-center">
                 <svg className="h-20 fill-gray-600"
-                    xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
+                     xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
                     <g strokeWidth="0" id="SVGRepo_bgCarrier"></g>
                     <g strokeLinejoin="round" strokeLinecap="round" id="SVGRepo_tracerCarrier"></g>
                     <g id="SVGRepo_iconCarrier">
@@ -18,7 +38,30 @@ export default function UploadFiles() {
             <div className="flex items-center justify-center">
                 <span className="font-normal text-gray-600">Click to upload image</span>
             </div>
-            <input type="file" id="file" className="hidden"/>
+            {
+                files.map((file, index) => (
+                    <div key={index} className="rounded-[10px] border-1 p-2 w-full">
+                        <div className="flex items-center justify-between w-full">
+                            <span className="text-gray-600">{file.name} ({file.size})</span>
+                            <Trash2 className="hover:text-red-500 cursor-pointer"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        console.debug("delete file ", index);
+                                        setFiles(files.filter((_, i) => i !== index))
+                                    }}/>
+                        </div>
+                    </div>
+                ))
+            }
+            <input type="file" id="file" className="hidden" multiple={true}
+                   onChange={handleFileChange}
+            />
         </label>
-    )
+        {/*<div className="rounded-[10px] border-2 mt-4 h-[40px]">*/}
+        {/*    <div className="flex items-center justify-between p-2">*/}
+        {/*        <span className="text-gray-600">Files</span>*/}
+        {/*        <span className="text-gray-600">0/5</span>*/}
+        {/*    </div>*/}
+        {/*</div>*/}
+    </>
 }
